@@ -1,5 +1,6 @@
 module ApplicationHelper
-	# Returns the full title on a per-page basis
+	
+  # Returns the full title on a per-page basis
   def full_title(page)
     base_title = "GERONIMO"
     if page.empty?
@@ -8,7 +9,7 @@ module ApplicationHelper
       else 
       	 "#{base_title} | " + @user.name
       end
-    elsif page == "Sign up"
+    elsif page == "Sign up" || page == "Sign in"
     	"#{base_title}! #{page}"
     else
       @user.name + " | #{page}"
