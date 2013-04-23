@@ -1,11 +1,22 @@
 <header class="navbar navbar-static-top">
   <div class="navbar-inner">
       <nav>
-        <a class="brand">Julia Dziuba</a>
+        <a class="brand"><%= @user.name %></a>
         <ul class="nav pull-right">
+          <li><%= link_to "works", "#" %></li>
+          <li><%= link_to "clients", "#" %></li>
+          <li><%= link_to "venues", "#" %></li>
+          <li><%= link_to "activity", "#" %></li>
+          <li><%= link_to "news", "#" %></li>
+          <li><%= link_to "me", "#" %></li>
+          <li><%= link_to "public", "#" %></li>
+          <li><%= link_to "reports", "#" %></li>
+          <li><%= link_to "exit", "#" %></li>
+<!--
           <li><%= link_to "Home", root_path %></li>
           <li><%= link_to "About", about_path %></li>
           <li><%= link_to "Contact", contact_path %></li>
+-->
          </ul>
       </nav>
    

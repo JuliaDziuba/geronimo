@@ -8,7 +8,7 @@
     <%= render 'layouts/shim' %> 
   </head>
   <body>
-  	<%= render 'layouts/header' %>
+  	<%= render 'layouts/header' if yield(:title) != "Sign up" && !@user.nil? %>
     <div class="container">
       <%= render 'shared/flash_messages' %>
       <%= yield %>

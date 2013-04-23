@@ -1,11 +1,18 @@
 module ApplicationHelper
-	# Returns the full title on a per-page basis.
-  def full_title(page_title)
-    base_title = "Julia Dziuba"
-    if page_title.empty?
-      base_title
+	# Returns the full title on a per-page basis
+  def full_title(page)
+    base_title = "GERONIMO"
+    if page.empty?
+      if @user.nil?
+      	base_title
+      else 
+      	 "#{base_title} | " + @user.name
+      end
+    elsif page == "Sign up"
+    	"#{base_title}! #{page}"
     else
-      "#{base_title} | #{page_title}"
+      @user.name + " | #{page}"
     end
   end
+
 end

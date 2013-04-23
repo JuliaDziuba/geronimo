@@ -3,6 +3,8 @@
 /* variables */
 $absolutePositionSection: 90px;
 $absolutePositionSectionContent: 150px;
+$backgroundColor: #F0F0F0;
+$shadedColor: #6D7B8D;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box; 
@@ -13,12 +15,16 @@ $absolutePositionSectionContent: 150px;
 /* universal */
 
 body{
-	background:#f0f0f0;
+	background:$backgroundColor;
 	color:#000;
 	font-family: 'PT Sans Narrow', Arial, sans-serif;
 	font-size:16px;
 	max-width:1400px;
 	min-width:650px;
+}
+
+footer{
+	padding: 20px;
 }
 
 h2{
@@ -33,7 +39,7 @@ h2{
 }
 
 a{
-	color:#900;
+	color:#6D7B8D;
 	text-decoration:none;
 	&:hover{
 		text-decoration:underline;
@@ -55,6 +61,11 @@ a{
 	position:absolute;
 	top:$absolutePositionSection;
 }
+
+.center{
+	text-align: center
+}
+
 
 /* forms */
 
