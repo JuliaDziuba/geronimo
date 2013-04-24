@@ -8,6 +8,8 @@ describe "Static pages" do
     before { visit root_path }
 
     it { should have_selector('h1',    text: 'GERONIMO!') }
+    it { should have_link('Sign up') }
+    it { should have_link('Sign in') }
   end
 end
 

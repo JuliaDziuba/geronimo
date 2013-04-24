@@ -7,8 +7,8 @@ describe "Authentication" do
   describe "signin page" do
     before { visit signin_path }
 
-    it { should have_selector('h1',    text: 'GERONIMO! Sign in') }
-    it { should have_selector('title', text: 'GERONIMO! Sign in') }
+    it { should have_selector('h1',    text: full_title('Sign in')) }
+    it { should have_selector('title', text: full_title('Sign in')) }
   end
 
   describe "signin" do
@@ -18,32 +18,84 @@ describe "Authentication" do
     describe "with invalid information" do
       before { click_button "Sign in" }
 
-      it { should have_selector('title', text: 'Sign in') }
+      it { should have_selector('title', text: full_title('Sign in')) }
       it { should have_selector('div.alert.alert-error', text: 'Invalid') }
 
       describe "after visiting another page" do
-        before { click_link "Home" }
+        before { click_link "Sign up" }
         it { should_not have_selector('div.alert.alert-error') }
       end
+    end
 
+    describe "with valid information" do
+      let(:user) { FactoryGirl.create(:user) }
+      before { sign_in user }
+
+      it { should have_selector('title', text: full_title('')) }
+      it { should have_link('settings', href: edit_user_path(user)) }
+      it { should have_link('sign out', href: signout_path) }
+      it { should_not have_link('Sign in', href: signin_path) }
+      
       describe "followed by signout" do
         before { click_link "sign out" }
         it { should have_link('Sign in') }
       end
     end
+  end
 
-   describe "with valid information" do
+  describe "authorization" do
+
+    describe "for non-signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
-      before do
-        fill_in "Email",    with: user.email.upcase
-        fill_in "Password", with: user.password
-        click_button "Sign in"
+
+      describe "when attempting to visit a protected page" do
+        before do
+          visit edit_user_path(user)
+          fill_in "Email",    with: user.email
+          fill_in "Password", with: user.password
+          click_button "Sign in"
+        end
+
+        describe "after signing in" do
+
+          it "should render the desired protected page" do
+            page.should have_selector('h1', text: 'Update your settings')
+          end
+        end
       end
 
-      it { should have_selector('title', text: user.name) }
-      it { should have_link('profile', href: user_path(user)) }
-      it { should have_link('exit', href: signout_path) }
-      it { should_not have_link('Sign in', href: signin_path) }
+      describe "in the Users controller" do
+
+        describe "visiting the edit page" do
+          before { visit edit_user_path(user) }
+          it { should have_selector('title', text: full_title('Sign in')) }
+        end
+
+        describe "submitting to the update action" do
+          before { put user_path(user) }
+          specify { response.should redirect_to(signin_path) }
+        end
+
+        describe "visiting the user page" do
+          before { visit user_path(user) }
+          it { should have_selector('title', text: full_title('Sign in')) }
+        end
+      end
+    end
+    describe "as wrong user" do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:wrong_user) { FactoryGirl.create(:user, email: "wrong@example.com") }
+      before { sign_in user }
+
+      describe "visiting Users#edit page" do
+        before { visit edit_user_path(wrong_user) }
+        it { should_not have_selector('h1', text: "Update your settings") }
+      end
+
+      describe "submitting a PUT request to the Users#update action" do
+        before { put user_path(wrong_user) }
+        specify { response.should redirect_to(root_path) }
+      end
     end
   end
 end
