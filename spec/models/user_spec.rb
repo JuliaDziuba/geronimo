@@ -31,6 +31,7 @@ describe User do
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }
   it { should respond_to(:authenticate) }
+  it { should respond_to(:worktypes) }
 
   it { should be_valid }
   it { should_not be_admin }
@@ -139,5 +140,31 @@ describe User do
   describe "remember token" do
     before { @user.save }
     its(:remember_token) { should_not be_blank }
+  end
+
+  # Worktypes
+
+   describe "worktype associations" do
+
+    before { @user.save }
+    let!(:b_worktype) do 
+      FactoryGirl.create(:worktype, user: @user, name: "Banana Slings", description: "Slings for bananas")
+    end
+    let!(:a_worktype) do
+      FactoryGirl.create(:worktype, user: @user, name: "Apple Sacks", description: "Sacks for apples")
+    end
+
+    it "should have the right types in the right order" do
+      @user.worktypes.should == [a_worktype, b_worktype]
+    end
+
+    it "should destroy associated worktypes" do
+      worktypes = @user.worktypes.dup
+      @user.destroy
+      worktypes.should_not be_empty
+      worktypes.each do |worktype|
+        Worktype.find_by_id(worktype.id).should be_nil
+      end
+    end
   end
 end

@@ -9,4 +9,10 @@ FactoryGirl.define do
       admin true
     end
   end
+
+  factory :worktype do
+    name "Wooden Fruit"
+    description "Handmade wooden fruit"
+    user
+  end
 end
