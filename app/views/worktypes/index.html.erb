@@ -1,0 +1,31 @@
+<% provide(:title, 'Manage work types') %>
+
+<% if @worktypes.any? %>
+<h1><%= yield(:title) %></h1>
+<ul class="worktypes">
+  <% @worktypes.each do |worktype| %>
+    <li>
+      <span class="worktype-name"><%= link_to worktype.name, worktype %></span> (<%= worktype.worktypesubs.count %>)
+      <span class="worktype-description"><%= worktype.description %></span>
+    </li>
+  <% end %>
+</ul>
+<% else %>
+<h1> Get started!</h1>
+<p> Defining types of works will help categorize your works and manage them. It also leads to easy integration with websites. For example...</p>
+<ul>
+	<li>Paintings
+		<ul>
+			<li>Landscapes</li>
+			<li>Abstract</li>
+		</ul>
+	</li>
+	<li>Mixed media
+		<ul>
+			<li>Paper collage</li>
+			<li>Resin mixtures</li>
+		</ul>
+	</li>
+</ul>
+<% end %>
+<%= render 'shared/worktype_form' %>

@@ -27,11 +27,11 @@ footer{
 	padding: 20px;
 }
 
-h2{
+h1{
 	position:relative;
 	padding:5px 0px;
 	margin:0px;
-	font-size:25px;
+	font-size:30px;
 	font-weight:100;
 	text-transform:uppercase;
 	text-shadow:0px 0px 1px #fff;
@@ -93,6 +93,25 @@ input {
   @extend .control-group;
   @extend .error;
 }
+
+/* worktypes */
+.worktypes {
+  list-style: none;
+  margin: 10px 0 0 0;
+
+  li {
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+  }
+}
+
+.worktype-name{
+	font-size:20px;
+}
+.worktype-description {
+  color: $grayLight;
+}
+
 
 /* about */
  .about-image{

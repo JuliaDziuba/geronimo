@@ -1,7 +1,8 @@
-<div>
-	<h1 class="center">GERONIMO!</h1>
-	<p class="center">
-		<%= link_to "Sign up", signup_path %><br /><br />
-		<%= link_to "Sign in", signin_path %>
+<% if signed_in? %>
+<% else %>
+	<div class="center hero-unit">
+		<h1>GERONIMO!</h1>
+		<p><br />
+			<%= link_to "Sign up", signup_path %> &nbsp; &nbsp; &nbsp; <%= link_to "Sign in", signin_path %>
 	</p>
-</div>
+<% end %>

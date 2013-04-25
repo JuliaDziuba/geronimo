@@ -81,6 +81,19 @@ describe "Authentication" do
           it { should have_selector('title', text: full_title('Sign in')) }
         end
       end
+
+      describe "in the Worktypes controller" do
+
+        describe "submitting to the create action" do
+          before { post worktypes_path }
+          specify { response.should redirect_to(signin_path) }
+        end
+
+        describe "submitting to the destroy action" do
+          before { delete worktype_path(FactoryGirl.create(:worktype)) }
+          specify { response.should redirect_to(signin_path) }
+        end
+      end
     end
     describe "as wrong user" do
       let(:user) { FactoryGirl.create(:user) }
