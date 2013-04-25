@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425031101) do
+ActiveRecord::Schema.define(:version => 20130425031102) do
 
   create_table "users", :force => true do |t|
     t.string   "name"
@@ -34,6 +34,14 @@ ActiveRecord::Schema.define(:version => 20130425031101) do
   end
 
   add_index "work_types", ["user_id", "name"], :name => "index_work_types_on_user_id_and_name"
+
+  create_table "worksubtypes", :force => true do |t|
+    t.string  "name"
+    t.string  "description"
+    t.integer "worktype_id"
+  end
+
+  add_index "worksubtypes", ["worktype_id", "name"], :name => "index_worksubtypes_on_worktype_id_and_name"
 
   create_table "worktypes", :force => true do |t|
     t.string  "name"
