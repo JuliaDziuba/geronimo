@@ -1,0 +1,15 @@
+<h1>Update <%= @workcategory.name %></h1>
+
+<div class="row">
+  <div class="span5">
+    <%= form_for(@workcategory) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.text_field :name %>
+
+      <%= f.text_field :description %>
+
+      <%= f.submit "Save changes", class: "btn" %>
+    <% end %>
+  </div>
+</div>

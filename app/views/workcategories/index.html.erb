@@ -1,0 +1,38 @@
+<% provide(:title, 'Manage work categories') %>
+
+<% if @workcategories.any? %>
+<h1><%= yield(:title) %></h1>
+<ul class="workcategories">
+  <% @workcategories.each do |workcategory| %>
+    <li>
+      <span class="workcategory-name"><%= link_to workcategory.name, workcategory %></span> (<%= workcategory.worksubcategories.count %>)
+     	 	&nbsp; <%= link_to icon(:edit), edit_workcategory_path(workcategory) %>
+      	&nbsp; <%= link_to icon(:trash), workcategory, method: :delete,
+        	data: { confirm: "This will delete all sub categories and works in this category will become uncategorized. Delete #{workcategory.name}? " },
+          title: workcategory.name %><br />
+      <span class="workcategory-description"><%= workcategory.description %></span>
+    </li>
+  <% end %>
+  <li><a class="workcategory-name" href="#">Create a new category...</a></li>
+</ul>
+<% else %>
+<h1> Get started!</h1>
+<p> Categorize your work for better management and easier integration with websites. For example...</p>
+<ul>
+	<li>Paintings
+		<ul>
+			<li>Landscapes</li>
+			<li>Abstract</li>
+		</ul>
+	</li>
+	<li>Mixed media
+		<ul>
+			<li>Paper collage</li>
+			<li>Resin mixtures</li>
+		</ul>
+	</li>
+</ul>
+<% end %>
+<div id="workcategory_form" class="not-displayed">
+  <%= render 'shared/workcategory_form' %>
+</div>

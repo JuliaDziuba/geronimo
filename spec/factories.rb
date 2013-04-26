@@ -10,9 +10,15 @@ FactoryGirl.define do
     end
   end
 
-  factory :worktype do
+  factory :workcategory do
     name "Wooden Fruit"
     description "Handmade wooden fruit"
     user
+  end
+
+  factory :worksubcategory do
+    name "Striped"
+    description "Fruit painted with stripes"
+    workcategory
   end
 end

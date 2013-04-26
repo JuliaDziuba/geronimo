@@ -5,6 +5,7 @@ $absolutePositionSection: 90px;
 $absolutePositionSectionContent: 150px;
 $backgroundColor: #F0F0F0;
 $shadedColor: #6D7B8D;
+$opacityOfEditAndDeleteIcons: .60;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box; 
@@ -62,8 +63,15 @@ a{
 	top:$absolutePositionSection;
 }
 
-.center{
-	text-align: center
+.not-displayed {
+/*  display: none; */
+}
+
+.icon-edit, .icon-trash {
+	opacity: $opacityOfEditAndDeleteIcons; /* opacity [0-1] */
+  -moz-opacity: $opacityOfEditAndDeleteIcons; /* opacity [0-1] */
+  -webkit-opacity: $opacityOfEditAndDeleteIcons; /* opacity [0-1] */
+/*  filter:alpha(opacity=50); For IE8 and earlier */
 }
 
 
@@ -94,8 +102,8 @@ input {
   @extend .error;
 }
 
-/* worktypes */
-.worktypes {
+/* workcategories */
+.workcategories {
   list-style: none;
   margin: 10px 0 0 0;
 
@@ -105,10 +113,10 @@ input {
   }
 }
 
-.worktype-name{
+.workcategory-name{
 	font-size:20px;
 }
-.worktype-description {
+.workcategory-description {
   color: $grayLight;
 }
 

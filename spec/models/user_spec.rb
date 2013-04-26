@@ -31,7 +31,7 @@ describe User do
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }
   it { should respond_to(:authenticate) }
-  it { should respond_to(:worktypes) }
+  it { should respond_to(:workcategories) }
 
   it { should be_valid }
   it { should_not be_admin }
@@ -142,29 +142,31 @@ describe User do
     its(:remember_token) { should_not be_blank }
   end
 
-  # Worktypes
+  # Workcategories
 
-   describe "worktype associations" do
+  describe "workcategory associations" do
 
     before { @user.save }
-    let!(:b_worktype) do 
-      FactoryGirl.create(:worktype, user: @user, name: "Banana Slings", description: "Slings for bananas")
+    let!(:b_workcategory) do 
+      FactoryGirl.create(:workcategory, user: @user, name: "Banana Slings", description: "Slings for bananas")
     end
-    let!(:a_worktype) do
-      FactoryGirl.create(:worktype, user: @user, name: "Apple Sacks", description: "Sacks for apples")
+    let!(:a_workcategory) do
+      FactoryGirl.create(:workcategory, user: @user, name: "Apple Sacks", description: "Sacks for apples")
     end
 
     it "should have the right types in the right order" do
-      @user.worktypes.should == [a_worktype, b_worktype]
+      @user.workcategories.should == [a_workcategory, b_workcategory]
     end
 
-    it "should destroy associated worktypes" do
-      worktypes = @user.worktypes.dup
+    it "should destroy associated workcategories" do
+      workcategories = @user.workcategories.dup
       @user.destroy
-      worktypes.should_not be_empty
-      worktypes.each do |worktype|
-        Worktype.find_by_id(worktype.id).should be_nil
+      workcategories.should_not be_empty
+      workcategories.each do |workcategory|
+        Workcategory.find_by_id(workcategory.id).should be_nil
       end
     end
   end
+
+
 end
