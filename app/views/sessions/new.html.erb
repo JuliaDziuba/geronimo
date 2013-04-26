@@ -5,8 +5,10 @@
   <div class="span4 offset3">
     <%= form_for(:session, url: sessions_path) do |f| %>
 
+    	<%= f.label :email %>
       <%= f.text_field :email, placeholder: "Email" %>
 
+      <%= f.label :password %>
       <%= f.password_field :password, placeholder: "Password" %>
 
       <%= f.submit "Sign in", class: "btn" %>

@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: worktypes
+# Table name: workcategories
 #
 #  id          :integer          not null, primary key
 #  name        :string(255)

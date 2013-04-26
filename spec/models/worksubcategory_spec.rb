@@ -2,9 +2,9 @@
 #
 # Table name: worksubcategories
 #
-#  id          :integer          not null, primary key
-#  name        :string(255)
-#  description :string(255)
+#  id              :integer          not null, primary key
+#  name            :string(255)
+#  description     :string(255)
 #  workcategory_id :integer
 #
 

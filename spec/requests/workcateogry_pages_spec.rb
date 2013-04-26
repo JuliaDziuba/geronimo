@@ -13,8 +13,8 @@ describe "Worktype pages" do
 
     # This tests when there are workcategories but we need to test when there are no workcategories yet. 
     before do
-    	let!(:wt1) { FactoryGirl.create(:workcategory, user: user, name: "Banana Slings", description: "Slings for bananas") }
-			let!(:wt2) { FactoryGirl.create(:workcategory, user: user, name: "Apple Sacks", description: "Sacks for apples") }
+    	let!(:wt1) { FactoryGirl.create(:workcategory, user: @user, name: "Banana Slings") }
+			let!(:wt2) { FactoryGirl.create(:workcategory, user: @user, name: "Apple Sacks") }
     	visit workcategories_path
     end
 

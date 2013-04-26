@@ -1,11 +1,11 @@
 # == Schema Information
 #
-# Table name: worksubtypes
+# Table name: worksubcategories
 #
-#  id          :integer          not null, primary key
-#  name        :string(255)
-#  description :string(255)
-#  worktype_id :integer
+#  id              :integer          not null, primary key
+#  name            :string(255)
+#  description     :string(255)
+#  workcategory_id :integer
 #
 
 class Worksubcategory < ActiveRecord::Base

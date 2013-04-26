@@ -82,15 +82,15 @@ describe "Authentication" do
         end
       end
 
-      describe "in the Worktypes controller" do
+      describe "in the Workcategories controller" do
 
         describe "submitting to the create action" do
-          before { post worktypes_path }
+          before { post workcategories_path }
           specify { response.should redirect_to(signin_path) }
         end
 
         describe "submitting to the destroy action" do
-          before { delete worktype_path(FactoryGirl.create(:worktype)) }
+          before { delete workcategory_path(FactoryGirl.create(:workcategory)) }
           specify { response.should redirect_to(signin_path) }
         end
       end
