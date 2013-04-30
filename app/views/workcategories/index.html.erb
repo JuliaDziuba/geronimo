@@ -1,19 +1,21 @@
-<% provide(:title, 'Manage work categories') %>
+<% provide(:title, 'Work categories') %>
 
 <% if @workcategories.any? %>
-<h1><%= yield(:title) %></h1>
-<ul class="workcategories">
+<h1><%= yield(:title) %> <span class="h2"><%= link_to "New", new_workcategory_path %></span></h1>
+<ul class="list">
   <% @workcategories.each do |workcategory| %>
     <li>
-      <span class="workcategory-name"><%= link_to workcategory.name, workcategory %></span> (<%= workcategory.worksubcategories.count %>)
-     	 	&nbsp; <%= link_to icon(:edit), edit_workcategory_path(workcategory) %>
-      	&nbsp; <%= link_to icon(:trash), workcategory, method: :delete,
-        	data: { confirm: "This will delete all sub categories and works in this category will become uncategorized. Delete #{workcategory.name}? " },
-          title: workcategory.name %><br />
-      <span class="workcategory-description"><%= workcategory.description %></span>
+      <%= render 'shared/work_category_list_element', level: 'list', category: workcategory, edit: edit_workcategory_path(workcategory) %>
+      <ul class="sublist">
+      	<% workcategory.worksubcategories.each do |worksubcategory| %>
+          <li>
+            <%= render 'shared/work_category_list_element', level: 'sublist', category: worksubcategory, edit: "#" %>
+          </li>
+        <% end %>
+      	<li class="sublist-name"><%= link_to "Create a new subcategory...", workcategory %></li>
+      </ul>
     </li>
   <% end %>
-  <li><a class="workcategory-name" href="#">Create a new category...</a></li>
 </ul>
 <% else %>
 <h1> Get started!</h1>
@@ -33,6 +35,3 @@
 	</li>
 </ul>
 <% end %>
-<div id="workcategory_form" class="not-displayed">
-  <%= render 'shared/workcategory_form' %>
-</div>

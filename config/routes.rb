@@ -3,6 +3,8 @@ Geronimo::Application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :workcategories
+  resources :worksubcategories #, only: [:show, :new, :create, :edit, :update, :destroy]
+  resources :works
 
   root to: 'static_pages#home'
 

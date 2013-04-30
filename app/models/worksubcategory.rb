@@ -10,7 +10,9 @@
 
 class Worksubcategory < ActiveRecord::Base
   attr_accessible :description, :name
+  belongs_to :user
   belongs_to :workcategory
+  has_many   :works
 
 	validates :name, presence: true, length: { maximum: 25 }
   validates :description, length: { maximum: 150 }

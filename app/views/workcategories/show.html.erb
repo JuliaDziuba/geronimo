@@ -1,2 +1,12 @@
-<h1> <%= @workcategory.name %> </h1>
-<p> <%= @workcategory.description %> </p>
+<%= render 'shared/work_category_list_element', level: 'h1', category: @workcategory, edit: edit_workcategory_path(@workcategory) %>
+<ul class="list">
+	<% @workcategory.worksubcategories.each do |worksubcategory| %>
+		<li>
+			<%= render 'shared/work_category_list_element', level: 'list', category: worksubcategory, edit: "#" %>
+		</li>
+	<% end %>
+	<li class="list"><%= link_to "Create a new subcategory...", "#" %></li>
+  <div id="worksubcategory_form" class="not-displayed">     
+  	<%= render 'shared/worksubcategory_form' %>
+  </div>
+</ul>

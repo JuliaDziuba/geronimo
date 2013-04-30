@@ -11,6 +11,7 @@
 class Workcategory < ActiveRecord::Base
   attr_accessible :description, :name
   belongs_to :user
+  has_many :works
   has_many :worksubcategories, dependent: :destroy
 
 	validates :name, presence: true, length: { maximum: 25 }
@@ -18,4 +19,5 @@ class Workcategory < ActiveRecord::Base
   validates :user_id, presence: true
 
 	default_scope order: 'workcategories.name'
+
 end

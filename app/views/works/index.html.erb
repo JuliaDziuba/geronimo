@@ -1,0 +1,8 @@
+<% provide(:title, 'Works') %>
+<h1><%= yield(:title) %> <span class="h2"><%= link_to "New", new_work_path %></span></h1>
+
+<% if @works.any? %>
+  <%= render 'shared/works_list', works: @works %>
+<% else %>
+<p> Start adding works for easier management of your business and seamless integration with your website.</p>
+<% end %>

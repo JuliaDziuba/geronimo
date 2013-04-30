@@ -5,11 +5,11 @@
 #  id              :integer          not null, primary key
 #  name            :string(255)
 #  email           :string(255)
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
 #  password_digest :string(255)
 #  remember_token  :string(255)
-#  admin           :boolean          default(FALSE)
+#  admin           :boolean
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 require 'spec_helper'
@@ -164,6 +164,24 @@ describe User do
       workcategories.should_not be_empty
       workcategories.each do |workcategory|
         Workcategory.find_by_id(workcategory.id).should be_nil
+      end
+    end
+  end
+
+  # Works
+
+  describe "work associations" do
+
+    let!(:w1) do 
+      FactoryGirl.create(:work, user: @user)
+    end
+    # I think I need a factory here to make the works that should be destroyed.
+    it "should destroy associated works" do
+      works = @user.works.dup
+      @user.destroy
+      works.should_not be_empty
+      works.each do |work|
+        Work.find_by_id(work.id).should be_nil
       end
     end
   end

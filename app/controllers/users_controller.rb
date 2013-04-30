@@ -17,6 +17,7 @@ class UsersController < ApplicationController
       sign_in @user
       flash[:success] = "Welcome to Geronimo! Add more information about yourself to fill out your website or add works, clients and venues to start building your database!"
       redirect_to @user
+      @user.workcategories.create(name: "uncategorized")
     else
       render 'new'
     end

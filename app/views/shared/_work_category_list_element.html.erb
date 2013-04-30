@@ -1,0 +1,11 @@
+<span class=<%= level+"-name" %>>
+<% if level == 'h1' %>
+	<%= category.name %>
+<% else %>
+	<%= link_to category.name, category %>
+<% end %>
+  &nbsp; <%= link_to icon(:edit), edit %>
+	&nbsp; <%= link_to icon(:trash), category, method: :delete,
+  	data: { confirm: "All works in this category will become uncategorized. Delete #{category.name}? " },
+    title: "Delete #{category.name}? " %></span><br />
+<span class=<%= level+"-description" %>>Includes <%= category.works.count %> works.	<%= category.description %></span>
