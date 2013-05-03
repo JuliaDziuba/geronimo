@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
   has_many :workcategories, dependent: :destroy
   has_many :worksubcategories, :through => :workcategories
   has_many :works, dependent: :destroy
+  has_many :venuecategories, dependent: :destroy
+  has_many :venues, dependent: :destroy
 
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token

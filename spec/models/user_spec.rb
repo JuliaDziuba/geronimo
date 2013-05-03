@@ -172,16 +172,61 @@ describe User do
 
   describe "work associations" do
 
+    before { @user.save }
     let!(:w1) do 
       FactoryGirl.create(:work, user: @user)
     end
-    # I think I need a factory here to make the works that should be destroyed.
+    
     it "should destroy associated works" do
       works = @user.works.dup
       @user.destroy
       works.should_not be_empty
       works.each do |work|
         Work.find_by_id(work.id).should be_nil
+      end
+    end
+  end
+
+  # Venuecategories
+
+  describe "venuecategory associations" do
+
+    before { @user.save }
+    let!(:b_venuecategory) do 
+      FactoryGirl.create(:venuecategory, user: @user, name: "Galleries", description: "Galleries in the United States.")
+    end
+    let!(:a_venuecategory) do
+      FactoryGirl.create(:venuecategory, user: @user, name: "Boutiques", description: "Boutiques in the United States.")
+    end
+
+    it "should have the right types in the right order" do
+      @user.venuecategories.should == [a_venuecategory, b_venuecategory]
+    end
+
+    it "should destroy associated venuecategories" do
+      venuecategories = @user.venuecategories.dup
+      @user.destroy
+      venuecategories.should_not be_empty
+      venuecategories.each do |venuecategory|
+        Venuecategory.find_by_id(venuecategory.id).should be_nil
+      end
+    end
+  end
+
+  # Venues
+
+  describe "venue associations" do
+
+    before { @user.save }
+    let!(:v1) do 
+      FactoryGirl.create(:venue, user: @user)
+    end
+    it "should destroy associated venues" do
+      venues = @user.venues.dup
+      @user.destroy
+      venues.should_not be_empty
+      venues.each do |venue|
+        Venue.find_by_id(venue.id).should be_nil
       end
     end
   end

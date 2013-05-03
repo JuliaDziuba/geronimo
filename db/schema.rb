@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130426191215) do
+ActiveRecord::Schema.define(:version => 20130503135406) do
 
   create_table "users", :force => true do |t|
     t.string   "name"
@@ -25,6 +25,39 @@ ActiveRecord::Schema.define(:version => 20130426191215) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
+
+  create_table "venuecategories", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "venues", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "venuecategory_id"
+    t.string   "name"
+    t.integer  "phone"
+    t.string   "address_street"
+    t.string   "address_city"
+    t.string   "address_state"
+    t.integer  "address_zipcode"
+    t.string   "email"
+    t.string   "site"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "venuestaffs", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "venue_id"
+    t.integer  "client_id"
+    t.string   "position"
+    t.string   "notes"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "workcategories", :force => true do |t|
     t.string  "name"

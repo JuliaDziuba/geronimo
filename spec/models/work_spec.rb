@@ -8,7 +8,7 @@
 #  worksubcategory_id :integer
 #  inventory_id       :string(255)
 #  title              :string(255)
-#  creation_date      :integer
+#  creation_date      :date
 #  expense_hours      :decimal(, )
 #  expense_materials  :decimal(, )
 #  income_wholesale   :decimal(, )
