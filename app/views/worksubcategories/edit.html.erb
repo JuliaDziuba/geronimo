@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="span5">
-    <%= form_for(@worksubcategory) do |f| %>
+    <%= form_for [ @workcategory, @worksubcategory ] do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.text_field :name %>

@@ -1,11 +1,17 @@
-<span class=<%= level+"-name" %>>
-<% if level == 'h1' %>
-	<%= category.name %>
-<% else %>
-	<%= link_to category.name, category %>
-<% end %>
-  &nbsp; <%= link_to icon(:edit), edit %>
-	&nbsp; <%= link_to icon(:trash), category, method: :delete,
-  	data: { confirm: "All works in this category will become uncategorized. Delete #{category.name}? " },
-    title: "Delete #{category.name}? " %></span><br />
+<div class=<%="dropdown " + level + "-name" %>>
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<%= category.name %>
+	</a>
+	<ul class="dropdown-menu">
+		<% if level != "h1" %>
+			<li><%= link_to "view", workcategory_path(category) %></li>
+		<% end %>
+		<li><%= link_to "edit", edit_workcategory_path(category) %></li>
+	  <li><%= link_to "delete", workcategory_path(category), method: :delete,
+			data: { confirm: "All subcategories will be deleted and all works in this category will become uncategorized. Delete #{category.name}? " },
+	  	title: "Delete #{category.name}? " %></li>
+	  <li><%= link_to "new subcategory", new_workcategory_worksubcategory_path(category) %></li>
+		
+	</ul>
+</div>
 <span class=<%= level+"-description" %>>Includes <%= category.works.count %> works.	<%= category.description %></span>

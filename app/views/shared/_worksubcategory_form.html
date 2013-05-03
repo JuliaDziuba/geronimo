@@ -1,4 +1,4 @@
-<%= form_for(@worksubcategory) do |f| %>
+<%= form_for [ @workcategory, @worksubcategory ] do |f| %>
 	<%= render 'shared/error_messages', object: f.object %>
   <div class="row">
   	<div class="span6">

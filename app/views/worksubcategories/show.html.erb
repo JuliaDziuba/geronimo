@@ -1,10 +1,4 @@
-<h1> <%= @worksubcategory.name %> 
-	&nbsp; <%= link_to icon(:edit), edit_worksubcategory_path(@worksubcategory) %>
-  &nbsp; <%= link_to icon(:trash), @worksubcategory, method: :delete,
-  				data: { confirm: "Delete #{@worksubcategory.name}? " },
-          title:"Delete #{@worksubcategory.name}" %><br />
-</h1>
-<p>Includes <%= @works.count %> works. <%= @worksubcategory.description %> </p>
+<%= render 'shared/work_subcategory_list_element', level: 'h1', category: @workcategory, subcategory: @worksubcategory %>
 <% if @works.any? %>
   <%= render 'shared/works_list', works: @works %>
 <% else %>

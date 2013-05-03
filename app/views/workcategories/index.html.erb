@@ -9,10 +9,9 @@
       <ul class="sublist">
       	<% workcategory.worksubcategories.each do |worksubcategory| %>
           <li>
-            <%= render 'shared/work_category_list_element', level: 'sublist', category: worksubcategory, edit: "#" %>
+            <%= render 'shared/work_subcategory_list_element2', level: 'sublist', category: workcategory, subcategory: worksubcategory %>
           </li>
         <% end %>
-      	<li class="sublist-name"><%= link_to "Create a new subcategory...", workcategory %></li>
       </ul>
     </li>
   <% end %>

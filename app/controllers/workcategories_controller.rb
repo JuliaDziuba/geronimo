@@ -9,7 +9,7 @@ class WorkcategoriesController < ApplicationController
 
   def show
     @workcategory = current_user.workcategories.find(params[:id])
-    @worksubcategory = @workcategory.worksubcategories.build if signed_in?
+#    @worksubcategory = @workcategory.worksubcategories.build if signed_in?
   end
 
   def new

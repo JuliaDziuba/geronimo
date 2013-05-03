@@ -45,7 +45,7 @@ h2, .h2{
 }
 
 a{
-	color:#6D7B8D;
+	color:$shadedColor;
 	text-decoration:none;
 	&:hover{
 		text-decoration:underline;
@@ -109,10 +109,10 @@ input {
 /* lists */
 .list {
   list-style: none;
-  margin: 10px 0 0 0;
+  margin: 5px 0 0 0;
 
   li {
-    padding: 10px 0;
+    padding: 5px 0;
     border-top: 1px solid #e8e8e8;
   }
 }
@@ -122,13 +122,24 @@ input {
 	font-size:20px;
 }
 .list-description {
+	font-size:15px;
   color: $grayLight;
+}
+
+.sublist {
+	list-style: none;
+
+	li {
+    padding: 5px 0;
+    border-top: 0px solid #e8e8e8;
+  }
 }
 
 .sublist-name{
 	font-size:15px;
 }
 .sublist-description {
+	font-size:15px;
   color: $grayLight;
 }
 
