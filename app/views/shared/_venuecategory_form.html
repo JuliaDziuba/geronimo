@@ -1,0 +1,10 @@
+<%= form_for(@venuecategory) do |f| %>
+	<%= render 'shared/error_messages', object: f.object %>
+  <div class="row">
+  	<div class="span6">
+  		<%= f.text_field :name, placeholder: "Category name (required)" %>
+  		<%= f.text_field :description, placeholder: "Cateogry describe" %>
+  		<%= f.submit "Create category", class: "btn" %>
+ 		</div>
+	</div>
+<% end %>

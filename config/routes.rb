@@ -1,11 +1,17 @@
 Geronimo::Application.routes.draw do
 
+  get "venuecategories/new"
+
+  get "venues/new"
+
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :workcategories do
     resources :worksubcategories, exclude: [:index]
   end
   resources :works
+  resources :venuecategories
+  resources :venues
 
   root to: 'static_pages#home'
 

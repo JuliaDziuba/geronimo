@@ -1,0 +1,10 @@
+<% provide(:title, 'Venue categories') %>
+
+<h1><%= yield(:title) %> <span class="h2"><%= link_to "New", new_venuecategory_path %></span></h1>
+<ul class="list">
+  <% @venuecategories.each do |venuecategory| %>
+    <li>
+      <%= render 'shared/venue_category_list_element', level: 'list', category: venuecategory, edit: edit_venuecategory_path(venuecategory) %>
+    </li>
+  <% end %>
+</ul>

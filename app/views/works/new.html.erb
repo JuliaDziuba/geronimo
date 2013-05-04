@@ -11,8 +11,9 @@
         <div class="collection_select inline">
           Category <%= f.collection_select :workcategory_id, @workcategories, :id, :name, :prompt => true %>
         </div>
-      	<%= f.label :worksubcategory_id, "Subcategory", :class => "inline" %>
-      	<%= f.text_field :worksubcategory_id, placeholder: "Subcategory" %>
+        <div class="collection_select inline">
+          Category <%= f.collection_select :worksubcategory_id, @worksubcategories, :id, :name, :prompt => true %>
+        </div>
 			</div>
 			<div class="work-info">
 				<%= f.text_field :inventory_id, placeholder: "Inventory ID" %>

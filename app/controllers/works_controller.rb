@@ -4,7 +4,6 @@ class WorksController < ApplicationController
 
   def index
   	@works = current_user.works.all
-    @workcategories = current_user.workcategories.all
   end
 
   def show
@@ -14,6 +13,7 @@ class WorksController < ApplicationController
   def new
   	@work = current_user.works.build if signed_in?
     @workcategories = current_user.workcategories.all
+    @worksubcategories = current_user.worksubcategories.all
   end
 
   def create
