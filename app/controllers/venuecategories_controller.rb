@@ -4,7 +4,7 @@ class VenuecategoriesController < ApplicationController
 
   def index
   	@venuecategories = current_user.venuecategories.all
-#    @venuecategory = current_user.venuecategories.build if signed_in?
+    @newcategory = Venuecategory.new
   end
 
   def show
@@ -17,8 +17,8 @@ class VenuecategoriesController < ApplicationController
   end
 
   def create
-    @venuecategory = current_user.venuecategories.build(params[:venuecategory])
-    if @venuecategory.save
+    @newcategory = current_user.venuecategories.build(params[:newcategory])
+    if @newcategory.save
       # flash[:success] = "Your new category of venues is created! Add some venues to it!"
       redirect_to venuecategories_path
     else
@@ -27,7 +27,7 @@ class VenuecategoriesController < ApplicationController
   end
 
   def edit
-    @venuecategory = current_user.venuecategories.find_by_id(params[:id])
+    @newcategory = current_user.venuecategories.find_by_id(params[:id])
   end
 
   def update

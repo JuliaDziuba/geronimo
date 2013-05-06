@@ -5,6 +5,8 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
+    @workcategories = @user.workcategories
+    @works = @user.works
   end
 
   def new
@@ -17,10 +19,9 @@ class UsersController < ApplicationController
       sign_in @user
       flash[:success] = "Welcome to Geronimo! Add more information about yourself to fill out your website or add works, clients and venues to start building your database!"
       redirect_to @user
-      @user.workcategories.create(name: "uncategorized")
-      @user.venuecategories.create(name: "Gallery")
-      @user.venuecategories.create(name: "Boutique")
-      @user.venuecategories.create(name: "Booth")
+      @user.venuecategories.create(name: "Galleries")
+      @user.venuecategories.create(name: "Boutiques")
+      @user.venuecategories.create(name: "Booths")
       @user.venuecategories.create(name: "Online")
       @user.venuecategories.create(name: "Studio")
     else
@@ -57,4 +58,13 @@ class UsersController < ApplicationController
     def admin_user
       redirect_to(root_path) unless current_user.admin?
     end
+
+    def work_categories
+      current_user.workcategories.all
+    end
+
+    def works
+      current_user.works.all
+    end
+
 end

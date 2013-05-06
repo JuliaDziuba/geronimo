@@ -4,7 +4,8 @@ class WorkcategoriesController < ApplicationController
 
   def index
   	@workcategories = current_user.workcategories.all
-    @workcategory = current_user.workcategories.build if signed_in?
+#    @newcategory = current_user.workcategories.build if signed_in?
+    @newcategory = Workcategory.new
   end
 
   def show
@@ -17,18 +18,17 @@ class WorkcategoriesController < ApplicationController
   end
 
   def create
-    @workcategory = current_user.workcategories.build(params[:workcategory])
-    if @workcategory.save
+    @newcategory = current_user.workcategories.build(params[:newcategory])
+    if @newcategory.save
       # flash[:success] = "Your new type of works created! Add some works to it!"
       redirect_to workcategories_path
-      @workcategory.worksubcategories.create(name: "uncategorized")
     else
-      render 'new'
+      render 'index'
     end
   end
 
   def edit
-    @workcategory = current_user.workcategories.find_by_id(params[:id])
+    @newcategory = current_user.workcategories.find_by_id(params[:id])
   end
 
   def update

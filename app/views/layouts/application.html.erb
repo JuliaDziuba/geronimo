@@ -9,10 +9,21 @@
   </head>
   <body>
     <%= render 'layouts/header' if signed_in? %>
-    <div class="container">
-      <%= render 'shared/flash_messages' %>
-      <%= yield %>
-    </div>
+    <div class="container-fluid">
+        <div class="row-fluid">   
+            <div class="sidebar span2">
+              <%= render 'layouts/sidebar' if signed_in? %>
+            </div><!-- /sidebar --> 
+            <div id="content" class="span10">
+              <%= render 'shared/flash_messages' %>
+              <%= yield %>
+            </div><!-- /content -->
+        </div>
+    </div> <!-- /container -->
     <%= render 'layouts/footer' if signed_in? %>
   </body>
 </html>
+
+
+<!-- <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script> -->
+

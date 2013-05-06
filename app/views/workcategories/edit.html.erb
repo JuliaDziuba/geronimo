@@ -1,13 +1,13 @@
-<h1>Update <%= @workcategory.name %></h1>
+<h1>Update <%= @newcategory.name %></h1>
 
 <div class="row">
   <div class="span5">
-    <%= form_for(@workcategory) do |f| %>
+    <%= form_for(@newcategory) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.text_field :name %>
 
-      <% if @workcategory.description.empty? %><%= f.label :description, "Description" %><% end %>
+      <% if @newcategory.description.empty? %><%= f.label :description, "Description" %><% end %>
       <%= f.text_field :description %>
 
       <%= f.submit "Save changes", class: "btn" %>

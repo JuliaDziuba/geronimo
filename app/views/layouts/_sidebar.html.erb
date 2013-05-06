@@ -1,0 +1,103 @@
+<div id="sidebar">
+  <!--Sidebar content-->
+  <div id="sidebar-content">
+    <div class="accordion" id="accordianParent">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle-small" data-toggle="collapse" data-parent="#accordianParent" href="#worksSection">
+              Works
+          </a>
+        </div>
+        <div id="worksSection" class="accordion-body collapse">
+          <div class="accordion-inner-small">
+            <ul class="accordion-list">
+              <% if @current_user.worksubcategories.any? %>
+                <% if @current_user.works.any? %>
+                  <li><%= link_to "All", works_path %> (<%= current_user.works.count %>)</li>
+                    <!-- WorkCategories -->
+                    <ul class="accordion-list">
+                      <% @current_user.workcategories.each do |workcategory| %>
+                        <li>
+                          <%= link_to workcategory.name, workcategory_path(workcategory) %> (<%= workcategory.works.count %>)
+                          <ul class="accordion-list">
+                            <% workcategory.worksubcategories.each do |worksubcategory| %>
+                              <li>
+                                <%= link_to worksubcategory.name, workcategory_worksubcategory_path(workcategory, worksubcategory) %> (<%= worksubcategory.works.count %>)
+                              </li>
+                            <% end %>
+                          </ul>
+                        </li>
+                      <% end %>
+                    </ul>
+                <!-- /WorkCategories -->
+                <% else %>
+                  <li><%= link_to "Add Works", new_work_path %></li>
+                <% end %>
+                  <li class="divider"></li>
+                  <li><%= link_to "Manage Categories", workcategories_path %></li>
+                  <% if @current_user.works.any? %>
+                    <li><%= link_to "New Activity", "#" %></li>
+                  <% end %>
+              <% else %>
+                <li><%= link_to "Get Started", workcategories_path %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle-small" data-toggle="collapse" data-parent="#accordianParent" href="#venuesSection">
+              Venues
+          </a>
+        </div>
+        <div id="venuesSection" class="accordion-body collapse">
+          <div class="accordion-inner-small">
+            <ul class="accordion-list">
+              <% if @current_user.venuecategories.any? %>
+                <% if @current_user.venues.any? %>
+                  <li><%= link_to "All", venues_path %> (<%= current_user.venues.count %>)</li>
+                    <!-- VenueCategories -->
+                    <ul class="accordion-list">
+                      <% @current_user.venuecategories.each do |venuecategory| %>
+                        <li>
+                          <%= link_to venuecategory.name, venuecategory_path(venuecategory) %> (<%= venuecategory.venues.count %>)
+                        </li>
+                      <% end %>
+                    </ul>
+                <!-- /VenueCategories -->
+                <% else %>
+                  <li><%= link_to "Add Venues", new_venue_path %></li>
+                <% end %>
+                <li class="divider"></li>
+                <li><%= link_to "Manage Categories", venuecategories_path %></li>
+                <% if @current_user.venues.any? %>
+                  <li><%= link_to "New Activity", "#" %></li>
+                <% end %>
+              <% else %>
+              <li><%= link_to "Get Started", venuecategories_path %></li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle-small" data-parent="#accordianParent" data-toggle="collapse" href="#clientsSection">
+              Clients
+          </a>
+        </div>
+        <div id="clientsSection" class="accordion-body collapse">
+          <div class="accordion-inner-small">
+            <ul>
+              <li><%= link_to "new", "#" %></li>
+              <li><%= link_to "all", "#" %></li>
+              <li><%= link_to "activity", "#" %></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <a id="toggleSidebar" href="#" class="toggles"><i class="icon-chevron-right"></i></a> -->
+</div>

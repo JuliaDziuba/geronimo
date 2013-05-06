@@ -16,7 +16,7 @@ class WorksubcategoriesController < ApplicationController
     @workcategory = current_user.workcategories.find(params[:workcategory_id])
     @worksubcategory = @workcategory.worksubcategories.build(params[:worksubcategory])
     if @worksubcategory.save
-      redirect_to workcategory_url(@workcategory)
+      redirect_to workcategories_url
     else
       render 'new'
     end
@@ -30,7 +30,7 @@ class WorksubcategoriesController < ApplicationController
   def update
      @workcategory = current_user.workcategories.find(params[:workcategory_id])
     if @workcategory.worksubcategories.find_by_id(params[:id]).update_attributes(params[:worksubcategory])
-      redirect_to workcategories_path
+      redirect_to workcategories_url
     else
       render 'edit'
     end

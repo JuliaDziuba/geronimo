@@ -1,10 +1,26 @@
 <% provide(:title, 'Venue categories') %>
 
-<h1><%= yield(:title) %> <span class="h2"><%= link_to "New", new_venuecategory_path %></span></h1>
+<% if @venuecategories.any? %>
+<h1><%= yield(:title) %></h1>
 <ul class="list">
   <% @venuecategories.each do |venuecategory| %>
     <li>
-      <%= render 'shared/venue_category_list_element', level: 'list', category: venuecategory, edit: edit_venuecategory_path(venuecategory) %>
+      <%= render 'shared/venue_category_list_element', level: 'list', category: venuecategory %>
+      	<ul class="sublist"><li>
+	 				<% if venuecategory.venues.any? %>
+	 					<%= link_to 'Manage venues', venues_path %>
+	 				<% else %>
+					 <%= link_to 'Add venues', new_venue_path %>
+	        <% end %>
+      	</li></ul>
     </li>
   <% end %>
+  <li><a id="new_venuecategory_select" href="#new_venuecateagory">Create another category</a></li>
 </ul>
+<% else %>
+	<%= render 'shared/get_started_venue_categories' %>
+  <%= link_to 'Create a category', "#new_venuecategory" %>
+<% end %>
+<div id="new_venuecategory" class="not-displayed">
+  <%= render 'shared/venuecategory_form', newcategory: @newcategory %>
+</div>

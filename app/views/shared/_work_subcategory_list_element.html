@@ -3,13 +3,10 @@
 		<%= subcategory.name %>
 	</a>
 	<ul class="dropdown-menu">
-		<% if level != "h1" %>
-			<li><%= link_to "view",  workcategory_worksubcategory_path(category, subcategory) %></li>
-		<% end %>
 		<li><%= link_to "edit", edit_workcategory_worksubcategory_path(category, subcategory) %></li>
 	  <li><%= link_to "delete", workcategory_worksubcategory_path(category, subcategory), method: :delete,
 			data: { confirm: "All works in this category will become uncategorized. Delete #{subcategory.name}? " },
 	  	title: "Delete #{subcategory.name}? " %></li>
-	</ul>
+	</ul> &nbsp; &nbsp;
+	<span class=<%= level+"-description" %>>Includes <%= subcategory.works.count %> works.	<%= subcategory.description %></span>
 </div>
-<span class=<%= level+"-description" %>>Includes <%= subcategory.works.count %> works.	<%= subcategory.description %></span>
