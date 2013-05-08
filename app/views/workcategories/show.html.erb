@@ -1,8 +1,8 @@
-<%= render 'shared/work_category_list_element', level: 'h1', category: @workcategory %>
-<ul class="list">
-	<% @workcategory.worksubcategories.each do |worksubcategory| %>
-		<li>
-			<%= render 'shared/work_subcategory_list_element', level: 'list', category: @workcategory, subcategory: worksubcategory %>
-		</li>
-	<% end %>
-</ul>
+<% provide(:title, 'Works > ' + @workcategory.name) %>
+<h1><%= yield(:title) %></h1>
+
+<% if @works.any? %>
+  <%= render 'shared/table_works', works: @works%>
+<% else %>
+	<%= render 'shared/get_started_works' %>
+<% end %>

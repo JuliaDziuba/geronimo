@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130503135406) do
+ActiveRecord::Schema.define(:version => 20130503135138) do
 
   create_table "users", :force => true do |t|
     t.string   "name"
@@ -34,8 +34,9 @@ ActiveRecord::Schema.define(:version => 20130503135406) do
     t.datetime "updated_at",  :null => false
   end
 
+  add_index "venuecategories", ["user_id"], :name => "index_venuecategories_on_user_id"
+
   create_table "venues", :force => true do |t|
-    t.integer  "user_id"
     t.integer  "venuecategory_id"
     t.string   "name"
     t.integer  "phone"
@@ -49,15 +50,7 @@ ActiveRecord::Schema.define(:version => 20130503135406) do
     t.datetime "updated_at",       :null => false
   end
 
-  create_table "venuestaffs", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "venue_id"
-    t.integer  "client_id"
-    t.string   "position"
-    t.string   "notes"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+  add_index "venues", ["venuecategory_id"], :name => "index_venues_on_venuecategory_id"
 
   create_table "workcategories", :force => true do |t|
     t.string  "name"
@@ -68,8 +61,6 @@ ActiveRecord::Schema.define(:version => 20130503135406) do
   add_index "workcategories", ["user_id", "name"], :name => "index_workcategories_on_user_id_and_name"
 
   create_table "works", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "workcategory_id"
     t.integer  "worksubcategory_id"
     t.string   "inventory_id"
     t.string   "title"
@@ -90,8 +81,6 @@ ActiveRecord::Schema.define(:version => 20130503135406) do
 
   add_index "works", ["inventory_id"], :name => "index_works_on_inventory_id"
   add_index "works", ["title"], :name => "index_works_on_title"
-  add_index "works", ["user_id"], :name => "index_works_on_user_id"
-  add_index "works", ["workcategory_id"], :name => "index_works_on_workcategory_id"
   add_index "works", ["worksubcategory_id"], :name => "index_works_on_worksubcategory_id"
 
   create_table "worksubcategories", :force => true do |t|

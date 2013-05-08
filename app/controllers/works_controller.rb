@@ -1,5 +1,5 @@
 class WorksController < ApplicationController
-  before_filter :signed_in_user
+  before_filter :signed_in_user  
   # before_filter :correct_user,   only: :destroy
 
   def index
@@ -11,13 +11,12 @@ class WorksController < ApplicationController
   end
 
   def new
-  	@work = current_user.works.build if signed_in?
-    @workcategories = current_user.workcategories.all
-    @worksubcategories = current_user.worksubcategories.all
+  	@work = Work.new
+    @worksubcategories = subcategories
   end
 
   def create
-    @work = current_user.works.build(params[:work])
+    @work = Work.new(params[:work])
     if @work.save
       # flash[:success] = "Your new type of works created! Add some works to it!"
       redirect_to works_path
@@ -28,10 +27,11 @@ class WorksController < ApplicationController
 
   def edit
     @work = current_user.works.find_by_id(params[:id])
+    @worksubcategories = subcategories
   end
 
   def update
-    if current_user.works.find_by_id(params[:id]).update_attributes(params[:work])
+    if Work.find_by_id(params[:id]).update_attributes(params[:work])
       redirect_to works_path
     else
       render 'edit'
@@ -49,5 +49,13 @@ class WorksController < ApplicationController
       @work = current_user.works.find_by_id(params[:id])
       redirect_to works_path if @work.nil?
     end
+
+    def subcategories
+      @worksubcategories = current_user.worksubcategories
+      @worksubcategories.each do |worksubcategory|
+        worksubcategory[:name] = worksubcategory.workcategory.name + " > " + worksubcategory.name
+      end
+    end
+
 end
 

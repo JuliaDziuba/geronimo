@@ -5,5 +5,9 @@
 $ ->
   $('#new_workcategory_select').click ->
     $('#new_workcategory').slideToggle()
+
+$ ->
+  $('#another_workcategory_select').click ->
+    $('#new_workcategory').slideToggle()
     
 

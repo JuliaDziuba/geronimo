@@ -3,8 +3,6 @@
 # Table name: works
 #
 #  id                 :integer          not null, primary key
-#  user_id            :integer
-#  workcategory_id    :integer
 #  worksubcategory_id :integer
 #  inventory_id       :string(255)
 #  title              :string(255)
@@ -28,15 +26,17 @@ require 'spec_helper'
 describe Work do
   
   let(:user) { FactoryGirl.create(:user) }
-  before { @work = user.works.build(title: "A Day in the Life", description: "Handmade wooden fruit") }
+  let(:wc) { FactoryGirl.create(:workcategory, user: user) }
+  let(:wsc) { FactoryGirl.create(:worksubcategory, workcategory: wc) }
+  before { @work = wsc.works.build(title: "A Day in the Life", description: "Handmade wooden fruit") }
   
   subject { @work }
 
   it { should respond_to(:user) }
-  its(:user) { should == user }
+  it { should respond_to(:workcategory) }
+  it { should respond_to(:worksubcategory) }
+  its(:worksubcategory) { should == wsc }
 
-  it { should respond_to(:user_id) }
-  it { should respond_to(:workcategory_id) }
   it { should respond_to(:worksubcategory_id) }
   it { should respond_to(:inventory_id) }
   it { should respond_to(:title) }
@@ -58,15 +58,15 @@ describe Work do
   it { should be_valid }
 
   describe "accessible attributes" do
-    it "should not allow access to user_id" do
+    it "should not allow access to user" do
       expect do
-        Work.new(user_id: user.id)
+        Work.new(user: user.id)
       end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
     end    
   end
 
-  describe "when user_id is not present" do
-    before { @work.user_id = nil }
+  describe "when worksubcategory_id is not present" do
+    before { @work.worksubcategory_id = nil }
     it { should_not be_valid }
   end
 

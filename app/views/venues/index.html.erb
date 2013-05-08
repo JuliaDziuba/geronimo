@@ -2,7 +2,7 @@
 <h1><%= yield(:title) %> <span class="h2"><%= link_to "New", new_venue_path %></span></h1>
 
 <% if @venues.any? %>
-  <%= render 'shared/venues_list', venues: @venues %>
+  <%= render 'shared/list_venues', venues: @venues %>
 <% else %>
 <p> Start adding venues for easier management of your business and works.</p>
 <% end %>

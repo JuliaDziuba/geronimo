@@ -1,0 +1,12 @@
+<div class=<%="dropdown " + level + "-name" %>>
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<%= category.name %>
+	</a>
+	<ul class="dropdown-menu">
+		<li class="dropdown-item"><%= link_to "edit", edit_venuecategory_path(category) %></li>
+	  <li class="dropdown-item"><%= link_to "delete", venuecategory_path(category), method: :delete,
+			data: { confirm: "This will delete all of the works in this category. Delete #{category.name}? Or move works before deleting? " },
+	  	title: "Delete #{category.name}? " %></li>		
+	</ul> &nbsp; &nbsp;
+	<span class=<%= level+"-description" %>>Includes <%= category.venues.count %> venues.	<%= category.description %></span>
+</div>

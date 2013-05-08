@@ -1,7 +1,6 @@
 class CreateVenues < ActiveRecord::Migration
   def change
     create_table :venues do |t|
-      t.integer :user_id
       t.integer :venuecategory_id
       t.string :name
       t.integer :phone
@@ -14,5 +13,7 @@ class CreateVenues < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :venues, [:venuecategory_id]
+    
   end
 end

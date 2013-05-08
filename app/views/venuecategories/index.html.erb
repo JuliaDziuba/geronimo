@@ -5,7 +5,7 @@
 <ul class="list">
   <% @venuecategories.each do |venuecategory| %>
     <li>
-      <%= render 'shared/venue_category_list_element', level: 'list', category: venuecategory %>
+      <%= render 'shared/list_element_venuecategory', level: 'list', category: venuecategory %>
       	<ul class="sublist"><li>
 	 				<% if venuecategory.venues.any? %>
 	 					<%= link_to 'Manage venues', venues_path %>
@@ -15,12 +15,12 @@
       	</li></ul>
     </li>
   <% end %>
-  <li><a id="new_venuecategory_select" href="#new_venuecateagory">Create another category</a></li>
+  <li><a id="another_venuecategory_select" href="#new_venuecategory">Create another category</a></li>
 </ul>
 <% else %>
-	<%= render 'shared/get_started_venue_categories' %>
-  <%= link_to 'Create a category', "#new_venuecategory" %>
+	<%= render 'shared/get_started_venuecategories' %>
+  <a id="new_venuecategory_select" href="#new_venuecategory">Create a category</a>
 <% end %>
 <div id="new_venuecategory" class="not-displayed">
-  <%= render 'shared/venuecategory_form', newcategory: @newcategory %>
+  <%= render 'shared/form_category', category: @category %>
 </div>

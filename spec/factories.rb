@@ -25,7 +25,7 @@ FactoryGirl.define do
   factory :work do
     title "The day the fruit came alive"
     description "This is a piece for a children's book about fruit that come alive. This piece is the day the fruit come alive."
-    user
+    worksubcategory
   end
 
   factory :venuecategory do
@@ -36,7 +36,7 @@ FactoryGirl.define do
 
   factory :venue do
     name "Last Stop"
-    user
+    venuecategory
   end
 
 end

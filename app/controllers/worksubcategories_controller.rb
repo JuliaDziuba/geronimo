@@ -8,14 +8,14 @@ class WorksubcategoriesController < ApplicationController
   end
 
   def new
-    @workcategory = current_user.workcategories.find(params[:workcategory_id])
-    @worksubcategory = Worksubcategory.new
+    @category = current_user.workcategories.find(params[:workcategory_id])
+    @subcategory = Worksubcategory.new
   end
 
   def create
-    @workcategory = current_user.workcategories.find(params[:workcategory_id])
-    @worksubcategory = @workcategory.worksubcategories.build(params[:worksubcategory])
-    if @worksubcategory.save
+    @category = current_user.workcategories.find(params[:workcategory_id])
+    @subcategory = @category.worksubcategories.build(params[:worksubcategory])
+    if @subcategory.save
       redirect_to workcategories_url
     else
       render 'new'
@@ -23,13 +23,13 @@ class WorksubcategoriesController < ApplicationController
   end
 
   def edit
-    @workcategory = current_user.workcategories.find(params[:workcategory_id])
-    @worksubcategory = @workcategory.worksubcategories.find_by_id(params[:id])
+    @category = current_user.workcategories.find(params[:workcategory_id])
+    @subcategory = @workcategory.worksubcategories.find_by_id(params[:id])
   end
 
   def update
-     @workcategory = current_user.workcategories.find(params[:workcategory_id])
-    if @workcategory.worksubcategories.find_by_id(params[:id]).update_attributes(params[:worksubcategory])
+     @category = current_user.workcategories.find(params[:workcategory_id])
+    if @category.worksubcategories.find_by_id(params[:id]).update_attributes(params[:worksubcategory])
       redirect_to workcategories_url
     else
       render 'edit'

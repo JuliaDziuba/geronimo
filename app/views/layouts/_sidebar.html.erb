@@ -13,6 +13,7 @@
             <ul class="accordion-list">
               <% if @current_user.worksubcategories.any? %>
                 <% if @current_user.works.any? %>
+                  <li><%= link_to "New", new_work_path %></li>
                   <li><%= link_to "All", works_path %> (<%= current_user.works.count %>)</li>
                     <!-- WorkCategories -->
                     <ul class="accordion-list">
@@ -31,7 +32,7 @@
                     </ul>
                 <!-- /WorkCategories -->
                 <% else %>
-                  <li><%= link_to "Add Works", new_work_path %></li>
+                  <li><%= link_to "New Works", new_work_path %></li>
                 <% end %>
                   <li class="divider"></li>
                   <li><%= link_to "Manage Categories", workcategories_path %></li>

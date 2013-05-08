@@ -12,7 +12,7 @@ class Worksubcategory < ActiveRecord::Base
   attr_accessible :description, :name
   belongs_to :user
   belongs_to :workcategory
-  has_many   :works
+  has_many   :works, dependent: :destroy
 
 	validates :name, presence: true, length: { maximum: 25 }
   validates :description, length: { maximum: 150 }

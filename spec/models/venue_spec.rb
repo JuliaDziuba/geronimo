@@ -3,7 +3,6 @@
 # Table name: venues
 #
 #  id               :integer          not null, primary key
-#  user_id          :integer
 #  venuecategory_id :integer
 #  name             :string(255)
 #  phone            :integer
@@ -21,14 +20,15 @@ require 'spec_helper'
 
 describe Venue do
   let(:user) { FactoryGirl.create(:user) }
-  before { @venue = user.venues.build(name: "Last Stop") }
+  let(:vc) { FactoryGirl.create(:venuecategory, user: user, name: "Galleries") }
+  before { @venue = vc.venues.build(name: "Last Stop") }
   
   subject { @venue }
 
-  it { should respond_to(:user) }
-  its(:user) { should == user }
+  it { should respond_to(:venuecategory) }
+  its(:venuecategory) { should == vc }
 
-  it { should respond_to(:user_id) }
+  it { should respond_to(:user) }
   it { should respond_to(:venuecategory_id) }
   it { should respond_to(:name) }
   it { should respond_to(:phone) }
@@ -44,15 +44,15 @@ describe Venue do
   it { should be_valid }
 
   describe "accessible attributes" do
-    it "should not allow access to user_id" do
+    it "should not allow access to user" do
       expect do
-        Venue.new(user_id: user.id)
+        Venue.new(user: user.id)
       end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
     end    
   end
 
-  describe "when user_id is not present" do
-    before { @venue.user_id = nil }
+  describe "when venuecategory_id is not present" do
+    before { @venue.venuecategory_id = nil}
     it { should_not be_valid }
   end
 

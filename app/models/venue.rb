@@ -3,7 +3,6 @@
 # Table name: venues
 #
 #  id               :integer          not null, primary key
-#  user_id          :integer
 #  venuecategory_id :integer
 #  name             :string(255)
 #  phone            :integer
@@ -25,7 +24,7 @@ class Venue < ActiveRecord::Base
 	has_many :venuestaffs
 
 	validates :name, presence: true, length: { maximum: 25 }
-  validates :user_id, presence: true
+  validates :venuecategory_id, presence: true
   
   default_scope order: 'venues.name'
 end

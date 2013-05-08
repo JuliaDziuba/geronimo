@@ -1,0 +1,16 @@
+<ul class="list">
+  <% @venues.each do |venue| %>
+    <li>
+      <span class="venue-title"><%= link_to venue.name, venue %>
+       	&nbsp; <%= link_to icon(:edit), edit_venue_path(venue) %>
+      	&nbsp; <%= link_to icon(:trash), venue, method: :delete,
+        	data: { confirm: "Delete #{venue.name}?" },
+          title: "Delete #{venue.name}?" %></span><br />
+          <span class = "list-description"><%= venue.venuecategory.name %><br />
+      <span class="list-description">
+        <%= venue.phone.to_s + " | " + venue.email + " | " + venue.site %><br />
+        <%= venue.address_street + ", " + venue.address_city + " " + venue.address_state + ", " + venue.address_zipcode.to_s %>
+      </span>
+    </li>
+  <% end %>
+</ul>

@@ -1,16 +1,2 @@
 <h1>Update <%= @worksubcategory.name %></h1>
-
-<div class="row">
-  <div class="span5">
-    <%= form_for [ @workcategory, @worksubcategory ] do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
-
-      <%= f.text_field :name %>
-
-      <% if @worksubcategory.description.empty? %><%= f.label :description, "Description" %><% end %>
-      <%= f.text_field :description, place_holder: "Description" %>
-
-      <%= f.submit "Save changes", class: "btn" %>
-    <% end %>
-  </div>
-</div>
+<%= render 'shared/form_subcategory' category: @category, subcategory: @subcategory %>

@@ -1,6 +1,8 @@
-<%= render 'shared/work_subcategory_list_element', level: 'h1', category: @workcategory, subcategory: @worksubcategory %>
+<% provide(:title, 'Works > ' +  @worksubcategory.workcategory.name + ' > ' + @worksubcategory.name) %>
+<h1><%= yield(:title) %></h1>
+
 <% if @works.any? %>
-  <%= render 'shared/works_list', works: @works %>
+  <%= render 'shared/table_works', works: @works %>
 <% else %>
-	<p>Do you have new works to add to this section?</p>
+	<%= render 'shared/get_started_works' %>
 <% end %>

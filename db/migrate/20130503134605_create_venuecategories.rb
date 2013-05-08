@@ -7,5 +7,6 @@ class CreateVenuecategories < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :venuecategories, [:user_id]
   end
 end

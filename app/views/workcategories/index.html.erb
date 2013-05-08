@@ -5,12 +5,12 @@
 <ul class="list">
   <% @workcategories.each do |workcategory| %>
     <li>
-      <%= render 'shared/work_category_list_element', level: 'list', category: workcategory %>
+      <%= render 'shared/list_element_workcategory', level: 'list', category: workcategory %>
       	<ul class="sublist">
       		<% if workcategory.worksubcategories.any? %>
       			<% workcategory.worksubcategories.each do |worksubcategory| %>
          	 		<li>
-           		<%= render 'shared/work_subcategory_list_element', level: 'sublist', category: workcategory, subcategory: worksubcategory %>
+           		<%= render 'shared/list_element_worksubcategory', level: 'sublist', category: workcategory, subcategory: worksubcategory %>
            			<ul class="sublist"><li>
            				<% if worksubcategory.works.any? %>
            				 <%= link_to 'Manage works', works_path %>
@@ -27,12 +27,12 @@
       	</ul>
     </li>
   <% end %>
-  <li><a id="new_workcategory_select" href="#new_workcateagory">Create another category</a></li>
+  <li><a id="another_workcategory_select" href="#new_workcategory">Create another category</a></li>
 </ul>
 <% else %>
-	<%= render 'shared/get_started_work_categories' %>
-  <%= link_to 'Create a category', "#new_workcategory" %>
+	<%= render 'shared/get_started_workcategories' %>
+  <a id="new_workcategory_select" href="#new_workcategory">Create a category</a>
 <% end %>
 <div id="new_workcategory" class="not-displayed">
-  <%= render 'shared/workcategory_form', newcategory: @newcategory %>
+  <%= render 'shared/form_category', category: @category %>
 </div>

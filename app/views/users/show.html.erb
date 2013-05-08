@@ -2,11 +2,11 @@
 	<ul class="list">
 	  <% @workcategories.each do |workcategory| %>
 	    <li>
-	      <%= render 'shared/work_category_list_element', level: 'list', category: workcategory, edit: edit_workcategory_path(workcategory) %>
+	      <%= render 'shared/list_element_workcategory', level: 'list', category: workcategory, edit: edit_workcategory_path(workcategory) %>
 	      <ul class="sublist">
 	      	<% workcategory.worksubcategories.each do |worksubcategory| %>
 	          <li>
-	            <%= render 'shared/work_subcategory_list_element', level: 'sublist', category: workcategory, subcategory: worksubcategory %>
+	            <%= render 'shared/list_element_worksubcategory', level: 'sublist', category: workcategory, subcategory: worksubcategory %>
 	          </li>
 	        <% end %>
 	      </ul>
@@ -14,7 +14,7 @@
 	  <% end %>
 	</ul>
 <% else %>
-	<%= render 'shared/get_started_work_categories' %>
+	<%= render 'shared/get_started_workcategories' %>
 <% end %>
 <% if @works.any? %>
 

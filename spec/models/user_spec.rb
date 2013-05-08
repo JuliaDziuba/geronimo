@@ -32,6 +32,8 @@ describe User do
   it { should respond_to(:admin) }
   it { should respond_to(:authenticate) }
   it { should respond_to(:workcategories) }
+  it { should respond_to(:worksubcategories) }
+  it { should respond_to(:works) }
 
   it { should be_valid }
   it { should_not be_admin }
@@ -153,39 +155,40 @@ describe User do
     let!(:a_workcategory) do
       FactoryGirl.create(:workcategory, user: @user, name: "Apple Sacks", description: "Sacks for apples")
     end
+    let!(:wsc) do
+      FactoryGirl.create(:worksubcategory, workcategory: b_workcategory, name: "Red Apple Sacks", description: "Sacks for red apples")
+    end
+    let!(:w) do
+      FactoryGirl.create(:work, worksubcategory: wsc, title: "Red slices", description: "A sack with red slices on it")
+    end
 
     it "should have the right types in the right order" do
       @user.workcategories.should == [a_workcategory, b_workcategory]
     end
 
-    it "should destroy associated workcategories" do
+    it "should destroy associated workcategories, worksubcategories, and works" do
       workcategories = @user.workcategories.dup
+      worksubcategories = @user.worksubcategories.dup
+      works = @user.works.dup
       @user.destroy
       workcategories.should_not be_empty
       workcategories.each do |workcategory|
         Workcategory.find_by_id(workcategory.id).should be_nil
       end
-    end
-  end
 
-  # Works
+      worksubcategories.should_not be_empty
+      worksubcategories.each do |worksubcategory|
+        Worksubcategory.find_by_id(worksubcategory.id).should be_nil
+      end
 
-  describe "work associations" do
-
-    before { @user.save }
-    let!(:w1) do 
-      FactoryGirl.create(:work, user: @user)
-    end
-    
-    it "should destroy associated works" do
-      works = @user.works.dup
-      @user.destroy
       works.should_not be_empty
       works.each do |work|
         Work.find_by_id(work.id).should be_nil
       end
-    end
+
+    end 
   end
+
 
   # Venuecategories
 
@@ -197,6 +200,9 @@ describe User do
     end
     let!(:a_venuecategory) do
       FactoryGirl.create(:venuecategory, user: @user, name: "Boutiques", description: "Boutiques in the United States.")
+    end
+    let!(:a_venue) do
+      FactoryGirl.create(:venue, venuecategory: a_venuecategory, name: "Little Foot")
     end
 
     it "should have the right types in the right order" do
@@ -212,24 +218,4 @@ describe User do
       end
     end
   end
-
-  # Venues
-
-  describe "venue associations" do
-
-    before { @user.save }
-    let!(:v1) do 
-      FactoryGirl.create(:venue, user: @user)
-    end
-    it "should destroy associated venues" do
-      venues = @user.venues.dup
-      @user.destroy
-      venues.should_not be_empty
-      venues.each do |venue|
-        Venue.find_by_id(venue.id).should be_nil
-      end
-    end
-  end
-
-
 end

@@ -5,3 +5,7 @@
 $ ->
   $('#new_venuecategory_select').click ->
     $('#new_venuecategory').slideToggle()
+
+$ ->
+  $('#another_venuecategory_select').click ->
+    $('#new_venuecategory').slideToggle()    
