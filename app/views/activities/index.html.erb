@@ -1,0 +1,8 @@
+<% provide(:title, 'Activities') %>
+<h1><%= yield(:title) %></h1>
+
+<% if @activities.any? %>
+  <%= render 'shared/table_activities', activities: @activities %>
+<% else %>
+	<%= render 'shared/get_started_activities' %>
+<% end %>

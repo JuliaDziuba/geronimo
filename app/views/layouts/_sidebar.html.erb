@@ -36,9 +36,6 @@
                 <% end %>
                   <li class="divider"></li>
                   <li><%= link_to "Manage Categories", workcategories_path %></li>
-                  <% if @current_user.works.any? %>
-                    <li><%= link_to "New Activity", "#" %></li>
-                  <% end %>
               <% else %>
                 <li><%= link_to "Get Started", workcategories_path %></li>
               <% end %>
@@ -72,9 +69,6 @@
                 <% end %>
                 <li class="divider"></li>
                 <li><%= link_to "Manage Categories", venuecategories_path %></li>
-                <% if @current_user.venues.any? %>
-                  <li><%= link_to "New Activity", "#" %></li>
-                <% end %>
               <% else %>
               <li><%= link_to "Get Started", venuecategories_path %></li>
             <% end %>
@@ -98,6 +92,39 @@
           </div>
         </div>
       </div>
+      <% if @current_user.venues.any? && @current_user.works.any? %>
+        <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle-small" data-toggle="collapse" data-parent="#accordianParent" href="#activitySection">
+              Activity
+          </a>
+        </div>
+        <div id="activitySection" class="accordion-body collapse">
+          <div class="accordion-inner-small">
+            <ul class="accordion-list">
+              <% if @current_user.activitycategories.any? %>
+                <li><%= link_to "New Activity", new_activity_path %></li>
+                <li><%= link_to "All", activities_path %> (<%= current_user.activities.count %>)</li>
+                  <!-- ActivityCategories -->
+                  <ul class="accordion-list">
+                    <% @current_user.activitycategories.each do |activitycategory| %>
+                      <li>
+                        <%= link_to activitycategory.name, activitycategory_path(activitycategory) %> (<%= activitycategory.activities.count %>)
+                      </li>
+                    <% end %>
+                  </ul>
+                <!-- /ActivityCategories -->
+                <li class="divider"></li>
+                <li><%= link_to "Manage Categories", activitycategories_path %></li>
+              <% else %>
+              <li><%= link_to "Get Started", activitycategories_path %></li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+        </div>
+      <% end %>
+
     </div>
   </div>
   <!-- <a id="toggleSidebar" href="#" class="toggles"><i class="icon-chevron-right"></i></a> -->

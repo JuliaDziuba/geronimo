@@ -1,0 +1,14 @@
+<%= form_for(@category) do |f| %>
+	<%= render 'shared/error_messages', object: f.object %>
+  <div class="row">
+  	<div class="span6">
+  		<%= f.text_field :name, placeholder: "Category name (required)" %>
+  		<%= f.label :status, "What should the status of works be during/after this activity? For instance a Sale category should have a status of 'Sold'." %>
+  		<%= f.text_field :status, placeholder: "Status (required)" %>
+  		<%= f.radio_button :final, true %><label for="activitycategory_final_true">final</label>
+			<%= f.radio_button :final, false %><label for="activitycategory_final_false">not final</label>
+  		<%= f.text_field :description, placeholder: "Cateogry description" %>
+  		<%= f.submit "Create category", class: "btn" %>
+ 		</div>
+	</div>
+<% end %>

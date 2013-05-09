@@ -1,0 +1,12 @@
+<div class=<%="dropdown " + level + "-name" %>>
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<%= category.name %>
+	</a>
+	<ul class="dropdown-menu">
+		<li class="dropdown-item"><%= link_to "edit", edit_activitycategory_path(category) %></li>
+	  <li class="dropdown-item"><%= link_to "delete", activitycategory_path(category), method: :delete,
+			data: { confirm: "This will delete all of the activities in this category and is not recommended. Maybe rename it? Delete #{category.name}?" },
+	  	title: "Delete #{category.name}? " %></li>		
+	</ul> &nbsp; &nbsp;
+	<span class=<%= level+"-description" %>><%= category.description %> The status of works in this category will be '<%= category.status %>'<% if !category.final? %> until the end date specified<% end %>.</span>
+</div>

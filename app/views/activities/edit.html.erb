@@ -1,0 +1,4 @@
+<% provide(:title, 'Update ' + @activity.activitycategory.name + ' of ' + @activity.work.title + ' to ' + @activity.venue.name) %>
+<h1><%= yield(:title) %></h1>
+
+<%= render 'shared/form_activity', activity: @activity %>

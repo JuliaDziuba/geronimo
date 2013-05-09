@@ -26,6 +26,7 @@ class Work < ActiveRecord::Base
 	belongs_to :worksubcategory
 	belongs_to :workcategory
 	belongs_to :user
+	has_many :activities
 
 	validates :title, presence: true, length: { maximum: 30 }
   validates :description, length: { maximum: 300 }

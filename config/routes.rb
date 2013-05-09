@@ -1,9 +1,5 @@
 Geronimo::Application.routes.draw do
 
-  get "venuecategories/new"
-
-  get "venues/new"
-
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :workcategories do
@@ -12,6 +8,8 @@ Geronimo::Application.routes.draw do
   resources :works
   resources :venuecategories
   resources :venues
+  resources :activitycategories
+  resources :activities
 
   root to: 'static_pages#home'
 

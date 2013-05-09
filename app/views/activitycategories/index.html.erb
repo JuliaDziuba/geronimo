@@ -1,0 +1,26 @@
+<% provide(:title, 'Activity categories') %>
+
+<% if @activitycategories.any? %>
+<h1><%= yield(:title) %></h1>
+<ul class="list">
+  <% @activitycategories.each do |activitycategory| %>
+    <li>
+      <%= render 'shared/list_element_activitycategory', level: 'list', category: activitycategory %>
+      	<ul class="sublist"><li>
+	 				<% if activitycategory.activities.any? %>
+	 					<%= link_to 'Manage activities', activities_path %>
+	 				<% else %>
+					 <%= link_to 'New activity', new_activity_path %>
+	        <% end %>
+      	</li></ul>
+    </li>
+  <% end %>
+  <li><a id="another_activitycategory_select" href="#new_activitycategory">Create another category</a></li>
+</ul>
+<% else %>
+	<%= render 'shared/get_started_activitycategories' %>
+  <a id="new_activitycategory_select" href="#new_activitycategory">Create a category</a>
+<% end %>
+<div id="new_activitycategory" class="not-displayed">
+  <%= render 'shared/form_activitycategory', category: @category %>
+</div>

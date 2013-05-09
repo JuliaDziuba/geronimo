@@ -3,7 +3,7 @@ namespace :db do
   task populate: :environment do
     1.times do |a|
       name  = Faker::Name.name
-      email = "example-#{a+2}@geronimo.com"
+      email = "example-#{a+8}@geronimo.com"
       password  = "password"
       user = User.create!(name: name,
                    email: email,
@@ -52,13 +52,13 @@ namespace :db do
           end
         end
       end
-      
-      3.times do |b|
-        name = Faker::Name.last_name
+      @venues = ["Galleries", "Boutiques", "Booths", "Online", "Studio"]
+      @venues.each do |b|
+        name = b
         description = Faker::Lorem.sentence(5)
         venuecategory = user.venuecategories.create!(name: name, description: description)
        
-       7.times do |d|
+       5.times do |d|
           name = Faker::Name.name
           phone = Faker::Name.name
           address_street = Faker::Address.street_address(include_secondary = false)
@@ -80,6 +80,12 @@ namespace :db do
           )
         end
       end
+      user.activitycategories.create!(name: "Sale", status: "Sold", final:true, description: "Sale of a work")
+      user.activitycategories.create!(name: "Commission", status: "Being created", final:false, description: "Commission of work started, sale to follow")
+      user.activitycategories.create!(name: "Consign", status: "Consigned", final:false, description: "Consignment of a work, hoping sale follows")
+      user.activitycategories.create!(name: "Gift", status: "Gifted", final:true, description: "Gift a work")
+      user.activitycategories.create!(name: "Donate", status: "Donated", final:true, description: "Donate a work")
+      user.activitycategories.create!(name: "Recycle", status: "Recycled", final:true, description: "Recycle a work to create improved visions")
     end    
   end
 end

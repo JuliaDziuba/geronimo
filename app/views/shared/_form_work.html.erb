@@ -6,16 +6,13 @@
     	<div class="work-title" required="true">
       	<%= f.text_field :title, placeholder: "Title" %>
         <div class="collection_select inline">
-          Category <%= @categorieslist %><%= f.collection_select :worksubcategory_id, @worksubcategories, :id, :name, :prompt => true %>
+          Category <%= f.collection_select :worksubcategory_id, @worksubcategories, :id, :name, :prompt => true %>
         </div>
 			</div>
 			<div class="work-info">
 				<%= f.text_field :inventory_id, placeholder: "Inventory ID" %>
-
-				<%= f.text_field :creation_date, placeholder: "Creation date" %>
-
+        <%= f.text_field :creation_date, :class => "datepicker", :value => @work.creation_date.strftime("%d %B %Y")  %>
 				<%= f.text_field :path_image1, placeholder: "Large image path" %>
-
       	<%= f.text_field :path_small_image1, placeholder: "Small image path" %>
       </div>
     </div>

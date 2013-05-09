@@ -21,7 +21,7 @@ class Venue < ActiveRecord::Base
 	
 	belongs_to :user
 	belongs_to :venuecategory
-	has_many :venuestaffs
+	has_many :activities
 
 	validates :name, presence: true, length: { maximum: 25 }
   validates :venuecategory_id, presence: true

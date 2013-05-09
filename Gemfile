@@ -27,7 +27,7 @@ group :assets do
   gem 'uglifier', '1.2.3'
 
 #  gem 'jquery-datatables-rails', github: 'rweng/jquery-databasetables-rails'
-#  gem 'jquery-ui-rails'
+  gem 'jquery-ui-rails'
 end
 
 group :test do

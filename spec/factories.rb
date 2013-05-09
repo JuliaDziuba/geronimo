@@ -39,4 +39,17 @@ FactoryGirl.define do
     venuecategory
   end
 
+  factory :activitycategory do
+    name "Sale"
+    description "Sales made to clients."
+    status "Sold"
+    user
+  end
+
+  factory :activity do
+    activitycategory 
+    work 
+    venue
+  end
+
 end

@@ -11,7 +11,37 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130503135138) do
+ActiveRecord::Schema.define(:version => 20130508191415) do
+
+  create_table "activities", :force => true do |t|
+    t.integer  "activitycategory_id"
+    t.integer  "venue_id"
+    t.integer  "client_id"
+    t.integer  "work_id"
+    t.date     "date_start"
+    t.date     "date_end"
+    t.decimal  "income_wholesale"
+    t.decimal  "income_retail"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "activities", ["activitycategory_id"], :name => "index_activities_on_activitycategory_id"
+  add_index "activities", ["venue_id"], :name => "index_activities_on_venue_id"
+  add_index "activities", ["work_id"], :name => "index_activities_on_work_id"
+
+  create_table "activitycategories", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "description"
+    t.string   "status"
+    t.boolean  "final"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "activitycategories", ["user_id", "name"], :name => "index_activitycategories_on_user_id_and_name"
+  add_index "activitycategories", ["user_id"], :name => "index_activitycategories_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

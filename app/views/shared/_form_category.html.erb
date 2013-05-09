@@ -3,6 +3,10 @@
   <div class="row">
   	<div class="span6">
   		<%= f.text_field :name, placeholder: "Category name (required)" %>
+  		<% if @category[:status].present? %>
+  			<%= t.label :status, "What should the status of works be during/after this activity? For instance a Sale category should have a status of 'Sold'." %>
+  			<%= t.text_field :status, placeholder: "Status (required)" %>
+  		<% end %>
   		<%= f.text_field :description, placeholder: "Cateogry description" %>
   		<%= f.submit "Create category", class: "btn" %>
  		</div>

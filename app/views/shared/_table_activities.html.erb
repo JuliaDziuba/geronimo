@@ -1,0 +1,28 @@
+<table id="Activities">
+  <thead>
+    <tr>
+      <th>Activity</th>
+      <th>Work</th>
+      <th>Venue</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Wholesale</th>
+      <th>Retail</th>
+      <th>Client</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @activities.each do |activity| %>
+      <tr>
+        <td><div class=overflow><%= link_to activity.activitycategory.name, edit_activity_path(activity) %></div></td>
+        <td><div class=overflow><%= link_to activity.work.title, edit_work_path(activity.work) %></td>
+        <td><div class=overflow><%= link_to activity.venue.name, edit_venue_path(activity.venue) %></div></td>
+        <td><div class=overflow><%= activity.date_start %></div></td>
+        <td><div class=overflow><%= activity.date_end %></div></td>
+        <td><div class=overflow><%= activity.income_wholesale %></div></td>
+        <td><div class=overflow><%= activity.income_retail %></div></td>
+        <td><div class=overflow><%= activity.client_id %></div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
