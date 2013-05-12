@@ -1,0 +1,35 @@
+<div>
+  <%= form_for(@activity) do |f| %>
+   	<%= render 'shared/error_messages', object: f.object %>
+    <div class="control-group activity span2">
+    	<div class="collection_select inline">
+        Category <%= f.collection_select :activitycategory_id, @activitycategories, :id, :name, :prompt => true %>
+      </div>
+      <div class="collection_select inline">
+        Work <%= f.collection_select :work_id, @works, :id, :title, :prompt => true %>
+      </div>
+      <div class="collection_select inline">
+        Venue <%= f.collection_select :venue_id, @venues, :id, :name, :prompt => true %>
+      </div>
+      <% if @activity.date_start.present? %>
+          <%= f.text_field :date_start, :class => "datepicker", :value => @activity.date_start.strftime("%d %B %Y") %>
+        <% else %>
+          <%= f.text_field :date_start, :class => "datepicker" %>
+        <% end %>
+        <% if @activity.date_end.present? %>
+          <%= f.text_field :date_end, :class => "datepicker", :value => @activity.date_end.strftime("%d %B %Y") %>
+        <% else %>
+          <%= f.text_field :date_end, :class => "datepicker" %>
+        <% end %>
+      <div class="control-group activity-cash">
+        <legend>Cash flow</legend>
+        <%= f.text_field :income_wholesale, placeholder: "Wholesale" %>
+        <%= f.text_field :income_retail, placeholder: "Retail" %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <%= f.submit "Add", class: "btn" %>
+    </div>
+  <% end %>
+</div> 
+    

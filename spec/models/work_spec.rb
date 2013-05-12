@@ -81,7 +81,7 @@ describe Work do
   end
 
   describe "with description that is too long" do
-    before { @work.description = "a" * 301 }
+    before { @work.description = "a" * 501 }
     it { should_not be_valid }
   end
 

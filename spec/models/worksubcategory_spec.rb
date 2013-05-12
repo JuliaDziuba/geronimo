@@ -50,7 +50,7 @@ describe Worksubcategory do
   end
 
   describe "with description that is too long" do
-    before { @worksubcategory.description = "a" * 151 }
+    before { @worksubcategory.description = "a" * 501 }
     it { should_not be_valid }
   end
 end

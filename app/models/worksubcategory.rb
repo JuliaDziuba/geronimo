@@ -15,7 +15,7 @@ class Worksubcategory < ActiveRecord::Base
   has_many   :works, dependent: :destroy
 
 	validates :name, presence: true, length: { maximum: 25 }
-  validates :description, length: { maximum: 150 }
+  validates :description, length: { maximum: 500 }
   validates :workcategory_id, presence: true
 
 	default_scope order: 'worksubcategories.name'

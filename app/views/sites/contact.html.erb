@@ -1,0 +1,17 @@
+<% provide(:title, 'Contact') %>
+<div class="contact-info">
+	<% if @site.email || @site.phone %>
+		<%= @site.phone %><br />
+		<%= @site.email %><br />
+	<% end %>
+	<% if @site.address_street.present? %>
+		<%= @site.address_street %><br />
+		<%= @site.address_city %> <%= @site.address_state %>, <%= @site.address_zipcode %>
+	<% end %>
+	<% if @site.social_facebook.present? ||  @site.social_twitter.present? ||  @site.social_pinterest.present? %>
+		<br />
+		<%= link_to "Facebook", @site.social_facebook %> | 
+		<%= link_to "Twitter", @site.social_twitter %> |
+		<%= link_to "Pinterest", @site.social_pinterest %>
+	<% end %>
+</div>

@@ -1,0 +1,4 @@
+<% provide(:title, 'Edit ' + @site.brand) %>
+<h1><%= yield(:title) %></h1>
+
+<%= render 'shared/form_site', site: @site %>

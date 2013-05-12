@@ -9,6 +9,7 @@ class VenuesController < ApplicationController
 
   def show
     @venue = current_user.venues.find(params[:id])
+    @activities = @venue.activities
   end
 
   def new

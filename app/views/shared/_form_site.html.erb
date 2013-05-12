@@ -1,0 +1,41 @@
+<div>
+  <%= form_for(@site) do |f| %>
+   	<%= render 'shared/error_messages', object: f.object %>
+    <div class="control-group site span2">
+    	<h2>All information entered here will be PUBLIC!</h2>
+      <div class="control-group">
+        <legend>General</legend>
+        <%= f.text_field :domain, placeholder: "Domain" %>
+        <%= f.text_field :brand, placeholder: "Brand" %>
+        <%= f.text_field :tag_line, placeholder: "Tag line" %>
+        <%= f.text_field :blog, placeholder: "Blog" %>
+      </div>
+
+      <div class="control-group">
+        <legend>Artist</legend>
+        <%= f.text_field :bio_pic, placeholder: "URL of artist picture" %>
+        <%= f.text_field :bio_text, placeholder: "Artist bio" %>
+        <p> Let your fans know where they can find your work. </p>
+      </div>
+
+      <div class="control-group">
+        <legend>Contact</legend>
+        <%= f.text_field :email, placeholder: "Email" %>
+        <%= f.text_field :phone, placeholder: "Phone" %>
+        <%= f.text_field :social_facebook, placeholder: "Facebook" %>
+        <%= f.text_field :social_twitter, placeholder: "Twitter" %>
+        <%= f.text_field :social_pinterest, placeholder: "Pinterest" %>
+        <%= f.text_field :address_street, placeholder: "Street address" %>
+        <%= f.text_field :address_city, placeholder: "City" %>
+        <%= f.text_field :address_state, placeholder: "State" %>
+        <%= f.text_field :address_zipcode, placeholder: "zip code" %>
+      </div>
+      <div class="control-group">
+        <legend>Works to display</legend>
+      </div>
+    <div class="form-actions">
+      <%= f.submit "Create", class: "btn" %>
+    </div>
+  <% end %>
+</div> 
+    

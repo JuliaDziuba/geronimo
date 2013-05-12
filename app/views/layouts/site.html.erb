@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= site_title(yield(:title)) %></title>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <%= render 'layouts/shim' %> 
+  </head>
+  <body>
+    <%= render 'layouts/site_header'%>
+    <div class="content">
+      <div class="content-title">
+        <h2><%= yield(:title) %></h2>
+      </div>
+      <div class="content-body">
+        <%= render 'shared/flash_messages' %>
+        <%= yield %>
+      </div>
+    </div><!-- /content -->
+   <%= render 'layouts/footer'%>
+  </body>
+</html>
+

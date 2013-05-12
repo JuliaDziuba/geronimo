@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130508191415) do
+ActiveRecord::Schema.define(:version => 20130509215316) do
 
   create_table "activities", :force => true do |t|
     t.integer  "activitycategory_id"
@@ -42,6 +42,29 @@ ActiveRecord::Schema.define(:version => 20130508191415) do
 
   add_index "activitycategories", ["user_id", "name"], :name => "index_activitycategories_on_user_id_and_name"
   add_index "activitycategories", ["user_id"], :name => "index_activitycategories_on_user_id"
+
+  create_table "sites", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "brand"
+    t.string   "tag_line"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "address_street"
+    t.string   "address_city"
+    t.string   "address_state"
+    t.string   "address_zipcode"
+    t.string   "domain"
+    t.string   "blog"
+    t.string   "social_facebook"
+    t.string   "social_twitter"
+    t.string   "social_pinterest"
+    t.string   "bio_pic"
+    t.string   "bio_text"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "sites", ["user_id"], :name => "index_sites_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

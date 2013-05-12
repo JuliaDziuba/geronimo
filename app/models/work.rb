@@ -29,7 +29,7 @@ class Work < ActiveRecord::Base
 	has_many :activities
 
 	validates :title, presence: true, length: { maximum: 30 }
-  validates :description, length: { maximum: 300 }
+  validates :description, length: { maximum: 500 }
   validates :worksubcategory_id, presence: true
 	
 end

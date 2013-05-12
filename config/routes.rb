@@ -1,5 +1,7 @@
 Geronimo::Application.routes.draw do
 
+  get "sites/new"
+
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :workcategories do
@@ -10,6 +12,7 @@ Geronimo::Application.routes.draw do
   resources :venues
   resources :activitycategories
   resources :activities
+  resources :sites
 
   root to: 'static_pages#home'
 
@@ -17,8 +20,9 @@ Geronimo::Application.routes.draw do
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
 
-   match '/about',   to: 'static_pages#about'
-   match '/contact', to: 'static_pages#contact'
+   match '/sites/:id/about',   to: 'sites#about'
+   match '/sites/:id/contact', to: 'sites#contact'
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

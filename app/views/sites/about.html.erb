@@ -1,0 +1,20 @@
+<% provide(:title, 'About') %>
+<% if @site.bio_pic.present? %>
+	<div class="about-image">
+		<img src=<%= @site.bio_pic %> height="300px" alt= <%= "Picture of " + @site.brand %> />
+	</div>
+<% end %>
+<% if @site.bio_text.present? %>
+	<div class="about-text">
+		<p><%= @site.bio_text %></p>
+	</div>
+<% end %>
+<% if @venues.any? %>
+	<div class="about-venues">
+		<h2> purchase works </h2>
+		<p>Works can be purchased at the following venues</p>
+		<%= @venues.each do | venue | %>
+			<h3><%= venue.name %></h3>
+		<% end %>
+	</div>
+<% end %>

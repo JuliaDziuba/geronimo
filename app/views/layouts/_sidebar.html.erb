@@ -12,30 +12,27 @@
           <div class="accordion-inner-small">
             <ul class="accordion-list">
               <% if @current_user.worksubcategories.any? %>
-                <% if @current_user.works.any? %>
-                  <li><%= link_to "New", new_work_path %></li>
-                  <li><%= link_to "All", works_path %> (<%= current_user.works.count %>)</li>
-                    <!-- WorkCategories -->
-                    <ul class="accordion-list">
-                      <% @current_user.workcategories.each do |workcategory| %>
-                        <li>
-                          <%= link_to workcategory.name, workcategory_path(workcategory) %> (<%= workcategory.works.count %>)
-                          <ul class="accordion-list">
-                            <% workcategory.worksubcategories.each do |worksubcategory| %>
-                              <li>
-                                <%= link_to worksubcategory.name, workcategory_worksubcategory_path(workcategory, worksubcategory) %> (<%= worksubcategory.works.count %>)
-                              </li>
-                            <% end %>
-                          </ul>
-                        </li>
-                      <% end %>
-                    </ul>
+                <li><%= link_to "New", new_work_path %></li>
+                <li><%= link_to "All", works_path %> (<%= current_user.works.count %>)
+                  <!-- WorkCategories -->
+                  <ul class="accordion-list">
+                    <% @current_user.workcategories.each do |workcategory| %>
+                      <li>
+                        <%= link_to workcategory.name, workcategory_path(workcategory) %> (<%= workcategory.works.count %>)
+                        <ul class="accordion-list">
+                          <% workcategory.worksubcategories.each do |worksubcategory| %>
+                            <li>
+                              <%= link_to worksubcategory.name, workcategory_worksubcategory_path(workcategory, worksubcategory) %> (<%= worksubcategory.works.count %>)
+                            </li>
+                          <% end %>
+                        </ul>
+                      </li>
+                    <% end %>
+                  </ul>
                 <!-- /WorkCategories -->
-                <% else %>
-                  <li><%= link_to "New Works", new_work_path %></li>
-                <% end %>
-                  <li class="divider"></li>
-                  <li><%= link_to "Manage Categories", workcategories_path %></li>
+                </li>
+                <li class="divider"></li>
+                <li><%= link_to "Manage Categories", workcategories_path %></li>
               <% else %>
                 <li><%= link_to "Get Started", workcategories_path %></li>
               <% end %>
@@ -53,20 +50,18 @@
           <div class="accordion-inner-small">
             <ul class="accordion-list">
               <% if @current_user.venuecategories.any? %>
-                <% if @current_user.venues.any? %>
-                  <li><%= link_to "All", venues_path %> (<%= current_user.venues.count %>)</li>
-                    <!-- VenueCategories -->
-                    <ul class="accordion-list">
-                      <% @current_user.venuecategories.each do |venuecategory| %>
-                        <li>
-                          <%= link_to venuecategory.name, venuecategory_path(venuecategory) %> (<%= venuecategory.venues.count %>)
-                        </li>
-                      <% end %>
-                    </ul>
-                <!-- /VenueCategories -->
-                <% else %>
-                  <li><%= link_to "Add Venues", new_venue_path %></li>
-                <% end %>
+                <li><%= link_to "New", new_venue_path %></li>
+                <li><%= link_to "All", venues_path %> (<%= current_user.venues.count %>)
+                  <!-- VenueCategories -->
+                  <ul class="accordion-list">
+                    <% @current_user.venuecategories.each do |venuecategory| %>
+                      <li>
+                        <%= link_to venuecategory.name, venuecategory_path(venuecategory) %> (<%= venuecategory.venues.count %>)
+                      </li>
+                    <% end %>
+                  </ul>
+                  <!-- /VenueCategories -->
+                </li>
                 <li class="divider"></li>
                 <li><%= link_to "Manage Categories", venuecategories_path %></li>
               <% else %>
@@ -84,10 +79,9 @@
         </div>
         <div id="clientsSection" class="accordion-body collapse">
           <div class="accordion-inner-small">
-            <ul>
-              <li><%= link_to "new", "#" %></li>
-              <li><%= link_to "all", "#" %></li>
-              <li><%= link_to "activity", "#" %></li>
+            <ul class="accordion-list">
+              <li><%= link_to "New", "#" %></li>
+              <li><%= link_to "All", "#" %></li>
             </ul>
           </div>
         </div>
@@ -103,7 +97,7 @@
           <div class="accordion-inner-small">
             <ul class="accordion-list">
               <% if @current_user.activitycategories.any? %>
-                <li><%= link_to "New Activity", new_activity_path %></li>
+                <li><%= link_to "New", new_activity_path %></li>
                 <li><%= link_to "All", activities_path %> (<%= current_user.activities.count %>)</li>
                   <!-- ActivityCategories -->
                   <ul class="accordion-list">

@@ -15,7 +15,7 @@ class Workcategory < ActiveRecord::Base
   has_many :works, :through => :worksubcategories
   
 	validates :name, presence: true, length: { maximum: 25 }
-  validates :description, length: { maximum: 150 }
+  validates :description, length: { maximum: 500 }
   validates :user_id, presence: true
 
 	default_scope order: 'workcategories.name'
