@@ -1,4 +1,4 @@
-<% provide(:title, 'Update ' + @work.title + ' work') %>
-<h1><%= yield(:title) %></h1>
+<% provide(:crumbs, 'Works,' + works_path + '|' + @work.title + ',' + work_path(@work)) %>
+<% provide(:title, 'Update') %>
 
 <%= render 'shared/form_work', work: @work %>

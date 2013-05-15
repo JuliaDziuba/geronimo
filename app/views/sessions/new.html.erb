@@ -1,19 +1,25 @@
-<% provide(:title, "Sign in") %>
-<h1 class="center landing-top-margin">GERONIMO! Sign in</h1>
-
-<div class="row">
-  <div class="span4 landing">
-    <%= form_for(:session, url: sessions_path) do |f| %>
-
-    	<%= f.label :email %>
-      <%= f.text_field :email, placeholder: "Email" %>
-
-      <%= f.label :password %>
-      <%= f.password_field :password, placeholder: "Password" %>
-
-      <%= f.submit "Sign in", class: "btn" %>
-       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;   
-       New user? <%= link_to "Sign up!", signup_path %>
-    <% end %>          
+<% provide(:title, '') %>
+<div class="row-fluid landing-top-margin">
+  <div class="span6 offset4">
+    <h1><%= full_title(yield(:title)) %><span class="p"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; New user? <%= link_to "Sign up!", signup_path %></span></h1>
   </div>
 </div>
+<%= form_for(:session, url: sessions_path, :html => { :class => "form-horizontal" }) do |f| %>
+  <div class="row-fluid">
+    <div class="span6 offset2">
+      <div class="control-group">
+        <%= f.label :email, :class => "control-label" %>
+        <div class="controls">
+          <%= f.text_field :email%>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :password, :class => "control-label" %>
+        <div class="controls">
+          <%= f.text_field :password %><br /><br />
+          <%= f.submit "Sign In!", class: "btn" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,5 +1,5 @@
 <% provide(:title, 'Activities') %>
-<h1><%= yield(:title) %></h1>
+<% provide(:new_link, 'new_activity_path()') %>
 
 <% if @activities.any? %>
   <%= render 'shared/table_activities', activities: @activities %>

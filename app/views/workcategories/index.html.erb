@@ -1,38 +1,29 @@
 <% provide(:title, 'Work categories') %>
+<% provide(:new_form, "new_workcategory") %>
+
+<div id="new_workcategory" class="not-displayed">
+  <%= render 'shared/form_category', category: @category %>
+</div>
 
 <% if @workcategories.any? %>
-<h1><%= yield(:title) %></h1>
 <ul class="list">
   <% @workcategories.each do |workcategory| %>
-    <li>
-      <%= render 'shared/list_element_workcategory', level: 'list', category: workcategory %>
+    <li class="spaced">
+      <%= render 'shared/list_element_workcategory', category: workcategory %>
       	<ul class="sublist">
       		<% if workcategory.worksubcategories.any? %>
       			<% workcategory.worksubcategories.each do |worksubcategory| %>
-         	 		<li>
-           		<%= render 'shared/list_element_worksubcategory', level: 'sublist', category: workcategory, subcategory: worksubcategory %>
-           			<ul class="sublist"><li>
-           				<% if worksubcategory.works.any? %>
-           				 <%= link_to 'Manage works', works_path %>
-           				<% else %>
-									 <%= link_to 'Add works', new_work_path %>
-                  <% end %>
-								</li></ul>
+         	 		<li class="spaced">
+           		<%= render 'shared/list_element_worksubcategory', category: workcategory, subcategory: worksubcategory %>
          		 </li>
         		<% end %>
-        		<%= link_to 'Create another subcategory', new_workcategory_worksubcategory_path(workcategory) %>
         	<% else %>
       			<%= link_to 'Create a subcategory', new_workcategory_worksubcategory_path(workcategory) %>
       		<% end %>
       	</ul>
     </li>
   <% end %>
-  <li><a id="another_workcategory_select" href="#new_workcategory">Create another category</a></li>
 </ul>
 <% else %>
 	<%= render 'shared/get_started_workcategories' %>
-  <a id="new_workcategory_select" href="#new_workcategory">Create a category</a>
 <% end %>
-<div id="new_workcategory" class="not-displayed">
-  <%= render 'shared/form_category', category: @category %>
-</div>

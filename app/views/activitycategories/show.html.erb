@@ -1,5 +1,7 @@
-<% provide(:title, 'Activities > ' + @category.name) %>
-<h1><%= yield(:title) %></h1>
+<% provide(:crumbs, 'Activities,' + activities_path 
+	+ "|" + @venue.venuecategory.name + "," + venuecategory_path(@venue.venuecategory)
+) %>
+<% provide(:title, @category.name) %>
 
 <% if @activities.any? %>
   <%= render 'shared/table_activities', activities: @activities %>

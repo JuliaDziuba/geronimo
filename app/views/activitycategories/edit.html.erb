@@ -1,2 +1,6 @@
-<h1>Update <%= @category.name %></h1>
+<% provide(:crumbs, 'Activities,' + activities_path 
+	+ "|" + @category.name + "," + activitycategory_path(@category)
+) %>
+<% provide(:title, 'Update') %>
+
 <%= render 'shared/form_activitycategory', category: @category %>

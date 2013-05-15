@@ -9,7 +9,11 @@ class VenuesController < ApplicationController
 
   def show
     @venue = current_user.venues.find(params[:id])
-    @activities = @venue.activities
+    @venuecategories = @current_user.venuecategories.all
+    @activities = @venue.activities.all
+    @pastconsignments = @venue.activities.all
+    @sales = @venue.activities.all
+
   end
 
   def new
@@ -21,7 +25,7 @@ class VenuesController < ApplicationController
     @venue = current_user.venues.build(params[:venue])
     if @venue.save
       # flash[:success] = "Your new type of venues created! Add some venues to it!"
-      redirect_to venues_path
+      redirect_to venue_path(@venue)
     else
       render 'new'
     end
@@ -32,8 +36,9 @@ class VenuesController < ApplicationController
   end
 
   def update
-    if current_user.venues.find_by_id(params[:id]).update_attributes(params[:venue])
-      redirect_to venues_path
+    @venue = current_user.venues.find_by_id(params[:id]) 
+    if @venue.update_attributes(params[:venue])
+      redirect_to venue_path(@venue)
     else
       render 'edit'
     end
@@ -43,4 +48,5 @@ class VenuesController < ApplicationController
     current_user.venues.find_by_id(params[:id]).destroy
     redirect_to venues_path
   end
+
 end

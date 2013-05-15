@@ -1,31 +1,4 @@
-<% provide(:title, 'New venue') %>
-<h1><%= yield(:title) %></h1>
+<% provide(:crumbs, 'Venues,' + venues_path) %>
+<% provide(:title, 'New') %>
 
-<div>
-  <%= form_for(@venue) do |f| %>
-   	<%= render 'shared/error_messages', object: f.object %>
-
-    <div class="control-group venue">
-    	<div class="venue-name" required="true">
-      	<%= f.text_field :name, placeholder: "Name" %>
-      	<div class="collection_select inline">
-          Category <%= f.collection_select :venuecategory_id, @venuecategories, :id, :name, :prompt => true %>
-        </div>
-			</div>
-			<div class="venue-info">
-				<%= f.text_field :phone, placeholder: "Phone" %>
-				<%= f.text_field :email, placeholder: "Email" %>
-				<%= f.text_field :site, placeholder: "Website" %>
-      </div>
-      <div class="venue-address">
-        <%= f.text_field :address_street, placeholder: "Number and Street" %>
-        <%= f.text_field :address_city, placeholder: "City" %>
-        <%= f.text_field :address_state, placeholder: "State" %>
-        <%= f.text_field :address_zipcode, placeholder: "Zip code" %>
-      </div>
-    </div>
-    <div class="form-actions">
-      <%= f.submit "Add", class: "btn" %>
-    </div> 
-  <% end %>
-</div>
+<%= render 'shared/form_venue', venue: @venue %>

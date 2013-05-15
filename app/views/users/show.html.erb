@@ -1,3 +1,5 @@
+<% provide(:title, 'Take Action') %>
+<h2>Works</h2>
 <% if @workcategories.any? %>
 	<ul class="list">
 	  <% @workcategories.each do |workcategory| %>
@@ -21,3 +23,5 @@
 <% else %>
 	<%= render 'shared/get_started_works' %>
 <% end %>
+
+

@@ -1,2 +1,7 @@
-<h1>Update <%= @worksubcategory.name %></h1>
+<% provide(:crumbs, 'Works,' + works_path 
+	+ '|' + @category.name + ',' + @workcategory_worksubcategories_path(@category) 
+	+ "|" + @subcategory.name + "," + @workcategory_worksubcategory_path(@category, @subcategory)
+) %>
+<% provide(:title, 'Work subcategories > ' + @subcategory.name + ' > Update') %>
+
 <%= render 'shared/form_subcategory' category: @category, subcategory: @subcategory %>

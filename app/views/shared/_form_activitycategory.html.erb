@@ -1,6 +1,6 @@
 <%= form_for(@category) do |f| %>
 	<%= render 'shared/error_messages', object: f.object %>
-  <div class="row">
+  <div class="row-fluid">
   	<div class="span6">
   		<%= f.text_field :name, placeholder: "Category name (required)" %>
   		<%= f.label :status, "What should the status of works be during/after this activity? For instance a Sale category should have a status of 'Sold'." %>

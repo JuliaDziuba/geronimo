@@ -2,7 +2,7 @@ Geronimo::Application.routes.draw do
 
   get "sites/new"
 
-  resources :users
+  resources :users, exclude: [:index]
   resources :sessions, only: [:new, :create, :destroy]
   resources :workcategories do
     resources :worksubcategories, exclude: [:index]

@@ -8,7 +8,9 @@
     <%= render 'layouts/shim' %> 
   </head>
   <body>
-    <%= render 'layouts/site_header'%>
+     <header class="navbar navbar-fixed-top">
+      <%= render 'layouts/site_header'%>
+    </header>
     <div class="content">
       <div class="content-title">
         <h2><%= yield(:title) %></h2>
@@ -18,7 +20,9 @@
         <%= yield %>
       </div>
     </div><!-- /content -->
-   <%= render 'layouts/footer'%>
+   <footer>
+    <%= render 'layouts/footer'%>
+   </footer>
   </body>
 </html>
 

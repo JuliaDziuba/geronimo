@@ -1,5 +1,5 @@
 <% provide(:title, 'Works') %>
-<h1><%= yield(:title) %></h1>
+<% provide(:new_link, new_work_path) %>
 
 <% if @works.any? %>
   <%= render 'shared/table_works', works: @works %>

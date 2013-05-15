@@ -1,50 +1,81 @@
 <div>
-  <%= form_for(@work) do |f| %>
+  <%= form_for(@work, :html => { :class => "form-horizontal" }) do |f| %>
    	<%= render 'shared/error_messages', object: f.object %>
-
-    <div class="control-group work span2">
-    	<div class="work-title" required="true">
-      	<%= f.text_field :title, placeholder: "Title" %>
-        <div class="collection_select inline">
-          Category <%= f.collection_select :worksubcategory_id, @worksubcategories, :id, :name, :prompt => true %>
+    <div class="row-fluid">   
+      <div class="span4">
+        <div class="control-group">
+          <%= f.label :creation_date, "Creation date", :class => "control-label" %>
+          <div class="controls">
+            <% if @work.creation_date.present? %>
+              <%= f.text_field :creation_date, :class => "datepicker", :value => @work.creation_date.strftime("%d %B %Y") %>
+            <% else %>
+              <%= f.text_field :creation_date, :class => "datepicker" %>
+            <% end %>
+          </div>
         </div>
-			</div>
-			<div class="work-info">
-				<%= f.text_field :inventory_id, placeholder: "Inventory ID" %>
-        <% if @work.creation_date.present? %>
-          <%= f.text_field :creation_date, :class => "datepicker", :value => @work.creation_date.strftime("%d %B %Y") %>
-        <% else %>
-          <%= f.text_field :creation_date, :class => "datepicker" %>
-        <% end %>
-				<%= f.text_field :path_image1, placeholder: "Large image path" %>
-      	<%= f.text_field :path_small_image1, placeholder: "Small image path" %>
+        <div class="control-group">
+          <%= f.label :worksubcategory_id, "Category", :class => "control-label" %>
+          <div class="controls">
+                <%= f.collection_select :worksubcategory_id, @worksubcategories, :id, :name%>
+          </div>
+        </div>
+        <div class="control-group">
+          <%= f.label :title, :class => "control-label" %>
+          <div class="controls">
+                <%= f.text_field :title%>
+          </div>
+        </div>
+        <div class="control-group">
+          <%= f.label :inventory_id, "Inventory ID", :class => "control-label" %>
+          <div class="controls">
+                <%= f.text_field :inventory_id %>
+          </div>
+        </div>
+        <div class="control-group">
+          <%= f.label :expense_hours, "Hours involved", :class => "control-label" %>
+          <div class="controls">
+                <%= f.text_field :expense_hours%>
+          </div>
+        </div>
+        <div class="control-group">
+          <%= f.label :expense_materials, "Material costs", :class => "control-label" %>
+          <div class="controls">
+                <%= f.text_field :expense_materials%>
+          </div>
+        </div>
+        <div class="control-group">
+          <%= f.label :income_wholesale, "Wholesale Income", :class => "control-label" %>
+          <div class="controls">
+                <%= f.text_field :income_wholesale%>
+          </div>
+        </div>
+        <div class="control-group">
+          <%= f.label :income_retail, "Retail Value", :class => "control-label" %>
+          <div class="controls">
+                <%= f.text_field :income_retail%>
+          </div>
+        </div>
+      </div>
+      <div class="span4 offset1">
+        <%= f.text_area :description, placeholder: "Description", rows:"7"%>
+        <div class="row-fluid">
+          <div class="span4">
+            <%= f.text_field :dimention1, placeholder: "Dimention X" %>
+          </div>
+          <div class="span4">
+            <%= f.text_field :dimention2, placeholder: "Dimention Y" %>
+          </div>
+          <div class="span4">
+            <%= f.text_field :dimention_units, placeholder: "Dimention units" %>
+          </div>
+        </div>
+        <%= f.text_field :path_image1, placeholder: "URL of image" %>
       </div>
     </div>
-    <div class="control-group work-description">
-      <legend>Description</legend>
-      <div class="work-description-text">
-     		<%= f.text_area :description, placeholder: "Description", :rows => 4, :cols => 1 %>
-     	</div>
-     	<div class="work-description-dimention">
-     		<%= f.text_field :dimention1, placeholder: "First dimention" %>
-
-     		<%= f.text_field :dimention2, placeholder: "Second dimention" %>
-
-     		<%= f.text_field :dimention_units, placeholder: "Dimension units" %>
-     	</div>
+    <div class="row-fluid">
+      <div class="form-actions">
+        <%= f.submit "Create", class: "btn" %>
+      </div> 
     </div>
-    <div class="control-group work-cash">
-      <legend>Cash flow</legend>
-			<%= f.text_field :expense_hours, placeholder: "Hours involved" %>
-
-     	<%= f.text_field :expense_materials, placeholder: "Material costs" %>
-
-			<%= f.text_field :income_wholesale, placeholder: "Wholesale" %>
-
-     	<%= f.text_field :income_retail, placeholder: "Retail" %>
-		</div>
-    <div class="form-actions">
-      <%= f.submit "Add", class: "btn" %>
-    </div> 
   <% end %>
 </div>

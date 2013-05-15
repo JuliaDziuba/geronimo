@@ -1,26 +1,24 @@
-<header class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-      <nav>
-        <a class="brand"><%= @current_user.sites.find_by_id(params[:id]).brand %></a>
-        <ul class="nav pull-right">
-          <li><%= link_to "about", "#" %></li>
-          <li><%= link_to "blog", @current_user.sites.find_by_id(params[:id]).blog if @current_user.sites.find_by_id(params[:id]).blog.present? %></li> 
-          <% @current_user.workcategories.each do | workcategory | %>
+<div class="navbar-inner">
+    <nav>
+      <a class="brand"><%= @current_user.sites.find_by_id(params[:id]).brand %></a>
+      <ul class="nav pull-right">
+        <li><%= link_to "about", "#" %></li>
+        <li><%= link_to "blog", @current_user.sites.find_by_id(params[:id]).blog if @current_user.sites.find_by_id(params[:id]).blog.present? %></li> 
+        <% @current_user.workcategories.each do | workcategory | %>
 
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <%= workcategory.name %> <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu">
-              <% workcategory.worksubcategories.each do | worksubcategory | %>
-                <li><%= link_to worksubcategory.name, "#" %></li>
-              <% end %>
-            </ul>
-          </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <%= workcategory.name %> <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <% workcategory.worksubcategories.each do | worksubcategory | %>
+              <li><%= link_to worksubcategory.name, "#" %></li>
+            <% end %>
+          </ul>
+        </li>
 
-          <% end %>
-          <li><%= link_to "contact", "#" %></li>
-        </ul>
-      </nav>
-  </div>
-</header>
+        <% end %>
+        <li><%= link_to "contact", "#" %></li>
+      </ul>
+    </nav>
+</div>

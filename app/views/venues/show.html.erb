@@ -1,18 +1,23 @@
-<h1>
-		<span class="venue-title"><%= link_to @venue.name, venue_path(@venue) %>
-		 	&nbsp; <%= link_to icon(:edit), edit_venue_path(@venue) %>
-			&nbsp; <%= link_to icon(:trash), @venue, method: :delete,
-		  	data: { confirm: "Delete #{@venue.name}?" },
-		    title: "Delete #{@venue.name}?" %>
-	</span>
-</h1>
-<span class = "list-description"><%= @venue.venuecategory.name %><br />
-<span class="list-description">
-  <%= @venue.phone.to_s + " | " + @venue.email + " | " + @venue.site %><br />
-  <%= @venue.address_street + ", " + @venue.address_city + " " + @venue.address_state + ", " + @venue.address_zipcode.to_s %>
-</span>
+<% provide(:crumbs, "Venues," + venues_path + "|" + @venue.venuecategory.name + "," + venuecategory_path(@venue.venuecategory)) %>
+<% provide(:title, @venue.name) %>
+<% provide(:edit_form, "edit_venue") %>
+
+<div id="edit_venue" class="not-displayed">
+  <%= render 'shared/form_venue', venue: @venue %>
+</div>
+
+<div id="venue_data">
+	<%= render 'shared/venue_contact', venue: @venue %>
+	<br />
+	<%= render 'shared/venue_address', venue: @venue %>
+</div>
 
 <% if !@activities.empty? %>
-	<h2>Activities at <%= @venue.name %></h2>
+	<br />
+	<br />
+	<h2>Works Currently Consigned</h2>
 	<%= render 'shared/table_activities', activities: @activities %>
+	<h2>Works Previously Consigned</h2>
+	<h2>Works Sold</h2>
+	
 <% end %>

@@ -1,4 +1,4 @@
-<h1><%= 'New ' + @category.name + ' subcategory' %></h1>
-<div>
-  <%= render 'shared/form_subcategory', category: @category, subcategory: @subcategory %>
-</div>
+<% provide(:crumbs, @category.name + ',' + workcategory_path(@category) + "|" + 'subcategories' + "," + workcategory_worksubcategories_path(@category)) %>
+<% provide(:title, 'New') %>
+
+<%= render 'shared/form_subcategory', category: @category, subcategory: @subcategory %>

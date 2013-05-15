@@ -1,7 +1,8 @@
-<% provide(:title, 'Works > ' + @workcategory.name) %>
-<h1><%= yield(:title) %></h1>
+<% provide(:crumbs, "Works," + works_path) %>
+<% provide(:title, @workcategory.name) %>
 
 <% if @works.any? %>
+	<%= @workcategory.description %>
   <%= render 'shared/table_works', works: @works%>
 <% else %>
 	<%= render 'shared/get_started_works' %>

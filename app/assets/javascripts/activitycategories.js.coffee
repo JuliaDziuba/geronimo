@@ -5,7 +5,3 @@
 $ ->
   $('#new_activitycategory_select').click ->
     $('#new_activitycategory').slideToggle()
-
-$ ->
-  $('#another_activitycategory_select').click ->
-    $('#new_activitycategory').slideToggle()  

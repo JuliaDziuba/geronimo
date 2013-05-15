@@ -1,0 +1,15 @@
+<div class="dropdown">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		<%= venue.name %> <b class="caret lighter"></b>
+	</a>
+	<ul class="dropdown-menu">
+		<li><%= link_to "View", venue_path(venue) %></li>
+		<li><%= link_to "Edit", edit_venue_path(venue) %></li>
+	  <li><%= link_to "Delete", venue, method: :delete,
+			data: { confirm: "Delete #{venue.name}?" },
+	  	title: "Delete #{venue.name}? " %></li>	
+	</ul> &nbsp; &nbsp;
+	<span class="description">
+		<%= render 'shared/venue_contact', venue: @venue %>
+  </span>
+</div>

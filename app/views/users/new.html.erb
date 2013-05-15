@@ -1,25 +1,40 @@
-<% provide(:title, 'Sign up') %>
-<h1 class="center landing-top-margin"><%= full_title(yield(:title)) %></h1>
+<% provide(:title, '') %>
 
-<div class="row">
-  <div class="span4 landing">
-    <%= form_for(@user) do |f| %>
-    	<%= render 'shared/error_messages', object: f.object %>
-
-      <%= f.label :name %>
-      <%= f.text_field :name, placeholder: "Name" %>
-
-      <%= f.label :email %>
-      <%= f.text_field :email, placeholder: "Email" %>
-
-      <%= f.label :password %>
-      <%= f.password_field :password, placeholder: "Password" %>
-
-      <%= f.label :password_confirmation, "Confirmation" %>
-      <%= f.password_field :password_confirmation, placeholder: "Type that password again please!" %>
-
-      <%= f.submit "Go!", class: "btn" %> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-      Have an acount? <%= link_to "Sign in", signin_path %>
-    <% end %>
+<div class="row-fluid landing-top-margin">
+  <div class="span6 offset4">
+    <h1><%= full_title(yield(:title)) %><span class="p"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Have an acount? <%= link_to "Sign in", signin_path %></span></h1>
   </div>
 </div>
+
+<%= form_for(@user, :html => { :class => "form-horizontal" }) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="row-fluid">
+    <div class="span6 offset2">
+      <div class="control-group">
+        <%= f.label :name, :class => "control-label" %>
+        <div class="controls">
+          <%= f.text_field :name%>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :email, :class => "control-label" %>
+        <div class="controls">
+          <%= f.text_field :email%>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :password, :class => "control-label" %>
+        <div class="controls">
+          <%= f.text_field :password%>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :password_confirmation, "Confirmation", :class => "control-label" %>
+        <div class="controls">
+          <%= f.text_field :password_confirmation%><br /><br />
+          <%= f.submit "Sign Up!", class: "btn" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

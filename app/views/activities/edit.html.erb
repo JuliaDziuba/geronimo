@@ -1,4 +1,7 @@
-<% provide(:title, 'Update ' + @activity.activitycategory.name + ' of ' + @activity.work.title + ' to ' + @activity.venue.name) %>
-<h1><%= yield(:title) %></h1>
+<% provide(:crumbs, 'Activities,' + activities_path 
+	+ '|' + @activity.activitycategory.name + ',' + activitycategory_path(@activity.activitycategory)
+	+ '|' + @activity.work.title + ',' + work_path(@activity.work)
+) %>
+<% provide(:title, 'Update' %>
 
 <%= render 'shared/form_activity', activity: @activity %>

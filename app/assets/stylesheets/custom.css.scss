@@ -1,14 +1,17 @@
 @import "bootstrap";
 
 /* variables */
-$absolutePositionContainer: 70px;
-$absolutePositionSection: 90px;
-$absolutePositionSectionContent: 150px;
 $backgroundColor: #FFF;
 $backgroundColorContent: #F0F0F0;
-$backgroundColorSideBar: #CCCCFF;
-$shadedColor: #6D7B8D;
-$opacityOfEditAndDeleteIcons: .60;
+$backgroundColorAccent: #CCCCFF;
+$opacityOfIcons: .60;
+
+
+/* bootstrap modifications */
+$linkColor:             #6D7B8D;
+$linkColorHover:        darken($linkColor, 15%) !default;
+$navbarHeight:          70px;
+$navbarLinkColorActive: $black;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box; 
@@ -22,19 +25,16 @@ body{
 	background:$backgroundColor;
 	font-family: 'PT Sans Narrow', Arial, sans-serif;
 	font-size:16px;
-	max-width:1400px;
-	min-width:650px;
 }
 
 footer{
-	padding: 20px;
+	background:$backgroundColor;
+	position: relative;
+	padding: 5px 20px;
 }
 
-h1, .h1-name{
-/*	position:absolute; */
-/*	top:$absolutePositionSection; */
-	padding:5px 0px;
-	margin:0px;
+h1{
+	padding:0px 0px 15px 0px;
 	font-size:30px;
 	font-weight:100;
 	text-transform:uppercase;
@@ -44,24 +44,79 @@ h1, .h1-name{
 
 h2, .h2{
 	font-size:20px;
+	font-weight:100;
 	text-transform:uppercase;
 	text-shadow:0px 0px 1px #fff;
 	
 }
 
+.p {
+	font-size:15px;
+	text-transform:none;
+}
+
 a{
-	color:$shadedColor;
+	color:$linkColor;
 	text-decoration:none;
-	&:hover{
-		text-decoration:underline;
-	}
-	currentnav {
-	 font-weight:bold;
-	 color:#333;
-  }
-  nav{
-	 color:#333;	
-  }
+}
+
+/* layout */
+
+#content-container {	
+	background:$backgroundColorContent;
+	min-height: 400px;
+	display:block;
+
+}
+
+#sidebar {
+	background:$backgroundColorAccent;
+	position:fixed;
+	top: 75px;
+	left:0px;
+	padding: 15px 0px 0px 40px;
+	-moz-border-radius: 0px 15px 15px 0px;
+	border-radius: 0px 15px 15px 0px;
+}
+
+#toggleSidebar {
+	position:absolute;
+	top:6px;
+	right:2px;
+}
+#content {
+	position:relative;
+}
+
+.row-fluid div {
+    -webkit-transition: width 0.3s ease, margin 0.3s ease;
+    -moz-transition: width 0.3s ease, margin 0.3s ease;
+    -o-transition: width 0.3s ease, margin 0.3s ease;
+    transition: width 0.3s ease, margin 0.3s ease;
+    margin-left:0px;
+}
+
+.gone {
+    width:0px;
+    margin-left:0px;
+    min-height:15px;
+}
+
+#crumbs {
+	position: relative;
+}
+
+#crumb-text {
+	position: relative;
+	font-size:15px;
+	text-transform:uppercase;
+}
+
+.content-title {
+	position: relative;
+}
+.content-body {
+	position: relative;
 }
 
 .landing {
@@ -77,45 +132,20 @@ a{
 	text-align: center;
 }
 
-.container-fluid {	
-	background:$backgroundColorContent;
-	min-height: 400px;
-	position: absolute;
-	top:$absolutePositionContainer;	
-	width: 100%;
+.not-displayed {
+  display: none; 
 }
 
-.content {
-	background:$backgroundColorContent;
-	display:block;
-	position: relative;
-	top:60px;
-	width:100%;
-}
-.content-title {
-	position: relative;
-	top: 20px;
-	left: 30px;
-}
-.content-body {
-	position: relative;
-	top: 10px;
-	left: 30px;
-}
-
-
-
-#content {
-	display: block; 
-}
-#sidebar, .sidebar {
-	background:$backgroundColorSideBar;
-	min-height: 400px;
+.icon-edit, .icon-trash, .lighter{
+	opacity: $opacityOfIcons; /* opacity [0-1] */
+  -moz-opacity: $opacityOfIcons; /* opacity [0-1] */
+  -webkit-opacity: $opacityOfIcons; /* opacity [0-1] */
+/*  filter:alpha(opacity=50); For IE8 and earlier */
 }
 
 #sidebar-content {
     float: left;
-    margin-top: auto; 
+    margin-top: auto;
 }
 
 .accordion-heading .accordion-toggle-small {
@@ -137,56 +167,39 @@ a{
 	border-top: 1px dotted #e5e5e5;
 }
 
+
 /* lists */
+
+.spaced {
+	padding: 5px 0;
+	border-top: 0px solid #e8e8e8;
+}
+
+.description {
+	font-size:15px;
+  color: $grayLight;
+}
+
 .list {
   list-style: none;
   margin: 5px 0 0 0;
-
-  li {
-    padding: 5px 0;
-    border-top: 1px solid #e8e8e8;
-  }
 }
 
 .list-name{
 	font-size:20px;
 }
-.list-description {
-	font-size:15px;
-  color: $grayLight;
-}
 
 .sublist {
 	list-style: none;
-
-	li {
-    padding: 5px 0;
-    border-top: 0px solid #e8e8e8;
-  }
 }
 
 .sublist-name{
 	font-size:15px;
 }
-.sublist-description {
-	font-size:15px;
-  color: $grayLight;
-}
 
 .dropdown-item {
 	padding: 4px 0;
 	list-style: none;
-}
-
-.not-displayed {
-  display: none; 
-}
-
-.icon-edit, .icon-trash {
-	opacity: $opacityOfEditAndDeleteIcons; /* opacity [0-1] */
-  -moz-opacity: $opacityOfEditAndDeleteIcons; /* opacity [0-1] */
-  -webkit-opacity: $opacityOfEditAndDeleteIcons; /* opacity [0-1] */
-/*  filter:alpha(opacity=50); For IE8 and earlier */
 }
 
 
@@ -220,6 +233,7 @@ input {
 .form-section {
 	border: 1px solid #e8e8e8;
 }
+
 
 /* Site about */
 

@@ -1,2 +1,4 @@
-<h1> <%= @work.title %> </h1>
+<% provide(:crumbs, "Works," + works_path) %>
+<% provide(:title, @work.title) %>
+
 <p> <%= @work.description %> </p>

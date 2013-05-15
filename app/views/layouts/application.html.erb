@@ -8,19 +8,49 @@
     <%= render 'layouts/shim' %> 
   </head>
   <body>
-    <%= render 'layouts/header' if signed_in? %>
-    <div class="container-fluid">
-        <div class="row-fluid">   
-            <div class="sidebar span2">
-              <%= render 'layouts/sidebar' if signed_in? %>
-            </div><!-- /sidebar --> 
-            <div id="content" class="span10">
-              <%= render 'shared/flash_messages' %>
-              <%= yield %>
-            </div><!-- /content -->
-        </div>
+    <header class="navbar navbar-static-top">
+      <%= render 'layouts/header'%>
+    </header>
+    <div id="content-container" class="container-fluid">
+      <div class="row-fluid">
+        <div id="sidebar" class="span2">  
+          <a id="toggleSidebar" href="#" class="icon-chevron-left"></a> 
+          <%= render 'layouts/sidebar'%>
+        </div><!--/#sidebar -->
+        <div id="content" class="span10 offset2" >
+          <div id="crumbs">
+            <% if yield(:crumbs).present? %>  
+              <div id="crumb-text">
+                <% (yield(:crumbs)).split('|').each do |crumb| %>
+                  <%= link_to (crumb.split(','))[0], (crumb.split(','))[1] %> <span class="lighter"> > </span>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+          <div class="content-title">
+            <h1>
+              <%= yield(:title) %>  
+              <span class="h2">
+                <%= link_to "new", yield(:new_link) if yield(:new_link).present? %>
+                <% if yield(:new_form).present? %>
+                  <a id=<%= yield(:new_form)  + "_select" %> href=<%= "#" + yield(:new_form) %>>new</a>
+                <% end %>
+                <% if yield(:edit_form).present? %>
+                  <a id=<%= yield(:edit_form)  + "_select" %> href=<%= "#" + yield(:edit_form) %>>edit</a>
+                <% end %>
+              </span>
+            </h1>
+          </div>
+          <div class="content-body">
+            <%= render 'shared/flash_messages' %>
+            <%= yield %>
+          </div>
+        </div><!-- /content -->
+      </div>
     </div> <!-- /container -->
-    <%= render 'layouts/footer' if signed_in? %>
+    <footer>
+      <%= render 'layouts/footer'%>
+    </footer>
   </body>
 </html>
 
