@@ -12,7 +12,10 @@ class CreateSites < ActiveRecord::Migration
       t.string :address_zipcode
       t.string :domain
       t.string :blog
+      t.string :social_etsy
+      t.string :social_googleplus
       t.string :social_facebook
+      t.string :social_linkedin
       t.string :social_twitter
       t.string :social_pinterest
       t.string :bio_pic

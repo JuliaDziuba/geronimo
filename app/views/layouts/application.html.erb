@@ -13,7 +13,7 @@
     </header>
     <div id="content-container" class="container-fluid">
       <div class="row-fluid">
-        <div id="sidebar" class="span2">  
+        <div id="sidebar" class="sidebar-glide span2">  
           <a id="toggleSidebar" href="#" class="icon-chevron-left"></a> 
           <%= render 'layouts/sidebar'%>
         </div><!--/#sidebar -->
@@ -35,6 +35,7 @@
                 <% if yield(:new_form).present? %>
                   <a id=<%= yield(:new_form)  + "_select" %> href=<%= "#" + yield(:new_form) %>>new</a>
                 <% end %>
+                <%= link_to "update", yield(:edit_link) if yield(:edit_link).present? %>
                 <% if yield(:edit_form).present? %>
                   <a id=<%= yield(:edit_form)  + "_select" %> href=<%= "#" + yield(:edit_form) %>>edit</a>
                 <% end %>

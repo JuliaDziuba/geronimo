@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130509215316) do
+ActiveRecord::Schema.define(:version => 20130509215317) do
 
   create_table "activities", :force => true do |t|
     t.integer  "activitycategory_id"
@@ -55,13 +55,16 @@ ActiveRecord::Schema.define(:version => 20130509215316) do
     t.string   "address_zipcode"
     t.string   "domain"
     t.string   "blog"
+    t.string   "social_etsy"
+    t.string   "social_googleplus"
     t.string   "social_facebook"
+    t.string   "social_linkedin"
     t.string   "social_twitter"
     t.string   "social_pinterest"
     t.string   "bio_pic"
     t.string   "bio_text"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   add_index "sites", ["user_id"], :name => "index_sites_on_user_id"

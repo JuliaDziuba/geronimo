@@ -24,7 +24,7 @@
 #
 
 class Site < ActiveRecord::Base
-  attr_accessible :address_city, :address_state, :address_street, :address_zipcode, :bio_pic, :bio_text, :blog, :brand, :domain, :email, :phone, :social_facebook, :social_pinterest, :social_twitter, :tag_line, :user_id
+  attr_accessible :address_city, :address_state, :address_street, :address_zipcode, :bio_pic, :bio_text, :blog, :brand, :domain, :email, :phone, :social_etsy, :social_googleplus, :social_facebook, :social_linkedin, :social_pinterest, :social_twitter, :tag_line, :user_id
 
   belongs_to :user
 

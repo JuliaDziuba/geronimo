@@ -88,13 +88,15 @@ a{
 	position:relative;
 }
 
-.row-fluid div {
+/*
+.sidebar-glide {
     -webkit-transition: width 0.3s ease, margin 0.3s ease;
     -moz-transition: width 0.3s ease, margin 0.3s ease;
     -o-transition: width 0.3s ease, margin 0.3s ease;
     transition: width 0.3s ease, margin 0.3s ease;
     margin-left:0px;
 }
+*/
 
 .gone {
     width:0px;
@@ -208,8 +210,6 @@ a{
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
   @include box_sizing;
 }
 
@@ -232,6 +232,10 @@ input {
 
 .form-section {
 	border: 1px solid #e8e8e8;
+}
+
+.control-group {
+	margin:5px;
 }
 
 

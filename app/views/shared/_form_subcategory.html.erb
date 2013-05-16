@@ -1,10 +1,24 @@
-<%= form_for [ @category, @subcategory ] do |f| %>
+<%= form_for [ @category, @subcategory, :html => { :class => "form-horizontal" }] do |f| %>
 	<%= render 'shared/error_messages', object: f.object %>
   <div class="row-fluid">
   	<div class="span6">
-  		<%= f.text_field :name, placeholder: "Subcategory name (required)" %>
-  		<%= f.text_field :description, placeholder: "Subcategory description" %>
-  		<%= f.submit "Create subcategory", class: "btn" %>
+  		<div class="control-group">
+        <%= f.label :name, :class => "control-label" %>
+        <div class="controls">
+              <%= f.text_field :name%>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :description, :class => "control-label" %>
+        <div class="controls">
+              <%= f.text_field :description%>
+        </div>
+      </div>
  		</div>
+ 		<div class="row-fluid">
+      <div class="form-actions">
+        <%= f.submit "Create", class: "btn" %>
+      </div> 
+    </div>
 	</div>
 <% end %>

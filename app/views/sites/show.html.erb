@@ -1,7 +1,8 @@
+<% provide(:crumbs, 'Sites,' + sites_path) %>
 <% provide(:title, @site.brand) %>
-<h1><%= yield(:title) %><span class="h2"><%= link_to " edit", edit_site_path(@site) %></span></h1>
+<% provide(:edit_link, edit_site_path(@site)) %>
 
-<p>The information input creates several public pages to promote you and your work.</p>
+<p>The information shown is used to create several public pages to promote you and your work.</p>
 
 <h2>Home page</h2>
 <h2>About page</h2>

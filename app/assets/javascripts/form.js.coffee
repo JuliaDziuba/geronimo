@@ -5,9 +5,7 @@
 $ ->
   $(".datepicker").datepicker({
                 dateFormat : "dd MM yy",
-                #buttonImageOnly : true,
-                #buttonImage : "<%= asset_path('iconDatePicker.gif') %>",
-                showOn : "both",
+                #showOn : "both",
                 changeMonth : true,
                 changeYear : true,
                 yearRange : "c-20:c+5"

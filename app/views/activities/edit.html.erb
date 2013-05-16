@@ -1,6 +1,4 @@
-<% provide(:crumbs, 'Activities,' + activities_path 
-	+ '|' + @activity.activitycategory.name + ',' + activitycategory_path(@activity.activitycategory)
-	+ '|' + @activity.work.title + ',' + work_path(@activity.work)
+<% provide(:crumbs, 'Activities,' + activities_path + '|' + @activity.activitycategory.name + ',' + activitycategory_path(@activity.activitycategory) + '|' + @activity.work.title + ',' + work_path(@activity.work)
 ) %>
 <% provide(:title, 'Update' %>
 

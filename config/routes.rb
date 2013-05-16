@@ -4,13 +4,13 @@ Geronimo::Application.routes.draw do
 
   resources :users, exclude: [:index]
   resources :sessions, only: [:new, :create, :destroy]
-  resources :workcategories do
+  resources :workcategories , exclude: [:new] do
     resources :worksubcategories, exclude: [:index]
   end
   resources :works
-  resources :venuecategories
+  resources :venuecategories, exclude: [:new]
   resources :venues
-  resources :activitycategories
+  resources :activitycategories, exclude: [:new]
   resources :activities
   resources :sites
 

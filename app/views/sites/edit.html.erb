@@ -1,4 +1,4 @@
-<% provide(:title, 'Edit ' + @site.brand) %>
-<h1><%= yield(:title) %></h1>
+<% provide(:crumbs, 'Sites,' + sites_path + '|' + @site.brand + ',' + site_path(@site)) %>
+<% provide(:title, 'Update') %>
 
 <%= render 'shared/form_site', site: @site %>
