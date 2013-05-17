@@ -39,6 +39,11 @@ FactoryGirl.define do
     venuecategory
   end
 
+  factory :client do
+    name "Susie Deep Pockets"
+    user
+  end
+
   factory :activitycategory do
     name "Sale"
     description "Sales made to clients."
@@ -50,6 +55,11 @@ FactoryGirl.define do
     activitycategory 
     work 
     venue
+  end
+
+  factory :site do
+    brand "Paintings by Patty"
+    user
   end
 
 end

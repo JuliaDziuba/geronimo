@@ -21,6 +21,7 @@ class Activity < ActiveRecord::Base
 	belongs_to :activitycategory
 	belongs_to :venue
 	belongs_to :work
+	belongs_to :client
 	belongs_to :user
 
 	validates :activitycategory_id, presence: true

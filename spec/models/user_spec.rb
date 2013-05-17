@@ -34,6 +34,12 @@ describe User do
   it { should respond_to(:workcategories) }
   it { should respond_to(:worksubcategories) }
   it { should respond_to(:works) }
+  it { should respond_to(:venuecategories) }
+  it { should respond_to(:venues) }
+  it { should respond_to(:clients) }
+  it { should respond_to(:activitycategories) }
+  it { should respond_to(:activities) }
+  it { should respond_to(:sites) }
 
   it { should be_valid }
   it { should_not be_admin }
@@ -144,9 +150,9 @@ describe User do
     its(:remember_token) { should_not be_blank }
   end
 
-  # Workcategories
+  # Workcategories and works
 
-  describe "workcategory associations" do
+  describe "workcategory, worksubcategory, and work associations" do
 
     before { @user.save }
     let!(:b_workcategory) do 
@@ -190,9 +196,9 @@ describe User do
   end
 
 
-  # Venuecategories
+  # Venuecategories and venues
 
-  describe "venuecategory associations" do
+  describe "venuecategory and venue associations" do
 
     before { @user.save }
     let!(:b_venuecategory) do 
@@ -202,19 +208,107 @@ describe User do
       FactoryGirl.create(:venuecategory, user: @user, name: "Boutiques", description: "Boutiques in the United States.")
     end
     let!(:a_venue) do
-      FactoryGirl.create(:venue, venuecategory: a_venuecategory, name: "Little Foot")
+      FactoryGirl.create(:venue, venuecategory: a_venuecategory, name: "Beauty Boutique")
     end
 
     it "should have the right types in the right order" do
       @user.venuecategories.should == [a_venuecategory, b_venuecategory]
     end
 
-    it "should destroy associated venuecategories" do
+    it "should destroy associated venuecategories and venues" do
       venuecategories = @user.venuecategories.dup
+      venues = @user.venues.dup
       @user.destroy
+
       venuecategories.should_not be_empty
       venuecategories.each do |venuecategory|
         Venuecategory.find_by_id(venuecategory.id).should be_nil
+      end
+
+      venues.should_not be_empty
+      venues.each do |venue|
+        Venue.find_by_id(venue.id).should be_nil
+      end
+    end
+  end
+
+  # Activitycategories and activities
+
+  describe "activitycategory associations" do
+
+    before { @user.save }
+    let!(:b_activitycategory) do 
+      FactoryGirl.create(:activitycategory, user: @user, name: "Sale", description: "Sale to a client.", final: true)
+    end
+    let!(:a_activitycategory) do
+      FactoryGirl.create(:activitycategory, user: @user, name: "Consign", description: "Consigned to a venue.", final: false)
+    end
+    
+
+    it "should have the right types in the right order" do
+      @user.activitycategories.should == [a_activitycategory, b_activitycategory]
+    end
+
+    it "should destroy associated activitycategories" do
+      activitycategories = @user.activitycategories.dup
+      @user.destroy
+      activitycategories.should_not be_empty
+      activitycategories.each do |activitycategory|
+        Activitycategory.find_by_id(activitycategory.id).should be_nil
+      end
+    end
+  end
+
+  # Clients
+
+  describe "client associations" do
+
+    before { @user.save }
+    let!(:b_client) do 
+      FactoryGirl.create(:client, user: @user, name: "Susie Deep Pockets")
+    end
+
+    let!(:a_client) do 
+      FactoryGirl.create(:client, user: @user, name: "Betty Deep Pockets")
+    end
+
+    it "should have the right types in the right order" do
+      @user.clients.should == [a_client, b_client]
+    end
+
+    it "should destroy associated clients" do
+      clients = @user.clients.dup
+      @user.destroy
+      clients.should_not be_empty
+      clients.each do |client|
+        Client.find_by_id(client.id).should be_nil
+      end
+    end
+  end
+
+  # Sites
+
+  describe "site associations" do
+
+    before { @user.save }
+    let!(:b_site) do 
+      FactoryGirl.create(:site, user: @user, brand: "Paintings by Patty")
+    end
+
+    let!(:a_site) do 
+      FactoryGirl.create(:site, user: @user, brand: "Jewelry by Jamie")
+    end
+
+    it "should have the right types in the right order" do
+      @user.sites.should == [a_site, b_site]
+    end
+
+    it "should destroy associated sites" do
+      sites = @user.sites.dup
+      @user.destroy
+      sites.should_not be_empty
+      sites.each do |site|
+        Site.find_by_id(site.id).should be_nil
       end
     end
   end

@@ -1,0 +1,22 @@
+<% provide(:crumbs, "Clients," + clients_path) %>
+<% provide(:title, @client.name) %>
+<% provide(:edit_form, "edit_client") %>
+
+<div id="edit_client" class="not-displayed">
+  <%= render 'shared/form_client', client: @client %>
+</div>
+
+<div id="client_data">
+	<%= render 'shared/client_contact', client: @client %>
+	<br />
+	<%= render 'shared/client_address', client: @client %>
+</div>
+
+<% if !@activities.empty? %>
+	<br />
+	<br />
+	<h2>Works <%= client.name %> Has</h2>
+	<%= render 'shared/table_activities', activities: @activities %>
+	
+<% end %>
+

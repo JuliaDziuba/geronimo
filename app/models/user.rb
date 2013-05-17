@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   has_many :venues, :through => :venuecategories
   has_many :activitycategories, dependent: :destroy
   has_many :activities, :through => :activitycategories
+  has_many :clients, dependent: :destroy
   has_many :sites, dependent: :destroy
 
   before_save { |user| user.email = email.downcase }

@@ -2,20 +2,6 @@ class VenuesController < ApplicationController
   before_filter :signed_in_user
   # before_filter :correct_user,   only: :destroy
 
-  def index
-  	@venues = current_user.venues.all
-    @venuecategories = current_user.venuecategories.all
-  end
-
-  def show
-    @venue = current_user.venues.find(params[:id])
-    @venuecategories = @current_user.venuecategories.all
-    @activities = @venue.activities.all
-    @pastconsignments = @venue.activities.all
-    @sales = @venue.activities.all
-
-  end
-
   def new
   	@venue = current_user.venues.build if signed_in?
     @venuecategories = current_user.venuecategories.all
@@ -42,6 +28,19 @@ class VenuesController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def show
+    @venue = current_user.venues.find(params[:id])
+    @venuecategories = @current_user.venuecategories.all
+    @activities = @venue.activities.all
+    @pastconsignments = @venue.activities.all
+    @sales = @venue.activities.all
+  end
+
+  def index
+    @venues = current_user.venues.all
+    @venuecategories = current_user.venuecategories.all
   end
 
   def destroy

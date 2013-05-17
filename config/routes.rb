@@ -1,5 +1,7 @@
 Geronimo::Application.routes.draw do
 
+  get "clients/new"
+
   get "sites/new"
 
   resources :users, exclude: [:index]
@@ -10,6 +12,7 @@ Geronimo::Application.routes.draw do
   resources :works
   resources :venuecategories, exclude: [:new]
   resources :venues
+  resources :clients, exclude: [:new, :edit]
   resources :activitycategories, exclude: [:new]
   resources :activities
   resources :sites

@@ -1,0 +1,26 @@
+<table id="Clients">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Stree Address</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @clients.each do |client| %>
+      <tr>
+        <td><div class=overflow><%= link_to client.name, client_path(client) %></div></td>
+        <td><div class=overflow><%= client.email %></div></td>
+        <td><div class=overflow><%= client.phone %></div></td>
+        <td><div class=overflow><%= client.address_street %></div></td>
+        <td><div class=overflow><%= client.address_city %></div></td>
+        <td><div class=overflow><%= client.address_state %></div></td>
+        <td><div class=overflow><%= client.address_zipcode %></div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -65,25 +65,15 @@
               <li class="divider"></li>
               <li><%= link_to "Manage Categories", venuecategories_path %></li>
             <% else %>
-            <li><%= link_to "Get Started", venuecategories_path %></li>
-          <% end %>
+              <li><%= link_to "Get Started", venuecategories_path %></li>
+            <% end %>
           </ul>
         </div>
       </div>
     </div>
     <div class="accordion-group">
       <div class="accordion-heading">
-        <a class="accordion-toggle-small" data-parent="#accordianParent" data-toggle="collapse" href="#clientsSection">
-            Clients
-        </a>
-      </div>
-      <div id="clientsSection" class="accordion-body collapse">
-        <div class="accordion-inner-small">
-          <ul class="accordion-list">
-            <li><%= link_to "New", "#" %></li>
-            <li><%= link_to "All", "#" %></li>
-          </ul>
-        </div>
+        <%= link_to "Clients", clients_path, class: "accordion-toggle-small" %>
       </div>
     </div>
     <% if @current_user.venues.any? && @current_user.works.any? %>

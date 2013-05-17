@@ -24,6 +24,7 @@ describe Activity do
   let(:w)    { FactoryGirl.create(:work, worksubcategory: wsc) }
   let(:vc)   { FactoryGirl.create(:venuecategory, user: user) }
   let(:v)    { FactoryGirl.create(:venue, venuecategory: vc) }
+  let(:c)    { FactoryGirl.create(:client, user: user) }
   let(:ac)   { FactoryGirl.create(:activitycategory, user: user) }
   before { @activity = ac.activities.build(work_id: w, venue_id: v) }
   
@@ -37,6 +38,9 @@ describe Activity do
 
   it { should respond_to(:venue) }
   its(:venue) { should == v }
+
+  it { should respond_to(:client) }
+  its(:client) { should == c }
 
 	it { should respond_to(:user) }
   it { should respond_to(:activitycategory_id) }

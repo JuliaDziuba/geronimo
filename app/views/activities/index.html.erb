@@ -1,5 +1,9 @@
 <% provide(:title, 'Activities') %>
-<% provide(:new_link, 'new_activity_path()') %>
+<% provide(:new_form, "new_activity") %>
+
+<div id="new_activity" class="not-displayed">
+	<%= render 'shared/form_activity', activity: @activity %>
+</div>
 
 <% if @activities.any? %>
   <%= render 'shared/table_activities', activities: @activities %>

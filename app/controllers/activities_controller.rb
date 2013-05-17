@@ -4,6 +4,7 @@ class ActivitiesController < ApplicationController
   	@activitycategories = current_user.activitycategories
   	@venues = current_user.venues
   	@works	= current_user.works
+    @clients = current_user.clients
   end
 
   def create
@@ -22,6 +23,11 @@ class ActivitiesController < ApplicationController
 
   def index
   	@activities = current_user.activities.all
+    @activity = Activity.new
+    @activitycategories = current_user.activitycategories
+    @venues = current_user.venues
+    @works  = current_user.works
+    @clients = current_user.clients
   end
 
 	def edit
@@ -29,6 +35,7 @@ class ActivitiesController < ApplicationController
     @activitycategories = current_user.activitycategories
   	@venues = current_user.venues
   	@works	= current_user.works
+    @clients = current_user.clients
   end
 
   def update
