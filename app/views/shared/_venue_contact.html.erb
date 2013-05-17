@@ -1,9 +1,9 @@
-<% if !venue.phone.to_s.empty? %>        
+<% if !venue.phone.to_s.blank? %>        
   <%= venue.phone.to_s + " | " %>
 <% end %>
-<% if !venue.email.empty? %>       
+<% if !venue.email.blank? %>       
   <%= venue.email + " | " %>
 <% end %>
-<% if !venue.site.empty? %>        
+<% if !venue.site.blank? %>        
   <%= venue.site %>
 <% end %>

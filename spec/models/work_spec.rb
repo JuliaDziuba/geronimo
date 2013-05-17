@@ -28,6 +28,7 @@ describe Work do
   let(:user) { FactoryGirl.create(:user) }
   let(:wc) { FactoryGirl.create(:workcategory, user: user) }
   let(:wsc) { FactoryGirl.create(:worksubcategory, workcategory: wc) }
+  let(:site) { FactoryGirl.create(:site, user: user) }
   before { @work = wsc.works.build(title: "A Day in the Life", description: "Handmade wooden fruit") }
   
   subject { @work }
@@ -37,6 +38,9 @@ describe Work do
   it { should respond_to(:worksubcategory) }
   its(:worksubcategory) { should == wsc }
 
+  it { should respond_to(:siteworks) }
+  it { should respond_to(:sites) }
+  
   it { should respond_to(:worksubcategory_id) }
   it { should respond_to(:inventory_id) }
   it { should respond_to(:title) }
@@ -83,6 +87,19 @@ describe Work do
   describe "with description that is too long" do
     before { @work.description = "a" * 501 }
     it { should_not be_valid }
+  end
+
+  it "should destroy associated siteworks" do
+    let!(:sw) do
+      FactoryGirl.create(:sitework, site: site, work: @work)
+    end
+    siteworks = @work.siteworks.dup
+    @work.destroy
+
+    siteworks.should_not be_empty
+    siteworks.each do |sitework|
+      Sitework.find_by_id(sitework.id).should be_nil
+    end
   end
 
 end

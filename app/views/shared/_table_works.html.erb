@@ -1,6 +1,6 @@
 <% @uniquecategories = []
    @uniquesubcategories = []
-   @works.each do |work| 
+   works.each do |work| 
       @uniquecategories.push(work.worksubcategory.workcategory) if !@uniquecategories.include?(work.worksubcategory.workcategory)
       @uniquesubcategories.push(work.worksubcategory) if !@uniquesubcategories.include?(work.worksubcategory)
    end
@@ -32,7 +32,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @works.each do |work| %>
+    <% works.each do |work| %>
       <tr>
         <% if @uniquecategories.length > 1 %>
           <td><div class=overflow><%= work.worksubcategory.workcategory.name %></div></td>

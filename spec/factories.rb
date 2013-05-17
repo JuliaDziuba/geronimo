@@ -48,6 +48,7 @@ FactoryGirl.define do
     name "Sale"
     description "Sales made to clients."
     status "Sold"
+    final true
     user
   end
 
@@ -60,6 +61,16 @@ FactoryGirl.define do
   factory :site do
     brand "Paintings by Patty"
     user
+  end
+
+  factory :sitework do
+    site
+    work
+  end
+
+  factory :sitevenue do
+    site
+    venue
   end
 
 end

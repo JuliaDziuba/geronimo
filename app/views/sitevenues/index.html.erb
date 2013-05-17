@@ -1,0 +1,13 @@
+<% provide(:crumbs, 'Sites,#|' + @site.brand + ',' + site_path(@site)) %>
+<% provide(:title, "Site venues") %>
+
+<% if !@selected.nil? %>
+  <%= render 'shared/list_venues', venues: @selected %>
+<% else %>
+	Select venues to display on your pubic site. 
+<% end %>
+<h2> Choose venues to display </h2>
+<%= render 'shared/form_sitevenues', site: @site, sitevenue: @sitevenue, venues: @unselected %>
+
+
+

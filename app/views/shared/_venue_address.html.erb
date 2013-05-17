@@ -1,12 +1,12 @@
-<% if !venue.address_street.empty? %>        
+<% if !venue.address_street.blank? %>        
   <%= venue.address_street + ", " %>
 <% end %>
-<% if !venue.address_city.empty? %>        
+<% if !venue.address_city.blank? %>        
   <%= venue.address_city + " " %>
 <% end %>
-<% if !venue.address_state.empty? %>       
+<% if !venue.address_state.blank? %>       
   <%= venue.address_state + ", " %>
 <% end %>
-<% if !venue.address_zipcode.to_s.empty? %>        
+<% if !venue.address_zipcode.to_s.blank? %>        
   <%= venue.address_zipcode.to_s %>
 <% end %>

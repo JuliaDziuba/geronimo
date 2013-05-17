@@ -1,5 +1,5 @@
 <ul class="list">
-  <% @venues.each do |venue| %>
+  <% venues.each do |venue| %>
     <li>
       <span class="venue-title"><%= link_to venue.name, venue %>
        	&nbsp; <%= link_to icon(:edit), edit_venue_path(venue) %>

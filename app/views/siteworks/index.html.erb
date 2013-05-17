@@ -1,0 +1,13 @@
+<% provide(:crumbs, 'Sites,#|' + @site.brand + ',' + site_path(@site)) %>
+<% provide(:title, "Site works") %>
+
+<% if !@selected.nil? %>
+  <%= render 'shared/table_works', works: @selected %>
+<% else %>
+	Select works to display on your pubic site. 
+<% end %>
+<h2> Choose works to display </h2>
+<%= render 'shared/form_siteworks', site: @site, sitework: @sitework, works: @unselected %>
+
+
+

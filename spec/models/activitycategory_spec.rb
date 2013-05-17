@@ -16,7 +16,7 @@ require 'spec_helper'
 
 describe Activitycategory do
     let(:user) { FactoryGirl.create(:user) }
-  before { @activitycategory = user.activitycategories.build(name: "Sale", description: "Sold a piece to a client") }
+  before { @activitycategory = user.activitycategories.build(name: "Sale", status: "Sold", description: "Sold a piece to a client", final: false) }
   
   subject { @activitycategory }
 

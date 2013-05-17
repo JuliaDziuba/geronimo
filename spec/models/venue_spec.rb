@@ -21,12 +21,17 @@ require 'spec_helper'
 describe Venue do
   let(:user) { FactoryGirl.create(:user) }
   let(:vc) { FactoryGirl.create(:venuecategory, user: user, name: "Galleries") }
+  let(:site) { FactoryGirl.create(:site, user: user) }
   before { @venue = vc.venues.build(name: "Last Stop") }
   
   subject { @venue }
 
   it { should respond_to(:venuecategory) }
   its(:venuecategory) { should == vc }
+
+  it { should respond_to(:sitevenues) }
+  it { should respond_to(:sites) }
+  
 
   it { should respond_to(:user) }
   it { should respond_to(:venuecategory_id) }
@@ -64,6 +69,19 @@ describe Venue do
   describe "with title that is too long" do
     before { @venue.name = "a" * 26 }
     it { should_not be_valid }
+  end
+
+  it "should destroy associated sitevenues" do
+    let!(:sw) do
+      FactoryGirl.create(:sitevenue, site: @site, venue: @venue)
+    end
+    sitevenues = @venue.sitevenues.dup
+    @venue.destroy
+
+    sitevenues.should_not be_empty
+    sitevenues.each do |sitevenue|
+      Sitevenue.find_by_id(sitevenue.id).should be_nil
+    end
   end
   
 end

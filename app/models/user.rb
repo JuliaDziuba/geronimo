@@ -24,6 +24,8 @@ class User < ActiveRecord::Base
   has_many :activities, :through => :activitycategories
   has_many :clients, dependent: :destroy
   has_many :sites, dependent: :destroy
+  has_many :siteworks, :through => :sites
+  has_many :sitevenues, :through => :sites
 
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token

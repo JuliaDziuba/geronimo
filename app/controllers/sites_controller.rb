@@ -17,6 +17,8 @@ class SitesController < ApplicationController
 
   def show
     @site = current_user.sites.find(params[:id])
+    @works = @site.works.all
+    @venues = @site.venues.all
   end
 
   def edit

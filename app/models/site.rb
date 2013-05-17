@@ -28,7 +28,12 @@
 
 class Site < ActiveRecord::Base
   attr_accessible :address_city, :address_state, :address_street, :address_zipcode, :bio_pic, :bio_text, :blog, :brand, :domain, :email, :phone, :social_etsy, :social_googleplus, :social_facebook, :social_linkedin, :social_pinterest, :social_twitter, :tag_line
+  
   belongs_to :user
+  has_many :siteworks, dependent: :destroy
+  has_many :sitevenues, dependent: :destroy
+  has_many :works, :through => :siteworks
+  has_many :venues,  :through => :sitevenues
 
   validates :brand, presence: true, length: { maximum: 30 }  
   validates :user_id, presence: true

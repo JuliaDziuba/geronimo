@@ -26,7 +26,7 @@ describe Activity do
   let(:v)    { FactoryGirl.create(:venue, venuecategory: vc) }
   let(:c)    { FactoryGirl.create(:client, user: user) }
   let(:ac)   { FactoryGirl.create(:activitycategory, user: user) }
-  before { @activity = ac.activities.build(work_id: w, venue_id: v) }
+  before { @activity = ac.activities.build(work_id: w.id, venue_id: v.id, client_id: c.id) }
   
   subject { @activity }
  

@@ -4,6 +4,11 @@
 
 <p>The information shown is used to create several public pages to promote you and your work.</p>
 
+<%= link_to "Manage public works", site_siteworks_path(@site) %> (<%= @works.count.to_s() %> works )<br />
+
+<%= link_to "Manage public venues", site_sitevenues_path(@site) %> (<%= @venues.count.to_s() %> venues)
+
+
 <h2>Home page</h2>
 <h2>About page</h2>
 <h2>Blog link</h2>

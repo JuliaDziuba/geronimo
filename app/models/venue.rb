@@ -22,6 +22,9 @@ class Venue < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :venuecategory
 	has_many :activities
+	has_many :sitevenues, dependent: :destroy
+  has_many :sites,  :through => :sitevenues
+
 
 	validates :name, presence: true, length: { maximum: 25 }
   validates :venuecategory_id, presence: true

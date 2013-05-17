@@ -1,9 +1,5 @@
 Geronimo::Application.routes.draw do
 
-  get "clients/new"
-
-  get "sites/new"
-
   resources :users, exclude: [:index]
   resources :sessions, only: [:new, :create, :destroy]
   resources :workcategories , exclude: [:new] do
@@ -15,7 +11,11 @@ Geronimo::Application.routes.draw do
   resources :clients, exclude: [:new, :edit]
   resources :activitycategories, exclude: [:new]
   resources :activities
-  resources :sites
+  resources :sites do
+    resources :siteworks, only: [:index, :create, :destroy]
+    resources :sitevenues, only: [:index, :create, :destroy]
+  end
+
 
   root to: 'static_pages#home'
 
