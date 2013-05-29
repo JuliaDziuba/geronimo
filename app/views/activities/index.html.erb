@@ -5,8 +5,12 @@
 	<%= render 'shared/form_activity', activity: @activity %>
 </div>
 
+<% @works.each do | work | %>
+	<%= work.title + " " + work.status %><br />
+<% end %>
+
 <% if @activities.any? %>
-  <%= render 'shared/table_activities', activities: @activities %>
+  <%= render 'shared/table_activities', activities: @activities, date_end_include: true, client_include: true %>
 <% else %>
 	<%= render 'shared/get_started_activities' %>
 <% end %>

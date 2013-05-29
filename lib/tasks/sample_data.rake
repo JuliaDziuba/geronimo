@@ -124,14 +124,15 @@ namespace :db do
       venuecategory.venues.create!(name: "Personal FX")
     user.venuecategories.create!(name: "Booths")
     user.venuecategories.create!(name: "Online")
-    user.venuecategories.create!(name: "Studio")
+    user.venuecategories.create!(name: "Studios")
     user.activitycategories.create!(name: "Sale", status: "Sold", final:true, description: "Sale of a work.")
-    user.activitycategories.create(name: "Commission", status: "Requested", final: false, description: "Commission of work started, sale to follow.")
-    user.activitycategories.create(name: "Consign", status: "Consigned", final: false, description: "Consignment of a work, hoping sale follows.")
-    user.activitycategories.create(name: "Gift", status: "Gifted", final: true, description: "Gift a work.")
-    user.activitycategories.create(name: "Donate", status: "Donated", final: true, description: "Donate a work.")
-    user.activitycategories.create(name: "Recycle", status: "Recycled", final: true, description: "Recycle a work to create improved visions.")
-    
+    user.activitycategories.create!(name: "Commission", status: "Requested", final: false, description: "Commission of work started, sale to follow.")
+    user.activitycategories.create!(name: "Consign", status: "Consigned", final: false, description: "Consignment of a work, hoping sale follows.")
+    user.activitycategories.create!(name: "Gift", status: "Gifted", final: true, description: "Gift a work.")
+    user.activitycategories.create!(name: "Donate", status: "Donated", final: true, description: "Donate a work.")
+    user.activitycategories.create!(name: "Recycle", status: "Recycled", final: true, description: "Recycle a work to create improved visions.")
+    user.venuecategories.find_by_name('Studios').venues.create!(name: 'Storage')
+    user.clients.create!(name: "Unknown")  
     user.sites.create!(
       domain: "http://juliadziuba.com",
       brand: "Julia Dziuba",

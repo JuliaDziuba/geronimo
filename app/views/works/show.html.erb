@@ -1,4 +1,20 @@
 <% provide(:crumbs, "Works," + works_path) %>
 <% provide(:title, @work.title) %>
+<% provide(:delete_record, @work) %>
 
-<p> <%= @work.description %> </p>
+<%= render 'shared/form_work', work: @work %>
+
+<p>This work is <%= @work.status %></p>
+
+<% if @activities.any? || @work.status == 'Available' %>
+	<h2>
+		<% if @activities.any? %>Its Journey &nbsp; <% end %>
+		<% if  @work.status == 'Available' %><a id="new_activity_select" href="#new_activity">New Activity</a><% end %>
+	</h2>
+<% end %>
+<div id="new_activity" class="not-displayed">
+	<%= render 'shared/form_activity', activity: @activity %>
+</div>
+<% if @activities.any? %>
+	<%= render 'shared/table_activities', activities: @activities, date_end_include: true, client_include: true %>
+<% end %>

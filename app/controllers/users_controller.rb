@@ -20,17 +20,19 @@ class UsersController < ApplicationController
       sign_in @user
       flash[:success] = "Welcome to Geronimo! Add more information about yourself to fill out your website or add works, clients and venues to start building your database!"
       redirect_to @user
-      @user.venuecategories.create(name: "Galleries")
-      @user.venuecategories.create(name: "Boutiques")
-      @user.venuecategories.create(name: "Booths")
-      @user.venuecategories.create(name: "Online")
-      @user.venuecategories.create(name: "Studio")
-      @user.activitycategories.create(name: "Sale", status: "Sold", final:true, description: "Sale of a work.")
-      @user.activitycategories.create(name: "Commission", status: "Being created", final: false, description: "Commission of work started, sale to follow.")
-      @user.activitycategories.create(name: "Consign", status: "Consigned", final: false, description: "Consignment of a work, hoping sale follows.")
-      @user.activitycategories.create(name: "Gift", status: "Gifted", final: true, description: "Gift a work.")
-      @user.activitycategories.create(name: "Donate", status: "Donated", final: true, description: "Donate a work.")
-      @user.activitycategories.create(name: "Recycle", status: "Recycled", final: true, description: "Recycle a work to create improved visions.")
+      @user.venuecategories.create!(name: "Galleries", description: "Galleries with shows and permanent exhibits.")
+      @user.venuecategories.create!(name: "Stores", description: "Physical locations such as boutiques, shops, salons, etc that are not galleries.")
+      @user.venuecategories.create!(name: "Studios", description: "Studios work can be shown in or sold from.")
+      @user.venuecategories.create!(name: "Booths", description: "Temporary venues such as white-tents or booths at conventions, fairs, or open air markets.")
+      @user.venuecategories.create!(name: "Online", description: "Online venues such as Etsy or Ebay stores.")
+      @user.venuecategories.find_by_name('Studios').venues.create!(name: 'Storage')
+      @user.activitycategories.create!(name: "Sale", status: "Sold", final:true, description: "Sale of a work.")
+      @user.activitycategories.create!(name: "Commission", status: "Being created", final: false, description: "Commission of work started, sale to follow.")
+      @user.activitycategories.create!(name: "Consign", status: "Consigned", final: false, description: "Consignment of a work, hoping sale follows.")
+      @user.activitycategories.create!(name: "Gift", status: "Gifted", final: true, description: "Gift a work.")
+      @user.activitycategories.create!(name: "Donate", status: "Donated", final: true, description: "Donate a work.")
+      @user.activitycategories.create!(name: "Recycle", status: "Recycled", final: true, description: "Recycle a work to create improved visions.")
+      @user.clients.create!(name: "Unknown")
     else
       render 'new'
     end

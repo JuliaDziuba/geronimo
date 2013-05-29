@@ -1,4 +1,4 @@
-<% provide(:crumbs, 'Works,' + works_path 	+ '|' + @category.name + ',' + @workcategory_worksubcategories_path(@category) + "|" + @subcategory.name + "," + @workcategory_worksubcategory_path(@category, @subcategory)) %>
-<% provide(:title, 'Work subcategories > ' + @subcategory.name + ' > Update') %>
+<% provide(:crumbs, 'Work categories,' + workcategories_path 	+ '|' + @category.name + ',' + workcategory_path(@category) + "|" + @subcategory.name + "," + workcategory_worksubcategory_path(@category, @subcategory)) %>
+<% provide(:title, 'Update') %>
 
-<%= render 'shared/form_subcategory' category: @category, subcategory: @subcategory %>
+<%= render 'shared/form_subcategory', category: @category, subcategory: @subcategory %>

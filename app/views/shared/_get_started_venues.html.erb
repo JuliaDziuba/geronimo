@@ -1,7 +1,10 @@
-<p> Step 1: Start managing your venues. Let us know some categories for your venues. For example...</p>
+<p>Include venues you are currently working with or interested in. You can then track movement of your works as the tool manages where your works have been, where they are going and when they will return (if not sold). Venues are categorize as:</p>
 <ul>
-	<li>Galleries</li>
-	<li>Boutiques</li>
-	<li>Booths</li>
-	<li>Online</li>
+  <% @venuecategories.each do |category| %>
+    <li  class="spaced">
+      <%= category.name %>: <span class="description"><%= category.description %></span>
+    </li>
+  <% end %>
 </ul>
+<h2>Create a Venue </h2>
+<%= render 'shared/form_venue', venue: @venue %>

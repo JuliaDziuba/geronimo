@@ -7,13 +7,15 @@ gem 'faker', '1.0.1'
 gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'jquery-rails', '2.0.2'
-gem 'datagrid', "~> 0.8.1"
-gem 'best_in_place'
+#gem 'datagrid', "~> 0.8.1"
+#gem 'best_in_place'
 
 group :development, :test do
   gem 'sqlite3', '1.3.5'
   gem 'rspec-rails', '2.11.0'
   gem 'annotate', '2.5.0'
+  gem 'debugger'
+  # gem 'ruby-debug' Doesn't work with 1.9.x
   # gem 'guard-rspec', '1.2.1'
   # gem 'guard-spork', '1.2.0'  
   # gem 'spork', '0.9.2'

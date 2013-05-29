@@ -2,20 +2,6 @@ class VenuecategoriesController < ApplicationController
   before_filter :signed_in_user
   # before_filter :correct_user,   only: :destroy
 
-  def index
-  	@venuecategories = current_user.venuecategories.all
-    @category = Venuecategory.new
-  end
-
-  def show
-    @venuecategory = current_user.venuecategories.find(params[:id])
-    @venues = @venuecategory.venues
-  end
-
-  def new
-    @category = Venuecategory.new
-  end
-
   def create
     @category = current_user.venuecategories.build(params[:venuecategory])
     if @category.save
@@ -24,10 +10,6 @@ class VenuecategoriesController < ApplicationController
     else
       render 'index'
     end
-  end
-
-  def edit
-    @category = current_user.venuecategories.find_by_id(params[:id])
   end
 
   def update

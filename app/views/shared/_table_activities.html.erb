@@ -4,24 +4,34 @@
       <th>Activity</th>
       <th>Work</th>
       <th>Venue</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>Wholesale</th>
+      <% if date_end_include %>
+        <th>Start Date</th>
+        <th>End Date</th>
+      <% else %>
+        <th>Date</th>
+      <% end %>
+      <th>Income</th>
       <th>Retail</th>
-      <th>Client</th>
+      <% if client_include  %>
+        <th>Client</th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
-    <% @activities.each do |activity| %>
+    <% activities.each do |activity| %>
       <tr>
-        <td><div class=overflow><%= link_to activity.activitycategory.name, edit_activity_path(activity) %></div></td>
-        <td><div class=overflow><%= link_to activity.work.title, edit_work_path(activity.work) %></td>
-        <td><div class=overflow><%= link_to activity.venue.name, edit_venue_path(activity.venue) %></div></td>
-        <td><div class=overflow><%= activity.date_start %></div></td>
-        <td><div class=overflow><%= activity.date_end %></div></td>
-        <td><div class=overflow><%= activity.income_wholesale %></div></td>
-        <td><div class=overflow><%= activity.income_retail %></div></td>
-        <td><div class=overflow><%= activity.client.name %></div></td>
+        <td><div class=largeoverflow><%= link_to activity.activitycategory.name, activity_path(activity) %></div></td>
+        <td><div class=largeoverflow><%= link_to activity.work.title, work_path(activity.work) %></td>
+        <td><div class=largeoverflow><%= link_to activity.venue.name, venue_path(activity.venue) %></div></td>
+        <td><div class=largeoverflow><%= activity.date_start %></div></td>
+        <% if date_end_include %>
+          <td><div class=largeoverflow><%= activity.date_end %></div></td>
+        <% end %>
+        <td><div class=largeoverflow><%= activity.income_wholesale %></div></td>
+        <td><div class=largeoverflow><%= activity.income_retail %></div></td>
+        <% if client_include  %>
+          <td><div class=largeoverflow><%= activity.client.name %></div></td>
+        <% end %>        
       </tr>
     <% end %>
   </tbody>

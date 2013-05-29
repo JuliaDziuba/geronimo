@@ -1,11 +1,11 @@
 <% provide(:title, 'Clients') %>
-<% provide(:new_form, "new_client") %>
-
-<div id="new_client" class="not-displayed">
-  <%= render 'shared/form_client', client: @client %>
-</div>
 
 <% if @clients.any? %>
+	<% provide(:new_form, "new_client") %>
+
+	<div id="new_client" class="not-displayed">
+	  <%= render 'shared/form_client', client: @client %>
+	</div>
   <%= render 'shared/table_clients', clients: @clients %>
 <% else %>
 	<%= render 'shared/get_started_clients' %>

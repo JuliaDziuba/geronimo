@@ -1,15 +1,15 @@
 <% provide(:title, 'Work categories') %>
-<% provide(:new_form, "new_workcategory") %>
-
-<div id="new_workcategory" class="not-displayed">
-  <%= render 'shared/form_category', category: @category %>
-</div>
 
 <% if @workcategories.any? %>
-<ul class="list">
-  <% @workcategories.each do |workcategory| %>
-    <li class="spaced">
-      <%= render 'shared/list_element_workcategory', category: workcategory %>
+  <% provide(:new_form, "new_workcategory") %>
+
+  <div id="new_workcategory" class="not-displayed">
+    <%= render 'shared/form_category', category: @workcategory %>
+  </div>
+  <ul class="list">
+    <% @workcategories.each do |workcategory| %>
+      <li class="spaced">
+        <%= render 'shared/list_element_workcategory', category: workcategory %>
       	<ul class="sublist">
       		<% if workcategory.worksubcategories.any? %>
       			<% workcategory.worksubcategories.each do |worksubcategory| %>
@@ -17,13 +17,11 @@
            		<%= render 'shared/list_element_worksubcategory', category: workcategory, subcategory: worksubcategory %>
          		 </li>
         		<% end %>
-        	<% else %>
-      			<%= link_to 'Create a subcategory', new_workcategory_worksubcategory_path(workcategory) %>
-      		<% end %>
+        	<% end %>
       	</ul>
-    </li>
-  <% end %>
-</ul>
+      </li>
+    <% end %>
+  </ul>
 <% else %>
 	<%= render 'shared/get_started_workcategories' %>
 <% end %>

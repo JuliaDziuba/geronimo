@@ -1,8 +1,13 @@
 <% provide(:title, 'Works') %>
-<% provide(:new_link, new_work_path) %>
 
 <% if @works.any? %>
-  <%= render 'shared/table_works', works: @works %>
+	<% provide(:new_form, "new_work") %>
+
+	<div id="new_work" class="not-displayed">
+		<%= render 'shared/form_work', work: @work %>
+	</div>
+	<%= link_to "Manage Categories", workcategories_path %><br /><br />
+  <%= render 'shared/table_works', works: @works, include_category: true, include_subcategory: true%>
 <% else %>
 	<%= render 'shared/get_started_works' %>
 <% end %>

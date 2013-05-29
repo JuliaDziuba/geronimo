@@ -17,8 +17,8 @@ class SitesController < ApplicationController
 
   def show
     @site = current_user.sites.find(params[:id])
-    @works = @site.works.all
-    @venues = @site.venues.all
+    @additionalworks = current_user.works.not_on_site(@site)
+    @additionalvenues = current_user.venues.not_on_site(@site)
   end
 
   def edit

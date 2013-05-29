@@ -1,6 +1,7 @@
 <% provide(:crumbs, "Clients," + clients_path) %>
 <% provide(:title, @client.name) %>
 <% provide(:edit_form, "edit_client") %>
+<% provide(:delete_record, @client) %>
 
 <div id="edit_client" class="not-displayed">
   <%= render 'shared/form_client', client: @client %>
@@ -12,11 +13,11 @@
 	<%= render 'shared/client_address', client: @client %>
 </div>
 
-<% if !@activities.empty? %>
+<% if @activities.any? %>
 	<br />
 	<br />
-	<h2>Works <%= client.name %> Has</h2>
-	<%= render 'shared/table_activities', activities: @activities %>
+	<h2>Collected Works</h2>
+	<%= render 'shared/table_activities', activities: @activities, date_end_include: false, client_include: false %>
 	
 <% end %>
 

@@ -1,0 +1,50 @@
+<table id="Venues">
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Site</th>
+      <th>Stree Address</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip code</th>
+      <th>Works Consigned</th>
+      <th>Works Sold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% venues.each do |venue| %>
+      <tr>
+        <td><div class=overflow><%= venue.venuecategory.name %></div></td>
+        <td><div class=overflow><%= link_to venue.name, venue_path(venue) %></div></td>
+        <td><div class=overflow><%= venue.email %></div></td>
+        <td><div class=overflow><%= venue.phone %></div></td>
+        <td><div class=overflow><%= venue.site %></div></td>
+        <td><div class=overflow><%= venue.address_street %></div></td>
+        <td><div class=overflow><%= venue.address_city %></div></td>
+        <td><div class=overflow><%= venue.address_state %></div></td>
+        <td><div class=overflow><%= venue.address_zipcode %></div></td>
+        <td><div class=overflow>
+          <%= record = current_user.activitycategories.find_by_name('Consign')
+            if record.nil?
+              0
+            else
+              venue.activities.currentActivityCategory(record.id).count 
+            end
+          %>
+        </div></td>
+        <td><div class=overflow>
+          <%= record = current_user.activitycategories.find_by_name('Sale')
+            if record.nil?
+              0
+            else
+              venue.activities.previousActivityCategory(record.id).count 
+            end
+          %>
+        </div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

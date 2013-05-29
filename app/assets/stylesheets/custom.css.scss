@@ -184,7 +184,11 @@ a{
 
 .list {
   list-style: none;
-  margin: 5px 0 0 0;
+  margin: 3px 0 0 0;
+}
+
+.indent {
+	margin-left: 40px;
 }
 
 .list-name{
@@ -238,6 +242,26 @@ input {
 	margin:5px;
 }
 
+/* Tables */
+
+td, th {
+	border:1px solid white;
+  vertical-align:middle;
+  padding: 4px;
+}
+.overflow{
+	max-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.largeoverflow{
+	max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* Site about */
 

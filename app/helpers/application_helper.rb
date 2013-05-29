@@ -7,11 +7,9 @@ module ApplicationHelper
     if !signed_in? && page.empty?
       base_title
     elsif !signed_in?
-      "#{base_title} #{page}"
-    elsif page.empty?
-       "#{base_title} | " + current_user.name
-    else
       "#{base_title} | #{page}"
+    else
+      "#{base_title} | " + current_user.name
     end
   end
   

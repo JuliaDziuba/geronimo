@@ -39,6 +39,11 @@
                 <% if yield(:edit_form).present? %>
                   <a id=<%= yield(:edit_form)  + "_select" %> href=<%= "#" + yield(:edit_form) %>>edit</a>
                 <% end %>
+                <%if yield(:delete_record).present? %>&nbsp; 
+                  <%= link_to "delete", yield(:delete_record), method: :delete,
+                    data: { confirm: 'Delete?' },
+                    title: 'Delete?' %>
+                <% end %> 
               </span>
             </h1>
           </div>

@@ -5,9 +5,8 @@ Geronimo::Application.routes.draw do
   resources :workcategories , exclude: [:new] do
     resources :worksubcategories, exclude: [:index]
   end
-  resources :works
-  resources :venuecategories, exclude: [:new]
-  resources :venues
+  resources :works, exclude: [:new, :edit]
+  resources :venues, exclude: [:new, :edit]
   resources :clients, exclude: [:new, :edit]
   resources :activitycategories, exclude: [:new]
   resources :activities

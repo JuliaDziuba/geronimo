@@ -1,27 +1,18 @@
 <% provide(:title, 'Take Action') %>
 <h2>Works</h2>
-<% if @workcategories.any? %>
-	<ul class="list">
-	  <% @workcategories.each do |workcategory| %>
-	    <li>
-	      <%= render 'shared/list_element_workcategory', level: 'list', category: workcategory, edit: edit_workcategory_path(workcategory) %>
-	      <ul class="sublist">
-	      	<% workcategory.worksubcategories.each do |worksubcategory| %>
-	          <li>
-	            <%= render 'shared/list_element_worksubcategory', level: 'sublist', category: workcategory, subcategory: worksubcategory %>
-	          </li>
-	        <% end %>
-	      </ul>
-	    </li>
-	  <% end %>
-	</ul>
-<% else %>
-	<%= render 'shared/get_started_workcategories' %>
-<% end %>
-<% if @works.any? %>
-
-<% else %>
-	<%= render 'shared/get_started_works' %>
-<% end %>
+<ul class="list">
+  <% @workcategories.each do |workcategory| %>
+    <li>
+      <%= render 'shared/list_element_workcategory', level: 'list', category: workcategory, edit: edit_workcategory_path(workcategory) %>
+      <ul class="sublist">
+      	<% workcategory.worksubcategories.each do |worksubcategory| %>
+          <li>
+            <%= render 'shared/list_element_worksubcategory', level: 'sublist', category: workcategory, subcategory: worksubcategory %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+</ul>
 
 

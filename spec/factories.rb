@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :user do
-    sequence(:name)  { |n| "Person #{n}" }
-    sequence(:email) { |n| "person_#{n}@example.com"}   
-    password "foobar"
-    password_confirmation "foobar"
+    sequence(:name)  { |n| "Factory Worker" }
+    sequence(:email) { |n| "FactoryWorker@email.com"}   
+    password "password"
+    password_confirmation "password"
 
     factory :admin do
       admin true
@@ -53,9 +53,12 @@ FactoryGirl.define do
   end
 
   factory :activity do
+    date_start "2013-04-01"
+    date_end "2013-05-01"
     activitycategory 
     work 
     venue
+
   end
 
   factory :site do

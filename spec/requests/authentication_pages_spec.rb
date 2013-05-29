@@ -4,25 +4,21 @@ describe "Authentication" do
 
   subject { page }
 
-  describe "signin page" do
-    before { visit signin_path }
-
-    it { should have_selector('h1',    text: full_title('Sign in')) }
-    it { should have_selector('title', text: full_title('Sign in')) }
-  end
-
   describe "signin" do
 
     before { visit signin_path }
 
-    describe "with invalid information" do
-      before { click_button "Sign in" }
+    it { should have_selector('h1',    text: full_title('')) }
+    it { should have_selector('title', text: full_title('')) }
 
-      it { should have_selector('title', text: full_title('Sign in')) }
+    describe "with invalid information" do
+      before { click_button "Sign in!" }
+
+      it { should have_selector('title', text: full_title('')) }
       it { should have_selector('div.alert.alert-error', text: 'Invalid') }
 
       describe "after visiting another page" do
-        before { click_link "Sign up" }
+        before { click_link "Sign up!" }
         it { should_not have_selector('div.alert.alert-error') }
       end
     end
@@ -31,10 +27,9 @@ describe "Authentication" do
       let(:user) { FactoryGirl.create(:user) }
       before { sign_in user }
 
-      it { should have_selector('title', text: full_title('')) }
-      it { should have_link('settings', href: edit_user_path(user)) }
+      it { should have_selector('a', text: user.name) }
       it { should have_link('sign out', href: signout_path) }
-      it { should_not have_link('Sign in', href: signin_path) }
+      it { should_not have_link('Sign in!', href: signin_path) }
       
       describe "followed by signout" do
         before { click_link "sign out" }
@@ -53,13 +48,13 @@ describe "Authentication" do
           visit edit_user_path(user)
           fill_in "Email",    with: user.email
           fill_in "Password", with: user.password
-          click_button "Sign in"
+          click_button "Sign in!"
         end
 
         describe "after signing in" do
 
           it "should render the desired protected page" do
-            page.should have_selector('h1', text: 'Update your settings')
+            page.should have_selector('h1', text: 'Update')
           end
         end
       end
@@ -68,7 +63,7 @@ describe "Authentication" do
 
         describe "visiting the edit page" do
           before { visit edit_user_path(user) }
-          it { should have_selector('title', text: full_title('Sign in')) }
+          it { should have_link('Sign in!') }
         end
 
         describe "submitting to the update action" do
@@ -78,7 +73,7 @@ describe "Authentication" do
 
         describe "visiting the user page" do
           before { visit user_path(user) }
-          it { should have_selector('title', text: full_title('Sign in')) }
+          it { should have_link('Sign in!') }
         end
       end
 
@@ -102,7 +97,7 @@ describe "Authentication" do
 
       describe "visiting Users#edit page" do
         before { visit edit_user_path(wrong_user) }
-        it { should_not have_selector('h1', text: "Update your settings") }
+        it { should_not have_selector('h1', text: "Update") }
       end
 
       describe "submitting a PUT request to the Users#update action" do

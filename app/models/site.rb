@@ -35,6 +35,8 @@ class Site < ActiveRecord::Base
   has_many :works, :through => :siteworks
   has_many :venues,  :through => :sitevenues
 
+  accepts_nested_attributes_for :siteworks, :sitevenues, :allow_destroy => true
+
   validates :brand, presence: true, length: { maximum: 30 }  
   validates :user_id, presence: true
 

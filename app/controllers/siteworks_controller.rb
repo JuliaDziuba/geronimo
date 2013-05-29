@@ -16,7 +16,7 @@ class SiteworksController < ApplicationController
     @site = current_user.sites.find_by_id(params[:site_id])
     @sitework = Sitework.new
     @selected = @site.works.all
-    @unselected = current_user.works.all
+    @unselected = current_user.works.not_on_site(@site)
   end
 
   def destroy

@@ -1,12 +1,12 @@
-<% if !client.address_street.empty? %>        
+<% if !client.address_street.nil? %>        
   <%= client.address_street + ", " %>
 <% end %>
-<% if !client.address_city.empty? %>        
+<% if !client.address_city.nil? %>        
   <%= client.address_city + " " %>
 <% end %>
-<% if !client.address_state.empty? %>       
+<% if !client.address_state.nil? %>       
   <%= client.address_state + ", " %>
 <% end %>
-<% if !client.address_zipcode.to_s.empty? %>        
+<% if !client.address_zipcode.to_s.nil? %>        
   <%= client.address_zipcode.to_s %>
 <% end %>

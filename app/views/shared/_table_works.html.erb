@@ -1,21 +1,13 @@
-<% @uniquecategories = []
-   @uniquesubcategories = []
-   works.each do |work| 
-      @uniquecategories.push(work.worksubcategory.workcategory) if !@uniquecategories.include?(work.worksubcategory.workcategory)
-      @uniquesubcategories.push(work.worksubcategory) if !@uniquesubcategories.include?(work.worksubcategory)
-   end
-%>
 <table id="Works">
   <thead>
     <tr>
-      <% if @uniquecategories.length > 1 %>
+      <% if include_category %>
         <th>Category</th>
       <% end %>
-      <% if @uniquesubcategories.length > 1 %>
+      <% if include_subcategory %>
         <th>Subcategory</th>
       <% end %>
       <th>Status</th>
-      <th>Location</th>
       <th>Title</th>
       <th>Inventory ID</th>
       <th>Creation Date</th>
@@ -25,28 +17,22 @@
       <th>Dimention Units</th>
       <th>Expense Hours</th>
       <th>Expense Materials</th>
-      <th>Wholesale</th>
-      <th>Retail</th>
-      <th>Large Image Path</th>
-      <th>Small Image Path</th>
+      <th>Income</th>
+      <th>Retail Value</th>
     </tr>
   </thead>
   <tbody>
     <% works.each do |work| %>
       <tr>
-        <% if @uniquecategories.length > 1 %>
+        <% if include_category %>
           <td><div class=overflow><%= work.worksubcategory.workcategory.name %></div></td>
         <% end %>
-        <% if @uniquesubcategories.length > 1 %>
+        <% if include_subcategory %>
           <td><div class=overflow><%= work.worksubcategory.name %></div></td>
         <% end %>
-        <td><div class=overflow>"Status"</div></td>
-        <td><div class=overflow>"Location"</div></td>
-        <td><div class=overflow><%= link_to work.title, edit_work_path(work) %></td>
-        <td>
-          <div class=overflow><%= work.inventory_id %></div>
-          <!-- <%= best_in_place work, :inventory_id, :type => :input %> -->
-        </td>
+        <td><div class=largeoverflow><%= work.status %></div></td>
+        <td><div class=overflow><%= link_to work.title, work_path(work) %></td>
+        <td><div class=overflow><%= work.inventory_id %></div></td>
         <td><div class=overflow><%= work.creation_date %></div></td>
         <td><div class=overflow><%= work.description %></div></td>
         <td><div class=overflow><%= work.dimention1 %></div></td>
@@ -56,8 +42,6 @@
         <td><div class=overflow><%= work.expense_materials %></div></td>
         <td><div class=overflow><%= work.income_wholesale %></div></td>
         <td><div class=overflow><%= work.income_retail %></div></td>
-        <td><div class=overflow><%= work.path_image1 %></div></td>
-        <td><div class=overflow><%= work.path_small_image1 %></div></td>
       </tr>
     <% end %>
   </tbody>

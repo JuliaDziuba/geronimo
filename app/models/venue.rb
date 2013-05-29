@@ -30,4 +30,6 @@ class Venue < ActiveRecord::Base
   validates :venuecategory_id, presence: true
   
   default_scope order: 'venues.name'
+  scope :not_on_site, lambda { |site| where('not venues.id in (?)', site.venues.collect(&:id)) }
+  scope :all_except_storage, lambda { where('venues.name != ?', 'Storage') }
 end

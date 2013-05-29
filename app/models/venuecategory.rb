@@ -19,7 +19,5 @@ class Venuecategory < ActiveRecord::Base
   validates :name, presence: true, length: { maximum: 25 }
   validates :description, length: { maximum: 150 }
   validates :user_id, presence: true
-
-	default_scope order: 'venuecategories.name'
   
 end

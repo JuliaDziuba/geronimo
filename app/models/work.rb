@@ -34,5 +34,35 @@ class Work < ActiveRecord::Base
 	validates :title, presence: true, length: { maximum: 30 }
   validates :description, length: { maximum: 500 }
   validates :worksubcategory_id, presence: true
-	
+
+  scope :not_on_site, lambda { |site| where('not works.id in (?)', site.works.collect(&:id)) }
+  
+  def status
+  	u = self.user
+  	as = self.activities
+  	if as.count == 0
+  		'Available'
+  	else
+  		a = as.first
+  		s = a.activitycategory.status
+  		f = a.activitycategory.final
+  		if f
+  			s + ' to ' + a.client.name
+  		elsif a.date_start < Date.today && a.date_end > Date.today
+  			if s == 'Consigned'
+  				s + ' to ' + a.venue.name
+  			elsif s == 'Being created'
+  				s + ' by ' + a.client.name
+  			end
+  		else 
+  			'Available'
+  		end
+  	end
+  end
+
+  def available
+  	self.status == 'Available'
+  end
+
+ 
 end

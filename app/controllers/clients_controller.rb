@@ -5,9 +5,9 @@ class ClientsController < ApplicationController
   	@client = current_user.clients.build(params[:client])
     if @client.save
       # flash[:success] = "Your new client is created!""
-      redirect_to client_path(@client)
+      redirect_to clients_path
     else
-      render 'new'
+      render 'index'
     end
   end
 
@@ -16,7 +16,7 @@ class ClientsController < ApplicationController
     if @client.update_attributes(params[:client])
       redirect_to client_path(@client)
     else
-      render 'edit'
+      render 'show'
     end
   end
 
@@ -27,7 +27,7 @@ class ClientsController < ApplicationController
   end
 
   def index
-  	@clients = current_user.clients.all
+  	@clients = current_user.clients.all_known
     @client = current_user.clients.build if signed_in?
   end
 

@@ -1,6 +1,7 @@
-<% provide(:crumbs, "Venues," + venues_path + "|" + @venue.venuecategory.name + "," + venuecategory_path(@venue.venuecategory)) %>
+<% provide(:crumbs, 'Venues,' + venues_path + '|' + @venue.venuecategory.name + ',#') %>
 <% provide(:title, @venue.name) %>
 <% provide(:edit_form, "edit_venue") %>
+<% provide(:delete_record, @venue) %>
 
 <div id="edit_venue" class="not-displayed">
   <%= render 'shared/form_venue', venue: @venue %>
@@ -12,12 +13,17 @@
 	<%= render 'shared/venue_address', venue: @venue %>
 </div>
 
-<% if !@activities.empty? %>
-	<br />
-	<br />
+<br />
+<br />
+<% if @currentconsignments.any? %>
 	<h2>Works Currently Consigned</h2>
-	<%= render 'shared/table_activities', activities: @activities %>
+	<%= render 'shared/table_activities', activities: @currentconsignments, date_end_include: true, client_include: false %>
+<% end %>
+<% if @pastconsignments.any? %>
 	<h2>Works Previously Consigned</h2>
+	<%= render 'shared/table_activities', activities: @pastconsignments, date_end_include: true, client_include: false %>
+<% end %>
+<% if @sales.any? %>
 	<h2>Works Sold</h2>
-	
+	<%= render 'shared/table_activities', activities: @sales, date_end_include: false, client_include: false %>
 <% end %>

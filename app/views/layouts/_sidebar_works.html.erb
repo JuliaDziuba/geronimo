@@ -1,0 +1,33 @@
+<div class="accordion-heading">
+  <a class="accordion-toggle-small" data-toggle="collapse" data-parent="#accordianParent" href="#worksSection">
+      Works
+  </a>
+</div>
+<div id="worksSection" class="accordion-body collapse">
+  <div class="accordion-inner-small">
+    <ul class="accordion-list">
+      <li><%= link_to "All", works_path %> (<%= current_user.works.count %>)
+        <!-- WorkCategories -->
+        <ul class="accordion-list">
+          <% @current_user.workcategories.each do |workcategory| %>
+            <% if workcategory.works.count > 0 %>
+              <li>
+                <%= link_to workcategory.name, workcategory_path(workcategory) %> (<%= workcategory.works.count %>)
+                <ul class="accordion-list">
+                  <% workcategory.worksubcategories.each do |worksubcategory| %>
+                    <% if worksubcategory.works.count > 0 %>
+                      <li><%= link_to worksubcategory.name, workcategory_worksubcategory_path(workcategory, worksubcategory) %> (<%= worksubcategory.works.count %>)</li>
+                    <% end %>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      <!-- /WorkCategories -->
+      </li>
+      <li class="divider"></li>
+      <li><%= link_to "Manage Categories", workcategories_path %></li>
+    </ul>
+  </div>
+      </div>

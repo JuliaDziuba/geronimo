@@ -25,4 +25,5 @@ class Client < ActiveRecord::Base
 	validates :user_id, presence: true
   
   default_scope order: 'clients.name'
+  scope :all_known, lambda { where('clients.name != ?', 'Unknown') }
 end

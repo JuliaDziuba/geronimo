@@ -1,9 +1,14 @@
-<% provide(:crumbs, 'Works,' + works_path + "|" + @worksubcategory.workcategory.name + "," + workcategory_path(@worksubcategory.workcategory)) %>
+<% provide(:crumbs, 'Work categories,' + workcategories_path + "|" + @worksubcategory.workcategory.name + "," + workcategory_path(@workcategory)) %>
 <% provide(:title, @worksubcategory.name) %>
+<% provide(:edit_form, "edit_worksubcategory") %>
+<% provide(:delete_record, @worksubcategory) %>
+
+<div id="edit_worksubcategory" class="not-displayed">
+  <%= render 'shared/form_subcategory', category: @workcategory, subcategory: @worksubcategory %>
+</div>
+<%= @worksubcategory.description %>
 
 <% if @works.any? %>
-	<%= @worksubcategory.description %>
-  <%= render 'shared/table_works', works: @works %>
-<% else %>
-	<%= render 'shared/get_started_works' %>
+	<h2>Works</h2>
+  <%= render 'shared/table_works', works: @works, include_category: false, include_subcategory: false %>
 <% end %>

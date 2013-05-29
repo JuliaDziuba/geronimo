@@ -1,61 +1,42 @@
-<div>
-  <%= form_for(@client, :html => { :class => "form-horizontal" }) do |f| %>
-    <%= render 'shared/error_messages', object: f.object %>
-    <div class="row-fluid">   
-      <div class="span3">
-        <legend>General</legend>
-        <div class="control-group">
-          <%= f.label :name, :class => "control-label" %>
-          <div class="controls">
-                <%= f.text_field :name%>
-          </div>
-        </div>
-        <div class="control-group">
-          <%= f.label :phone, :class => "control-label" %>
-          <div class="controls">
-                <%= f.text_field :phone %>
-          </div>
-        </div>
-        <div class="control-group">
-          <%= f.label :email, :class => "control-label" %>
-          <div class="controls">
-                <%= f.text_field :email %>
-          </div>
-        </div>
-        </div>
+<%= form_for(@client, :html => { :class => "form-horizontal" }) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="row-fluid">   
+    <div class="span3">
+      <div class="control-group">
+        <%= f.label :name, :class => "control-label" %>
+        <div class="controls"><%= f.text_field :name%></div>
       </div>
-      <div class="span3 offset1">
-        <legend>Address</legend>
-        <div class="control-group">
-          <%= f.label :address_street, "Street address", :class => "control-label" %>
-          <div class="controls">
-                <%= f.text_field :address_street %>
-          </div>
-        </div>
-        <div class="control-group">
-          <%= f.label :address_city, "City", :class => "control-label" %>
-          <div class="controls">
-                <%= f.text_field :address_city %>
-          </div>
-        </div>
-        <div class="control-group">
-          <%= f.label :address_state, "State", :class => "control-label" %>
-          <div class="controls">
-                <%= f.text_field :address_state %>
-          </div>
-        </div>
-        <div class="control-group">
-          <%= f.label :address_zipcode, "Zip code", :class => "control-label" %>
-          <div class="controls">
-                <%= f.text_field :address_zipcode %>
-          </div>
-        </div>
+      <div class="control-group">
+        <%= f.label :phone, :class => "control-label" %>
+        <div class="controls"><%= f.text_field :phone %></div>
+      </div>
+      <div class="control-group">
+        <%= f.label :email, :class => "control-label" %>
+        <div class="controls"><%= f.text_field :email %></div>
       </div>
     </div>
-    <div class="row-fluid">
-      <div class="form-actions">
-        <%= f.submit "Create", class: "btn" %>
-      </div> 
+    <div class="span3 offset1">
+      <div class="control-group">
+        <%= f.label :address_street, "Street address", :class => "control-label" %>
+        <div class="controls"><%= f.text_field :address_street %></div>
+      </div>
+      <div class="control-group">
+        <%= f.label :address_city, "City", :class => "control-label" %>
+        <div class="controls"><%= f.text_field :address_city %></div>
+      </div>
+      <div class="control-group">
+        <%= f.label :address_state, "State", :class => "control-label" %>
+        <div class="controls"><%= f.text_field :address_state %></div>
+      </div>
+      <div class="control-group">
+        <%= f.label :address_zipcode, "Zip code", :class => "control-label" %>
+        <div class="controls"><%= f.text_field :address_zipcode %></div>
+      </div>
     </div>
-  <% end %>
-</div>
+  </div>
+  <div class="row-fluid">
+    <div class="form-actions">
+      <%= f.submit class: "btn" %>
+    </div> 
+  </div>
+<% end %>

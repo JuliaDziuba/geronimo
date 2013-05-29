@@ -1,9 +1,14 @@
 <% provide(:title, 'Venues') %>
 
 <% if @venues.any? %>
-  <%= render 'shared/list_venues', venues: @venues %>
+	<% provide(:new_form, "new_venue") %>
+
+	<div id="new_venue" class="not-displayed">
+		<%= render 'shared/form_venue', venue: @venue %>
+	</div>
+  <%= render 'shared/table_venues', venues: @venues %>
 <% else %>
-<p> Start adding venues for easier management of your business and works.</p>
+	<%= render 'shared/get_started_venues' %>
 <% end %>
 
 

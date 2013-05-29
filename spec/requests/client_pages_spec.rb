@@ -1,11 +1,60 @@
 require 'spec_helper'
 
-describe "ClientPages" do
-  describe "GET /client_pages" do
-    it "works! (now write some real specs)" do
-      # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      get client_pages_index_path
-      response.status.should be(200)
+describe "Client pages" do
+
+	subject { page }
+
+	let(:user) { FactoryGirl.create(:user) }
+	
+	before { sign_in user }
+
+	describe "index page" do
+
+    describe "when there are no clients" do
+      before { visit clients_path }
+      # it { should have_selector('title', text: full_title('New')) }
+      it { should have_selector('h1', text: "Clients") }
+      it { should have_selector('p', text: "Include") }
     end
+
+    describe "when there are clients" do
+      let(:client) { FactoryGirl.create(:client, user: user) }
+			before { visit clients_path }
+      
+      # it { should have_selector('title', text: full_title('New')) }
+      it { should have_selector('h1', text: "Clients") }
+      # it { should have_selector('ul', :class => "list") }
+    end
+
   end
+
+  describe  "show page" do
+		let(:client) { FactoryGirl.create(:client, user: user) }
+
+    describe "when there is no activity" do
+			before { visit client_path(client) }
+	    
+	    # it { should have_selector('title', text: full_title('New')) }
+	    it { should have_selector('a', text:  "Clients") }
+	    it { should have_selector('h1', text: client.name) }
+    end
+
+    describe "when there are activities" do
+    	let(:wc)   { FactoryGirl.create(:workcategory, user: user) }
+		  let(:wsc)  { FactoryGirl.create(:worksubcategory, workcategory: wc) }
+		  let(:w)    { FactoryGirl.create(:work, worksubcategory: wsc) }
+		  let(:vc)   { FactoryGirl.create(:venuecategory, user: user) }
+		  let(:v)    { FactoryGirl.create(:venue, venuecategory: vc) }
+		  let(:ac)   { FactoryGirl.create(:activitycategory, user: user) }
+			let(:a)   { FactoryGirl.create(:activity, activitycategory: ac, work: w, venue: v, client: client) }
+			before { visit client_path(client) }
+	    
+	    # it { should have_selector('title', text: full_title('New')) }
+	    it { should have_selector('a', text:  "Clients") }
+	    it { should have_selector('h1', text: client.name) }
+	    # it { should have_selector('table', :id => "Activities") }
+    end
+
+	end
+
 end

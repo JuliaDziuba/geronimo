@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Worktype pages" do
+describe "Workcategory pages" do
   
   subject { page }
 
@@ -10,59 +10,75 @@ describe "Worktype pages" do
   #Workcategories index
 
   describe "index page" do
+      
+    describe "when there are no workcategories" do
+      before { visit workcategories_path }
 
-    # This tests when there are workcategories but we need to test when there are no workcategories yet. 
-    before do
-    	let!(:wt1) { FactoryGirl.create(:workcategory, user: @user, name: "Banana Slings") }
-			let!(:wt2) { FactoryGirl.create(:workcategory, user: @user, name: "Apple Sacks") }
-    	visit workcategories_path
+      it { should have_selector('h1', text: "Work categories") }
+      it { should have_selector('p', text: "This tool has two primary features") }
+      it { should have_selector('h2', content: 'CREATE A CATEGORY') }
+
+      describe "workcategory creation" do
+
+        describe "workcategory creation with invalid creation" do
+          it "should not create a workcategory" do
+           expect { click_button "Create Workcategory" }.not_to change(Workcategory, :count)
+          end
+
+          describe "error messages" do
+            before { click_button "Create Workcategory" }
+            it { should have_content('There was a problem') } 
+          end
+        end
+
+        describe "with valid information" do
+
+          before { fill_in 'workcategory_name', with: "Paintings" }
+          
+          it "should create a workcategory" do
+           expect { click_button "Create Workcategory" }.to change(Workcategory, :count).by(1)
+         end
+        end
+      end
+
     end
 
-    it { should have_selector('h1',    text: 'Manage work types') }
-    it { should have_selector('title', text: full_title('Manage work types')) }
-		it { should have_content(user.workcategories.count) }
+    describe "when there are workcategories" do
     
-    it "should list each work type" do
-      user.workcategories.all.each do |workcategory|
-        page.should have_selector('li', text: user.workcategory.name)
+      let!(:wc1) { FactoryGirl.create(:workcategory, user: user, name: "Banana Slings") }
+      let!(:wc2) { FactoryGirl.create(:workcategory, user: user, name: "Apple Sacks") }
+      
+      before { visit workcategories_path }
+
+      it { should have_selector('h1',    text: 'Work categories') }
+      
+      it "should list each work type" do
+        user.workcategories.all.each do |workcategory|
+          should have_selector('li', text: workcategory.name)
+        end
+      end 
+
+      describe "workcategory destruction" do
+        before { FactoryGirl.create(:workcategory, user: user) }
+
+        it "should delete a workcategory" do
+          expect { click_link "Delete" }.to change(Workcategory, :count).by(-1)
+        end
       end
+    end # when there are workcategories
+  end # index page
+
+  describe "show page" do
+    let!(:wc) { FactoryGirl.create(:workcategory, user: user) }
+      
+    before do
+      visit workcategory_path(wc)
     end
 
-    # workcategory creation
-
-    describe "workcategory creation" do
-
-      describe "workcategory creation with invalid creation" do
-        it "should not create a workcategory" do
-         expect { click_button "Create new type" }.not_to change(Worktype, :count)
-        end
-
-        describe "error messages" do
-          before { click_button "Create new type" }
-          it { should have_content('error') } 
-        end
-      end
-
-      describe "with valid information" do
-
-        before do
-          fill_in 'workcategory_name', with: "Carrot Sticks"
-          fill_in 'workcategory_description', with: "Sticks of carrots"
-        end
-        it "should create a workcategory" do
-         expect { click_button "Create new type" }.to change(Worktype, :count).by(1)
-       end
-      end
-    end 
-
-    describe "workcategory destruction" do
-      before { FactoryGirl.create(:workcategory, user: user) }
-
-      it "should delete a workcategory" do
-        expect { click_link "delete" }.to change(Worktype, :count).by(-1)
-      end
-    end
-    # workcategoriesub creation
-
+    it { should have_selector('a', text:  "Work categories") }
+    it { should have_selector('a', text:  "edit") }
+    it { should have_selector('a', text:  "delete") }
+    it { should have_selector('h1', text: wc.name) }
   end
+
 end
