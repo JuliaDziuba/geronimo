@@ -1,7 +1,6 @@
 <% provide(:crumbs, "Works," + works_path) %>
 <% provide(:title, @work.title) %>
 <% provide(:delete_record, @work) %>
-
 <%= render 'shared/form_work', work: @work %>
 
 <p>This work is <%= @work.status %></p>
@@ -18,3 +17,5 @@
 <% if @activities.any? %>
 	<%= render 'shared/table_activities', activities: @activities, date_end_include: true, client_include: true %>
 <% end %>
+
+<%= params %>

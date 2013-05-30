@@ -13,16 +13,27 @@ class WorksController < ApplicationController
   end
 
   def update
-    @work = Work.find_by_id(params[:id]).update_attributes(params[:work])
-    if @work
-      redirect_to works_path
+    @work = current_user.works.find_by_id(params[:id])
+    if @work.update_attributes(params[:work])
+      redirect_to work_path(@work)
     else
+    #  @work.image1 = nil
+      @worksubcategories = subcategories
+      @activities = @work.activities.all
+
+      @activity = @activity = Activity.new
+      @activitycategories = current_user.activitycategories
+      @venues = current_user.venues.all_except_storage
+      @clients = current_user.clients
+      @works  = []
+      @works.push(@work)
       render 'show'
+      
     end
   end
 
   def show
-    @work = current_user.works.find(params[:id])
+    @work = current_user.works.find_by_id(params[:id])
     @worksubcategories = subcategories
     @activities = @work.activities.all
 

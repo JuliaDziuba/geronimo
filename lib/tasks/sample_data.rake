@@ -32,8 +32,6 @@ namespace :db do
             dimention1 = 16
             dimention2 = 36
             dimention_units = "inches"
-            path_image1 = "http://" + workcategory.name + "/" + worksubcategory.name + "/" + d.to_s() + ".jpg"
-            path_small_image1 = "http://" + workcategory.name + "/" + worksubcategory.name + "/" + d.to_s() + "SMALL.jpg"
             worksubcategory.works.create!(
               inventory_id: inventory_id,
               title: title, 
@@ -45,9 +43,7 @@ namespace :db do
               description: description, 
               dimention1: dimention1,
               dimention2: dimention2,
-              dimention_units: dimention_units,
-              path_image1: path_image1,
-              path_small_image1: path_small_image1
+              dimention_units: dimention_units
             )
           end
         end
@@ -99,22 +95,19 @@ namespace :db do
                 inventory_id: "080606", title: "Roman Sunset", creation_date: "20080606",
                 expense_hours: 2, expense_materials: 10, income_wholesale: 39, income_retail: 39,
                 description: "Composed of a 20x22mm italian yellow glass bought in Italy on Julia's honeymoon, 12x6mm pink quarts tear drops, 6mm crystal copper Swarovski faceted round, seed beads and sterling silver.", 
-                dimention1: 15.5, dimention2: 5, dimention_units: "inches",
-                path_image1: "http://juliadziuba.com/art/photos/jewelry/20080606RomanSunset.jpg", path_small_image1: "http://juliadziuba.com/art/photos/jewelry/20080606RomanSunsetSM.jpg"
+                dimention1: 15.5, dimention2: 5, dimention_units: "inches"
               )
         worksubcategory.works.create!(
                 inventory_id: "080701", title: "American Pride", creation_date: "20080701",
                 expense_hours: 1.5, expense_materials: 7.5, income_wholesale: 24, income_retail: 24,
                 description: "Composed of 25x18mm fire agate flat ovals, 6mm dark blue cats eye, 4mm carmelian gemstone rounds, glass beads and sterling silver.", 
-                dimention1: 15.5, dimention2: 5, dimention_units: "inches",
-                path_image1: "http://juliadziuba.com/art/photos/jewelry/20080606RomanSunset.jpg", path_small_image1: "http://juliadziuba.com/art/photos/jewelry/20080606RomanSunsetSM.jpg"
+                dimention1: 15.5, dimention2: 5, dimention_units: "inches"
               )
         worksubcategory.works.create!(
                 inventory_id: "081210", title: "Beaded Lace", creation_date: "20081210",
                 expense_hours: 9, expense_materials: 15, income_wholesale: 90, income_retail: 120,
                 description: "Composed of seed beads tightly woven in a 1 inch choker and adorned with a beaded flower in the same style and tassles.", 
-                dimention1: 13.16, dimention_units: "inches",
-                path_image1: "http://juliadziuba.com/art/photos/jewelry/20080606RomanSunset.jpg", path_small_image1: "http://juliadziuba.com/art/photos/jewelry/20080606RomanSunsetSM.jpg"
+                dimention1: 13.16, dimention_units: "inches"
               )
       worksubcategory = workcategory.worksubcategories.create!(name: "Collage", description: "")
       worksubcategory = workcategory.worksubcategories.create!(name: "Knotted", description: "")

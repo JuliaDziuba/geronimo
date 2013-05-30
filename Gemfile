@@ -21,6 +21,10 @@ group :development, :test do
   # gem 'spork', '0.9.2'
 end
 
+group :development, :production do
+  gem 'paperclip', '~> 3.0' 
+  gem 'cocaine', '0.3.2' 
+end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

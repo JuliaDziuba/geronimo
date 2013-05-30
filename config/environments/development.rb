@@ -34,4 +34,7 @@ Geronimo::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Tell Paperclip where ImageMagick lives
+  Paperclip.options[:command_path] = "c:\windows\system32\convert"
 end

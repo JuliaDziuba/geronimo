@@ -22,8 +22,10 @@
 #
 
 class Work < ActiveRecord::Base
-  attr_accessible :creation_date, :description, :dimention1, :dimention2, :dimention_units, :expense_hours, :expense_materials, :income_retail, :income_wholesale, :inventory_id, :path_image1, :path_small_image1, :title, :worksubcategory_id
-	belongs_to :worksubcategory
+  attr_accessible :creation_date, :description, :dimention1, :dimention2, :dimention_units, :expense_hours, :expense_materials, :image1, :income_retail, :income_wholesale, :inventory_id, :title, :worksubcategory_id
+	has_attached_file :image1, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+
+  belongs_to :worksubcategory
 	belongs_to :workcategory
 	belongs_to :user
 	has_many :activities

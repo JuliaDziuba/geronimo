@@ -13,13 +13,12 @@ class CreateWorks < ActiveRecord::Migration
       t.decimal :dimention1
       t.decimal :dimention2
       t.string  :dimention_units
-      t.string  :path_image1
-      t.string  :path_small_image1
 
       t.timestamps
     end
     add_index :works, [:worksubcategory_id]
     add_index :works, [:inventory_id]
     add_index :works, [:title]
+    add_attachment :works, :image1
   end
 end

@@ -160,10 +160,12 @@ ActiveRecord::Schema.define(:version => 20130517024939) do
     t.decimal  "dimention1"
     t.decimal  "dimention2"
     t.string   "dimention_units"
-    t.string   "path_image1"
-    t.string   "path_small_image1"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.string   "image1_file_name"
+    t.string   "image1_content_type"
+    t.integer  "image1_file_size"
+    t.datetime "image1_updated_at"
   end
 
   add_index "works", ["inventory_id"], :name => "index_works_on_inventory_id"
