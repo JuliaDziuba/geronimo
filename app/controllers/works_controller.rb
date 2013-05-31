@@ -34,7 +34,7 @@ class WorksController < ApplicationController
 
   def show
     @work = current_user.works.find_by_id(params[:id])
-    @worksubcategories = subcategories
+    @worksubcategories = Worksubcategory.full_categories(current_user)
     @activities = @work.activities.all
 
     @activity = @activity = Activity.new
@@ -46,9 +46,16 @@ class WorksController < ApplicationController
   end
 
   def index
+    @categoryfilter = params[:categoryfilter]
+    @categoryfilter = @categoryfilter.split('.') if !@categoryfilter.nil?
+    @statusfilter = params[:statusfilter]
     @workcategories = current_user.workcategories.all
-    @worksubcategories = subcategories
-    @works = current_user.works.all
+    @worksubcategories = Worksubcategory.full_categories(current_user)
+    if !@worksubcategoryfilter.nil?
+      @works = current_user.works.where(:worksubcategory_id => Worksubcategory.id_from_name(current_user, @categoryfilter[1]))
+    else
+      @works = current_user.works.all
+    end
     @workcategory = Workcategory.new
     @worksubcategory = Worksubcategory.new
     @work = Work.new
@@ -64,13 +71,6 @@ class WorksController < ApplicationController
     def correct_user
       @work = current_user.works.find_by_id(params[:id])
       redirect_to works_path if @work.nil?
-    end
-
-    def subcategories
-      @worksubcategories = current_user.worksubcategories
-      @worksubcategories.each do |worksubcategory|
-        worksubcategory[:name] = worksubcategory.workcategory.name + " > " + worksubcategory.name
-      end
     end
 
 end

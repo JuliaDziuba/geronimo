@@ -19,4 +19,17 @@ class Worksubcategory < ActiveRecord::Base
   validates :workcategory_id, presence: true
 
 	default_scope order: 'worksubcategories.name'
+	
+	class << self
+		def id_from_name(user, name)
+			user.worksubcategories.find_by_name(name).id
+		end
+
+		def full_categories(user)
+      worksubcategories = user.worksubcategories
+      worksubcategories.each do |worksubcategory|
+        worksubcategory[:name] = worksubcategory.workcategory.name + " > " + worksubcategory.name
+      end
+    end
+	end
 end

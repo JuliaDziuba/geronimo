@@ -6,8 +6,10 @@
 	<div id="new_work" class="not-displayed">
 		<%= render 'shared/form_work', work: @work %>
 	</div>
-	<%= link_to "Manage Categories", workcategories_path %><br /><br />
-  <%= render 'shared/table_works', works: @works, include_category: true, include_subcategory: true%>
+	<% if !@categoryfilter.nil? %>
+		Works have been filtered to show only <%= @categoryfilter[1] %> <%= @categoryfilter[0] %> works.
+	<% end %><br /><br />
+	<%= render 'shared/table_works', works: @works %>
 <% else %>
 	<%= render 'shared/get_started_works' %>
 <% end %>

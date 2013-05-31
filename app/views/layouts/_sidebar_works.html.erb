@@ -11,16 +11,11 @@
         <ul class="accordion-list">
           <% @current_user.workcategories.each do |workcategory| %>
             <% if workcategory.works.count > 0 %>
-              <li>
-                <%= link_to workcategory.name, workcategory_path(workcategory) %> (<%= workcategory.works.count %>)
-                <ul class="accordion-list">
-                  <% workcategory.worksubcategories.each do |worksubcategory| %>
-                    <% if worksubcategory.works.count > 0 %>
-                      <li><%= link_to worksubcategory.name, workcategory_worksubcategory_path(workcategory, worksubcategory) %> (<%= worksubcategory.works.count %>)</li>
-                    <% end %>
-                  <% end %>
-                </ul>
-              </li>
+              <% workcategory.worksubcategories.each do |worksubcategory| %>
+                <% if worksubcategory.works.count > 0 %>
+                  <li><%= link_to workcategory.name + ' > ' + worksubcategory.name, works_path(:categoryfilter => workcategory.name + '.' + worksubcategory.name) %> (<%= worksubcategory.works.count %>)</li>
+                <% end %>
+              <% end %>
             <% end %>
           <% end %>
         </ul>

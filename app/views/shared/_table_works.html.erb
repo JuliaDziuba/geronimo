@@ -1,10 +1,8 @@
 <table id="Works">
   <thead>
     <tr>
-      <% if include_category %>
+      <% if @categoryfilter.nil? %>
         <th>Category</th>
-      <% end %>
-      <% if include_subcategory %>
         <th>Subcategory</th>
       <% end %>
       <th>Status</th>
@@ -24,10 +22,8 @@
   <tbody>
     <% works.each do |work| %>
       <tr>
-        <% if include_category %>
+        <% if @categoryfilter.nil? %>
           <td><div class=overflow><%= work.worksubcategory.workcategory.name %></div></td>
-        <% end %>
-        <% if include_subcategory %>
           <td><div class=overflow><%= work.worksubcategory.name %></div></td>
         <% end %>
         <td><div class=largeoverflow><%= work.status %></div></td>

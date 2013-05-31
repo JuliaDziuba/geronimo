@@ -1,12 +1,6 @@
 class WorksubcategoriesController < ApplicationController
   before_filter :signed_in_user
 
-  def show
-    @workcategory = current_user.workcategories.find(params[:workcategory_id])
-    @worksubcategory = current_user.worksubcategories.find(params[:id])
-    @works = @worksubcategory.works
-  end
-
   def new
     @category = current_user.workcategories.find(params[:workcategory_id])
     @subcategory = Worksubcategory.new
