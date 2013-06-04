@@ -4,20 +4,20 @@
 <% provide(:delete_record, @client) %>
 
 <div id="edit_client" class="not-displayed">
-  <%= render 'shared/form_client', client: @client %>
+  <%= render 'form_client', client: @client %>
 </div>
 
 <div id="client_data">
-	<%= render 'shared/client_contact', client: @client %>
+	<%= render 'client_contact', client: @client %>
 	<br />
-	<%= render 'shared/client_address', client: @client %>
+	<%= render 'client_address', client: @client %>
 </div>
 
 <% if @activities.any? %>
 	<br />
 	<br />
 	<h2>Collected Works</h2>
-	<%= render 'shared/table_activities', activities: @activities, date_end_include: false, client_include: false %>
+	<%= render 'table_activities', activities: @activities, date_end_include: false, client_include: false %>
 	
 <% end %>
 

@@ -4,26 +4,26 @@
 <% provide(:delete_record, @venue) %>
 
 <div id="edit_venue" class="not-displayed">
-  <%= render 'shared/form_venue', venue: @venue %>
+  <%= render 'form_venue', venue: @venue, venuecategories: @venuecategories %>
 </div>
 
 <div id="venue_data">
-	<%= render 'shared/venue_contact', venue: @venue %>
+	<%= render 'venue_contact', venue: @venue %>
 	<br />
-	<%= render 'shared/venue_address', venue: @venue %>
+	<%= render 'venue_address', venue: @venue %>
 </div>
 
 <br />
 <br />
 <% if @currentconsignments.any? %>
 	<h2>Works Currently Consigned</h2>
-	<%= render 'shared/table_activities', activities: @currentconsignments, date_end_include: true, client_include: false %>
+	<%= render 'activities/table_activities', activities: @currentconsignments, date_end_include: true, client_include: false %>
 <% end %>
 <% if @pastconsignments.any? %>
 	<h2>Works Previously Consigned</h2>
-	<%= render 'shared/table_activities', activities: @pastconsignments, date_end_include: true, client_include: false %>
+	<%= render 'activities/table_activities', activities: @pastconsignments, date_end_include: true, client_include: false %>
 <% end %>
 <% if @sales.any? %>
 	<h2>Works Sold</h2>
-	<%= render 'shared/table_activities', activities: @sales, date_end_include: false, client_include: false %>
+	<%= render 'activities/table_activities', activities: @sales, date_end_include: false, client_include: false %>
 <% end %>

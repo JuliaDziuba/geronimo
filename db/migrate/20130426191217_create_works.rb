@@ -1,7 +1,8 @@
 class CreateWorks < ActiveRecord::Migration
   def change
     create_table :works do |t|
-      t.integer :worksubcategory_id
+      t.integer :user_id
+      t.integer :workcategory_id
       t.string  :inventory_id
       t.string  :title
       t.date    :creation_date
@@ -16,7 +17,8 @@ class CreateWorks < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :works, [:worksubcategory_id]
+    add_index :works, [:user_id]
+    add_index :works, [:workcategory_id]
     add_index :works, [:inventory_id]
     add_index :works, [:title]
     add_attachment :works, :image1

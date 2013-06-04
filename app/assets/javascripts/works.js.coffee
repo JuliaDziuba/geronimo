@@ -10,4 +10,7 @@ $ ->
   $('#edit_work_select').click ->
     $('#work_data').slideToggle()
     $('#edit_work').slideToggle()    
-   
+
+$ ->
+  $('#update_image_select').click ->
+    $('#update_image').slideToggle()   

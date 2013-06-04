@@ -10,7 +10,7 @@ describe "Work pages" do
 
 	describe "index page" do
 
-    describe "when there are no categories, subcategories, or works" do
+    describe "when there are no categories or works" do
 			before { visit works_path }
 
 			it { should have_selector('h1', text: "Works") }
@@ -18,14 +18,14 @@ describe "Work pages" do
       
     end
 
-    describe	"when there are categories but no subcategories or works" do
+    describe	"when there are categories but no works" do
 			let!(:wc)  { FactoryGirl.create(:workcategory, user: user) }
 
     	before { visit works_path }
 
     	it { should have_selector('h1', text: "Works") }
       it { should have_selector('p', text: "Great start creating categories!") }
-      it { should have_selector('a', content: "Create a subcategory") }
+      it { should_not have_selector('h2', text: "START UPLOADING WORKS!") }
       it { should have_selector('a', content: "Create another category") }
 
       # could add tests for creating a new category successfully and unsuccessfully
@@ -33,34 +33,21 @@ describe "Work pages" do
       
     end
 
-    describe "when there are categories and subcategories but no works do" do
-			let!(:wc)  { FactoryGirl.create(:workcategory, user: user) }
-			let!(:wsc)  { FactoryGirl.create(:worksubcategory, workcategory: wc) }
-
-			before { visit works_path }
-
-			it { should have_selector('h1', text: "Works") }
-      it { should have_selector('p', text: "Great start creating categories!") }
-      it { should_not have_selector('h2', text: "START UPLOADING WORKS!") }
-      
-    end
-
     describe "when there are works" do
-      let(:work) { FactoryGirl.create(:work, worksubcategory: wsc) }
+      let(:work) { FactoryGirl.create(:work, user: user) }
 			before { visit works_path }
       
       it { should have_selector('h1', text: "Works") }
-      it { should have_selector('a', content: "Manage Categories") }
       it { should_not have_selector('p', text: "START UPLOADING WORKS!") }
+
+      #TODO: cycle through works to make sure they are listed in table
       
     end
 
   end
 
   describe  "show page" do
-  	let!(:wc)  { FactoryGirl.create(:workcategory, user: user) }
-		let!(:wsc)  { FactoryGirl.create(:worksubcategory, workcategory: wc) }
-		let(:work) { FactoryGirl.create(:work, worksubcategory: wsc) }
+  	let(:work) { FactoryGirl.create(:work, user: user) }
 
     describe "when there is no activity" do
 			before { visit work_path(work) }
@@ -72,8 +59,7 @@ describe "Work pages" do
 
     describe "when there are activities" do
       let!(:c)    { FactoryGirl.create(:client, user: user) }
-    	let!(:vc)   { FactoryGirl.create(:venuecategory, user: user) }
-		  let!(:v)    { FactoryGirl.create(:venue, venuecategory: vc) }
+    	let!(:v)    { FactoryGirl.create(:venue, user: user) }
 
       describe "and piece is not available" do
         let!(:ac_sold)   { FactoryGirl.create(:activitycategory, user: user, name:'Sale', status:'Sold') }

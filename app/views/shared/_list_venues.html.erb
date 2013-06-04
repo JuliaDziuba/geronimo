@@ -8,9 +8,9 @@
           title: "Delete #{venue.name}?" %></span><br />
           <span class = "list-description"><%= venue.venuecategory.name %><br />
       <span class="list-description">
-        <%= render 'shared/venue_contact', venue: venue %>
-          <br />
-        <%= render 'shared/venue_address', venue: venue %>
+        <%= render 'venue_contact', venue: venue %>
+        <br />
+        <%= render 'venue_address', venue: venue %>
       </span>
     </li>
   <% end %>

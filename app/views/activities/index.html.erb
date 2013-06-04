@@ -2,15 +2,11 @@
 <% provide(:new_form, "new_activity") %>
 
 <div id="new_activity" class="not-displayed">
-	<%= render 'shared/form_activity', activity: @activity %>
+	<%= render 'form_activity', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>
 </div>
 
-<% @works.each do | work | %>
-	<%= work.title + " " + work.status %><br />
-<% end %>
-
 <% if @activities.any? %>
-  <%= render 'shared/table_activities', activities: @activities, date_end_include: true, client_include: true %>
+  <%= render 'table_activities', activities: @activities, date_end_include: true, client_include: true %>
 <% else %>
-	<%= render 'shared/get_started_activities' %>
+	<%= render 'get_started_activities' %>
 <% end %>

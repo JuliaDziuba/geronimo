@@ -1,0 +1,25 @@
+<p>This tool has two primary features 1)keep a detailed inventory of all works, track their movement as they find a home, and the income they generate and 2)generate a public profile for the artist to promote themselves and their work. To organize the inventory and public site we create categories and subcategories of work. A couple points to keep in mind:</p>
+<ul>
+	<li>Categories can be added, modified or deleted at any time.</li>
+	<li>Works can belong to a single category at a time but can be moved from category to category at any time.</li>
+	<li>Good categories capture a body of work you wish to present as a collection either because of when it was created and the common themes the collection may include or because of how it was created. Categories should not try to capture the "status" of the works since this will be automatically managed by the tool. </li>
+	
+</ul>
+<p> For example </p>
+<ul>
+	<li>Paintings
+		<ul>
+			<li>Early Figures</li>
+			<li>Costal Landscapes</li>
+			<li>Abstract Architecture</li>
+		</ul>
+	</li>
+	<li>Mixed media
+		<ul>
+			<li>Paper collage</li>
+			<li>Resin mixtures</li>
+		</ul>
+	</li>
+</ul>
+<h2>Create a Category </h2>
+<%= render 'workcategories/form_workcategory', category: @workcategory, categories: @parentcategories %>

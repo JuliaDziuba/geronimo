@@ -1,5 +1,5 @@
-<% provide(:crumbs, "Work categories," + workcategories_path + "|" + @category.name + "," + workcategory_path(@category))%>
+<% provide(:crumbs, "Work categories," + workcategories_path + "|" + @workcategory.name + "," + workcategory_path(@workcategory))%>
 <% provide(:title, 'Update') %>
 
-<%= render 'shared/form_category', category: @category %>
+<%= render 'form_workcategory', category: @workcategory, categories: @parentcategories %>
 

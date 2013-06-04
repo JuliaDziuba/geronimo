@@ -3,12 +3,12 @@ class WorkcategoriesController < ApplicationController
   # before_filter :correct_user,   only: :destroy
 
   def index
-  	@workcategories = current_user.workcategories.all
-#    @newcategory = current_user.workcategories.build if signed_in?
+  	@parentcategories = current_user.workcategories.parents_only
     @workcategory = Workcategory.new
   end
 
   def show
+    @parentcategories = current_user.workcategories.parents_only
     @workcategory = current_user.workcategories.find(params[:id])
     @works = @workcategory.works
   end
@@ -16,21 +16,30 @@ class WorkcategoriesController < ApplicationController
   def create
     @workcategory = current_user.workcategories.build(params[:workcategory])
     if @workcategory.save
-      # flash[:success] = "Your new type of works created! Add some works to it!"
-      redirect_after_create_update
+      # flash[:success] = "Your new category of works created! Add some works to it!"
+      redirect_to workcategories_url
     else
+      @parentcategories = current_user.workcategories.parents_only
       flash[:error] = "There was a problem with the work category you tried to create. It was not created."
-      render_after_create_update
+      render 'index'
     end
   end
 
   def edit
-    @category = current_user.workcategories.find_by_id(params[:id])
+    @workcategory = current_user.workcategories.find_by_id(params[:id])
+    # change line below to exclude @category.
+    if !@workcategory.children.any?
+      @parentcategories = current_user.workcategories.parents_only.excluding(@workcategory)
+    else 
+      @parentcategories = []
+    end
+    
   end
 
   def update
-    if current_user.workcategories.find_by_id(params[:id]).update_attributes(params[:workcategory])
-      redirect_after_create_update
+    @workcategory = current_user.workcategories.find_by_id(params[:id])
+    if @workcategory.update_attributes(params[:workcategory])
+      redirect_to workcategories_url
     else
       render 'edit'
     end
@@ -41,24 +50,4 @@ class WorkcategoriesController < ApplicationController
     redirect_to workcategories_path
   end
 
-  def redirect_after_create_update
-    if current_user.works.any?
-      redirect_to workcategories_url
-    else 
-      redirect_to works_url
-    end
-  end
-
-  def render_after_create_update
-    @workcategories = current_user.workcategories.all
-    @worksubcategories = current_user.worksubcategories.all
-    @works = current_user.works.all
-    @worksubcategory = Worksubcategory.new
-    @work = Work.new
-    if current_user.works.any?
-      render 'index'
-    else 
-      render 'works/index'
-    end
-  end
 end

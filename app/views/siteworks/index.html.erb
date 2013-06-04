@@ -2,7 +2,7 @@
 <% provide(:title, "Site works") %>
 
 <% if !@selected.nil? %>
-  <%= render 'shared/table_works', works: @selected %>
+  <%= render 'works/table_works', works: @selected %>
 <% else %>
 	Select works to display on your pubic site. 
 <% end %>

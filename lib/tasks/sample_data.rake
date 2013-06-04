@@ -15,41 +15,37 @@ namespace :db do
         description = Faker::Lorem.sentence(5)
         workcategory = user.workcategories.create!(name: name, description: description)
         
-        2.times do |c|
-          name = Faker::Name.last_name
-          description = Faker::Lorem.sentence(8)
-          worksubcategory = workcategory.worksubcategories.create!(name: name, description: description)
-
-          10.times do |d|
-            inventory_id = Faker::Address.zip_code
-            title = Faker::Name.name
-            creation_date = DateTime.new(2012,1,2) 
-            expense_hours = 5
-            expense_materials = 30
-            income_wholesale = 100
-            income_retail = 120
-            description = Faker::Lorem.sentence(10)
-            dimention1 = 16
-            dimention2 = 36
-            dimention_units = "inches"
-            worksubcategory.works.create!(
-              inventory_id: inventory_id,
-              title: title, 
-              creation_date: creation_date,
-              expense_hours: expense_hours,
-              expense_materials: expense_materials,
-              income_wholesale: income_wholesale,
-              income_retail: income_retail,
-              description: description, 
-              dimention1: dimention1,
-              dimention2: dimention2,
-              dimention_units: dimention_units
-            )
-          end
+  
+        10.times do |c|
+          inventory_id = Faker::Address.zip_code
+          title = Faker::Name.name
+          creation_date = DateTime.new(2012,1,2) 
+          expense_hours = 5
+          expense_materials = 30
+          income_wholesale = 100
+          income_retail = 120
+          description = Faker::Lorem.sentence(10)
+          dimention1 = 16
+          dimention2 = 36
+          dimention_units = "inches"
+          user.works.create!(
+            workcategory_id: workcategory.id,
+            inventory_id: inventory_id,
+            title: title, 
+            creation_date: creation_date,
+            expense_hours: expense_hours,
+            expense_materials: expense_materials,
+            income_wholesale: income_wholesale,
+            income_retail: income_retail,
+            description: description, 
+            dimention1: dimention1,
+            dimention2: dimention2,
+            dimention_units: dimention_units
+          )
         end
       end
-      @venues = ["Galleries", "Boutiques", "Booths", "Online", "Studio"]
-      @venues.each do |b|
+      @categories = ["Galleries", "Boutiques", "Booths", "Online", "Studio"]
+      @categories.each do |b|
         name = b
         description = Faker::Lorem.sentence(5)
         venuecategory = user.venuecategories.create!(name: name, description: description)
@@ -64,7 +60,8 @@ namespace :db do
           email = Faker::Internet.email()
           site = Faker::Internet.domain_name()
 
-          venuecategory.venues.create!(
+          user.venues.create!(
+            venuecategory_id: venuecategory.id,
             name: name,
             phone: phone,
             address_street: address_street,
@@ -87,44 +84,42 @@ namespace :db do
     desc "Add my data"
     user = User.create!(name: "Julia Dziuba", email: "julia@juliadziuba.com", password: "password", password_confirmation: "password")
     workcategory = user.workcategories.create!(name: "Paintings")
-      worksubcategory = workcategory.worksubcategories.create!(name: "Acrylic", description: "Acrylic paintings on canvas")
-      worksubcategory = workcategory.worksubcategories.create!(name: "Mixed Media", description: "Mixed media art, usually on canvas")
+      user.workcategories.create!(name: "Collage", parent_id: workcategory.id)
     workcategory = user.workcategories.create!(name: "Jewelry") 
-      worksubcategory = workcategory.worksubcategories.create!(name: "Beaded", description: "")
-        worksubcategory.works.create!(
-                inventory_id: "080606", title: "Roman Sunset", creation_date: "20080606",
+      user.workcategories.create!(name: "Knotted", parent_id: workcategory.id)
+    workcategory = user.workcategories.create!(name: "Beaded", parent_id: workcategory.id)
+        user.works.create!(
+                workcategory_id: workcategory.id, inventory_id: "080606", title: "Roman Sunset", creation_date: "20080606",
                 expense_hours: 2, expense_materials: 10, income_wholesale: 39, income_retail: 39,
                 description: "Composed of a 20x22mm italian yellow glass bought in Italy on Julia's honeymoon, 12x6mm pink quarts tear drops, 6mm crystal copper Swarovski faceted round, seed beads and sterling silver.", 
                 dimention1: 15.5, dimention2: 5, dimention_units: "inches"
               )
-        worksubcategory.works.create!(
-                inventory_id: "080701", title: "American Pride", creation_date: "20080701",
+        user.works.create!(
+                workcategory_id: workcategory.id, inventory_id: "080701", title: "American Pride", creation_date: "20080701",
                 expense_hours: 1.5, expense_materials: 7.5, income_wholesale: 24, income_retail: 24,
                 description: "Composed of 25x18mm fire agate flat ovals, 6mm dark blue cats eye, 4mm carmelian gemstone rounds, glass beads and sterling silver.", 
                 dimention1: 15.5, dimention2: 5, dimention_units: "inches"
               )
-        worksubcategory.works.create!(
-                inventory_id: "081210", title: "Beaded Lace", creation_date: "20081210",
+        user.works.create!(
+                workcategory_id: workcategory.id, inventory_id: "081210", title: "Beaded Lace", creation_date: "20081210",
                 expense_hours: 9, expense_materials: 15, income_wholesale: 90, income_retail: 120,
                 description: "Composed of seed beads tightly woven in a 1 inch choker and adorned with a beaded flower in the same style and tassles.", 
                 dimention1: 13.16, dimention_units: "inches"
               )
-      worksubcategory = workcategory.worksubcategories.create!(name: "Collage", description: "")
-      worksubcategory = workcategory.worksubcategories.create!(name: "Knotted", description: "")
     venuecategory = user.venuecategories.create!(name: "Galleries")
-      venuecategory.venues.create!(name: "Sun Gallery")
+      user.venues.create!(name: "Sun Gallery", venuecategory_id: venuecategory.id)
     venuecategory = user.venuecategories.create!(name: "Boutiques")
-      venuecategory.venues.create!(name: "Personal FX")
+      user.venues.create!(name: "Personal FX", venuecategory_id: venuecategory.id)
     user.venuecategories.create!(name: "Booths")
     user.venuecategories.create!(name: "Online")
     user.venuecategories.create!(name: "Studios")
     user.activitycategories.create!(name: "Sale", status: "Sold", final:true, description: "Sale of a work.")
-    user.activitycategories.create!(name: "Commission", status: "Requested", final: false, description: "Commission of work started, sale to follow.")
+    user.activitycategories.create!(name: "Commission", status: "Commissioned", final: false, description: "Commission of work started, sale to follow.")
     user.activitycategories.create!(name: "Consign", status: "Consigned", final: false, description: "Consignment of a work, hoping sale follows.")
     user.activitycategories.create!(name: "Gift", status: "Gifted", final: true, description: "Gift a work.")
     user.activitycategories.create!(name: "Donate", status: "Donated", final: true, description: "Donate a work.")
     user.activitycategories.create!(name: "Recycle", status: "Recycled", final: true, description: "Recycle a work to create improved visions.")
-    user.venuecategories.find_by_name('Studios').venues.create!(name: 'Storage')
+    user.venues.create!(name: 'Storage')
     user.clients.create!(name: "Unknown")  
     user.sites.create!(
       domain: "http://juliadziuba.com",

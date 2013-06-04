@@ -19,11 +19,8 @@ describe "Activity pages" do
   	end
 
   	describe "when there are activities" do
-	  	let(:wc)   { FactoryGirl.create(:workcategory, user: user) }
-		  let(:wsc)  { FactoryGirl.create(:worksubcategory, workcategory: wc) }
-		  let(:w)    { FactoryGirl.create(:work, worksubcategory: wsc) }
-		  let(:vc)   { FactoryGirl.create(:venuecategory, user: user) }
-		  let(:v)    { FactoryGirl.create(:venue, venuecategory: vc) }
+	  	let(:w)    { FactoryGirl.create(:work, user: user) }
+		  let(:v)    { FactoryGirl.create(:venue, user: user) }
 			let(:a)   { FactoryGirl.create(:activity, activitycategory: ac, work: w, venue: v) }
 			before { visit activities_path }
 			
@@ -34,11 +31,8 @@ describe "Activity pages" do
 	end
 
 	describe "edit page" do
-		let(:wc)   { FactoryGirl.create(:workcategory, user: user) }
-	  let(:wsc)  { FactoryGirl.create(:worksubcategory, workcategory: wc) }
-	  let(:w)    { FactoryGirl.create(:work, worksubcategory: wsc) }
-	  let(:vc)   { FactoryGirl.create(:venuecategory, user: user) }
-	  let(:v)    { FactoryGirl.create(:venue, venuecategory: vc) }
+		let(:w)    { FactoryGirl.create(:work, user: user) }
+	  let(:v)    { FactoryGirl.create(:venue, user: user) }
 		let(:a)   { FactoryGirl.create(:activity, activitycategory: ac, work: w, venue: v) }
 
 		before { visit edit_activity_path(a) }

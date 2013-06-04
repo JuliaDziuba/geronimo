@@ -4,12 +4,14 @@
 	<% provide(:new_form, "new_work") %>
 
 	<div id="new_work" class="not-displayed">
-		<%= render 'shared/form_work', work: @work %>
+		<%= render 'form_work', work: @work, categories: @workcategories %>
 	</div>
 	<% if !@categoryfilter.nil? %>
 		Works have been filtered to show only <%= @categoryfilter[1] %> <%= @categoryfilter[0] %> works.
+	<% elsif !@statusfilter.nil? %>
+		Works have been filtered to show only <%= @statusfilter %> works.
 	<% end %><br /><br />
-	<%= render 'shared/table_works', works: @works %>
+	<%= render 'table_works', works: @works %>
 <% else %>
-	<%= render 'shared/get_started_works' %>
+	<%= render 'get_started_works', parentcategories: @parentcategories, categories: @workcategories, workcategory: @workcategory%>
 <% end %>

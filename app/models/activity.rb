@@ -24,7 +24,8 @@ class Activity < ActiveRecord::Base
 	belongs_to :client
 	belongs_to :user
 
-	before_validation :set_date_end, :set_client
+	before_validation :set_client
+  after_validation :set_date_end
 
 	validates :activitycategory_id, presence: true
 	validates :venue_id, presence: true
@@ -38,10 +39,11 @@ class Activity < ActiveRecord::Base
   scope :currentActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end > :date) AND (date_start <= :date)', { id: id, date: Date.today })  }
   scope :previousActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end < :date)', { id: id, date: Date.today })  }
   
-	private
+
+  private
 
     def set_date_end
-      self.date_end = self.date_start if self.activitycategory.final 
+      self.date_end = self.date_start if !self.activitycategory.nil? && self.activitycategory.final 
     end
 
     def set_client

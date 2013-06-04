@@ -32,7 +32,6 @@ describe User do
   it { should respond_to(:admin) }
   it { should respond_to(:authenticate) }
   it { should respond_to(:workcategories) }
-  it { should respond_to(:worksubcategories) }
   it { should respond_to(:works) }
   it { should respond_to(:venuecategories) }
   it { should respond_to(:venues) }
@@ -161,30 +160,28 @@ describe User do
     let!(:a_workcategory) do
       FactoryGirl.create(:workcategory, user: @user, name: "Apple Sacks", description: "Sacks for apples")
     end
-    let!(:wsc) do
-      FactoryGirl.create(:worksubcategory, workcategory: b_workcategory, name: "Red Apple Sacks", description: "Sacks for red apples")
+    let!(:work_1) do
+      FactoryGirl.create(:work, user: @user, title: "A work", creation_date:"2012-01-01")
     end
-    let!(:w) do
-      FactoryGirl.create(:work, worksubcategory: wsc, title: "Red slices", description: "A sack with red slices on it")
+    let!(:work_2) do
+      FactoryGirl.create(:work, user: @user, title: "Another work", creation_date: "2013-01-01")
     end
 
-    it "should have the right types in the right order" do
+    it "should have the right categories in the right order" do
       @user.workcategories.should == [a_workcategory, b_workcategory]
     end
 
-    it "should destroy associated workcategories, worksubcategories, and works" do
+    it "should have the right works in the right order" do
+      @user.works.should == [work_2, work_1]
+    end
+
+    it "should destroy associated workcategories, and works" do
       workcategories = @user.workcategories.dup
-      worksubcategories = @user.worksubcategories.dup
       works = @user.works.dup
       @user.destroy
       workcategories.should_not be_empty
       workcategories.each do |workcategory|
         Workcategory.find_by_id(workcategory.id).should be_nil
-      end
-
-      worksubcategories.should_not be_empty
-      worksubcategories.each do |worksubcategory|
-        Worksubcategory.find_by_id(worksubcategory.id).should be_nil
       end
 
       works.should_not be_empty
@@ -207,12 +204,19 @@ describe User do
     let!(:a_venuecategory) do
       FactoryGirl.create(:venuecategory, user: @user, name: "Boutiques", description: "Boutiques in the United States.")
     end
+    let!(:b_venue) do
+      FactoryGirl.create(:venue, user: @user, name: "Beauty Boutique")
+    end
     let!(:a_venue) do
-      FactoryGirl.create(:venue, venuecategory: a_venuecategory, name: "Beauty Boutique")
+      FactoryGirl.create(:venue, user: @user, name: "A Boutique")
     end
 
-    it "should have the right types in the right order" do
-      @user.venuecategories.should == [a_venuecategory, b_venuecategory]
+    it "should have the right categories in the right order" do
+      @user.venuecategories.should == [b_venuecategory, a_venuecategory]
+    end
+
+    it "should have the right venues in the right order" do
+      @user.venues.should == [a_venue, b_venue]
     end
 
     it "should destroy associated venuecategories and venues" do
@@ -244,6 +248,7 @@ describe User do
       FactoryGirl.create(:activitycategory, user: @user, name: "Consign", description: "Consigned to a venue.", final: false)
     end
     
+    # Add tests for activities
 
     it "should have the right types in the right order" do
       @user.activitycategories.should == [a_activitycategory, b_activitycategory]
@@ -267,12 +272,11 @@ describe User do
     let!(:b_client) do 
       FactoryGirl.create(:client, user: @user, name: "Susie Deep Pockets")
     end
-
     let!(:a_client) do 
       FactoryGirl.create(:client, user: @user, name: "Betty Deep Pockets")
     end
 
-    it "should have the right types in the right order" do
+    it "should have the right clients in the right order" do
       @user.clients.should == [a_client, b_client]
     end
 

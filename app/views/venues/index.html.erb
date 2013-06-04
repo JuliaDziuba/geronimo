@@ -4,11 +4,11 @@
 	<% provide(:new_form, "new_venue") %>
 
 	<div id="new_venue" class="not-displayed">
-		<%= render 'shared/form_venue', venue: @venue %>
+		<%= render 'form_venue', venue: @venue, venuecategories: @venuecategories %>
 	</div>
-  <%= render 'shared/table_venues', venues: @venues %>
+  <%= render 'table_venues', venues: @venues %>
 <% else %>
-	<%= render 'shared/get_started_venues' %>
+	<%= render 'get_started_venues' %>
 <% end %>
 
 

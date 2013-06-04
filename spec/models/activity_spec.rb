@@ -19,14 +19,11 @@ require 'spec_helper'
 
 describe Activity do
   let(:user) { FactoryGirl.create(:user) }
-  let(:wc)   { FactoryGirl.create(:workcategory, user: user) }
-  let(:wsc)  { FactoryGirl.create(:worksubcategory, workcategory: wc) }
-  let(:w)    { FactoryGirl.create(:work, worksubcategory: wsc) }
-  let(:vc)   { FactoryGirl.create(:venuecategory, user: user) }
-  let(:v)    { FactoryGirl.create(:venue, venuecategory: vc) }
+  let(:w)    { FactoryGirl.create(:work, user: user) }
+  let(:v)    { FactoryGirl.create(:venue, user: user) }
   let(:c)    { FactoryGirl.create(:client, user: user) }
   let(:ac)   { FactoryGirl.create(:activitycategory, user: user) }
-  before { @activity = ac.activities.build(work_id: w.id, venue_id: v.id, client_id: c.id) }
+  before { @activity = ac.activities.build(work_id: w.id, venue_id: v.id, client_id: c.id, date_start: '2013-01-01') }
   
   subject { @activity }
  

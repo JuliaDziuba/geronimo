@@ -20,20 +20,16 @@ require 'spec_helper'
 
 describe Venue do
   let(:user) { FactoryGirl.create(:user) }
-  let(:vc) { FactoryGirl.create(:venuecategory, user: user, name: "Galleries") }
-  let(:site) { FactoryGirl.create(:site, user: user) }
-  before { @venue = vc.venues.build(name: "Last Stop") }
+  before { @venue = user.venues.build(name: "Last Stop") }
   
   subject { @venue }
 
-  it { should respond_to(:venuecategory) }
-  its(:venuecategory) { should == vc }
-
-  it { should respond_to(:sitevenues) }
-  it { should respond_to(:sites) }
-  
-
+  its(:user) { should == user }
   it { should respond_to(:user) }
+  it { should respond_to(:sites) }
+  it { should respond_to(:sitevenues) }
+
+  it { should respond_to(:user_id) }
   it { should respond_to(:venuecategory_id) }
   it { should respond_to(:name) }
   it { should respond_to(:phone) }
@@ -56,8 +52,13 @@ describe Venue do
     end    
   end
 
-  describe "when venuecategory_id is not present" do
-    before { @venue.venuecategory_id = nil}
+  describe "when user_id is not present" do
+    before { @venue.user_id = nil}
+    it { should_not be_valid }
+  end
+
+  describe "when name is not present" do
+    before { @venue.name = nil}
     it { should_not be_valid }
   end
 
@@ -72,8 +73,9 @@ describe Venue do
   end
 
   it "should destroy associated sitevenues" do
+    let(:site) { FactoryGirl.create(:site, user: user) }
     let!(:sw) do
-      FactoryGirl.create(:sitevenue, site: @site, venue: @venue)
+      FactoryGirl.create(:sitevenue, site: site, venue: @venue)
     end
     sitevenues = @venue.sitevenues.dup
     @venue.destroy

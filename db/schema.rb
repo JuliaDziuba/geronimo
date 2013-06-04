@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(:version => 20130517024939) do
   add_index "venuecategories", ["user_id"], :name => "index_venuecategories_on_user_id"
 
   create_table "venues", :force => true do |t|
+    t.integer  "user_id"
     t.integer  "venuecategory_id"
     t.string   "name"
     t.integer  "phone"
@@ -137,18 +138,22 @@ ActiveRecord::Schema.define(:version => 20130517024939) do
     t.datetime "updated_at",       :null => false
   end
 
+  add_index "venues", ["user_id"], :name => "index_venues_on_user_id"
   add_index "venues", ["venuecategory_id"], :name => "index_venues_on_venuecategory_id"
 
   create_table "workcategories", :force => true do |t|
+    t.integer "user_id"
     t.string  "name"
     t.string  "description"
-    t.integer "user_id"
+    t.integer "parent_id"
   end
 
-  add_index "workcategories", ["user_id", "name"], :name => "index_workcategories_on_user_id_and_name"
+  add_index "workcategories", ["parent_id"], :name => "index_workcategories_on_parent_id"
+  add_index "workcategories", ["user_id"], :name => "index_workcategories_on_user_id"
 
   create_table "works", :force => true do |t|
-    t.integer  "worksubcategory_id"
+    t.integer  "user_id"
+    t.integer  "workcategory_id"
     t.string   "inventory_id"
     t.string   "title"
     t.date     "creation_date"
@@ -170,15 +175,7 @@ ActiveRecord::Schema.define(:version => 20130517024939) do
 
   add_index "works", ["inventory_id"], :name => "index_works_on_inventory_id"
   add_index "works", ["title"], :name => "index_works_on_title"
-  add_index "works", ["worksubcategory_id"], :name => "index_works_on_worksubcategory_id"
-
-  create_table "worksubcategories", :force => true do |t|
-    t.string  "name"
-    t.string  "description"
-    t.integer "workcategory_id"
-  end
-
-  add_index "worksubcategories", ["workcategory_id", "name"], :name => "index_worksubcategories_on_workcategory_id_and_name"
-  add_index "worksubcategories", ["workcategory_id"], :name => "index_worksubcategories_on_workcategory_id"
+  add_index "works", ["user_id"], :name => "index_works_on_user_id"
+  add_index "works", ["workcategory_id"], :name => "index_works_on_workcategory_id"
 
 end

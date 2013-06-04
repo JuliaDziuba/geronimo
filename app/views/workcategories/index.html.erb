@@ -1,20 +1,20 @@
 <% provide(:title, 'Work categories') %>
 
-<% if @workcategories.any? %>
+<% if @parentcategories.any? %>
   <% provide(:new_form, "new_workcategory") %>
 
   <div id="new_workcategory" class="not-displayed">
-    <%= render 'shared/form_category', category: @workcategory %>
+    <%= render 'form_workcategory', category: @workcategory, categories: @parentcategories %>
   </div>
   <ul class="list">
-    <% @workcategories.each do |workcategory| %>
+    <% @parentcategories.each do |parent| %>
       <li class="spaced">
-        <%= render 'shared/list_element_workcategory', category: workcategory %>
+        <%= render 'list_element_workcategory', category: parent %>
       	<ul class="sublist">
-      		<% if workcategory.worksubcategories.any? %>
-      			<% workcategory.worksubcategories.each do |worksubcategory| %>
+      		<% if parent.children.any? %>
+      			<% parent.children.each do |child| %>
          	 		<li class="spaced">
-           		<%= render 'shared/list_element_worksubcategory', category: workcategory, subcategory: worksubcategory %>
+           		<%= render 'list_element_workcategory', category: child %>
          		 </li>
         		<% end %>
         	<% end %>
@@ -23,5 +23,5 @@
     <% end %>
   </ul>
 <% else %>
-	<%= render 'shared/get_started_workcategories' %>
+	<%= render 'get_started_workcategories' %>
 <% end %>

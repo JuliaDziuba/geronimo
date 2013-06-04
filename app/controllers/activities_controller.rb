@@ -11,31 +11,28 @@ class ActivitiesController < ApplicationController
   end
 
   def show
-    @activity = current_user.activity.find(params[:id])
+    @activity = current_user.activities.find(params[:id])
+    @activitycategories = current_user.activitycategories
+    @works = current_user.works.available
+    @venues = current_user.venues.all_except_storage
+    @clients = current_user.clients
   end
 
   def index
   	@activities = current_user.activities.all
     @activity = Activity.new
     @activitycategories = current_user.activitycategories
+    @works = current_user.works.available
     @venues = current_user.venues.all_except_storage
-    @works  = []
-    @allworks = current_user.works.all
-    @allworks.each do |work|
-      @works.push(work) if work.status == 'Available'
-    end
     @clients = current_user.clients
   end
 
 	def edit
     @activity = current_user.activities.find_by_id(params[:id])
     @activitycategories = current_user.activitycategories
-  	@venues = current_user.venues
-  	@allworks = current_user.works
-    @allworks.each do |work|
-      @works.push(work) if work.status == 'Available'
-    end
-    @clients = current_user.clients
+  	@works = current_user.works.available
+    @venues = current_user.venues.all_except_storage
+  	@clients = current_user.clients
   end
 
   def update

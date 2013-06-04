@@ -26,22 +26,20 @@ require 'spec_helper'
 describe Work do
   
   let(:user) { FactoryGirl.create(:user) }
-  let(:wc) { FactoryGirl.create(:workcategory, user: user) }
-  let(:wsc) { FactoryGirl.create(:worksubcategory, workcategory: wc) }
-  let(:site) { FactoryGirl.create(:site, user: user) }
-  before { @work = wsc.works.build(title: "A Day in the Life", description: "Handmade wooden fruit") }
+  before { @work = user.works.build(title: "A Day in the Life", creation_date: "2013-01-01") }
   
   subject { @work }
 
+  its(:user) { should == user }
   it { should respond_to(:user) }
   it { should respond_to(:workcategory) }
-  it { should respond_to(:worksubcategory) }
-  its(:worksubcategory) { should == wsc }
-
   it { should respond_to(:siteworks) }
   it { should respond_to(:sites) }
+
+  # add respond to tests for image attached
   
-  it { should respond_to(:worksubcategory_id) }
+  it { should respond_to(:user_id) }
+  it { should respond_to(:workcategory_id) }
   it { should respond_to(:inventory_id) }
   it { should respond_to(:title) }
   it { should respond_to(:creation_date) }
@@ -53,9 +51,6 @@ describe Work do
   it { should respond_to(:dimention1) }
   it { should respond_to(:dimention2) }
   it { should respond_to(:dimention_units) }
-  it { should respond_to(:path_image1) }
-  it { should respond_to(:path_small_image1) }
-	it { should respond_to(:path_image1) }
 	it { should respond_to(:created_at) }
 	it { should respond_to(:updated_at) }
 
@@ -69,8 +64,8 @@ describe Work do
     end    
   end
 
-  describe "when worksubcategory_id is not present" do
-    before { @work.worksubcategory_id = nil }
+  describe "when user_id is not present" do
+    before { @work.user_id = nil }
     it { should_not be_valid }
   end
 
@@ -84,15 +79,25 @@ describe Work do
     it { should_not be_valid }
   end
 
+  describe "when creation_date is not present" do
+    before { @work.creation_date = nil }
+    it { should_not be_valid }
+  end
+
+  describe "with creation_date is blank" do
+    before { @work.creation_date = " " }
+    it { should_not be_valid }
+  end
+
   describe "with description that is too long" do
     before { @work.description = "a" * 501 }
     it { should_not be_valid }
   end
 
   it "should destroy associated siteworks" do
-    let!(:sw) do
-      FactoryGirl.create(:sitework, site: site, work: @work)
-    end
+    let!(:site) { FactoryGirl.create(:site, user: user) }
+    let!(:sw) { FactoryGirl.create(:sitework, site: site, work: @work) }
+
     siteworks = @work.siteworks.dup
     @work.destroy
 

@@ -17,12 +17,12 @@ describe Workcategory do
   
   subject { @workcategory }
 
+  its(:user) { should == user }
+
+  it { should respond_to(:user) }
+  it { should respond_to(:user_id) }
   it { should respond_to(:name) }
   it { should respond_to(:description) }
-  it { should respond_to(:user_id) }
-  it { should respond_to(:user) }
-  its(:user) { should == user }
-  it { should respond_to(:worksubcategories) }
 
   it { should be_valid }
 

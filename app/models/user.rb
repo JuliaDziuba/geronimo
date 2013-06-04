@@ -16,16 +16,15 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation
   has_secure_password
   has_many :workcategories, dependent: :destroy
-  has_many :worksubcategories, :through => :workcategories
-  has_many :works, :through => :worksubcategories
+  has_many :works, dependent: :destroy
   has_many :venuecategories, dependent: :destroy
-  has_many :venues, :through => :venuecategories
-  has_many :activitycategories, dependent: :destroy
-  has_many :activities, :through => :activitycategories
+  has_many :venues, dependent: :destroy
   has_many :clients, dependent: :destroy
   has_many :sites, dependent: :destroy
   has_many :siteworks, :through => :sites
   has_many :sitevenues, :through => :sites
+  has_many :activitycategories, dependent: :destroy
+  has_many :activities, :through => :activitycategories
 
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token

@@ -4,10 +4,10 @@
 <% provide(:delete_record, @workcategory) %>
 
 <div id="edit_workcategory" class="not-displayed">
-  <%= render 'shared/form_category', category: @workcategory %>
+  <%= render 'form_workcategory', category: @workcategory, categories: @parentcategories %>
 </div>
 <%= @workcategory.description %>
 
 <% if @works.any? %>
-  <%= render 'shared/table_works', works: @works, include_category: false, include_subcategory: true %>
+  <%= render 'works/table_works', works: @works, include_category: false, include_subcategory: true %>
 <% end %>

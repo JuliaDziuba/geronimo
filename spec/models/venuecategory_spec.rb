@@ -18,11 +18,12 @@ describe Venuecategory do
   
   subject { @venuecategory }
 
+  its(:user) { should == user }
+
+  it { should respond_to(:user) }
   it { should respond_to(:name) }
   it { should respond_to(:description) }
   it { should respond_to(:user_id) }
-  it { should respond_to(:user) }
-  its(:user) { should == user }
 
   it { should be_valid }
 
@@ -36,6 +37,11 @@ describe Venuecategory do
 
   describe "when user_id is not present" do
     before { @venuecategory.user_id = nil }
+    it { should_not be_valid }
+  end
+
+  describe "when name is not present" do
+    before { @venuecategory.name = nil }
     it { should_not be_valid }
   end
 

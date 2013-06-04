@@ -16,16 +16,11 @@ FactoryGirl.define do
     user
   end
 
-  factory :worksubcategory do
-    name "Striped"
-    description "Fruit painted with stripes"
-    workcategory
-  end
-
   factory :work do
     title "The day the fruit came alive"
+    creation_date "2013-01-01"
     description "This is a piece for a children's book about fruit that come alive. This piece is the day the fruit come alive."
-    worksubcategory
+    user
   end
 
   factory :venuecategory do
@@ -36,7 +31,7 @@ FactoryGirl.define do
 
   factory :venue do
     name "Last Stop"
-    venuecategory
+    user
   end
 
   factory :client do

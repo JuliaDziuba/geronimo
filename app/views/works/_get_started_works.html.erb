@@ -1,0 +1,34 @@
+<% if !parentcategories.any? %>
+	<%= render 'workcategories/get_started_workcategories' %>
+<% elsif @current_user.works.all.count > 0  %>
+  <p>There are not currently any works in this category!</p>
+  <h2><%= link_to "Start uploading works!", new_work_path %></h2>
+<% else %>
+	<p>Great start creating categories! Add some more categories and subcategories of works or start uploading works!</p>
+	<h2><%= link_to "Start uploading works!", new_work_path %></h2>
+
+  <ul class="list">
+    <% parentcategories.each do |parent| %>
+      <li class="spaced">
+        <%= render 'workcategories/list_element_workcategory', category: parent %>
+        <ul class="sublist">
+          <% if parent.children.any? %>
+            <% parent.children.each do |child| %>
+              <li class="spaced">
+              <%= render 'workcategories/list_element_workcategory', category: child %>
+             </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </li>
+    <% end %>
+    <li>
+    <a id="new_workcategory_select" href="#new_workcategory">Create another category</a>
+  </li>
+</ul>
+<div id="new_workcategory" class="not-displayed">
+  <%= render 'workcategories/form_workcategory', category: workcategory, categories: categories %>
+</div>
+<% end %>
+
+  

@@ -17,34 +17,24 @@
         <%= link_to "Clients", clients_path, class: "accordion-toggle-small" %>
       </div>
     </div>
-    <% if @current_user.venues.any? && @current_user.works.any? %>
-      <div class="accordion-group">
-        <div class="accordion-heading">
-          <a class="accordion-toggle-small" data-toggle="collapse" data-parent="#accordianParent" href="#activitySection">
-              Activity
-          </a>
-        </div>
-        <div id="activitySection" class="accordion-body collapse">
+
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle-small" data-toggle="collapse" data-parent="#accordianParent" href="#siteSection">
+            Site
+        </a>
+        <div id="siteSection" class="accordion-body collapse">
           <div class="accordion-inner-small">
             <ul class="accordion-list">
-              <% if @current_user.activitycategories.any? %>
-                <li><%= link_to "All", activities_path %> (<%= current_user.activities.count %>)</li>
-                  <!-- ActivityCategories -->
-                  <ul class="accordion-list">
-                    <% @current_user.activitycategories.each do |activitycategory| %>
-                      <li>
-                        <%= link_to activitycategory.name, activitycategory_path(activitycategory) %> (<%= activitycategory.activities.count %>)
-                      </li>
-                    <% end %>
-                  </ul>
-                <!-- /ActivityCategories -->
-              <% else %>
-              <li><%= link_to "Get Started", activitycategories_path %></li>
-            <% end %>
+              <li><%= link_to "New site", new_site_path %></li>
+              <% @current_user.sites.each do |site| %>
+                <li><%= link_to site.brand, site_path(site) %></li>
+              <% end %>
             </ul>
           </div>
         </div>
       </div>
-    <% end %>
+    </div>
+
   </div>
 </div>
