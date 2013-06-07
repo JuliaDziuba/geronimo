@@ -8,6 +8,12 @@ class WorksController < ApplicationController
       # flash[:success] = "Your work has been added!"
       redirect_to works_path
     else
+      @categoryfilter = params[:categoryfilter]
+      @statusfilter = params[:statusfilter]
+      @parentcategories = current_user.workcategories.parents_only
+      @workcategories = workcategories_showing_families
+      @works = works_given_filters(@categoryfilter, @statusfilter)
+      @workcategory = Workcategory.new
       render 'index'
     end
   end
@@ -49,25 +55,7 @@ class WorksController < ApplicationController
     @statusfilter = params[:statusfilter]
     @parentcategories = current_user.workcategories.parents_only
     @workcategories = workcategories_showing_families
-    if !@categoryfilter.nil? 
-      @categoryfilter = @categoryfilter.split('.')
-      if @categoryfilter.last == "Uncategorized"
-        @works = current_user.works.uncategorized
-      else !@categoryfilter.nil?
-        @works = current_user.works.where('works.workcategory_id = ?', current_user.workcategories.find_by_name(@categoryfilter.last))
-      end
-    elsif !@statusfilter.nil?
-      if @statusfilter == "Available"
-        @works = current_user.works.available
-      else 
-        @works = []
-        current_user.works.all.each do |work|
-          @works.push(work) if work.status.split(' ').first == @statusfilter
-        end
-      end
-    else
-      @works = current_user.works.all
-    end
+    @works = works_given_filters(@categoryfilter, @statusfilter)
     @workcategory = Workcategory.new
     @work = Work.new
   end
@@ -96,6 +84,28 @@ class WorksController < ApplicationController
         end
       end
 
+    end
+
+    def works_given_filters(categoryfilter, statusfilter)
+      if !categoryfilter.nil? 
+        categoryfilter = @categoryfilter.split('.')
+        if categoryfilter.last == "Uncategorized"
+          works = current_user.works.uncategorized
+        else !categoryfilter.nil?
+          works = current_user.works.where('works.workcategory_id = ?', current_user.workcategories.find_by_name(@categoryfilter.last))
+        end
+      elsif !statusfilter.nil?
+        if statusfilter == "Available"
+          works = current_user.works.available
+        else 
+          works = []
+          current_user.works.all.each do |work|
+            works.push(work) if work.status.split(' ').first == @statusfilter
+          end
+        end
+      else
+        works = current_user.works.all
+      end
     end
 
 end

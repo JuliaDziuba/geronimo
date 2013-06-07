@@ -54,7 +54,7 @@ describe "Authentication" do
         describe "after signing in" do
 
           it "should render the desired protected page" do
-            page.should have_selector('h1', text: 'Update')
+            should have_selector('h1', text: 'Update')
           end
         end
       end

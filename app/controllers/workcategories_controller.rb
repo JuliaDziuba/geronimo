@@ -46,7 +46,21 @@ class WorkcategoriesController < ApplicationController
   end
 
   def destroy
-    current_user.workcategories.find_by_id(params[:id]).destroy
+    @workcategory = current_user.workcategories.find_by_id(params[:id])
+    @children = @workcategory.children
+    @works = @workcategory.works.all
+    if @children.any?  
+      @children.each do |child|
+        child.update_attributes(:parent_id => nil)
+      end
+    end
+    if @works.any?
+      @works.each do |work|
+        work.update_attributes(:workcategory_id => nil)
+      end
+    end
+    
+    @workcategory.destroy
     redirect_to workcategories_path
   end
 

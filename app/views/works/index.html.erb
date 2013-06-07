@@ -1,11 +1,13 @@
 <% provide(:title, 'Works') %>
 
-<% if @works.any? %>
+<% if @parentcategories.any? %>
 	<% provide(:new_form, "new_work") %>
-
 	<div id="new_work" class="not-displayed">
 		<%= render 'form_work', work: @work, categories: @workcategories %>
 	</div>
+<% end %>	
+
+<% if @works.any? %>
 	<% if !@categoryfilter.nil? %>
 		Works have been filtered to show only <%= @categoryfilter[1] %> <%= @categoryfilter[0] %> works.
 	<% elsif !@statusfilter.nil? %>

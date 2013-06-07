@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'pp'
 
 describe "Workcategory pages" do
   
@@ -52,18 +53,27 @@ describe "Workcategory pages" do
 
       it { should have_selector('h1',    text: 'Work categories') }
       
-      it "should list each work type" do
+      it "should list each work category" do
         user.workcategories.all.each do |workcategory|
           should have_selector('li', text: workcategory.name)
         end
       end 
 
       describe "workcategory destruction" do
-        before { FactoryGirl.create(:workcategory, user: user) }
-
-        it "should delete a workcategory" do
-          expect { click_link "Delete" }.to change(Workcategory, :count).by(-1)
+        let!(:wsc) { FactoryGirl.create(:workcategory, user: user, name: "Apple Child", parent_id: wc2.id) }
+        let!(:w) { FactoryGirl.create(:work, user: user, workcategory_id: wc2.id)}
+      
+        it "should delete a workcategory and remove parent_ids of all children categories and workcategory_ids of all sub works" do
+          wc_id = wc2.id
+          wc = user.workcategories.find_by_id(wc_id)
+          wc.children.should_not be_empty
+          wc.works.should_not be_empty
+          click_link "Delete"
+          user.workcategories.find_by_id(wc_id).should be_nil
+          user.workcategories.find_by_parent_id(wc_id).should be_nil
+          user.works.find_by_workcategory_id(wc_id).should be_nil
         end
+
       end
     end # when there are workcategories
   end # index page
