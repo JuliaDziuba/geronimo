@@ -112,15 +112,14 @@ namespace :db do
       user.venues.create!(name: "Personal FX", venuecategory_id: venuecategory.id)
     user.venuecategories.create!(name: "Booths")
     user.venuecategories.create!(name: "Online")
-    user.venuecategories.create!(name: "Studios")
+    venuecategory = user.venuecategories.create!(name: "Studios")
+       user.venues.create!(name: "My Studio", venuecategory_id: venuecategory.id)
     user.activitycategories.create!(name: "Sale", status: "Sold", final:true, description: "Sale of a work.")
     user.activitycategories.create!(name: "Commission", status: "Commissioned", final: false, description: "Commission of work started, sale to follow.")
     user.activitycategories.create!(name: "Consign", status: "Consigned", final: false, description: "Consignment of a work, hoping sale follows.")
     user.activitycategories.create!(name: "Gift", status: "Gifted", final: true, description: "Gift a work.")
     user.activitycategories.create!(name: "Donate", status: "Donated", final: true, description: "Donate a work.")
-    user.activitycategories.create!(name: "Recycle", status: "Recycled", final: true, description: "Recycle a work to create improved visions.")
-    user.venues.create!(name: 'Storage')
-    user.clients.create!(name: "Unknown")  
+    user.activitycategories.create!(name: "Recycle", status: "Recycled", final: true, description: "Recycle a work to create improved visions.") 
     user.sites.create!(
       domain: "http://juliadziuba.com",
       brand: "Julia Dziuba",
@@ -129,7 +128,6 @@ namespace :db do
       bio_pic: "http://juliadziuba.com/images/SelfStudio20130201.jpg",
       bio_text: "Julia is an artist who creates jewelry and paintings. Moved by nature and addicted to intricacy Julia's designs have an organic feel and complex density.
         <br /><br />Her work can be seen in galleries, boutiques and online. She currently has work at Personal FX in Half Moon Bay, CA and the Sun Gallery in Hayward, CA. Please follow the purchase link for more detail. Julia's portfolio can be found on this site and a limited selection of her work is available on Etsy. Those in the area are always welcome to visit her studio in San Mateo, CA.
-        <br /><br />Julia has been creating since her earliest memories. Over the years she has sewn, crocheted, collaged, painted and made jewelry including knotted, beaded and silver. The variety of familiar medium give her creations breathe. 
         <br /><br />In addition to an artist Julia likes to call herself a mother, wife, home owner, gardener, mathematician and apprentice programmer. She is a Scientist with Archimedes Inc. in San Francisco. Back east she earned a BS in applied mathematics with a minor in biology at the Rochester Institute of Technology in Rochester, NY. She was born and raised in the quiet seaside town of Cape May, NJ.",
       email: "julia@juliadziuba.com",
       phone: "(650) 762-9782",

@@ -12,6 +12,7 @@
 require 'spec_helper'
 
 describe Sitevenue do
+  before { pending }
   let(:site) { FactoryGirl.create(:site) }
   let(:venue) { FactoryGirl.create(:venue) }
   before { @sw = site.sitevenues.build(venue_id: venue.id) }

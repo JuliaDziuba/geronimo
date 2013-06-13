@@ -24,21 +24,53 @@ class Activity < ActiveRecord::Base
 	belongs_to :client
 	belongs_to :user
 
-	before_validation :set_client
+  before_validation :set_venue
   after_validation :set_date_end
 
 	validates :activitycategory_id, presence: true
-	validates :venue_id, presence: true
 	validates :work_id, presence: true
-  validates :client_id, presence: true
+  validates :venue_id, presence: true
   validates :date_start, presence: true
   # Add validation that date_end, presence: true if activitycategory.final
   # Add validation that date_end >= date_start
 
 	default_scope order: 'activities.date_start DESC'
+  scope :startingBeforeDate, lambda { |date| where('date_start <= ?', date)}
+  scope :startingAfterDate, lambda { |date| where('date_start > ?', date)}
   scope :currentActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end > :date) AND (date_start <= :date)', { id: id, date: Date.today })  }
   scope :previousActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end < :date)', { id: id, date: Date.today })  }
   
+  def client
+    self.activitycategory.user.clients.find_by_id(read_attribute(:client_id)) || self.activitycategory.user.clients.build(:id => 0, :name => "Unknown")
+  end
+
+  def activity_before
+    Work.find_by_id(self.work_id).activities.startingBeforeDate(self.date_start).first
+  end
+
+  def activity_after
+    Work.find_by_id(self.work_id).activities.startingAfterDate(self.date_start).last
+  end
+
+  def occurs_after_existing_final_activity
+    @activity_before_new = self.activity_before
+    !@activity_before_new.nil? && Activitycategory.find_by_id(@activity_before_new.activitycategory_id).final
+  end
+
+  def is_final_but_occurs_before_existing_activities
+    @activity_after_new = self.activity_after
+    !@activity_after_new.nil? && Activitycategory.find_by_id(self.activitycategory_id).final
+  end
+
+  def starts_before_existing_activity_ended
+    @activity_before_new = self.activity_before
+    !@activity_before_new.nil? && (@activity_before_new.date_end.nil? || @activity_before_new.date_end > self.date_start)  
+  end
+
+  def ends_after_existing_activity_started
+    @activity_after_new = self.activity_after
+    !@activity_after_new.nil? && (self.date_end.nil? || self.date_end > @activity_after_new.date_start)
+  end
 
   private
 
@@ -46,8 +78,8 @@ class Activity < ActiveRecord::Base
       self.date_end = self.date_start if !self.activitycategory.nil? && self.activitycategory.final 
     end
 
-    def set_client
-      self.client_id = 1 if self.client_id.nil?
+    def set_venue
+      self.venue_id = 1 if self.venue_id.nil?
     end
 
 end

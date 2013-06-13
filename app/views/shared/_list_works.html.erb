@@ -1,5 +1,5 @@
 <ul class="list">
-  <% @works.each do |work| %>
+  <% works.each do |work| %>
     <li>
       <span class="work-title"><%= link_to work.title, work %>
        	&nbsp; <%= link_to icon(:edit), edit_work_path(work) %>

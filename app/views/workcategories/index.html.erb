@@ -23,5 +23,5 @@
     <% end %>
   </ul>
 <% else %>
-	<%= render 'get_started_workcategories' %>
+	<%= render 'get_started_workcategories', category: @workcategory, categories: @parentcategories %>
 <% end %>

@@ -32,7 +32,14 @@ class ClientsController < ApplicationController
   end
 
   def destroy
-  	current_user.clients.find_by_id(params[:id]).destroy
+    @client = current_user.clients.find_by_id(params[:id])
+    @activities = @client.activities.all
+    if @activities.any?
+      @activities.each do |activity|
+        activity.update_attributes(:client_id => nil)
+      end
+    end
+    @client.destroy
     redirect_to clients_path
   end
   

@@ -1,7 +1,7 @@
 <table id="Works">
   <thead>
     <tr>
-      <% if @categoryfilter.nil? %>
+      <% if categoryfilter.nil? %>
         <th>Category</th>
       <% end %>
       <th>Status</th>
@@ -21,7 +21,7 @@
   <tbody>
     <% works.each do |work| %>
       <tr>
-        <% if @categoryfilter.nil? %>
+        <% if categoryfilter.nil? %>
           <td><div class=overflow><%= work.workcategory.name %></div></td>
         <% end %>
         <td><div class=largeoverflow><%= work.status %></div></td>

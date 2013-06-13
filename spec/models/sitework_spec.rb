@@ -12,6 +12,8 @@
 require 'spec_helper'
 
 describe Sitework do
+
+  before { pending }
   let(:site) { FactoryGirl.create(:site) }
   let(:work) { FactoryGirl.create(:work) }
   before { @sw = site.siteworks.build(work_id: work.id) }

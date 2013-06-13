@@ -40,13 +40,25 @@ class VenuesController < ApplicationController
 
   def index
     @venue = current_user.venues.build if signed_in?
-    @venues = current_user.venues.all_except_storage
+    @venues = current_user.venues.all
     @venuecategories = current_user.venuecategories.all
   end
 
   def destroy
-    current_user.venues.find_by_id(params[:id]).destroy
-    redirect_to venues_path
+    @id = params[:id]
+    if @id == 1
+      flash[:error] = "You cannot delete this venue! This is the default venue. Feel free to change its name and venue category."
+    else
+      @venue = current_user.venues.find_by_id(params[:id])
+      @activities = @venue.activities.all
+      if @activities.any?
+        @activities.each do |activity|
+          activity.update_attributes(:venue_id => 1)
+        end
+      end
+      @venue.destroy
+      redirect_to venues_path
+    end
   end
 
 end

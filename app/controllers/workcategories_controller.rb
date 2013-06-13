@@ -28,10 +28,10 @@ class WorkcategoriesController < ApplicationController
   def edit
     @workcategory = current_user.workcategories.find_by_id(params[:id])
     # change line below to exclude @category.
-    if !@workcategory.children.any?
-      @parentcategories = current_user.workcategories.parents_only.excluding(@workcategory)
-    else 
+    if @workcategory.children.any?
       @parentcategories = []
+    else
+      @parentcategories = current_user.workcategories.parents_only.excluding(@workcategory) 
     end
     
   end
@@ -59,7 +59,7 @@ class WorkcategoriesController < ApplicationController
         work.update_attributes(:workcategory_id => nil)
       end
     end
-    
+
     @workcategory.destroy
     redirect_to workcategories_path
   end

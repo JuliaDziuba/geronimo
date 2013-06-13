@@ -8,7 +8,7 @@
 	</div>
   <%= render 'table_venues', venues: @venues %>
 <% else %>
-	<%= render 'get_started_venues' %>
+	<%= render 'get_started_venues', venue: @venue, venuecategories: @venuecategories %>
 <% end %>
 
 

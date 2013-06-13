@@ -22,8 +22,12 @@ describe Activity do
   let(:w)    { FactoryGirl.create(:work, user: user) }
   let(:v)    { FactoryGirl.create(:venue, user: user) }
   let(:c)    { FactoryGirl.create(:client, user: user) }
-  let(:ac)   { FactoryGirl.create(:activitycategory, user: user) }
-  before { @activity = ac.activities.build(work_id: w.id, venue_id: v.id, client_id: c.id, date_start: '2013-01-01') }
+  let(:ac)   { FactoryGirl.create(:activitycategory, user: user, name: "Consign", status: "Consigned", final: false) }
+  let(:ac_final)   { FactoryGirl.create(:activitycategory, user: user, name: "Sale", status: "Sold", final: true) }
+  before do
+    user.venues.create(name: "My Studio")
+    @activity = ac.activities.create(work_id: w.id, date_start: '2013-01-01')
+  end
   
   subject { @activity }
  
@@ -34,10 +38,10 @@ describe Activity do
   its(:work) { should == w }
 
   it { should respond_to(:venue) }
-  its(:venue) { should == v }
+  its(:venue) { should == Venue.first }
 
   it { should respond_to(:client) }
-  its(:client) { should == c }
+  it { subject.client.name.should == "Unknown" }
 
 	it { should respond_to(:user) }
   it { should respond_to(:activitycategory_id) }
@@ -54,17 +58,32 @@ describe Activity do
   it { should be_valid }
 
   describe "when activitycategory_id is not present" do
-    before { @activity.activitycategory_id = nil}
+    before { subject.activitycategory_id = nil}
     it { should_not be_valid }
   end
 
   describe "when workcategory_id is not present" do
-    before { @activity.work_id = nil}
+    before { subject.work_id = nil}
     it { should_not be_valid }
   end
 
-   describe "when venuecategory_id is not present" do
-    before { @activity.venue_id = nil}
-    it { should_not be_valid }
+  describe "when the activity category is not final then date_end should be nil" do
+    its(:date_end) { should == nil }
   end 
+
+  describe "when the activity category is final then date_end should be set to date_start" do
+    before { subject.update_attributes(:activitycategory_id => ac_final.id) }
+    its(:date_end) { should == @activity.date_start }
+  end
+
+  describe "when a venue is set" do
+    before { subject.update_attributes(:venue_id => v.id) }
+    its(:venue) { should == v }
+
+  end
+
+  describe "when a client is set" do 
+    before { subject.update_attributes(:client_id => c.id) }
+    its(:client) { should == c }
+  end
 end

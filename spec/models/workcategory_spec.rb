@@ -3,9 +3,10 @@
 # Table name: workcategories
 #
 #  id          :integer          not null, primary key
+#  user_id     :integer
 #  name        :string(255)
 #  description :string(255)
-#  user_id     :integer
+#  parent_id   :integer
 #
 
 require 'spec_helper'

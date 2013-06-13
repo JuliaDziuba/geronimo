@@ -12,7 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @clients.each do |client| %>
+    <% clients.each do |client| %>
       <tr>
         <td><div class=largeoverflow><%= link_to client.name, client_path(client) %></div></td>
         <td><div class=overflow><%= client.email %></div></td>

@@ -3,6 +3,7 @@
 # Table name: venues
 #
 #  id               :integer          not null, primary key
+#  user_id          :integer
 #  venuecategory_id :integer
 #  name             :string(255)
 #  phone            :integer

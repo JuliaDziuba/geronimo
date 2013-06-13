@@ -28,7 +28,7 @@ class WorksController < ApplicationController
 
       @activity = @activity = Activity.new
       @activitycategories = current_user.activitycategories
-      @venues = current_user.venues.all_except_storage
+      @venues = current_user.venues.all
       @clients = current_user.clients
       @works  = []
       @works.push(@work)
@@ -44,7 +44,7 @@ class WorksController < ApplicationController
 
     @activity = @activity = current_user.activities.build(:work_id => @work.id)
     @activitycategories = current_user.activitycategories
-    @venues = current_user.venues.all_except_storage
+    @venues = current_user.venues.all
     @clients = current_user.clients
     @works  = []
     @works.push(@work)

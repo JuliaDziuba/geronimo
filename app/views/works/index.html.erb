@@ -13,7 +13,7 @@
 	<% elsif !@statusfilter.nil? %>
 		Works have been filtered to show only <%= @statusfilter %> works.
 	<% end %><br /><br />
-	<%= render 'table_works', works: @works %>
+	<%= render 'table_works', works: @works, categoryfilter: @categoryfilter %>
 <% else %>
 	<%= render 'get_started_works', parentcategories: @parentcategories, categories: @workcategories, workcategory: @workcategory%>
 <% end %>
