@@ -26,25 +26,12 @@ class Workcategory < ActiveRecord::Base
 	scope :children_only, lambda { |parent| where('workcategories.parent_id = ?', parent.id) }
 	scope :excluding, lambda { |category| where('workcategories.id != ?',category.id) }
 
-	class << self
-		
-		def full_category_names(user)
-			@category_names = []
-			user.workcategories.each do |category|
-				@category_name.push(category.name)
-			end
-		end
-
-	end
-
 	def children
 		self.user.workcategories.where('workcategories.parent_id = ?', self.id)
 	end
 
 	def parent_id
-		@p_id = read_attribute(:parent_id)
-		0 if @p_id.nil?
-	end
-
+		self.user.workcategories.find_by_id(read_attribute(:parent_id)) || self.user.workcategories.build(:id => 0, :name => "None")
+  end
 
 end

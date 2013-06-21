@@ -1,4 +1,5 @@
-<% provide(:title, 'Work categories') %>
+<% provide(:crumbs, "Works," + works_path) %>
+<% provide(:title, 'Categories') %>
 
 <% if @parentcategories.any? %>
   <% provide(:new_form, "new_workcategory") %>

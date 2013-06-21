@@ -37,6 +37,28 @@ class User < ActiveRecord::Base
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
 
+  def work_current_activities
+    activities = []
+    self.works.each do | work |
+      activities.push(work.current_activity)
+    end
+    activities
+  end
+
+  def workcategories_showing_families
+    categories = []
+    self.workcategories.parents_only.each do |parent|
+      categories.push(parent)
+      if parent.children.any?
+        parent.children.each do |child|
+          child.name = parent.name + " > " + child.name
+          categories.push(child)
+        end
+      end
+    end
+    categories
+  end
+
   private
 
     def create_remember_token

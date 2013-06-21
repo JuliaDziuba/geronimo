@@ -1,9 +1,11 @@
 Geronimo::Application.routes.draw do
 
+  resources :mailinglists, only: [:new, :create, :show]
   resources :users, exclude: [:index]
   resources :sessions, only: [:new, :create, :destroy]
-  resources :workcategories , exclude: [:new]
   resources :works, exclude: [:new, :edit]
+  # match '/works/categories' => 'workcategories#index'
+  resources :workcategories , exclude: [:new, :show]
   resources :venues, exclude: [:new, :edit]
   resources :clients, exclude: [:new, :edit]
   resources :activitycategories, exclude: [:new]
@@ -19,9 +21,9 @@ Geronimo::Application.routes.draw do
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
-
-   match '/sites/:id/about',   to: 'sites#about'
-   match '/sites/:id/contact', to: 'sites#contact'
+  match '/sites/:id/about',   to: 'sites#about'
+  match '/sites/:id/contact', to: 'sites#contact'
+  match '/sites/:id/:workcategory', to: 'sites#works'
 
 
   # The priority is based upon order of creation:

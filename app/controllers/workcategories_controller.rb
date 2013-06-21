@@ -7,12 +7,6 @@ class WorkcategoriesController < ApplicationController
     @workcategory = Workcategory.new
   end
 
-  def show
-    @parentcategories = current_user.workcategories.parents_only
-    @workcategory = current_user.workcategories.find(params[:id])
-    @works = @workcategory.works
-  end
-
   def create
     @workcategory = current_user.workcategories.build(params[:workcategory])
     if @workcategory.save

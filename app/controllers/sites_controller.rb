@@ -45,4 +45,11 @@ class SitesController < ApplicationController
     @site = current_user.sites.find_by_id(params[:id])
     render :layout => 'site'
   end
+
+  def works
+    @site = current_user.sites.find(params[:id])
+    @category = current_user.workcategories.find_by_name(params[:workcategory])
+    @works = @site.works
+    render :layout => 'site'
+  end
 end

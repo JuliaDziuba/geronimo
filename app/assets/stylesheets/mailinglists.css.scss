@@ -1,0 +1,42 @@
+// Place all the styles related to the Mailinglists controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.back{
+	margin:0 auto;
+	background-color:black;
+	background-image:url("LandingImage.jpg");
+	background-repeat:no-repeat;
+	background-position:center;
+	background-size: 965px auto;
+}
+
+.moon{
+	padding-top:35px;
+	padding-left:40px;
+}
+
+.box{
+	position:relative;
+	top:30px;
+	right:10px;
+}
+
+.landing_title{
+	padding:0px 0px 15px 0px;
+	font-size:70px;
+	font-weight:100;
+	text-transform:uppercase;
+	color:#06C;
+}
+.small{
+	font-size:45px;
+	color:#888;
+}
+.landing_tag{
+	font-size:15px;
+	font-weight:100;
+	color:#FFF;
+}
+.landing_description{
+	color:#888;
+}

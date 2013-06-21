@@ -13,6 +13,10 @@ $ ->
   $('#activity_activitycategory_id').change ->
     format_activity_form()
 
+$ ->
+  if (window.location.pathname.match(/works\//))
+    format_activity_form()
+
 format_activity_form = () ->
   location = window.location.pathname
   console.log(location)

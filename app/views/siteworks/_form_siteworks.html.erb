@@ -1,16 +1,16 @@
-<%= form_for [ site, sitevenue ] do |f| %>
+<%= form_for [ site, sitework ] do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <div class="row-fluid">   
     <div class="span4">
       <div class="control-group">
-        <%= f.label :venue_id, "Venue", :class => "control-label" %>
+        <%= f.label :work_id, "Work", :class => "control-label" %>
         <div class="controls">
-          <%= f.collection_select :venue_id, venues, :id, :name, :prompt => true %>
+          <%= f.collection_select :work_id, works, :id, :title, :prompt => true %>
         </div>
       </div>
     </div>
   </div>
   <div class="form-actions">
-    <%= f.submit class: "btn" %>
+    <%= f.submit "Add work", class: "btn" %>
   </div>
 <% end %>

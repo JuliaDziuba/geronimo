@@ -22,6 +22,6 @@ class VenuecategoriesController < ApplicationController
 
   def destroy
     current_user.venuecategories.find_by_id(params[:id]).destroy
-    redirect_to venuecategories_path
+    redirect_to sitevenues_path
   end
 end

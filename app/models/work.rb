@@ -42,7 +42,8 @@ class Work < ActiveRecord::Base
   validates :description, length: { maximum: 500 }
 
   default_scope order: 'works.creation_date DESC'
-  scope :not_on_site, lambda { |site| where('not works.id in (?)', site.works.collect(&:id)) }
+  scope :not_on_site, lambda { |site| where('not works.id in (?)', site.works.collect(&:id).push(0)) }
+  scope :in_category, lambda { |category| where('works.workcategory_id = ?', category.id) }
   scope :available, lambda { joins('left join activities on activities.work_id = works.id').where('activities.id IS NULL') }
   scope :uncategorized, lambda { where('works.? IS NULL', :workcategory_id) }
 
@@ -53,6 +54,14 @@ class Work < ActiveRecord::Base
   def available
     as = self.activities
     as.count == 0 || ( !as.first.activitycategory.final && as.first.date_start < Date.today && !as.first.date_end.nil? && as.first.date_end < Date.today )
+  end
+
+  def current_activity
+    if self.available
+      "Available"
+    else
+      self.activities.first.activitycategory.status
+    end
   end
 
   def status

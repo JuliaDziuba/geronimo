@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130517024939) do
+ActiveRecord::Schema.define(:version => 20130620045331) do
 
   create_table "activities", :force => true do |t|
     t.integer  "activitycategory_id"
@@ -54,6 +54,12 @@ ActiveRecord::Schema.define(:version => 20130517024939) do
     t.integer  "user_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+  end
+
+  create_table "mailinglists", :force => true do |t|
+    t.string   "email"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "sites", :force => true do |t|

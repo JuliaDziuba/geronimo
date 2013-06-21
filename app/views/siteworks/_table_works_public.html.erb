@@ -1,0 +1,33 @@
+<table id="Works">
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Category</th>
+      <th>Status</th>
+      <th>Title</th>
+      <th>Inventory ID</th>
+      <th>Creation Date</th>
+      <th>Description</th>
+      <th>Dimention X</th>
+      <th>Dimention Y</th>
+      <th>Dimention Units</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% works.each do |work| %>
+      <tr>
+        <td><div><%= link_to icon(:trash), work, method: :delete,
+      data: { confirm: "Remove #{work.title} from public view? This will not delete the work from your private database." }, id:"Remove #{ work.title }",
+      title: "Remove #{ work.title }?" %><td><div class=overflow><%= work.workcategory.name %></div></td>
+        <td><div class=largeoverflow><%= work.status %></div></td>
+        <td><div class=overflow><%= link_to work.title, work_path(work) %></td>
+        <td><div class=overflow><%= work.inventory_id %></div></td>
+        <td><div class=overflow><%= work.creation_date %></div></td>
+        <td><div class=overflow><%= work.description %></div></td>
+        <td><div class=overflow><%= work.dimention1 %></div></td>
+        <td><div class=overflow><%= work.dimention2 %></div></td>
+        <td><div class=overflow><%= work.dimention_units %></div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

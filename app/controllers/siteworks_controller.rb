@@ -5,10 +5,13 @@ class SiteworksController < ApplicationController
     @sitework = @site.siteworks.build(params[:sitework])
     if @sitework.save
       flash[:success] = "New works have been added to your site!"
-      redirect_to site_url(@site)
+      redirect_to site_siteworks_url(@site)
     else
       flash[:failure] = "Your selection of works failed."
-      redirect_to site_url(@site)
+      @selected = @site.works.all
+      @unselected = current_user.works.not_on_site(@site)
+      render 'index'
+#      redirect_to site_url(@site)
     end
   end
 
@@ -20,10 +23,9 @@ class SiteworksController < ApplicationController
   end
 
   def destroy
-  	@site = current_user.siteworks.find_by_id(params[:id]).site
-		current_user.siteworks.find_by_id(params[:id]).destroy
+  	@work.destroy
     flash[:success] = "Selected works have been removed from your site!"
-    redirect_to site_url(@site)
+    redirect_to siteworks_url
   end
 
 end

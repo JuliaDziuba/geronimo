@@ -11,7 +11,7 @@ class WorksController < ApplicationController
       @categoryfilter = params[:categoryfilter]
       @statusfilter = params[:statusfilter]
       @parentcategories = current_user.workcategories.parents_only
-      @workcategories = workcategories_showing_families
+      @workcategories = current_user.workcategories_showing_families
       @works = works_given_filters(@categoryfilter, @statusfilter)
       @workcategory = Workcategory.new
       render 'index'
@@ -23,7 +23,7 @@ class WorksController < ApplicationController
     if @work.update_attributes(params[:work])
       redirect_to work_path(@work)
     else
-      @workcategories = Workcategory.full_category_names(current_user)
+      @workcategories = current_user.workcategories_showing_families
       @activities = @work.activities.all
 
       @activity = @activity = Activity.new
@@ -39,10 +39,10 @@ class WorksController < ApplicationController
 
   def show
     @work = current_user.works.find_by_id(params[:id])
-    @workcategories = current_user.workcategories.all
+    @workcategories = current_user.workcategories_showing_families
     @activities = @work.activities.all
 
-    @activity = @activity = current_user.activities.build(:work_id => @work.id)
+    @activity = current_user.activities.build(:work_id => @work.id)
     @activitycategories = current_user.activitycategories
     @venues = current_user.venues.all
     @clients = current_user.clients
@@ -54,7 +54,7 @@ class WorksController < ApplicationController
     @categoryfilter = params[:categoryfilter]
     @statusfilter = params[:statusfilter]
     @parentcategories = current_user.workcategories.parents_only
-    @workcategories = workcategories_showing_families
+    @workcategories = current_user.workcategories_showing_families
     @works = works_given_filters(@categoryfilter, @statusfilter)
     @workcategory = Workcategory.new
     @work = Work.new
@@ -70,20 +70,6 @@ class WorksController < ApplicationController
     def correct_user
       @work = current_user.works.find_by_id(params[:id])
       redirect_to works_path if @work.nil?
-    end
-
-    def workcategories_showing_families
-      @categories = []
-      current_user.workcategories.parents_only.each do |parent|
-        @categories.push(parent)
-        if parent.children.any?
-          parent.children.each do |child|
-            child.name = parent.name + " > " + child.name
-            @categories.push(child)
-          end
-        end
-      end
-
     end
 
     def works_given_filters(categoryfilter, statusfilter)

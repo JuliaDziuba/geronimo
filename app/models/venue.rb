@@ -32,7 +32,7 @@ class Venue < ActiveRecord::Base
 	validates :name, presence: true, length: { maximum: 25 }
   
   default_scope order: 'venues.name'
-  scope :not_on_site, lambda { |site| where('not venues.id in (?)', site.venues.collect(&:id)) }
+  scope :not_on_site, lambda { |site| where('not venues.id in (?)', site.venues.collect(&:id).push(0)) }
   
   def venuecategory
 		self.user.venuecategories.find_by_id(read_attribute(:venuecategory_id)) || self.user.venuecategories.build(:id => 0, :name => "Uncategorized")

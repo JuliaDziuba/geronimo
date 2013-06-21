@@ -6,7 +6,6 @@
 		<%= render 'form_work', work: @work, categories: @workcategories %>
 	</div>
 <% end %>	
-
 <% if @works.any? %>
 	<% if !@categoryfilter.nil? %>
 		Works have been filtered to show only <%= @categoryfilter[1] %> <%= @categoryfilter[0] %> works.

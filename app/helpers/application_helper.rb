@@ -3,7 +3,7 @@ module ApplicationHelper
   # Returns the full title on a per-page basis
   # TODO Extend this so that public sites have user | page. 
   def full_title(page)
-    base_title = "GERONIMO!"
+    base_title = "MakersMoon"
     if !signed_in? && page.empty?
       base_title
     elsif !signed_in?

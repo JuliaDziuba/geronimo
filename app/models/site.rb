@@ -34,6 +34,7 @@ class Site < ActiveRecord::Base
   has_many :sitevenues, dependent: :destroy
   has_many :works, :through => :siteworks
   has_many :venues,  :through => :sitevenues
+  has_many :workcategories, :through => :works
 
   accepts_nested_attributes_for :siteworks, :sitevenues, :allow_destroy => true
 
@@ -42,4 +43,11 @@ class Site < ActiveRecord::Base
 
   default_scope order: 'sites.brand'
 
+  def parent_workcategories_on_site
+   @parents = self.user.workcategories.where('id in (?)', self.workcategories.collect(&:parent_id))
+  end
+
+  def children_workcategories_on_site(parent)
+    @children = parent.children.where('id in (?)', self.workcategories.collect(&:id))
+  end
 end

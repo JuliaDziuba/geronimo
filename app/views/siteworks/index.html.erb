@@ -1,13 +1,17 @@
 <% provide(:crumbs, 'Sites,#|' + @site.brand + ',' + site_path(@site)) %>
-<% provide(:title, "Site works") %>
+<% provide(:title, "Public works") %>
 
-<% if !@selected.nil? %>
-  <%= render 'works/table_works', works: @selected %>
-<% else %>
-	Select works to display on your pubic site. 
+<% if @selected.any? %>
+  <%= render 'table_works_public', works: @selected  %>
 <% end %>
-<h2> Choose works to display </h2>
-<%= render 'shared/form_siteworks', site: @site, sitework: @sitework, works: @unselected %>
+<br />
+<br />
+<% if @unselected.any? %>
+	<h2> Add works to your public site </h2>
+	<%= render 'form_siteworks', site: @site, sitework: @sitework, works: @unselected %>
+<% else %>
+	All works are currently shown publically!
+<% end %>
 
 
 

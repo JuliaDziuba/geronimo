@@ -4,7 +4,7 @@ describe "Work pages" do
 
 	subject { page }
 
-	let(:user) { FactoryGirl.create(:user) } 
+	let(:user) { FactoryGirl.create(:user) }
 	
 	before { sign_in user }
 

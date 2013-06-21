@@ -1,0 +1,6 @@
+<%= form_for @mailinglist do |f| %>
+ <div class="input-append">
+   <%= f.text_field(:email, :id => "appendedInputButton", :placeholder => 'Email', :class => 'span4') %><button class="btn" type="submit" name="commit">Tell me more!</button>
+ </div>
+<% end %>
+ 

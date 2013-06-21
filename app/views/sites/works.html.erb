@@ -1,0 +1,8 @@
+<% provide(:title, @category.parent_id.name + " " + @category.name) %>
+<% if @works.any? %>
+	<div>
+		<% @works.each do | work | %>
+			<h3><%= work.title %></h3>
+		<% end %>
+	</div>
+<% end %>

@@ -1,13 +1,17 @@
 <% provide(:crumbs, 'Sites,#|' + @site.brand + ',' + site_path(@site)) %>
-<% provide(:title, "Site venues") %>
+<% provide(:title, "Public venues") %>
 
-<% if !@selected.nil? %>
-  <%= render 'shared/list_venues', venues: @selected %>
-<% else %>
-	Select venues to display on your pubic site. 
+<% if @selected.any? %>
+  <%= render 'table_venues_public', venues: @selected %>
 <% end %>
-<h2> Choose venues to display </h2>
-<%= render 'shared/form_sitevenues', site: @site, sitevenue: @sitevenue, venues: @unselected %>
+<br />
+<br />
+<% if @unselected.any? %>
+	<h2> Add venues to your public site </h2>
+	<%= render 'form_sitevenues', site: @site, sitevenue: @sitevenue, venues: @unselected %>
+<% else %>
+	All venues are currently shown publically!
+<% end %>
 
 
 
