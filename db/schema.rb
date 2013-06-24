@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130620045331) do
+ActiveRecord::Schema.define(:version => 20130621205648) do
 
   create_table "activities", :force => true do |t|
     t.integer  "activitycategory_id"
@@ -62,6 +62,13 @@ ActiveRecord::Schema.define(:version => 20130620045331) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "questions", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "question"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "sites", :force => true do |t|
     t.integer  "user_id"
     t.string   "brand"
@@ -107,17 +114,26 @@ ActiveRecord::Schema.define(:version => 20130620045331) do
   add_index "siteworks", ["site_id"], :name => "index_siteworks_on_site_id"
 
   create_table "users", :force => true do |t|
+    t.boolean  "admin"
+    t.string   "about"
     t.string   "name"
     t.string   "email"
+    t.string   "location_city"
+    t.string   "location_state"
     t.string   "password_digest"
     t.string   "remember_token"
-    t.boolean  "admin"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.string   "username"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
+  add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
   create_table "venuecategories", :force => true do |t|
     t.integer  "user_id"

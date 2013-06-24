@@ -74,14 +74,14 @@ a{
 	position:fixed;
 	top: 75px;
 	left:0px;
-	padding: 15px 0px 0px 40px;
+	padding: 10px 10px 0px 40px;
 	-moz-border-radius: 0px 15px 15px 0px;
 	border-radius: 0px 15px 15px 0px;
 }
 
 #toggleSidebar {
 	position:absolute;
-	top:6px;
+	top:10px;
 	right:2px;
 }
 #content {
@@ -101,7 +101,7 @@ a{
 .gone {
     width:0px;
     margin-left:0px;
-    min-height:15px;
+    min-height:25px;
 }
 
 #crumbs {

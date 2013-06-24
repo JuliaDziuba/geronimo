@@ -1,7 +1,7 @@
 Geronimo::Application.routes.draw do
 
-  resources :mailinglists, only: [:new, :create, :show]
-  resources :users, exclude: [:index]
+  resource :static_pages, only: [:home, :help]
+  resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :works, exclude: [:new, :edit]
   # match '/works/categories' => 'workcategories#index'
@@ -14,10 +14,11 @@ Geronimo::Application.routes.draw do
     resources :siteworks, only: [:index, :create, :destroy]
     resources :sitevenues, only: [:index, :create, :destroy]
   end
-
+  resources :questions, only: [:create]
 
   root to: 'static_pages#home'
 
+  match '/help',    to: 'static_pages#help'
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete

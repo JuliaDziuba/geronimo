@@ -1,4 +1,4 @@
-<% provide(:crumbs, 'GERONIMO!,' + '#') %>
-<% provide(:title, 'Update Settings') %>
+<% provide(:crumbs, 'MakersMoon,' + users_path + '|' + @user.name + ',' + user_path(@user)) %>
+<% provide(:title, 'Update Profile') %>
 
 <%= render 'form_user', user: @user %>

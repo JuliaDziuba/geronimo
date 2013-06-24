@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= full_title(yield(:title)) %></title>
+    <title>Makers' Moon</title>
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= render 'layouts/shim' %> 
   </head>
-  <body>
-    <div class="landing span12">
-      <%= render 'shared/flash_messages' %>
-      <%= yield %>
-    </div>
+  <body class="row-fluid span12 back">
+    <div class="row-fluid offset2 moon">
+      <div class="row-fluid">
+        <div class="span3">
+          <%= render 'static_pages/title' %>
+          <br />
+          <%= render 'static_pages/about' %>
+        </div>
+        <div class="span3 offset1 center">
+          <%= render 'shared/flash_messages' %>
+          <%= yield %>
+        </div>
+      </div>
+    </div><!-- /span12 moon -->
   </body>
 </html>
 

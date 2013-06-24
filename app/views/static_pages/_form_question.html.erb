@@ -1,0 +1,12 @@
+<%= form_for(question , :url => url_for(:controller => 'questions', :action => 'create')) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  <div class="row-fluid">
+    <div>
+      <div class="control-group">
+        <div class="controls"><%= f.text_area :question, placeholder: "If your question is not answered in the FAQ question please ask us here. We will send you a response via email.", rows: "6" %></div>   
+        <%= f.submit "Send", class: "btn" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -3,7 +3,7 @@ namespace :db do
   task populate: :environment do
 
     desc "Add my data"
-    user = User.create!(name: "Julia Dziuba", email: "julia@juliadziuba.com", password: "password", password_confirmation: "password")
+    user = User.create!(name: "Julia Dziuba", username: "JuliaDziuba", about: "A lovely girl on a mission", email: "julia@juliadziuba.com", password: "password", password_confirmation: "password")
     workcategory = user.workcategories.create!(name: "Paintings")
       user.workcategories.create!(name: "Collage", parent_id: workcategory.id)
     workcategory = user.workcategories.create!(name: "Jewelry") 
@@ -59,12 +59,15 @@ namespace :db do
     
     1.times do |a|
       name  = Faker::Name.name
-      email = "example-#{a+0}@geronimo.com"
+      username = "username#{a}"
+      about = Faker::Lorem.sentence(2)
+      email = "username#{a}@makersmoon.com"
       password  = "password"
-      user = User.create!(name: name,
+      user = User.create!(name: name, username: username,
                    email: email,
                    password: password,
-                   password_confirmation: password)
+                   password_confirmation: password,
+                   about: about)
 
       3.times do |b|
         name = Faker::Name.last_name

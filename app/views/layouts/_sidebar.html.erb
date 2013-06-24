@@ -1,4 +1,5 @@
 <div id="sidebar-content" class="show">
+  YOUR BUSINESS<br /><br />
   <div class="accordion" id="accordianParent">
     <div class="accordion-group">
       <% if @current_user.works.any? %>
@@ -20,21 +21,19 @@
 
     <div class="accordion-group">
       <div class="accordion-heading">
-        <a class="accordion-toggle-small" data-toggle="collapse" data-parent="#accordianParent" href="#siteSection">
-            Site
+        <a class="accordion-toggle-small" data-toggle="collapse" data-parent="#accordianParent" href="#reportSection">
+            Reports&nbsp;<b class="caret lighter bottom"></b>&nbsp;
         </a>
-        <div id="siteSection" class="accordion-body collapse">
+        <div id="reportSection" class="accordion-body collapse">
           <div class="accordion-inner-small">
             <ul class="accordion-list">
-              <li><%= link_to "New site", new_site_path %></li>
-              <% @current_user.sites.each do |site| %>
-                <li><%= link_to site.brand, site_path(site) %></li>
-              <% end %>
+              <li><%= link_to "Sales", "#" %></li>
+              <li><%= link_to "Consignments", "#" %></li>
+              <li><%= link_to "Top clients", "#" %></li>
             </ul>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>

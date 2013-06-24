@@ -7,6 +7,10 @@ class StaticPagesController < ApplicationController
   	end
   end
 
+  def help
+    @question = current_user.questions.build()
+  end
+
   def about
   end
 

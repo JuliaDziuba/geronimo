@@ -9,6 +9,10 @@ class UsersController < ApplicationController
     @works = @user.works
   end
 
+  def index
+    @users = User.all
+  end
+
   def new
   	@user = User.new
     render :layout => 'landing'
@@ -42,7 +46,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(params[:user])
-      flash[:success] = "Settings updated"
+      flash[:success] = "Your profile was updated!"
       sign_in @user
       redirect_to @user
     else

@@ -2,14 +2,22 @@
 #
 # Table name: users
 #
-#  id              :integer          not null, primary key
-#  name            :string(255)
-#  email           :string(255)
-#  password_digest :string(255)
-#  remember_token  :string(255)
-#  admin           :boolean
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                 :integer          not null, primary key
+#  admin              :boolean
+#  about              :string(255)
+#  name               :string(255)
+#  email              :string(255)
+#  location_city      :string(255)
+#  location_state     :string(255)
+#  password_digest    :string(255)
+#  remember_token     :string(255)
+#  username           :string(255)
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  image_file_name    :string(255)
+#  image_content_type :string(255)
+#  image_file_size    :integer
+#  image_updated_at   :datetime
 #
 
 require 'spec_helper'
@@ -17,18 +25,22 @@ require 'spec_helper'
 describe User do
 
  before do
-    @user = User.new(name: "Example User", email: "user@example.com", 
+    @user = User.new(name: "Example User", username: "ExampleUser", email: "user@example.com", about: "A little bit about this user is interesting. But only a little bit.",
                      password: "foobar", password_confirmation: "foobar")
   end
 
   subject { @user }
 
   it { should respond_to(:name) }
+  it { should respond_to(:username) }
   it { should respond_to(:email) }
   it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:remember_token) }
+  it { should respond_to(:about) }
+  it { should respond_to(:location_city) }
+  it { should respond_to(:location_state) }
   it { should respond_to(:admin) }
   it { should respond_to(:authenticate) }
   it { should respond_to(:workcategories) }
@@ -39,6 +51,7 @@ describe User do
   it { should respond_to(:activitycategories) }
   it { should respond_to(:activities) }
   it { should respond_to(:sites) }
+  it { should respond_to(:questions) }
 
   it { should be_valid }
   it { should_not be_admin }
@@ -65,6 +78,28 @@ describe User do
     before { @user.name = "a" * 51 }
     it { should_not be_valid }
   end
+
+  # username tests
+
+  describe "when username is not present" do
+    before { @user.username = " " }
+    it { should_not be_valid }
+  end
+
+  describe "when username is too long" do
+    before { @user.username = "a" * 51 }
+    it { should_not be_valid }
+  end 
+
+  describe "when username has no characters" do
+    before { @user.username = "12345678" }
+    it { should_not be_valid }
+  end 
+
+  describe "when username has special characters" do
+    before { @user.username = "hello!" }
+    it { should_not be_valid }
+  end 
 
   # email tests
 
@@ -147,6 +182,13 @@ describe User do
   describe "remember token" do
     before { @user.save }
     its(:remember_token) { should_not be_blank }
+  end
+
+  # About tests
+
+  describe "when about is too long" do
+    before { @user.about = "a" * 401 }
+    it { should_not be_valid }
   end
 
   # Workcategories and works
