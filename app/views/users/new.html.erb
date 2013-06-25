@@ -1,9 +1,14 @@
-<% provide(:title, '') %>
-
-<div class="row-fluid landing-top-margin">
-  <div class="span6 offset4">
-    <h1><%= full_title(yield(:title)) %><span class="p"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Have an acount? <%= link_to "Sign in", signin_path %></span></h1>
-  </div>
+<div class="tinted_box">
+	<%= form_for(@user, :html => {}) do |f| %>
+	  <%= render 'shared/error_messages', object: f.object %>
+	  <div class="row-fluid">
+	    <%= f.text_field :name, placeholder: "Full Name" %>
+	   	<%= f.text_field :username, placeholder: "UserName" %>
+	    <%= f.text_field :email , placeholder: "Email"%>
+	    <%= f.password_field :password , placeholder: "Password"%>
+	    <%= f.password_field :password_confirmation, placeholder: "Confirm Password" %>
+	    <%= f.submit class: "btn" %>
+	  </div>
+	<% end %>
+  <a class="landing_tag" href="<%= signin_path %>">Have an acount? Sign in!</a>
 </div>
-
-<%= render 'form_user', user: @user %>

@@ -1,25 +1,8 @@
-<% provide(:title, '') %>
-<div class="row-fluid landing-top-margin">
-  <div class="span6 offset4">
-    <h1><%= full_title(yield(:title)) %><span class="p"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; New user? <%= link_to "Sign up!", signup_path %></span></h1>
-  </div>
+<div class="box">
+  <%= form_for(:session, url: sessions_path, :html => { :class => "form-inline" }) do |f| %>
+    <%= f.text_field :email, placeholder: "Email", class: "input-small" %>
+    <%= f.password_field :password, placeholder: "Password", class: "input-small" %>
+    <%= f.submit "Sign in!", class: "btn" %>
+  <% end %>
+  <p class="landing_tag">New user? &nbsp; <%= link_to "Sign up!", signup_path %></p>
 </div>
-<%= form_for(:session, url: sessions_path, :html => { :class => "form-horizontal" }) do |f| %>
-  <div class="row-fluid">
-    <div class="span6 offset2">
-      <div class="control-group">
-        <%= f.label :email, :class => "control-label" %>
-        <div class="controls">
-          <%= f.text_field :email%>
-        </div>
-      </div>
-      <div class="control-group">
-        <%= f.label :password, :class => "control-label" %>
-        <div class="controls">
-          <%= f.password_field :password %><br /><br />
-          <%= f.submit "Sign in!", class: "btn" %>
-        </div>
-      </div>
-    </div>
-  </div>
-<% end %>

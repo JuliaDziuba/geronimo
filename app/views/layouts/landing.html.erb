@@ -8,14 +8,13 @@
     <%= render 'layouts/shim' %> 
   </head>
   <body class="row-fluid span12 back">
-    <div class="row-fluid offset2 moon">
+    <div class="row-fluid moon">
       <div class="row-fluid">
-        <div class="span3">
+        <div class="span4 offset1">
           <%= render 'static_pages/title' %>
-          <br />
           <%= render 'static_pages/about' %>
         </div>
-        <div class="span3 offset1 center">
+        <div class="span4 offset2 center">
           <%= render 'shared/flash_messages' %>
           <%= yield %>
         </div>
