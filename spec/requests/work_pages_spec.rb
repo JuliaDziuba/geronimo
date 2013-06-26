@@ -24,7 +24,7 @@ describe "Work pages" do
     	before { visit works_path }
 
     	it { should have_selector('h1', text: "Works") }
-      it { should have_selector('p', text: "Great start creating categories!") }
+      it { should have_selector('p', text: "Nice start creating categories.") }
       it { should_not have_selector('h2', text: "START UPLOADING WORKS!") }
       it { should have_selector('a', content: "Create another category") }
 
@@ -62,8 +62,8 @@ describe "Work pages" do
     	let!(:v)    { FactoryGirl.create(:venue, user: user) }
 
       describe "and piece is not available" do
-        let!(:ac_sold)   { FactoryGirl.create(:activitycategory, user: user, name:'Sale', status:'Sold') }
-        let!(:a)   { FactoryGirl.create(:activity, activitycategory: ac_sold, work: work, venue: v, client: c, date_start: '2013-01-01', date_end: '2013-01-01') }
+        let!(:ac_sold)   { FactoryGirl.create(:activitycategory, name:'Sale', status:'Sold') }
+        let!(:a)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_sold, work: work, venue: v, client: c, date_start: '2013-01-01', date_end: '2013-01-01') }
         before { visit work_path(work) }
       
         it { should have_selector('a', text:  "Works") }
@@ -73,8 +73,8 @@ describe "Work pages" do
       end
 
       describe "and piece is available" do
-        let!(:ac_consignedPreviously)   { FactoryGirl.create(:activitycategory, user: user, name:'Consign', status:'Consigned', final: false) }
-        let!(:a)   { FactoryGirl.create(:activity, activitycategory: ac_consignedPreviously, work: work, venue: v, client: c, date_start: '2012-01-01', date_end: '2013-01-01') }
+        let!(:ac_consignedPreviously)   { FactoryGirl.create(:activitycategory, name:'Consignment', status:'Consigned', final: false) }
+        let!(:a)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consignedPreviously, work: work, venue: v, client: c, date_start: '2012-01-01', date_end: '2013-01-01') }
         before { visit work_path(work) }
       
         it { should have_selector('a', text: "New Activity") }

@@ -2,11 +2,11 @@
 	<%= form_for(@user, :html => {}) do |f| %>
 	  <%= render 'shared/error_messages', object: f.object %>
 	  <div class="row-fluid">
-	    <%= f.text_field :name, placeholder: "Full Name" %>
-	   	<%= f.text_field :username, placeholder: "UserName" %>
-	    <%= f.text_field :email , placeholder: "Email"%>
-	    <%= f.password_field :password , placeholder: "Password"%>
-	    <%= f.password_field :password_confirmation, placeholder: "Confirm Password" %>
+	    <%= f.text_field :name, id: "Name", placeholder: "Full Name" %>
+	   	<%= f.text_field :username, id: "Username", placeholder: "UserName" %>
+	    <%= f.text_field :email , id: "Email", placeholder: "Email"%>
+	    <%= f.password_field :password , id: "Password", placeholder: "Password"%>
+	    <%= f.password_field :password_confirmation, id: "Password_confirmation", placeholder: "Confirm Password" %>
 	    <%= f.submit "Sign up!", class: "btn" %>
 	  </div>
 	<% end %>

@@ -3,10 +3,13 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
+  $('#get_started_workcategory_select').click ->
+    $('#get_started_workcategory').slideToggle()
+
+$ ->
   $('#new_workcategory_select').click ->
     $('#new_workcategory').slideToggle()
 
 $ ->
   $('#edit_workcategory_select').click ->
     $('#edit_workcategory').slideToggle()     
-

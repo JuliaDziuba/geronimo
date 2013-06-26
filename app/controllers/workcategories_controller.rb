@@ -3,7 +3,7 @@ class WorkcategoriesController < ApplicationController
   # before_filter :correct_user,   only: :destroy
 
   def index
-  	@parentcategories = current_user.workcategories.parents_only
+    @parentcategories = current_user.workcategories.parents_only.all
     @workcategory = Workcategory.new
   end
 

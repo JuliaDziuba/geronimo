@@ -8,8 +8,10 @@ describe "Authentication" do
 
     before { visit signin_path }
 
-    it { should have_selector('h1',    text: full_title('')) }
     it { should have_selector('title', text: full_title('')) }
+    it { should have_content('one small step for you') }
+    it { should have_content('We are working hard for you!') }
+    
 
     describe "with invalid information" do
       before { click_button "Sign in!" }
@@ -28,12 +30,12 @@ describe "Authentication" do
       before { sign_in user }
 
       it { should have_selector('a', text: user.name) }
-      it { should have_link('sign out', href: signout_path) }
+      it { should have_link('Sign out', href: signout_path) }
       it { should_not have_link('Sign in!', href: signin_path) }
       
       describe "followed by signout" do
-        before { click_link "sign out" }
-        it { should have_link('Sign in') }
+        before { click_link "Sign out" }
+        it { should have_content('one small step for you') }
       end
     end
   end
@@ -54,7 +56,7 @@ describe "Authentication" do
         describe "after signing in" do
 
           it "should render the desired protected page" do
-            should have_selector('h1', text: 'Update')
+            should have_selector('h1', text: 'Maker Profile')
           end
         end
       end
@@ -63,7 +65,10 @@ describe "Authentication" do
 
         describe "visiting the edit page" do
           before { visit edit_user_path(user) }
-          it { should have_link('Sign in!') }
+          it { should have_content('Please sign in.') }
+          pending  
+          #  it { should have_link('Sign in!') }
+          #  it { should have_content("hello there") }
         end
 
         describe "submitting to the update action" do
@@ -73,7 +78,9 @@ describe "Authentication" do
 
         describe "visiting the user page" do
           before { visit user_path(user) }
-          it { should have_link('Sign in!') }
+          it { should have_content('Please sign in.') }
+          pending  
+          #  it { should have_link('Sign in!') }
         end
       end
 
@@ -97,12 +104,12 @@ describe "Authentication" do
 
       describe "visiting Users#edit page" do
         before { visit edit_user_path(wrong_user) }
-        it { should_not have_selector('h1', text: "Update") }
+        it { should_not have_selector('h1', text: "Maker Profile") }
       end
 
       describe "submitting a PUT request to the Users#update action" do
         before { put user_path(wrong_user) }
-        specify { response.should redirect_to(root_path) }
+        specify { response.should redirect_to(signin_path) }
       end
     end
 

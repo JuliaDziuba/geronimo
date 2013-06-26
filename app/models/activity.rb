@@ -18,16 +18,17 @@
 class Activity < ActiveRecord::Base
   attr_accessible :activitycategory_id, :client_id, :date_end, :date_start, :income_retail, :income_wholesale, :venue_id, :work_id
 
-	belongs_to :activitycategory
+	belongs_to :user
+  belongs_to :activitycategory
 	belongs_to :venue
 	belongs_to :work
 	belongs_to :client
-	belongs_to :user
 
   before_validation :set_venue
   after_validation :set_date_end
 
-	validates :activitycategory_id, presence: true
+	validates :user_id, presence: true
+  validates :activitycategory_id, presence: true
 	validates :work_id, presence: true
   validates :venue_id, presence: true
   validates :date_start, presence: true
@@ -41,7 +42,7 @@ class Activity < ActiveRecord::Base
   scope :previousActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end < :date)', { id: id, date: Date.today })  }
   
   def client
-    self.activitycategory.user.clients.find_by_id(read_attribute(:client_id)) || self.activitycategory.user.clients.build(:id => 0, :name => "Unknown")
+    self.user.clients.find_by_id(read_attribute(:client_id)) || self.user.clients.build(:id => 0, :name => "Unknown")
   end
 
   def activity_before

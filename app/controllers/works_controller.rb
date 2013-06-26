@@ -27,7 +27,7 @@ class WorksController < ApplicationController
       @activities = @work.activities.all
 
       @activity = @activity = Activity.new
-      @activitycategories = current_user.activitycategories
+      @activitycategories = Activitycategory.all
       @venues = current_user.venues.all
       @clients = current_user.clients
       @works  = []
@@ -43,7 +43,7 @@ class WorksController < ApplicationController
     @activities = @work.activities.all
 
     @activity = current_user.activities.build(:work_id => @work.id)
-    @activitycategories = current_user.activitycategories
+    @activitycategories = Activitycategory.all
     @venues = current_user.venues.all
     @clients = current_user.clients
     @works  = []
@@ -51,11 +51,9 @@ class WorksController < ApplicationController
   end
 
   def index
-    @categoryfilter = params[:categoryfilter]
-    @statusfilter = params[:statusfilter]
-    @parentcategories = current_user.workcategories.parents_only
+    @parentcategories = current_user.workcategories.parents_only.all
     @workcategories = current_user.workcategories_showing_families
-    @works = works_given_filters(@categoryfilter, @statusfilter)
+    @works = works_given_filters(params[:categoryfilter], params[:statusfilter])
     @workcategory = Workcategory.new
     @work = Work.new
   end

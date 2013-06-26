@@ -2,11 +2,7 @@
   YOUR BUSINESS<br /><br />
   <div class="accordion" id="accordianParent">
     <div class="accordion-group">
-      <% if @current_user.works.any? %>
-        <%= render 'layouts/sidebar_works' %>
-      <% else %>
-        <%= render 'layouts/sidebar_works_start' %>
-      <% end %>
+      <%= render 'layouts/sidebar_works' %>
     </div>
     <div class="accordion-group">
       <div class="accordion-heading">
@@ -27,6 +23,7 @@
         <div id="reportSection" class="accordion-body collapse">
           <div class="accordion-inner-small">
             <ul class="accordion-list">
+              <li><%= link_to "Financials", "#" %></li>
               <li><%= link_to "Sales", "#" %></li>
               <li><%= link_to "Consignments", "#" %></li>
               <li><%= link_to "Top clients", "#" %></li>

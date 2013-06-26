@@ -14,6 +14,7 @@
 ActiveRecord::Schema.define(:version => 20130621205648) do
 
   create_table "activities", :force => true do |t|
+    t.integer  "user_id"
     t.integer  "activitycategory_id"
     t.integer  "venue_id"
     t.integer  "client_id"
@@ -27,11 +28,11 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
   end
 
   add_index "activities", ["activitycategory_id"], :name => "index_activities_on_activitycategory_id"
+  add_index "activities", ["user_id"], :name => "index_activities_on_user_id"
   add_index "activities", ["venue_id"], :name => "index_activities_on_venue_id"
   add_index "activities", ["work_id"], :name => "index_activities_on_work_id"
 
   create_table "activitycategories", :force => true do |t|
-    t.integer  "user_id"
     t.string   "name"
     t.string   "description"
     t.string   "status"
@@ -40,8 +41,7 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "activitycategories", ["user_id", "name"], :name => "index_activitycategories_on_user_id_and_name"
-  add_index "activitycategories", ["user_id"], :name => "index_activitycategories_on_user_id"
+  add_index "activitycategories", ["name"], :name => "index_activitycategories_on_name"
 
   create_table "clients", :force => true do |t|
     t.string   "name"
@@ -54,12 +54,6 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.integer  "user_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-  end
-
-  create_table "mailinglists", :force => true do |t|
-    t.string   "email"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "questions", :force => true do |t|
@@ -136,14 +130,13 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
   create_table "venuecategories", :force => true do |t|
-    t.integer  "user_id"
     t.string   "name"
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "venuecategories", ["user_id"], :name => "index_venuecategories_on_user_id"
+  add_index "venuecategories", ["name"], :name => "index_venuecategories_on_name"
 
   create_table "venues", :force => true do |t|
     t.integer  "user_id"

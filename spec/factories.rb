@@ -28,7 +28,6 @@ FactoryGirl.define do
   factory :venuecategory do
     name "Gallery"
     description "Galleries in the United States."
-    user
   end
 
   factory :venue do
@@ -46,16 +45,15 @@ FactoryGirl.define do
     description "Sales made to clients."
     status "Sold"
     final true
-    user
   end
 
   factory :activity do
     date_start "2013-04-01"
     date_end "2013-05-01"
-    activitycategory 
+    activitycategory
     work 
     venue
-
+    user
   end
 
   factory :site do

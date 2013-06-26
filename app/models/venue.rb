@@ -35,7 +35,7 @@ class Venue < ActiveRecord::Base
   scope :not_on_site, lambda { |site| where('not venues.id in (?)', site.venues.collect(&:id).push(0)) }
   
   def venuecategory
-		self.user.venuecategories.find_by_id(read_attribute(:venuecategory_id)) || self.user.venuecategories.build(:id => 0, :name => "Uncategorized")
+		Venuecategory.find_by_id(read_attribute(:venuecategory_id)) || Venuecategory.new(:id => 0, :name => "Uncategorized")
   end
 
 end

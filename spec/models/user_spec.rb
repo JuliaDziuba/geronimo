@@ -45,10 +45,8 @@ describe User do
   it { should respond_to(:authenticate) }
   it { should respond_to(:workcategories) }
   it { should respond_to(:works) }
-  it { should respond_to(:venuecategories) }
   it { should respond_to(:venues) }
   it { should respond_to(:clients) }
-  it { should respond_to(:activitycategories) }
   it { should respond_to(:activities) }
   it { should respond_to(:sites) }
   it { should respond_to(:questions) }
@@ -240,21 +238,14 @@ describe User do
   describe "venuecategory and venue associations" do
 
     before { @user.save }
-    let!(:b_venuecategory) do 
-      FactoryGirl.create(:venuecategory, user: @user, name: "Galleries", description: "Galleries in the United States.")
-    end
-    let!(:a_venuecategory) do
-      FactoryGirl.create(:venuecategory, user: @user, name: "Boutiques", description: "Boutiques in the United States.")
+    let!(:vc) do
+      FactoryGirl.create(:venuecategory, name: "Stores", description: "Stores in the United States.")
     end
     let!(:b_venue) do
-      FactoryGirl.create(:venue, user: @user, name: "Beauty Boutique")
+      FactoryGirl.create(:venue, user: @user, venuecategory_id: vc.id, name: "Beauty Store")
     end
     let!(:a_venue) do
-      FactoryGirl.create(:venue, user: @user, name: "A Boutique")
-    end
-
-    it "should have the right categories in the right order" do
-      @user.venuecategories.should == [b_venuecategory, a_venuecategory]
+      FactoryGirl.create(:venue, user: @user, venuecategory_id: vc.id, name: "Another Store")
     end
 
     it "should have the right venues in the right order" do
@@ -262,14 +253,8 @@ describe User do
     end
 
     it "should destroy associated venuecategories and venues" do
-      venuecategories = @user.venuecategories.dup
       venues = @user.venues.dup
       @user.destroy
-
-      venuecategories.should_not be_empty
-      venuecategories.each do |venuecategory|
-        Venuecategory.find_by_id(venuecategory.id).should be_nil
-      end
 
       venues.should_not be_empty
       venues.each do |venue|
@@ -278,32 +263,12 @@ describe User do
     end
   end
 
-  # Activitycategories and activities
+  #Activities
 
-  describe "activitycategory associations" do
-
-    before { @user.save }
-    let!(:b_activitycategory) do 
-      FactoryGirl.create(:activitycategory, user: @user, name: "Sale", description: "Sale to a client.", final: true)
-    end
-    let!(:a_activitycategory) do
-      FactoryGirl.create(:activitycategory, user: @user, name: "Consign", description: "Consigned to a venue.", final: false)
-    end
+  describe "activity associations" do
     
-    # Add tests for activities
-
-    it "should have the right types in the right order" do
-      @user.activitycategories.should == [a_activitycategory, b_activitycategory]
-    end
-
-    it "should destroy associated activitycategories" do
-      activitycategories = @user.activitycategories.dup
-      @user.destroy
-      activitycategories.should_not be_empty
-      activitycategories.each do |activitycategory|
-        Activitycategory.find_by_id(activitycategory.id).should be_nil
-      end
-    end
+    pending "destroying user should destroy associated activities"
+    
   end
 
   # Clients
@@ -322,7 +287,7 @@ describe User do
       @user.clients.should == [a_client, b_client]
     end
 
-    it "should destroy associated clients" do
+    it "destroying user should destroy associated clients" do
       clients = @user.clients.dup
       @user.destroy
       clients.should_not be_empty

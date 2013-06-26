@@ -37,7 +37,7 @@ format_activity_form = () ->
   $('#date').removeClass('span4')
   $('#client').addClass('span4')
   $('#client').removeClass('span3')
-  if category == "Commission" || category == "Consign"
+  if category == "Commission" || category == "Consignment"
     $('#date').show()
     $('#end_date').show()
     $('#work').show()

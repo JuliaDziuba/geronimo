@@ -1,53 +1,57 @@
 <div class="accordion-heading">
   <div class="accordion-toggle-small">
     <a href="<%= works_path %>">Works</a>
-    <a data-toggle="collapse" data-parent="#accordianParent" href="#worksSection">&nbsp;<b class="caret lighter bottom"></b>&nbsp;</a>
+    <% if @current_user.works.any? || @current_user.workcategories.any? %>
+      <a data-toggle="collapse" data-parent="#accordianParent" href="#worksSection">&nbsp;<b class="caret lighter bottom"></b>&nbsp;</a>
+    <% end %>
   </div>
 </div>
 <div id="worksSection" class="accordion-body collapse">
   <div class="accordion-inner-small">
     <ul class="accordion-list">
-      <!-- Activities -->
-      <li>By Status</li> 
-      <ul class="accordion-list">
-        <% activities = @current_user.work_current_activities %>
-        <% count = activities.count("Available") %>
-        <% if count > 0  %>
-          <li><%= link_to "Available", works_path(:statusfilter => "Available") %> (<%= count %>)</li>
-        <% end %>
-        <% @current_user.activitycategories.each do |activitycategory| %>
-          <% count = activities.count(activitycategory.status) %>
-          <% if count > 0 %>
-            <li>
-              <%= link_to activitycategory.status, works_path(:statusfilter => activitycategory.status) %> (<%= count %>)
-            </li>
+      <% if @current_user.works.any? %>
+        <!-- Activities -->
+        <li>By Status</li> 
+        <ul class="accordion-list">
+          <% activities = @current_user.work_current_activities %>
+          <% count = activities.count("Available") %>
+          <% if count > 0  %>
+            <li><%= link_to "Available", works_path(:statusfilter => "Available") %> (<%= count %>)</li>
           <% end %>
-        <% end %>
-      </ul><!-- /Activities -->
-      <li class="divider"></li>
-      <li>By Category</li>
-      <!-- WorkCategories -->
-      <ul class="accordion-list">
-        <% @current_user.workcategories.parents_only.each do |parent| %>
-          <% if parent.works.count > 0 %>
-            <li><%= link_to parent.name, works_path(:categoryfilter => parent.name) %> (<%= parent.works.count %>)</li>
+          <% Activitycategory.all.each do |activitycategory| %>
+            <% count = activities.count(activitycategory.status) %>
+            <% if count > 0 %>
+              <li>
+                <%= link_to activitycategory.status, works_path(:statusfilter => activitycategory.status) %> (<%= count %>)
+              </li>
+            <% end %>
           <% end %>
-          <% if parent.children.any? %>
-            <% parent.children.each do |child| %>
-              <% if child.works.any? %>
-                <li class="sidebar-sublist"><%= link_to parent.name + " > " + child.name, works_path(:categoryfilter => parent.name + "." + child.name) %> (<%= child.works.count %>)</li>
+        </ul><!-- /Activities -->
+        <li class="divider"></li>
+        <li>By Category</li>
+        <!-- WorkCategories -->
+        <ul class="accordion-list">
+          <% @current_user.workcategories.parents_only.each do |parent| %>
+            <% if parent.works.count > 0 %>
+              <li><%= link_to parent.name, works_path(:categoryfilter => parent.name) %> (<%= parent.works.count %>)</li>
+            <% end %>
+            <% if parent.children.any? %>
+              <% parent.children.each do |child| %>
+                <% if child.works.any? %>
+                  <li class="sidebar-sublist"><%= link_to parent.name + " > " + child.name, works_path(:categoryfilter => parent.name + "." + child.name) %> (<%= child.works.count %>)</li>
+                <% end %>
               <% end %>
             <% end %>
           <% end %>
-        <% end %>
-        <% if @current_user.works.uncategorized.any? %>
-          <li><%= link_to "Uncategorized", works_path(:categoryfilter => "Uncategorized") %> (<%= @current_user.works.uncategorized.count %>)</li>
-        <% end %>
-      </ul>
-      <!-- /WorkCategories -->
-      <li class="divider"></li>
-        <li><%= link_to "Activities", activities_path %></li>
-      <li class="divider"></li>
+          <% if @current_user.works.uncategorized.any? %>
+            <li><%= link_to "Uncategorized", works_path(:categoryfilter => "Uncategorized") %> (<%= @current_user.works.uncategorized.count %>)</li>
+          <% end %>
+        </ul>
+        <!-- /WorkCategories -->
+        <li class="divider"></li>
+          <li><%= link_to "Activities", activities_path %></li>
+        <li class="divider"></li>
+      <% end %>
       <li><%= link_to "Categories", workcategories_path %></li>
     </ul>
   </div>

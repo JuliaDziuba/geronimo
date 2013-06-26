@@ -22,20 +22,9 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
-      flash[:success] = "Welcome to Geronimo! Add more information about yourself to fill out your website or add works, clients and venues to start building your database!"
+      flash[:success] = "Welcome to Makers' Moon! Add more information about yourself to fill out your website or add works, clients and venues to start building your database!"
       redirect_to @user
-      @user.venuecategories.create!(name: "Galleries", description: "Galleries with shows and permanent exhibits.")
-      @user.venuecategories.create!(name: "Stores", description: "Physical locations such as boutiques, shops, salons, etc that are not galleries.")
-      @user.venuecategories.create!(name: "Studios", description: "Studios work can be shown in or sold from.")
-      @user.venues.create!(name: "My Studio", venuecategory_id: user.venuecategories.last.id)
-      @user.venuecategories.create!(name: "Booths", description: "Temporary venues such as white-tents or booths at conventions, fairs, or open air markets.")
-      @user.venuecategories.create!(name: "Online", description: "Online venues such as Etsy or Ebay stores.")
-      @user.activitycategories.create!(name: "Sale", status: "Sold", final:true, description: "Sale of a work.")
-      @user.activitycategories.create!(name: "Commission", status: "Commissioned", final: false, description: "Commission of work started, sale to follow.")
-      @user.activitycategories.create!(name: "Consign", status: "Consigned", final: false, description: "Consignment of a work, hoping sale follows.")
-      @user.activitycategories.create!(name: "Gift", status: "Gifted", final: true, description: "Gift a work.")
-      @user.activitycategories.create!(name: "Donate", status: "Donated", final: true, description: "Donate a work.")
-      @user.activitycategories.create!(name: "Recycle", status: "Recycled", final: true, description: "Recycle a work to create improved visions.")
+      @user.venues.create!(name: "My Studio", venuecategory_id: Venuecategory.find_by_name("Studios"))
     else
       render 'new', :layout => 'landing'
     end
@@ -64,7 +53,7 @@ class UsersController < ApplicationController
 
     def correct_user
       @user = User.find(params[:id])
-      redirect_to(root_path) unless current_user?(@user)
+      redirect_to(signin_path) unless current_user?(@user)
     end
 
     def admin_user

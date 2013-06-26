@@ -27,7 +27,7 @@
         <td><div class=overflow><%= venue.address_state %></div></td>
         <td><div class=overflow><%= venue.address_zipcode %></div></td>
         <td><div class=overflow>
-          <%= record = current_user.activitycategories.find_by_name('Consign')
+          <%= record = Activitycategory.find_by_name('Consignment')
             if record.nil?
               0
             else
@@ -36,7 +36,7 @@
           %>
         </div></td>
         <td><div class=overflow>
-          <%= record = current_user.activitycategories.find_by_name('Sale')
+          <%= record = Activitycategory.find_by_name('Sale')
             if record.nil?
               0
             else

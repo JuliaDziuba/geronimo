@@ -1,7 +1,7 @@
 <div class="box">
   <%= form_for(:session, url: sessions_path, :html => { :class => "form-inline" }) do |f| %>
-    <%= f.text_field :email, placeholder: "Email", class: "input-small" %>
-    <%= f.password_field :password, placeholder: "Password", class: "input-small" %>
+    <%= f.text_field :email, id: "Email", placeholder: "Email", class: "input-small"%>
+    <%= f.password_field :password, id: "Password", placeholder: "Password", class: "input-small" %>
     <%= f.submit "Sign in!", class: "btn" %>
   <% end %>
   <p class="landing_tag">New user? &nbsp; <%= link_to "Sign up!", signup_path %></p>

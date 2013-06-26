@@ -15,32 +15,15 @@
 require 'spec_helper'
 
 describe Activitycategory do
-    let(:user) { FactoryGirl.create(:user) }
-  before { @activitycategory = user.activitycategories.build(name: "Sale", status: "Sold", description: "Sold a piece to a client", final: false) }
+  before { @activitycategory = Activitycategory.new(name: "Sale", status: "Sold", description: "Sold a piece to a client", final: false) }
   
   subject { @activitycategory }
 
   it { should respond_to(:name) }
   it { should respond_to(:description) }
   it { should respond_to(:status) }
-  it { should respond_to(:user_id) }
-  it { should respond_to(:user) }
-  its(:user) { should == user }
 
   it { should be_valid }
-
-  describe "accessible attributes" do
-    it "should not allow access to user_id" do
-      expect do
-        Venuecategory.new(user_id: user.id)
-      end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
-    end    
-  end
-
-  describe "when user_id is not present" do
-    before { @activitycategory.user_id = nil }
-    it { should_not be_valid }
-  end
 
   describe "with blank name" do
     before { @activitycategory.name = " " }
@@ -60,5 +43,22 @@ describe Activitycategory do
   describe "with status that is too long" do
     before { @activitycategory.status = "a" * 26 }
     it { should_not be_valid }
+  end
+
+   # Activitycategories and activities
+
+  describe "activitycategory associations" do
+
+    let!(:b_activitycategory) do 
+      FactoryGirl.create(:activitycategory, name: "Sale", description: "Sale to a client.", final: true)
+    end
+    let!(:a_activitycategory) do
+      FactoryGirl.create(:activitycategory, name: "Consignment", description: "Consigned to a venue.", final: false)
+    end
+
+    it "should have the right types in the right order" do
+      Activitycategory.all.should == [a_activitycategory, b_activitycategory]
+    end
+
   end
 end

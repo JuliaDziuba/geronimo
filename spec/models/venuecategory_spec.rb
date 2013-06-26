@@ -13,32 +13,14 @@
 require 'spec_helper'
 
 describe Venuecategory do
-  let(:user) { FactoryGirl.create(:user) }
-  before { @venuecategory = user.venuecategories.build(name: "Gallery", description: "Galleries anywhere in the US") }
+  before { @venuecategory = Venuecategory.new(name: "Gallery", description: "Galleries anywhere in the US") }
   
   subject { @venuecategory }
 
-  its(:user) { should == user }
-
-  it { should respond_to(:user) }
   it { should respond_to(:name) }
   it { should respond_to(:description) }
-  it { should respond_to(:user_id) }
 
   it { should be_valid }
-
-  describe "accessible attributes" do
-    it "should not allow access to user_id" do
-      expect do
-        Venuecategory.new(user_id: user.id)
-      end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
-    end    
-  end
-
-  describe "when user_id is not present" do
-    before { @venuecategory.user_id = nil }
-    it { should_not be_valid }
-  end
 
   describe "when name is not present" do
     before { @venuecategory.name = nil }
@@ -59,4 +41,5 @@ describe Venuecategory do
     before { @venuecategory.description = "a" * 151 }
     it { should_not be_valid }
   end
+  
 end

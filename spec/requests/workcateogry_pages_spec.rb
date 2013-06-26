@@ -15,7 +15,7 @@ describe "Workcategory pages" do
     describe "when there are no workcategories" do
       before { visit workcategories_path }
 
-      it { should have_selector('h1', text: "Work categories") }
+      it { should have_selector('h1', text: "Categories") }
       it { should have_selector('p', text: "This tool has two primary features") }
       it { should have_selector('h2', content: 'CREATE A CATEGORY') }
 
@@ -51,7 +51,7 @@ describe "Workcategory pages" do
       
       before { visit workcategories_path }
 
-      it { should have_selector('h1',    text: 'Work categories') }
+      it { should have_selector('h1',    text: 'Categories') }
       
       it "should list each work category" do
         user.workcategories.all.each do |workcategory|
@@ -77,18 +77,5 @@ describe "Workcategory pages" do
       end
     end # when there are workcategories
   end # index page
-
-  describe "show page" do
-    let!(:wc) { FactoryGirl.create(:workcategory, user: user) }
-      
-    before do
-      visit workcategory_path(wc)
-    end
-
-    it { should have_selector('a', text:  "Work categories") }
-    it { should have_selector('a', text:  "edit") }
-    it { should have_selector('a', text:  "delete") }
-    it { should have_selector('h1', text: wc.name) }
-  end
 
 end

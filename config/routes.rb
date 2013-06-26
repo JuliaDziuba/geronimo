@@ -8,7 +8,6 @@ Geronimo::Application.routes.draw do
   resources :workcategories , exclude: [:new, :show]
   resources :venues, exclude: [:new, :edit]
   resources :clients, exclude: [:new, :edit]
-  resources :activitycategories, exclude: [:new]
   resources :activities
   resources :sites do
     resources :siteworks, only: [:index, :create, :destroy]

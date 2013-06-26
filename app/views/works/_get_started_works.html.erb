@@ -1,30 +1,23 @@
 <% if @current_user.works.all.count > 0  %>
-  <p>There are no works in this category! START UPLOADING WORKS!</p>
+  <p>There are no works in this category! START CATELOGING YOUR WORKS!</p>
 <% else %>
-  <p>Great start creating categories! Add some more categories and subcategories of works or START UPLOADING WORKS!</p>
+  <p>This tool has two primary features 
+    <ol class="indent">
+      <li>keep a detailed inventory of all works, track their movement as they find a home, and the income they generate and</li>
+      <li>promote the artist and their works with a public site.</li>
+    </ol>
+  </p>
+  <p>To organize the works and public site we create categories of work. Learn more about categories and create some by clicking on 'Start creating categories' or skip this step and start uploading works.</p>
+  <h2><a id="get_started_workcategory_select" href="#get_started_workcategory">Start creating categories</a></h2>
+  <div id="get_started_workcategory" class="not-displayed">
+    <%= render 'workcategories/get_started_workcategories', category: @workcategory, categories: @parentcategories %>
+  </div>
 
-  <ul class="list">
-    <% parentcategories.each do |parent| %>
-      <li class="spaced">
-        <%= render 'workcategories/list_element_workcategory', category: parent %>
-        <ul class="sublist">
-          <% if parent.children.any? %>
-            <% parent.children.each do |child| %>
-              <li class="spaced">
-              <%= render 'workcategories/list_element_workcategory', category: child %>
-             </li>
-            <% end %>
-          <% end %>
-        </ul>
-      </li>
-    <% end %>
-    <li>
-    <a id="new_workcategory_select" href="#new_workcategory">Create another category</a>
-  </li>
-</ul>
-<div id="new_workcategory" class="not-displayed">
-  <%= render 'workcategories/form_workcategory', category: workcategory, categories: categories %>
-</div>
+  <h2><a id="new_work_select" href="#new_work">Start uploading works</a></h2>
+  <div id="new_work" class="not-displayed">
+    <%= render 'form_work', work: @work, categories: @workcategories %>
+  </div>
+
 <% end %>
 
   

@@ -22,11 +22,11 @@ describe Activity do
   let(:w)    { FactoryGirl.create(:work, user: user) }
   let(:v)    { FactoryGirl.create(:venue, user: user) }
   let(:c)    { FactoryGirl.create(:client, user: user) }
-  let(:ac)   { FactoryGirl.create(:activitycategory, user: user, name: "Consign", status: "Consigned", final: false) }
-  let(:ac_final)   { FactoryGirl.create(:activitycategory, user: user, name: "Sale", status: "Sold", final: true) }
+  let(:ac)   { FactoryGirl.create(:activitycategory, name: "Consignment", status: "Consigned", final: false) }
+  let(:ac_final)   { FactoryGirl.create(:activitycategory, name: "Sale", status: "Sold", final: true) }
   before do
     user.venues.create(name: "My Studio")
-    @activity = ac.activities.create(work_id: w.id, date_start: '2013-01-01')
+    @activity = user.activities.create(activitycategory_id: ac.id, work_id: w.id, date_start: '2013-01-01')
   end
   
   subject { @activity }

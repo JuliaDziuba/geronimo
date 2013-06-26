@@ -23,16 +23,16 @@ class VenuesController < ApplicationController
 
   def show
     @venue = current_user.venues.find(params[:id])
-    @venuecategories = current_user.venuecategories.all
+    @venuecategories = Venuecategory.all
     @currentconsignments = []
     @pastconsignments =[]
     @sales =[]
-    consign = current_user.activitycategories.find_by_name('Consign')
+    consign = Activitycategory.find_by_name('Consignment')
     if !consign.nil?
       @currentconsignments = @venue.activities.currentActivityCategory(consign.id)
       @pastconsignments = @venue.activities.previousActivityCategory(consign.id)
     end
-    sale = current_user.activitycategories.find_by_name('Sale')
+    sale = Activitycategory.find_by_name('Sale')
     if !sale.nil?
       @sales = @venue.activities.previousActivityCategory(sale.id)
     end
@@ -41,7 +41,7 @@ class VenuesController < ApplicationController
   def index
     @venue = current_user.venues.build if signed_in?
     @venues = current_user.venues.all
-    @venuecategories = current_user.venuecategories.all
+    @venuecategories = Venuecategory.all
   end
 
   def destroy

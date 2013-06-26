@@ -7,15 +7,16 @@ describe "User pages" do
   describe "signup page" do
     before { visit signup_path }
 
-    it { should have_selector('h1',    text: full_title('')) }
-  	it { should have_selector('title', text: full_title('')) }
+    it { should have_selector('title', text: full_title('')) }
+    it { should have_content('one small step for you') }
+    
   end
 
   describe "signup" do
 
     before { visit signup_path }
 
-    let(:submit) { "Create User" }
+    let(:submit) { "Sign up!" }
 
     describe "with invalid information" do
       it "should not create a user" do
@@ -25,15 +26,17 @@ describe "User pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Name",         with: "Example User"
-        fill_in "Email",        with: "user@example.com"
-        fill_in "Password",     with: "foobar"
-        fill_in "Confirm Password", with: "foobar"
+        fill_in "Name",         with: "Rspec Test"
+        fill_in "Username",     with: "RspecTest"
+        fill_in "Email",        with: "rspec@example.com"
+        fill_in "Password",     with: "password"
+        fill_in "Password_confirmation", with: "password"
       end
 
       it "should create a user" do
         expect { click_button submit }.to change(User, :count).by(1)
       end
+
     end
   end
 
@@ -44,12 +47,12 @@ describe "User pages" do
       visit edit_user_path(user)
     end
     describe "page" do
-      it { should have_selector('h1',    text: "Update Settings") }
+      it { should have_selector('h1',    text: "Maker Profile") }
       it { should have_selector('title', text: full_title('')) }
     end
 
     describe "with invalid information" do
-      before { click_button "Update User" }
+      before { click_button "Update" }
 
       it { should have_content('error') }
     end
@@ -62,12 +65,12 @@ describe "User pages" do
         fill_in "Email",            with: new_email
         fill_in "Password",         with: user.password
         fill_in "Confirm Password", with: user.password
-        click_button "Update User"
+        click_button "Update"
       end
 
-      it { should have_selector('title', text:  "GERONIMO! | " + new_name) }
+      it { should have_selector('title', text: full_title('')) }
       it { should have_selector('div.alert.alert-success') }
-      it { should have_link('sign out', href: signout_path) }
+      it { should have_link('Sign out', href: signout_path) }
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
     end

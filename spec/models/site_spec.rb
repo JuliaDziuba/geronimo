@@ -34,7 +34,7 @@ describe Site do
   let(:wc)   { FactoryGirl.create(:workcategory, user: user) }
   let(:wsc)  { FactoryGirl.create(:worksubcategory, workcategory: wc) }
   let(:w)    { FactoryGirl.create(:work, worksubcategory: wsc) }
-  let(:vc)   { FactoryGirl.create(:venuecategory, user: user) }
+  let(:vc)   { FactoryGirl.create(:venuecategory) }
   let(:v)    { FactoryGirl.create(:venue, venuecategory: vc) }
   before { @site = user.sites.build(brand: "Art by Julia") }
   

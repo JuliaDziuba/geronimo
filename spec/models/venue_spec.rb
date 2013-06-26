@@ -74,6 +74,7 @@ describe Venue do
   end
 
   it "should destroy associated sitevenues" do
+    pending
     let(:site) { FactoryGirl.create(:site, user: user) }
     let!(:sw) do
       FactoryGirl.create(:sitevenue, site: site, venue: @venue)

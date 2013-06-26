@@ -6,8 +6,8 @@ describe "Activity pages" do
 
 	let(:user) { FactoryGirl.create(:user) }
 	let(:w)    				{ FactoryGirl.create(:work, user: user) }
-	let!(:ac_consign) 	{ FactoryGirl.create(:activitycategory, user: user, name: "Consign", status: "Consigned", final: false) }
-	let!(:ac_sale) 		{ FactoryGirl.create(:activitycategory, user: user, name: "Sale",    status: "Sold", final: true) } 
+	let!(:ac_consign) 	{ FactoryGirl.create(:activitycategory, name: "Consignment", status: "Consigned", final: false) }
+	let!(:ac_sale) 		{ FactoryGirl.create(:activitycategory, name: "Sale",    status: "Sold", final: true) } 
 			
   before { sign_in user }
 
@@ -17,13 +17,13 @@ describe "Activity pages" do
   		before { visit activities_path }
 
 			it { should have_selector('h1', text: "Activities") }
-  		it { should have_selector('p', text: "Step 2") }
+  		it { should have_selector('p', text: "Make a sale or donate, gift, or recycle a piece?") }
   	end
 
   	describe "when there are activities" do
-	  	let!(:a_consign1) { FactoryGirl.create(:activity, activitycategory: ac_consign, work: w, date_start:"2013-01-01", date_end:"2013-02-01") }
-			let!(:a_consign2) { FactoryGirl.create(:activity, activitycategory: ac_consign, work: w, date_start:"2013-03-01", date_end:"2013-04-01") }
-			let!(:a_sale)   	{ FactoryGirl.create(:activity, activitycategory: ac_sale,    work: w, date_start:"2013-06-01") }
+	  	let!(:a_consign1) { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, date_start:"2013-01-01", date_end:"2013-02-01") }
+			let!(:a_consign2) { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, date_start:"2013-03-01", date_end:"2013-04-01") }
+			let!(:a_sale)   	{ FactoryGirl.create(:activity, user: user, activitycategory: ac_sale,    work: w, date_start:"2013-06-01") }
 			
 			before { visit activities_path }
 			
@@ -78,7 +78,7 @@ describe "Activity pages" do
 
 	  		describe "with an activity that starts before an existing one ends" do
 	  			before do
-						select 'Consign',   from: "activity_activitycategory_id"
+						select 'Consignment',   from: "activity_activitycategory_id"
 		        fill_in "Date",     with: "2013-01-15"
 		        fill_in "End Date", with: "2013-01-20"
         		select_second_option("activity_work_id")
@@ -100,7 +100,7 @@ describe "Activity pages" do
 
 	  		describe "with an activity that end after an existing one starts" do
 	  			before do
-						select 'Consign',  from: "activity_activitycategory_id"
+						select 'Consignment',  from: "activity_activitycategory_id"
 		        fill_in "Date",        with: "2013-01-21"
         		fill_in "End Date", with: "2013-03-10"
         		select_second_option("activity_work_id")
@@ -126,7 +126,7 @@ describe "Activity pages" do
 
 	describe "edit page" do
 		let(:w)    { FactoryGirl.create(:work, user: user) }
-	  let(:a)   { FactoryGirl.create(:activity, activitycategory: ac_consign, work: w) }
+	  let(:a)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w) }
 
 		before { visit edit_activity_path(a) }
 

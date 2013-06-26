@@ -27,20 +27,9 @@ namespace :db do
                 description: "Composed of seed beads tightly woven in a 1 inch choker and adorned with a beaded flower in the same style and tassles.", 
                 dimention1: 13.16, dimention_units: "inches"
               )
-    venuecategory = user.venuecategories.create!(name: "Galleries")
-      user.venues.create!(name: "Sun Gallery", venuecategory_id: venuecategory.id)
-    venuecategory = user.venuecategories.create!(name: "Boutiques")
-      user.venues.create!(name: "Personal FX", venuecategory_id: venuecategory.id)
-    user.venuecategories.create!(name: "Booths")
-    user.venuecategories.create!(name: "Online")
-    venuecategory = user.venuecategories.create!(name: "Studios")
-       user.venues.create!(name: "My Studio", venuecategory_id: venuecategory.id)
-    user.activitycategories.create!(name: "Sale", status: "Sold", final:true, description: "Sale of a work.")
-    user.activitycategories.create!(name: "Commission", status: "Commissioned", final: false, description: "Commission of work started, sale to follow.")
-    user.activitycategories.create!(name: "Consign", status: "Consigned", final: false, description: "Consignment of a work, hoping sale follows.")
-    user.activitycategories.create!(name: "Gift", status: "Gifted", final: true, description: "Gift a work.")
-    user.activitycategories.create!(name: "Donate", status: "Donated", final: true, description: "Donate a work.")
-    user.activitycategories.create!(name: "Recycle", status: "Recycled", final: true, description: "Recycle a work to create improved visions.") 
+    user.venues.create!(name: "Sun Gallery", venuecategory_id: Venuecategory.find_by_name("Galleries").id)
+    user.venues.create!(name: "Personal FX", venuecategory_id: Venuecategory.find_by_name("Stores").id)
+    user.venues.create!(name: "My Studio", venuecategory_id: Venuecategory.find_by_name("Studios").id)
     user.sites.create!(
       domain: "http://juliadziuba.com",
       brand: "Julia Dziuba",
@@ -103,11 +92,10 @@ namespace :db do
           )
         end
       end
-      @categories = ["Galleries", "Boutiques", "Booths", "Online", "Studio"]
+
+      @categories = ["Galleries", "Stores", "Studios", "Booths", "Online"]
       @categories.each do |b|
-        name = b
-        description = Faker::Lorem.sentence(5)
-        venuecategory = user.venuecategories.create!(name: name, description: description)
+        venuecategory = Venuecategory.find_by_name(b)
        
        5.times do |d|
           name = Faker::Name.name
@@ -132,12 +120,6 @@ namespace :db do
           )
         end
       end
-      user.activitycategories.create!(name: "Sale", status: "Sold", final:true, description: "Sale of a work")
-      user.activitycategories.create!(name: "Commission", status: "Being created", final:false, description: "Commission of work started, sale to follow")
-      user.activitycategories.create!(name: "Consign", status: "Consigned", final:false, description: "Consignment of a work, hoping sale follows")
-      user.activitycategories.create!(name: "Gift", status: "Gifted", final:true, description: "Gift a work")
-      user.activitycategories.create!(name: "Donate", status: "Donated", final:true, description: "Donate a work")
-      user.activitycategories.create!(name: "Recycle", status: "Recycled", final:true, description: "Recycle a work to create improved visions")
     end 
 
     

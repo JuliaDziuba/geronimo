@@ -22,7 +22,7 @@ class Workcategory < ActiveRecord::Base
 
 	default_scope order: 'workcategories.name'
 
-	scope :parents_only, lambda { where('workcategories.? IS NULL', :parent_id) }
+	scope :parents_only, lambda { where('workcategories.parent_id is NULL') }
 	scope :children_only, lambda { |parent| where('workcategories.parent_id = ?', parent.id) }
 	scope :excluding, lambda { |category| where('workcategories.id != ?',category.id) }
 
@@ -30,8 +30,8 @@ class Workcategory < ActiveRecord::Base
 		self.user.workcategories.where('workcategories.parent_id = ?', self.id)
 	end
 
-	def parent_id
-		self.user.workcategories.find_by_id(read_attribute(:parent_id)) || self.user.workcategories.build(:id => 0, :name => "None")
-  end
+#	def parent_id
+#		self.user.workcategories.find_by_id(read_attribute(:parent_id)) || self.user.workcategories.build(:id => 0, :name => "None")
+#  end
 
 end

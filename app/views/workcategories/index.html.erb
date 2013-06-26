@@ -24,5 +24,12 @@
     <% end %>
   </ul>
 <% else %>
+<p>This tool has two primary features 
+    <ol class="indent">
+      <li>keep a detailed inventory of all works, track their movement as they find a home, and the income they generate and</li>
+      <li>promote the artist and their works with a public site.</li>
+    </ol>
+  </p>
+  <p>Categories are used to organize the works and public site.</p>
 	<%= render 'get_started_workcategories', category: @workcategory, categories: @parentcategories %>
 <% end %>

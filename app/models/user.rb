@@ -28,14 +28,12 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :workcategories, dependent: :destroy
   has_many :works, dependent: :destroy
-  has_many :venuecategories, dependent: :destroy
   has_many :venues, dependent: :destroy
   has_many :clients, dependent: :destroy
   has_many :sites, dependent: :destroy
   has_many :siteworks, :through => :sites
   has_many :sitevenues, :through => :sites
-  has_many :activitycategories, dependent: :destroy
-  has_many :activities, :through => :activitycategories
+  has_many :activities, dependent: :destroy
   has_many :questions
 
   before_save { |user| user.email = email.downcase }

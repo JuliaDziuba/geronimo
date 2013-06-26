@@ -43,10 +43,10 @@ describe "Client pages" do
     	let(:wc)   { FactoryGirl.create(:workcategory, user: user) }
 		  let(:wsc)  { FactoryGirl.create(:worksubcategory, workcategory: wc) }
 		  let(:w)    { FactoryGirl.create(:work, worksubcategory: wsc) }
-		  let(:vc)   { FactoryGirl.create(:venuecategory, user: user) }
-		  let(:v)    { FactoryGirl.create(:venue, venuecategory: vc) }
-		  let(:ac)   { FactoryGirl.create(:activitycategory, user: user) }
-			let(:a)   { FactoryGirl.create(:activity, activitycategory: ac, work: w, venue: v, client: client) }
+		  let(:vc)   { FactoryGirl.create(:venuecategory) }
+		  let(:v)    { FactoryGirl.create(:venue, user: user, venuecategory: vc) }
+		  let(:ac)   { FactoryGirl.create(:activitycategory) }
+			let(:a)   { FactoryGirl.create(:activity, user: user, activitycategory: ac, work: w, venue: v, client: client) }
 			before { visit client_path(client) }
 	    
 	    # it { should have_selector('title', text: full_title('New')) }
