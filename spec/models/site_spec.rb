@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe Site do
-  before { pending }
   let(:user) { FactoryGirl.create(:user) }
   let(:wc)   { FactoryGirl.create(:workcategory, user: user) }
   let(:wsc)  { FactoryGirl.create(:worksubcategory, workcategory: wc) }
@@ -61,11 +60,6 @@ describe Site do
   it { should respond_to(:created_at) }
   it { should respond_to(:updated_at) }
 
-  it { should respond_to(:siteworks) }
-  it { should respond_to(:sitevenues) }
-  it { should respond_to(:works) }
-  it { should respond_to(:venues) }
-
   its(:user) { should == user }
 
   it { should be_valid }
@@ -92,29 +86,5 @@ describe Site do
     before { @site.brand = "a" * 31 }
     it { should_not be_valid }
   end
-
-  it "should destroy associated siteworks" do
-    let!(:sw) { FactoryGirl.create(:sitework, site: @site, work: w) }
-
-    siteworks = @site.siteworks.dup
-    @site.destroy
-
-    siteworks.should_not be_empty
-    siteworks.each do |sitework|
-      Sitework.find_by_id(sitework.id).should be_nil
-    end
-  end
-
-  it "should destroy associated sitevenues" do
-    let!(:sv) { FactoryGirl.create(:sitevenue, site: @site, venue: v) }
-    sitevenues = @site.sitevenues.dup
-    @site.destroy
-
-    sitevenues.should_not be_empty
-    sitevenues.each do |sitevenue|
-      Sitevenue.find_by_id(sitevenue.id).should be_nil
-    end
-  end
-
 
 end

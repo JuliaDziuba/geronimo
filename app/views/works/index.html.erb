@@ -8,7 +8,7 @@
 	<% if !@categoryfilter.nil? %>
 		Works have been filtered to show only <%= @categoryfilter[1] %> <%= @categoryfilter[0] %> works.
 	<% elsif !@statusfilter.nil? %>
-		Works have been filtered to show only <%= @statusfilter %> works.
+		Works have been filtered to show only <%= @statusfilter.downcase %> works.
 	<% end %><br /><br />
 	<%= render 'table_works', works: @works, categoryfilter: @categoryfilter %>
 <% elsif  @parentcategories.any? %>

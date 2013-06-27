@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="control-group">
-        <%= f.label :creation_date, "Creation date", :class => "control-label" %>
+        <%= f.label :creation_date, "Creation date *", :class => "control-label" %>
         <div class="controls">
           <% if work.creation_date.present? %>
             <%= f.text_field :creation_date, :class => "datepicker", :value => work.creation_date.strftime("%d %B %Y") %>
@@ -19,13 +19,13 @@
         </div>
       </div>
       <div class="control-group">
-        <%= f.label :title, :class => "control-label" %>
+        <%= f.label :title, "Title *", :class => "control-label" %>
         <div class="controls">
               <%= f.text_field :title%>
         </div>
       </div>
       <div class="control-group">
-        <%= f.label :inventory_id, "Inventory ID", :class => "control-label" %>
+        <%= f.label :inventory_id, "Inventory ID * ", :class => "control-label" %>
         <div class="controls">
               <%= f.text_field :inventory_id %>
         </div>
@@ -97,6 +97,16 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="control-group">
+      <%= f.label :share_makers, "Share with other makers", :class => "control-label" %>
+      <div class="controls"><%= f.check_box :share_makers %></div>
+    </div>
+    <div class="control-group">
+      <%= f.label :share_public, "Share with the public", :class => "control-label" %>
+      <div class="controls"><%= f.check_box :share_public %></div>
     </div>
   </div>
   <div class="row-fluid">

@@ -30,24 +30,39 @@ class Site < ActiveRecord::Base
   attr_accessible :address_city, :address_state, :address_street, :address_zipcode, :bio_pic, :bio_text, :blog, :brand, :domain, :email, :phone, :social_etsy, :social_googleplus, :social_facebook, :social_linkedin, :social_pinterest, :social_twitter, :tag_line
   
   belongs_to :user
-  has_many :siteworks, dependent: :destroy
-  has_many :sitevenues, dependent: :destroy
-  has_many :works, :through => :siteworks
-  has_many :venues,  :through => :sitevenues
-  has_many :workcategories, :through => :works
-
-  accepts_nested_attributes_for :siteworks, :sitevenues, :allow_destroy => true
 
   validates :user_id, presence: true
   validates :brand, presence: true, length: { maximum: 30 } 
 
-  default_scope order: 'sites.brand'
+  def works
+    self.user.works.shared_with_public.all
+  end
+
+  def works_in_category(category)
+    self.user.works.shared_with_public.where('works.workcategory_id = ?', category.id)
+  end
+
+  def venues 
+    self.user.venues.shared_with_public.all
+  end
+
+  def workcategory_ids
+    @workcategory_ids = []
+    self.works.each do |work|
+      @workcategory_ids.push(work.workcategory_id)
+    end
+    @workcategory_ids
+  end
+
+  def workcategories
+    self.user.workcategories.where('workcategories.id in (?)', self.workcategory_ids)
+  end
 
   def parent_workcategories_on_site
-   @parents = self.user.workcategories.where('id in (?)', self.workcategories.collect(&:parent_id))
+   self.user.workcategories.where('workcategories.id in (?)', self.workcategories.collect(&:parent_id))
   end
 
   def children_workcategories_on_site(parent)
-    @children = parent.children.where('id in (?)', self.workcategories.collect(&:id))
+    self.workcategories.where('workcategories.parent_id == ?', parent.id)
   end
 end

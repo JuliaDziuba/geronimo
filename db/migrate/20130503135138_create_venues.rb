@@ -11,6 +11,8 @@ class CreateVenues < ActiveRecord::Migration
       t.integer :address_zipcode
       t.string :email
       t.string :site
+      t.boolean :share_makers, default: false
+      t.boolean :share_public, default: false
 
       t.timestamps
     end

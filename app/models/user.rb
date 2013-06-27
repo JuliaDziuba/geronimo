@@ -21,7 +21,7 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :about, :name, :email, :image, :location_city, :location_state, :password, :password_confirmation, :username
+  attr_accessible :about, :admin, :name, :email, :image, :location_city, :location_state, :password, :password_confirmation, :username
   has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
 
 
@@ -31,8 +31,6 @@ class User < ActiveRecord::Base
   has_many :venues, dependent: :destroy
   has_many :clients, dependent: :destroy
   has_many :sites, dependent: :destroy
-  has_many :siteworks, :through => :sites
-  has_many :sitevenues, :through => :sites
   has_many :activities, dependent: :destroy
   has_many :questions
 

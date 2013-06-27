@@ -30,8 +30,8 @@ class Workcategory < ActiveRecord::Base
 		self.user.workcategories.where('workcategories.parent_id = ?', self.id)
 	end
 
-#	def parent_id
-#		self.user.workcategories.find_by_id(read_attribute(:parent_id)) || self.user.workcategories.build(:id => 0, :name => "None")
-#  end
+	def parent
+		self.user.workcategories.find_by_id(read_attribute(:parent_id)) || self.user.workcategories.build(:name => "None")
+  end
 
 end

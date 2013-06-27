@@ -12,6 +12,9 @@
                   <%= parent.name %> <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
+                <% if site.works_in_category(parent).any? %>
+                  <li><%= link_to parent.name, parent.name %></li>
+                <% end %>
                 <% site.children_workcategories_on_site(parent).each do | child | %>
                   <li><%= link_to child.name, child.name %></li>
                 <% end %>

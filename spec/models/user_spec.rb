@@ -302,17 +302,7 @@ describe User do
   describe "site associations" do
 
     before { @user.save }
-    let!(:b_site) do 
-      FactoryGirl.create(:site, user: @user, brand: "Paintings by Patty")
-    end
-
-    let!(:a_site) do 
-      FactoryGirl.create(:site, user: @user, brand: "Jewelry by Jamie")
-    end
-
-    it "should have the right types in the right order" do
-      @user.sites.should == [a_site, b_site]
-    end
+    let!(:site) { FactoryGirl.create(:site, user: @user, brand: "Paintings by Patty") }
 
     it "should destroy associated sites" do
       sites = @user.sites.dup

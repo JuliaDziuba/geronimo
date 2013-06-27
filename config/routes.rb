@@ -9,10 +9,7 @@ Geronimo::Application.routes.draw do
   resources :venues, exclude: [:new, :edit]
   resources :clients, exclude: [:new, :edit]
   resources :activities
-  resources :sites do
-    resources :siteworks, only: [:index, :create, :destroy]
-    resources :sitevenues, only: [:index, :create, :destroy]
-  end
+  resources :sites
   resources :questions, only: [:create]
 
   root to: 'static_pages#home'
@@ -21,6 +18,7 @@ Geronimo::Application.routes.draw do
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
+  match '/sites/:id/home',    to: 'sites#home'
   match '/sites/:id/about',   to: 'sites#about'
   match '/sites/:id/contact', to: 'sites#contact'
   match '/sites/:id/:workcategory', to: 'sites#works'

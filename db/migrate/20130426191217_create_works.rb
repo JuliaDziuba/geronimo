@@ -14,6 +14,8 @@ class CreateWorks < ActiveRecord::Migration
       t.decimal :dimention1
       t.decimal :dimention2
       t.string  :dimention_units
+      t.boolean :share_makers, default: false
+      t.boolean :share_public, default: false
 
       t.timestamps
     end

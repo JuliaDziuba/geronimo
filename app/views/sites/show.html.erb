@@ -2,11 +2,14 @@
 <% provide(:title, @site.brand) %>
 <% provide(:edit_link, edit_site_path(@site)) %>
 
-<p>The information you input created the following public facing pages to promote you and your work.</p>
+<p>The public pages below promote you and your art!</p>
 <h2>
-	<%= link_to "Home", "#" %> &nbsp; &nbsp;
- 	<%= link_to "About", @site.id.to_s() + "/about" %> &nbsp; &nbsp;
- 	<%= link_to "Blog", @site.blog %> &nbsp; &nbsp;
+
+  <%= link_to "Home", "#" %> &nbsp; &nbsp;
+ 	<%= link_to "About", "#{@site.id.to_s()}/about" %> &nbsp; &nbsp;
+  <% if !@site.blog.blank? %>
+ 	  <%= link_to "Blog", @site.blog %> &nbsp; &nbsp;
+  <% end %>
 	<% if @site.works.any? %>
     <% @site.parent_workcategories_on_site.each do | parent | %>
       <span class="dropdown">
@@ -15,7 +18,7 @@
         </a>
         <ul class="dropdown-menu">
           <% @site.children_workcategories_on_site(parent).each do | child | %>
-            <li><%= link_to child.name, child.name %></li>
+            <li><%= link_to child.name, "#{@site.id.to_s()}/#{child.name}" %></li>
           <% end %>
         </ul>
       </span>
@@ -23,7 +26,8 @@
   <% end %>
 	<%= link_to "Contact", @site.id.to_s() + "contact" %>
 </h2>
+<p>The following works and venues will be visible on the <br />
 
-<%= link_to "Manage public works", site_siteworks_path(@site) %> (<%= @site.works.count.to_s() %> works on site, <%= @additionalworks.count.to_s() %> could be added )<br />
+Works: (<%= @site.works.count.to_s() %> works on site, <%= @additionalworks.count.to_s() %> could be added)<br />
 
-<%= link_to "Manage public venues", site_sitevenues_path(@site) %> (<%= @site.venues.count.to_s() %> venues on site, <%= @additionalvenues.count.to_s() %> could be added)
+Venues: (<%= @site.venues.count.to_s() %> venues on site, <%= @additionalvenues.count.to_s() %> could be added)

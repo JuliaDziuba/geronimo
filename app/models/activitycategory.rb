@@ -15,7 +15,6 @@
 
 class Activitycategory < ActiveRecord::Base
   attr_accessible :description, :name, :status, :final
-#	before_save :default_values
   
 	has_many :activities
 
@@ -26,10 +25,5 @@ class Activitycategory < ActiveRecord::Base
   
 
 	default_scope order: 'activitycategories.name'
-
-	private
-		def default_values
-   	 	self.final ||= false
- 		end
   
 end

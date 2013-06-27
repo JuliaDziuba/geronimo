@@ -21,6 +21,7 @@ FactoryGirl.define do
   factory :work do
     title "The day the fruit came alive"
     creation_date "2013-01-01"
+    sequence(:inventory_id) { |n| "Inventory_#{n}" }   
     description "This is a piece for a children's book about fruit that come alive. This piece is the day the fruit come alive."
     user
   end
@@ -59,16 +60,6 @@ FactoryGirl.define do
   factory :site do
     brand "Paintings by Patty"
     user
-  end
-
-  factory :sitework do
-    site
-    work
-  end
-
-  factory :sitevenue do
-    site
-    venue
   end
 
 end

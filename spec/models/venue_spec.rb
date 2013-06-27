@@ -27,8 +27,6 @@ describe Venue do
 
   its(:user) { should == user }
   it { should respond_to(:user) }
-  it { should respond_to(:sites) }
-  it { should respond_to(:sitevenues) }
 
   it { should respond_to(:user_id) }
   it { should respond_to(:venuecategory_id) }
@@ -72,20 +70,5 @@ describe Venue do
     before { @venue.name = "a" * 26 }
     it { should_not be_valid }
   end
-
-  it "should destroy associated sitevenues" do
-    pending
-    let(:site) { FactoryGirl.create(:site, user: user) }
-    let!(:sw) do
-      FactoryGirl.create(:sitevenue, site: site, venue: @venue)
-    end
-    sitevenues = @venue.sitevenues.dup
-    @venue.destroy
-
-    sitevenues.should_not be_empty
-    sitevenues.each do |sitevenue|
-      Sitevenue.find_by_id(sitevenue.id).should be_nil
-    end
-  end
-  
+    
 end

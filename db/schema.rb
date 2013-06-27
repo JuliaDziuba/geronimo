@@ -36,9 +36,9 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.string   "name"
     t.string   "description"
     t.string   "status"
-    t.boolean  "final"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.boolean  "final",       :default => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   add_index "activitycategories", ["name"], :name => "index_activitycategories_on_name"
@@ -89,24 +89,6 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
 
   add_index "sites", ["user_id"], :name => "index_sites_on_user_id"
 
-  create_table "sitevenues", :force => true do |t|
-    t.integer  "site_id"
-    t.integer  "venue_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "sitevenues", ["site_id"], :name => "index_sitevenues_on_site_id"
-
-  create_table "siteworks", :force => true do |t|
-    t.integer  "site_id"
-    t.integer  "work_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "siteworks", ["site_id"], :name => "index_siteworks_on_site_id"
-
   create_table "users", :force => true do |t|
     t.boolean  "admin"
     t.string   "about"
@@ -149,8 +131,10 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.integer  "address_zipcode"
     t.string   "email"
     t.string   "site"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.boolean  "share_makers",     :default => false
+    t.boolean  "share_public",     :default => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
   end
 
   add_index "venues", ["user_id"], :name => "index_venues_on_user_id"
@@ -180,8 +164,10 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.decimal  "dimention1"
     t.decimal  "dimention2"
     t.string   "dimention_units"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.boolean  "share_makers",        :default => false
+    t.boolean  "share_public",        :default => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
     t.string   "image1_file_name"
     t.string   "image1_content_type"
     t.integer  "image1_file_size"

@@ -4,7 +4,7 @@ class CreateActivitycategories < ActiveRecord::Migration
       t.string :name
       t.string :description
       t.string :status
-      t.boolean :final
+      t.boolean :final, default: false
 
       t.timestamps
     end

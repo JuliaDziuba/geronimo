@@ -7,10 +7,13 @@
               site <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li><%= link_to "New site", new_site_path %></li>
-            <% @current_user.sites.each do |site| %>
-              <li><%= link_to site.brand, site_path(site) %></li>
-            <% end %>
+            <% if @current_user.sites.all.any? %>
+              <% site = @current_user.sites.first %>
+              <li><%= link_to "Update", edit_site_path(site) %></li>
+              <li><%= link_to "View", site_path(site) %></li>
+            <% else %>
+              <li><%= link_to "Create", new_site_path %></li>
+            <% end %>  
           </ul>
         </li><li class="dropdown">
           <a href="#" class="dropdown-toggle icon" data-toggle="dropdown">

@@ -29,15 +29,13 @@ require 'spec_helper'
 describe Work do
   
   let(:user) { FactoryGirl.create(:user) }
-  before { @work = user.works.build(title: "A Day in the Life", creation_date: "2013-01-01") }
+  before { @work = user.works.build(title: "A Day in the Life", creation_date: "2013-01-01", inventory_id: "12345") }
   
   subject { @work }
 
   its(:user) { should == user }
   it { should respond_to(:user) }
   it { should respond_to(:workcategory) }
-  it { should respond_to(:siteworks) }
-  it { should respond_to(:sites) }
 
   # add respond to tests for image attached
   
@@ -72,12 +70,17 @@ describe Work do
     it { should_not be_valid }
   end
 
+  describe "when title is not present" do
+    before { @work.title = nil }
+    it { should_not be_valid }
+  end
+
   describe "with blank title" do
     before { @work.title = " " }
     it { should_not be_valid }
   end
 
-  describe "with title that is too long" do
+  describe "when title that is too long" do
     before { @work.title = "a" * 31 }
     it { should_not be_valid }
   end
@@ -87,28 +90,34 @@ describe Work do
     it { should_not be_valid }
   end
 
-  describe "with creation_date is blank" do
+  describe "when creation_date is blank" do
     before { @work.creation_date = " " }
+    it { should_not be_valid }
+  end
+
+  describe "when inventory_id is not present" do
+    before { @work.inventory_id = nil }
+    it { should_not be_valid }
+  end
+
+  describe "when inventory_id is blank" do
+    before { @work.inventory_id = " " }
+    it { should_not be_valid }
+  end
+
+  describe "when inventory_id has spaces" do
+    before { @work.inventory_id = "f 123" }
+    it { should_not be_valid }
+  end
+
+  describe "when inventory_id has special characters" do
+    before { @work.inventory_id = "12345!" }
     it { should_not be_valid }
   end
 
   describe "with description that is too long" do
     before { @work.description = "a" * 501 }
     it { should_not be_valid }
-  end
-
-  it "should destroy associated siteworks" do
-    pending
-    let!(:site) { FactoryGirl.create(:site, user: user) }
-    let!(:sw) { FactoryGirl.create(:sitework, site: site, work: @work) }
-
-    siteworks = @work.siteworks.dup
-    @work.destroy
-
-    siteworks.should_not be_empty
-    siteworks.each do |sitework|
-      Sitework.find_by_id(sitework.id).should be_nil
-    end
   end
 
 end
