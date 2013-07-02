@@ -1,23 +1,49 @@
-@import "bootstrap";
+/* my variables */
+$grayBlue: #C8C8D7;
+$brandColor: darken($grayBlue, 40%);
 
-/* variables */
-$backgroundColor: #FFF;
-$backgroundColorContent:  #E0E0E0; /* #D0E0F0; #F0F0F0; */
+$outerPadding: 20px;
+$backgroundColor: #F0F0F0;
+$contentBackgroundColor:  #F0F0F0;
 $backgroundColorAccent: #C0D0F0;
 $opacityOfIcons: .60;
 
+/* bootstrap variable changes */
+$black: #000 !default;
 
-/* bootstrap modifications */
 $linkColor:             darken(#0066cc, 15%);
-$linkColorHover:        darken($linkColor, 15%) !default;
-$navbarHeight:          70px;
-$navbarLinkColorActive: $black;
+$linkColorHover:        darken($linkColor, 15%);
+$navbarLinkColorActive: $linkColorHover;
+
+$navbarHeight:                    70px;
+$navbarBackgroundHighlight:       #ffffff !default;
+$navbarBackground:                $grayBlue; //darken($navbarBackgroundHighlight, 20%)
+$navbarBorder:                    darken($navbarBackground, 12%) !default;
+
+@import "bootstrap";
+
+/* bootstrap class changes */
+
+.navbar-inner {
+	padding-left: $outerPadding;
+	padding-right: $outerPadding;
+}
+
+.navbar .brand {
+	padding: ($navbarHeight - $baseLineHeight * 1.5) 0px $baseLineHeight 0px; //JD
+  font-size: 40px; //JD
+  font-weight: 150; //JD
+  text-transform:uppercase; //JD
+  text-shadow: 0 0 1px $navbarBackgroundHighlight; //JD
+  color: $brandColor;
+}
 
 @mixin box_sizing {
   -moz-box-sizing: border-box; 
   -webkit-box-sizing: border-box; 
   box-sizing: border-box;
 }
+
 
 /* universal */
 
@@ -28,19 +54,19 @@ body{
 }
 
 .icon{
-	background-image:url("MakersMoonIcon.jpg");
+	background-image:url("MakersMoonIconTransparent.gif");
 	background-size:64px 64px;
 	background-repeat:no-repeat;
-
 }
 
 footer{
 	position: relative;
-	padding: 5px 20px 60px 40px;
-	background-image:url("FooterImageLight.jpg");
-	background-repeat:no-repeat;
-	background-position:right top; 
-	color: #fff;	
+	height: $navbarHeight;
+	padding: 5px $outerPadding 0 $outerPadding;
+	@include gradient-vertical($navbarBackground,$navbarBackgroundHighlight);
+  border: 1px solid $navbarBorder;
+  @include box-shadow(0 1px 4px rgba(0,0,0,.065));
+  color: $brandColor;
 }
 
 h1{
@@ -70,10 +96,19 @@ a{
 	text-decoration:none;
 }
 
+a:hover {
+	text-decoration:none;
+}
+
 /* layout */
 
+.less-indent {
+	position: relative;
+	left: -30px;
+}
+
 #content-container {	
-	background:$backgroundColorContent;
+	background:$contentBackgroundColor;
 	min-height: 400px;
 	display:block;
 	padding-bottom:40px;
@@ -86,8 +121,8 @@ a{
 	background-position:left top;
 	position:fixed;
 	top: 75px;
-	left:0px;
-	padding: 10px 10px 0px 40px;
+	left: 0px;
+	padding: 10px 10px 0px $outerPadding;
 	-moz-border-radius: 0px 15px 15px 0px;
 	border-radius: 0px 15px 15px 0px;
 }

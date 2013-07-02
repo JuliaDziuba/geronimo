@@ -4,6 +4,7 @@
 
 $ ->
   $('#new_work_select').click ->
+    console.log("new work has been selected")
     $('#new_work').slideToggle()
 
 $ ->

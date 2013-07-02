@@ -22,7 +22,7 @@
 
 class User < ActiveRecord::Base
   attr_accessible :about, :admin, :name, :email, :image, :location_city, :location_state, :password, :password_confirmation, :username
-  has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+  has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "MakersMoonIconTransparent.gif"
 
 
   has_secure_password
