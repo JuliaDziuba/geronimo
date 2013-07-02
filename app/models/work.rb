@@ -51,7 +51,7 @@ class Work < ActiveRecord::Base
   scope :not_shared_with_makers, lambda { where('works.share_makers == ?', false) }
   scope :in_category, lambda { |category| where('works.workcategory_id = ?', category.id) }
   scope :available, lambda { joins('left join activities on activities.work_id = works.id').where('activities.id IS NULL') }
-  scope :uncategorized, lambda { where('works.? IS NULL', :workcategory_id) }
+  scope :uncategorized, lambda { where('works.workcategory_id IS NULL') }
 
   def to_param
     inventory_id
