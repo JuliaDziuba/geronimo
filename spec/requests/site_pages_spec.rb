@@ -26,7 +26,7 @@ describe "Site Pages" do
 
 		before { visit new_site_path }
 
-		it { should have_selector('a', text: "Sites") }
+		it { should have_selector('a', text: "Public Site") }
 		it { should have_selector('h1', text: "New") }
 		it { should have_content('This configures you public site. ') }
 
@@ -53,7 +53,7 @@ describe "Site Pages" do
 		
 		before { visit site_path(site) }
 
-		it { should have_selector('a', text: "Sites") }
+		it { should have_selector('a', text: "Public Site") }
 		it { should have_selector('h1', text: site.brand) }
 		it { should have_selector('a', text: "Update") }
 	  	
@@ -88,14 +88,14 @@ describe "Site Pages" do
 
   describe "about page" do
   	let!(:site) { FactoryGirl.create(:site, user: user, bio_text: "This test user is awesome.") }
-  	before { visit "/sites/1/about" }
+  	before { visit about_site_path(site) }
 
   	it { should have_selector('h2', content: 'About') } 
   end #/about page
 
   describe "contact page" do
 		let!(:site) { FactoryGirl.create(:site, user: user) }
-  	before { visit "/sites/1/contact" }
+  	before { visit contact_site_path(site) }
 
   	it { should have_selector('h2', content: 'Contact') } 
   end #/contact page

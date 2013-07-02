@@ -31,8 +31,19 @@ class Site < ActiveRecord::Base
   
   belongs_to :user
 
-  validates :user_id, presence: true
+  before_validation :set_munged_brand
+
+  validates :user_id, presence: true, uniqueness: { case_sensitive: false }
   validates :brand, presence: true, length: { maximum: 30 } 
+  validates :munged_brand, presence: true, uniqueness: { case_sensitive: false }
+
+  def to_param
+    munged_brand
+  end
+
+  def set_munged_brand
+    self.munged_brand = brand.parameterize
+  end
 
   def works
     self.user.works.shared_with_public.all

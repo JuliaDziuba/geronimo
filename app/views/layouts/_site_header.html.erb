@@ -1,4 +1,4 @@
-<% site = @current_user.sites.find_by_id(params[:id]) %>
+<% site = @current_user.sites.find_by_munged_brand(params[:id]) %>
 <div class="navbar-inner">
     <nav>
       <a class="brand"><%= site.brand %></a>

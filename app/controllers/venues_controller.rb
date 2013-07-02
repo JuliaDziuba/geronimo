@@ -13,7 +13,7 @@ class VenuesController < ApplicationController
   end
 
   def update
-    @venue = current_user.venues.find_by_id(params[:id]) 
+    @venue = current_user.venues.find_by_munged_name(params[:id]) 
     if @venue.update_attributes(params[:venue])
       redirect_to venue_path(@venue)
     else
@@ -22,7 +22,7 @@ class VenuesController < ApplicationController
   end
 
   def show
-    @venue = current_user.venues.find(params[:id])
+    @venue = current_user.venues.find_by_munged_name(params[:id])
     @venuecategories = Venuecategory.all
     @currentconsignments = []
     @pastconsignments =[]
@@ -49,7 +49,7 @@ class VenuesController < ApplicationController
     if @id == 1
       flash[:error] = "You cannot delete this venue! This is the default venue. Feel free to change its name and venue category."
     else
-      @venue = current_user.venues.find_by_id(params[:id])
+      @venue = current_user.venues.find_by_munged_name(params[:id])
       @activities = @venue.activities.all
       if @activities.any?
         @activities.each do |activity|

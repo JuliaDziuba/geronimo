@@ -25,9 +25,11 @@ class Venue < ActiveRecord::Base
 	belongs_to :venuecategory
 	has_many :activities
 
+  before_validation :set_munged_name
 
 	validates :user_id, presence: true
-	validates :name, presence: true, length: { maximum: 25 }
+	validates :name, presence: true, length: { maximum: 30 }
+  validates :munged_name, presence: true, uniqueness: { case_sensitive: false }
   validates_inclusion_of :share_makers, :in => [true, false]
   validates_inclusion_of :share_public, :in => [true, false]
   
@@ -37,6 +39,16 @@ class Venue < ActiveRecord::Base
   scope :shared_with_makers, lambda { where('venues.share_makers == ?', true) }
   scope :not_shared_with_makers, lambda { where('venues.share_makers == ?', false) }
   
+  def to_param
+    munged_name
+  end
+
+  def set_munged_name
+    if ! self.name.blank?
+      self.munged_name = self.name.parameterize 
+    end
+  end
+
   def venuecategory
 		Venuecategory.find_by_id(read_attribute(:venuecategory_id)) || Venuecategory.new(:id => 0, :name => "Uncategorized")
   end

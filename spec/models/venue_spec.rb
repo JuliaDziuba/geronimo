@@ -31,6 +31,7 @@ describe Venue do
   it { should respond_to(:user_id) }
   it { should respond_to(:venuecategory_id) }
   it { should respond_to(:name) }
+  it { should respond_to(:munged_name) }
   it { should respond_to(:phone) }
   it { should respond_to(:address_street) }
   it { should respond_to(:address_city) }
@@ -61,13 +62,13 @@ describe Venue do
     it { should_not be_valid }
   end
 
-  describe "with blank title" do
+  describe "with blank name" do
     before { @venue.name = " " }
     it { should_not be_valid }
   end
 
   describe "with title that is too long" do
-    before { @venue.name = "a" * 26 }
+    before { @venue.name = "a" * 31 }
     it { should_not be_valid }
   end
     

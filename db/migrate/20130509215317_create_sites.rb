@@ -3,6 +3,7 @@ class CreateSites < ActiveRecord::Migration
     create_table :sites do |t|
       t.integer :user_id
       t.string :brand
+      t.string :munged_brand
       t.string :tag_line
       t.string :email
       t.string :phone

@@ -19,7 +19,7 @@ class WorksController < ApplicationController
   end
 
   def update
-    @work = current_user.works.find_by_id(params[:id])
+    @work = current_user.works.find_by_inventory_id(params[:id])
     if @work.update_attributes(params[:work])
       flash[:success] = "Changes have been saved!"
       redirect_to work_path(@work)
@@ -39,7 +39,7 @@ class WorksController < ApplicationController
   end
 
   def show
-    @work = current_user.works.find_by_id(params[:id])
+    @work = current_user.works.find_by_inventory_id(params[:id])
     @workcategories = current_user.workcategories_showing_families
     @activities = @work.activities.all
 
@@ -62,14 +62,14 @@ class WorksController < ApplicationController
   end
 
   def destroy
-    current_user.works.find_by_id(params[:id]).destroy
+    current_user.works.find_by_inventory_id(params[:id]).destroy
     redirect_to works_path
   end
 
   private
 
     def correct_user
-      @work = current_user.works.find_by_id(params[:id])
+      @work = current_user.works.find_by_inventory_id(params[:id])
       redirect_to works_path if @work.nil?
     end
 

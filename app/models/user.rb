@@ -45,6 +45,10 @@ class User < ActiveRecord::Base
   validates :username, presence: true, length: { maximum: 50 }, uniqueness: { case_sensitive: false }
   validate  :username_format
   
+  def to_param
+    username
+  end
+
   def work_current_activities
     activities = []
     self.works.each do | work |

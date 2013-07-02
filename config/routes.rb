@@ -1,27 +1,31 @@
 Geronimo::Application.routes.draw do
 
-  resource :static_pages, only: [:home, :help]
-  resources :users
-  resources :sessions, only: [:new, :create, :destroy]
-  resources :works, exclude: [:new, :edit]
-  # match '/works/categories' => 'workcategories#index'
-  resources :workcategories , exclude: [:new, :show]
-  resources :venues, exclude: [:new, :edit]
-  resources :clients, exclude: [:new, :edit]
-  resources :activities
-  resources :sites
-  resources :questions, only: [:create]
-
   root to: 'static_pages#home'
+
+  resource :static_pages, only: [:home, :help]
+  resources :sites, exclude: [:index], path: "/public/" do
+    member do
+      get :home
+      get :about
+      get :contact
+      get :works
+    end
+  end
+  resources :users, path: '/makers/'
+  resources :sessions, only: [:new, :create, :destroy]
+  resources :activities, path: "internal/works/activities/"
+  resources :workcategories , exclude: [:new, :show], path: "/internal/works/categories/"
+  resources :works, exclude: [:new, :edit], path: "/internal/works/"
+  resources :venues, exclude: [:new, :edit], path: "/internal/venues/"
+  resources :clients, exclude: [:new, :edit], path: "/internal/clients/"
+
+  resources :questions, only: [:create]
 
   match '/help',    to: 'static_pages#help'
   match '/signup',  to: 'users#new'
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
-  match '/sites/:id/home',    to: 'sites#home'
-  match '/sites/:id/about',   to: 'sites#about'
-  match '/sites/:id/contact', to: 'sites#contact'
-  match '/sites/:id/:workcategory', to: 'sites#works'
+  match '/:workcategory', to: 'sites#works'
 
 
   # The priority is based upon order of creation:

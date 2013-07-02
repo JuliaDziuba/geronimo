@@ -33,6 +33,7 @@ describe Client do
   it { should respond_to(:address_zipcode) }
   it { should respond_to(:email) }
   it { should respond_to(:name) }
+  it { should respond_to(:munged_name) }
   it { should respond_to(:phone) }
 	it { should respond_to(:created_at) }
 	it { should respond_to(:updated_at) }

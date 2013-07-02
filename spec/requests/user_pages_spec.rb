@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe "User pages" do
+  let!(:vc_s) { FactoryGirl.create(:venuecategory, name:"Studios") }
 
   subject { page }
 

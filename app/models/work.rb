@@ -53,6 +53,10 @@ class Work < ActiveRecord::Base
   scope :available, lambda { joins('left join activities on activities.work_id = works.id').where('activities.id IS NULL') }
   scope :uncategorized, lambda { where('works.? IS NULL', :workcategory_id) }
 
+  def to_param
+    inventory_id
+  end
+
   def workcategory
     self.user.workcategories.find_by_id(read_attribute(:workcategory_id)) || self.user.workcategories.build(:id => 0, :name => "Uncategorized")
   end

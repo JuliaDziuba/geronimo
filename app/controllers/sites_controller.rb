@@ -27,13 +27,13 @@ class SitesController < ApplicationController
   end
 
   def show
-    @site = current_user.sites.find(params[:id])
+    @site = current_user.sites.find_by_munged_brand(params[:id])
     @additionalworks = current_user.works.not_shared_with_public
     @additionalvenues = current_user.venues.not_shared_with_public
   end
 
   def edit
-    @site = current_user.sites.find_by_id(params[:id])
+    @site = current_user.sites.find_by_munged_brand(params[:id])
     @venues = current_user.venues.all
     @works = current_user.works.all
   end
@@ -47,22 +47,22 @@ class SitesController < ApplicationController
   end
 
   def home
-    @site = current_user.sites.find_by_id(params[:id])
+    @site = current_user.sites.find_by_munged_brand(params[:id])
   end
 
   def about
-    @site = current_user.sites.find_by_id(params[:id])
+    @site = current_user.sites.find_by_munged_brand(params[:id])
     @venues = current_user.venues.all
     render :layout => 'site'
   end
 
   def contact
-    @site = current_user.sites.find_by_id(params[:id])
+    @site = current_user.sites.find_by_munged_brand(params[:id])
     render :layout => 'site'
   end
 
   def works
-    @site = current_user.sites.find(params[:id])
+    @site = current_user.sites.find_by_munged_brand(params[:id])
     @category = current_user.workcategories.find_by_name(params[:workcategory])
     @works = @site.works_in_category(@category).all
     @work = params[:work] || @works.first

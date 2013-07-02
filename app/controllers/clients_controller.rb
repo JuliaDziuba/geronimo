@@ -12,7 +12,7 @@ class ClientsController < ApplicationController
   end
 
   def update
-  	@client = current_user.clients.find_by_id(params[:id]) 
+  	@client = current_user.clients.find_by_munged_name(params[:id]) 
     if @client.update_attributes(params[:client])
       redirect_to client_path(@client)
     else
@@ -21,7 +21,7 @@ class ClientsController < ApplicationController
   end
 
   def show
-  	@client = current_user.clients.find_by_id(params[:id])
+  	@client = current_user.clients.find_by_munged_name(params[:id])
     @activities = @client.activities.all
     
   end
@@ -32,7 +32,7 @@ class ClientsController < ApplicationController
   end
 
   def destroy
-    @client = current_user.clients.find_by_id(params[:id])
+    @client = current_user.clients.find_by_munged_name(params[:id])
     @activities = @client.activities.all
     if @activities.any?
       @activities.each do |activity|

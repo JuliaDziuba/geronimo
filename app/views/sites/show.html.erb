@@ -1,12 +1,12 @@
-<% provide(:crumbs, 'Sites,' + sites_path) %>
+<% provide(:crumbs, 'Public Site,#') %>
 <% provide(:title, @site.brand) %>
 <% provide(:edit_link, edit_site_path(@site)) %>
 
 <p>The public pages below promote you and your art!</p>
 <h2>
 
-  <%= link_to "Home", "#" %> &nbsp; &nbsp;
- 	<%= link_to "About", "#{@site.id.to_s()}/about" %> &nbsp; &nbsp;
+  <%= link_to "Home", home_site_path(@site) %> &nbsp; &nbsp;
+ 	<%= link_to "About", about_site_path(@site) %> &nbsp; &nbsp;
   <% if !@site.blog.blank? %>
  	  <%= link_to "Blog", @site.blog %> &nbsp; &nbsp;
   <% end %>
@@ -24,7 +24,7 @@
       </span>
     <% end %>
   <% end %>
-	<%= link_to "Contact", @site.id.to_s() + "contact" %>
+	<%= link_to "Contact", contact_site_path(@site) %>
 </h2>
 <p>The following works and venues will be visible on the <br />
 

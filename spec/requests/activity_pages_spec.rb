@@ -4,10 +4,11 @@ describe "Activity pages" do
 
 	subject { page }
 
-	let(:user) { FactoryGirl.create(:user) }
-	let(:w)    				{ FactoryGirl.create(:work, user: user) }
+	let(:user) 					{ FactoryGirl.create(:user) }
+	let!(:w)    				{ FactoryGirl.create(:work, user: user) }
+	let!(:v) 						{ FactoryGirl.create(:venue, user: user) }
 	let!(:ac_consign) 	{ FactoryGirl.create(:activitycategory, name: "Consignment", status: "Consigned", final: false) }
-	let!(:ac_sale) 		{ FactoryGirl.create(:activitycategory, name: "Sale",    status: "Sold", final: true) } 
+	let!(:ac_sale) 			{ FactoryGirl.create(:activitycategory, name: "Sale",    status: "Sold", final: true) } 
 			
   before { sign_in user }
 
@@ -21,9 +22,9 @@ describe "Activity pages" do
   	end
 
   	describe "when there are activities" do
-	  	let!(:a_consign1) { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, date_start:"2013-01-01", date_end:"2013-02-01") }
-			let!(:a_consign2) { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, date_start:"2013-03-01", date_end:"2013-04-01") }
-			let!(:a_sale)   	{ FactoryGirl.create(:activity, user: user, activitycategory: ac_sale,    work: w, date_start:"2013-06-01") }
+	  	let!(:a_consign1) { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, venue: v, date_start:"2013-01-01", date_end:"2013-02-01") }
+			let!(:a_consign2) { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, venue: v, date_start:"2013-03-01", date_end:"2013-04-01") }
+			let!(:a_sale)   	{ FactoryGirl.create(:activity, user: user, activitycategory: ac_sale,    work: w, venue: v, date_start:"2013-06-01") }
 			
 			before { visit activities_path }
 			
@@ -126,7 +127,7 @@ describe "Activity pages" do
 
 	describe "edit page" do
 		let(:w)    { FactoryGirl.create(:work, user: user) }
-	  let(:a)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w) }
+	  let(:a)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, venue: v) }
 
 		before { visit edit_activity_path(a) }
 

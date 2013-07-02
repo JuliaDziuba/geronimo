@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_filter :admin_user,     only: :destroy
   
   def show
-    @user = User.find(params[:id])
+    @user = User.find_by_username(params[:id])
     @workcategories = @user.workcategories
     @works = @user.works
   end
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
       sign_in @user
       flash[:success] = "Welcome to Makers' Moon! Add more information about yourself to fill out your website or add works, clients and venues to start building your database!"
       redirect_to @user
-      @user.venues.create!(name: "My Studio", venuecategory_id: Venuecategory.find_by_name("Studios"))
+      @user.venues.create!(name: "My Studio", venuecategory_id: Venuecategory.find_by_name("Studios").id)
     else
       render 'new', :layout => 'landing'
     end
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
+    User.find_by_username(params[:id]).destroy
     flash[:success] = "User destroyed."
     redirect_to users_url
   end
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
   private
 
     def correct_user
-      @user = User.find(params[:id])
+      @user = User.find_by_username(params[:id])
       redirect_to(signin_path) unless current_user?(@user)
     end
 

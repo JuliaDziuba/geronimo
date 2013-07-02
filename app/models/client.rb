@@ -21,9 +21,20 @@ class Client < ActiveRecord::Base
   belongs_to :user
 	has_many :activities
 
-	validates :name, presence: true, length: { maximum: 30 }
+	before_validation :set_munged_name
+
 	validates :user_id, presence: true
+	validates :name, presence: true, length: { maximum: 30 }
+	validates :munged_name, presence: true, uniqueness: { case_sensitive: false }
   
   default_scope order: 'clients.name'
   scope :all_known, lambda { where('clients.name != ?', 'Unknown') }
+
+  def to_param
+    munged_name
+  end
+
+  def set_munged_name
+    self.munged_name = name.parameterize
+  end
 end

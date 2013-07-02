@@ -4,6 +4,7 @@ class CreateVenues < ActiveRecord::Migration
       t.integer :user_id
       t.integer :venuecategory_id
       t.string :name
+      t.string :munged_name
       t.integer :phone
       t.string :address_street
       t.string :address_city

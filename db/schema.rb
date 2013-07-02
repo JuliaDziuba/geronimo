@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
 
   create_table "clients", :force => true do |t|
     t.string   "name"
+    t.string   "munged_name"
     t.string   "email"
     t.string   "phone"
     t.string   "address_street"
@@ -66,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
   create_table "sites", :force => true do |t|
     t.integer  "user_id"
     t.string   "brand"
+    t.string   "munged_brand"
     t.string   "tag_line"
     t.string   "email"
     t.string   "phone"
@@ -124,6 +126,7 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.integer  "user_id"
     t.integer  "venuecategory_id"
     t.string   "name"
+    t.string   "munged_name"
     t.integer  "phone"
     t.string   "address_street"
     t.string   "address_city"

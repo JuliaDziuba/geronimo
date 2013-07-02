@@ -6,7 +6,8 @@
 		<%= render 'form_work', work: @work, categories: @workcategories %>
 	</div>
 	<% if !@categoryfilter.nil? %>
-		Works have been filtered to show only <%= @categoryfilter[1] %> <%= @categoryfilter[0] %> works.
+		<% categoryfilter = @categoryfilter.split('.') %>
+		Works have been filtered to show only <%= categoryfilter[1] %> <%= categoryfilter[0] %> works.
 	<% elsif !@statusfilter.nil? %>
 		Works have been filtered to show only <%= @statusfilter.downcase %> works.
 	<% end %><br /><br />
