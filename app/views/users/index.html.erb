@@ -1,38 +1,49 @@
 <% provide(:title, 'Makers on their way to the moon') %>
-<ul class="media-list">
-  <% @users.each do |user| %>
-		<li class="media">
-	    <a class="pull-left" href="#">
-	      <img class="media-object" data-src="holder.js/64x64">
-	    </a>
-	    <div class="media-body">
-	      <h4 class="media-heading"><%= user.name %></h4>
-	      <div class="media">
-	      	(<%= user.username %>)
-		      <span class="lighter"> 
-						<% if !user.location_city.blank? %><%= user.location_city %>,<% end %> 
-						<% if !user.location_state.blank? %><%= user.location_state %><% end %>
-					</span><br />
-	       	<i><%= user.about %></i>
-	     </div>
-	    </div>
-	  </li>
-  <% end %>
-</ul>
-
-<ul class="media-list">
-  <li class="media">
-    <a class="pull-left" href="#">
-      <img class="media-object" data-src="holder.js/64x64">
-    </a>
-    <div class="media-body">
-      <h4 class="media-heading">Media heading</h4>
-      ...
- 
-      <!-- Nested media object -->
-      <div class="media">
-        ...
-     </div>
+<% @users.each do |user| %>
+<div class="row-fluid users-index">
+    <div class="span1"><%= image_tag user.image.url(:thumb), alt: "Picture of #{user.name}" %></div>
+    <div>
+      <h4>
+        <%= user.name %> 
+        <span class="p lighter">(<%= user.username %>)</span>
+        <% if current_user.admin? %>
+          <%= link_to icon(:trash), user, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete #{user.name}?" }, title: 'Delete?' %>
+        <% end %>
+      </h4>
+      <div class="lighter">
+	      <% if user.share_with_public %>
+          <span class="h2">
+            <% if user.share_about %>
+              <%= link_to "About", about_user_path(user) %>
+            <% end %>
+            <% if user.blog.present? %>
+              <%= link_to "Blog", user.blog %>
+            <% end %>  
+            <% if user.share_works && user.works.shared_with_public.any? %>
+              <% user.workcategories.parents_of_shared_with_public.each do |parent| %>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <%= parent.name %> <b class="caret"></b>
+                <ul class="dropdown-menu">
+                  <% if user.works.shared_with_public.in_category(parent).any? %>
+                    <li><%= link_to parent.name, "/makers/#{user.to_param}/#{parent.name}" %></li>
+                  <% end %>
+                  <% user.workcategories.children_of_parent(parent).shared_with_public.each do |child| %>
+                    <li><%= link_to child.name, "/makers/#{user.to_param}/#{child.name}" %></li>
+                  <% end %>
+                </ul>
+              <% end %>
+            <% end %>
+            <% if user.share_purchase %>
+              <%= link_to "Purchase", purchase_user_path(user) %>
+            <% end %>
+            <% if user.share_contact %>
+              <%= link_to "Contact", contact_user_path(user) %>
+            <% end %>
+          </span>
+        <% else %>
+        This maker has not yet created a public site.
+        <% end %>
+      </div>
     </div>
-  </li>
-</ul>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+<% provide(:title, 'About') %>
+<div class="row-fluid">
+	<div class="about-image">
+		<%= image_tag @user.image.url(:medium), alt: "Picture of #{@user.name}" %>
+	</div>
+	<div class="about-text">
+		<p><%= raw @user.about %></p>
+	</div>
+</div>
+<% if !@user.domain.blank? %>
+	<div class="row-fluid">
+		For more on <%= @user.name %> please visit <%= link_to @user.domain, "#{@user.domain}" %>.
+	</div>
+<% end %>

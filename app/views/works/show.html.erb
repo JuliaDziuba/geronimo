@@ -8,7 +8,7 @@
 <% if @activities.any? || @work.status == 'Available' %>
 	<h2>
 		<% if @activities.any? %>Its Journey &nbsp; <% end %>
-		<% if  @work.status == 'Available' %><a id="new_activity_select" href="#new_activity">New Activity</a><% end %>
+		<% if  @work.status == 'Available' %><a id="new_activity_display" class="display_toggle" href="#new_activity">New Activity</a><% end %>
 	</h2>
 <% end %>
 <div id="new_activity" class="not-displayed">

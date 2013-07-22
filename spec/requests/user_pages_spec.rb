@@ -9,9 +9,8 @@ describe "User pages" do
     before { visit signup_path }
 
     it { should have_selector('title', text: full_title('')) }
-    it { should have_content('one small step for you') }
-    
-  end
+    it { should have_content('one small step for you') } 
+  end #/signup page
 
   describe "signup" do
 
@@ -27,7 +26,6 @@ describe "User pages" do
 
     describe "with valid information" do
       before do
-        fill_in "Name",         with: "Rspec Test"
         fill_in "Username",     with: "RspecTest"
         fill_in "Email",        with: "rspec@example.com"
         fill_in "Password",     with: "password"
@@ -39,7 +37,7 @@ describe "User pages" do
       end
 
     end
-  end
+  end #/signup
 
   describe "edit" do
     let(:user) { FactoryGirl.create(:user) }
@@ -53,7 +51,10 @@ describe "User pages" do
     end
 
     describe "with invalid information" do
-      before { click_button "Update" }
+      before do
+        fill_in "New Password", with: "newpassword"
+        click_button "Update"
+      end
 
       it { should have_content('error') }
     end
@@ -62,10 +63,11 @@ describe "User pages" do
       let(:new_name)  { "New Name" }
       let(:new_email) { "new@example.com" }
       before do
+        click_link "Update Password"
         fill_in "Name",             with: new_name
         fill_in "Email",            with: new_email
-        fill_in "Password",         with: user.password
-        fill_in "Confirm Password", with: user.password
+        fill_in "New Password",         with: "newpassword"
+        fill_in "Again", with: "newpassword"
         click_button "Update"
       end
 
@@ -75,7 +77,7 @@ describe "User pages" do
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
     end
-  end
+  end #/edit page
 
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
@@ -83,5 +85,175 @@ describe "User pages" do
 
     # it { should have_selector('h1',    text: user.name) }
     it { should have_selector('title', text: full_title('')) }
-  end
+  end #/profile page
+
+  describe "index page" do 
+  end #/index page
+
+  describe "public page" do
+    
+    let(:update) { "Update Public Site" }
+
+    describe "when no public site is created" do
+      let!(:user_a) { FactoryGirl.create(:user, share_with_public: FALSE, share_about: TRUE) }
+
+      describe "the header" do
+        before do
+          sign_in user_a
+          visit user_path(user_a)
+        end
+
+        it { should have_selector('a', text: "Create") }
+      end
+
+      describe "the public pages should not be available" do
+        specify { user_a.share_with_public.should be_false }
+
+        describe "when the about page is visited" do
+          before { visit about_user_path(user_a) }
+          it { should have_content("Sorry but")}
+        end
+
+        describe "when the contact page is visited" do
+          before { visit contact_user_path(user_a) }
+          it { should have_content("Sorry but")}
+        end
+
+        describe "when the purchase page is visited" do
+          before { visit purchase_user_path(user_a) }
+          it { should have_content("Sorry but")}
+        end
+      end
+
+      describe "the public form page" do
+        before do
+          sign_in user_a
+          visit public_user_path(user_a)
+        end
+        it { should have_content("I'd like a public site") }
+        it { should_not have_content("Create an about page") }
+
+        describe "is used to create a site" do
+          before do
+            check "user_share_with_public"
+            click_button update
+          end
+
+          it { should have_content('Your profile was updated') }          
+        end
+      end
+    end
+
+    describe "when there is a public site created" do
+      let!(:user_p) { FactoryGirl.create(:user, share_with_public: TRUE) }
+    
+      describe "the header" do
+        before do
+          sign_in user_p
+          visit user_path(user_p)
+        end
+
+        it { should_not have_selector('a', text: "Create") }
+        it { should have_selector('a', text: "Update") }
+      end
+
+      describe "the public form page" do
+        before do
+          sign_in user_p
+          visit public_user_path(user_p)
+        end
+        it { should have_content("I'd like a public site") }
+        it { should have_content("Create an about page") }
+
+        it { should have_content("Create a contact page") }
+        it { should have_content("Create pages for public works") }
+        it { should have_content("Create a purchase page") }
+
+        describe "when a there is an about page shared" do
+          before do
+            check "user_share_about"
+            click_button update
+            visit public_user_path(user_p)
+          end
+          it { should have_content("Alternate URL") }
+        end
+
+        describe "when there is a contact page shared" do
+          before do
+            check "user_share_contact"
+            click_button update
+            visit public_user_path(user_p)
+          end
+          it { should have_content("Etsy") }
+        end
+
+        describe "when there are works shared" do
+          before do
+            check "user_share_works"
+            click_button update
+            visit public_user_path(user_p)
+          end
+          it { should have_content("There are currently") }
+        end
+
+        describe "when there is a purchase page shared" do
+          before do
+            check "user_share_purchase"
+            click_button update
+            visit public_user_path(user_p)
+          end
+          it { should have_content("There is nothing to configure") }
+        end
+      end
+    end
+  end #/public page
+
+  describe "about page" do
+    
+    describe "when the user hasn't shared an about page" do
+      let!(:user_p) { FactoryGirl.create(:user, share_with_public: TRUE) }
+      before { visit about_user_path(user_p) }
+      it { should have_content("Sorry but")}
+    end
+
+    describe "when the user has an about page" do
+      let!(:user_p_a) { FactoryGirl.create(:user, share_with_public: TRUE, share_about: TRUE) }
+      before { visit about_user_path(user_p_a) }
+      specify { user_p_a.share_about.should be_true }
+      it { should have_content('About') }
+    #  it { should have_selector('h2', content: 'About') } 
+    end
+  end #/about page
+
+  describe "contact page" do
+    let!(:user) { FactoryGirl.create(:user) }
+    
+    describe "when the user hasn't shared a contact page" do
+      let!(:user_p) { FactoryGirl.create(:user, share_with_public: TRUE) }
+      before { visit contact_user_path(user_p) }
+      it { should have_content("Sorry but")}
+    end
+
+    describe "when the user has a contact page" do
+      let!(:user_p_c) { FactoryGirl.create(:user, share_with_public: TRUE, share_contact: TRUE) }
+      before { visit contact_user_path(user_p_c) }
+      it { should have_selector('h2', content: 'Contact') } 
+    end 
+  end #/contact page
+
+  describe "work page" do
+    let!(:user) { FactoryGirl.create(:user) }
+    pending
+  end #/work page
+
+  describe "purchase page" do
+    describe "when the user hasn't shared a purchase page" do
+      pending
+    end
+
+    describe "when the user has a purchase page" do
+      pending
+    end
+  end #/purchase page
+
 end

@@ -1,0 +1,167 @@
+<% provide(:title, 'Import data') %>
+
+<% if @import.errors.any? %>
+	<div id="error_explanation">
+	  <h2><%= pluralize(@import.errors.count, "error") %> prohibited this import from completing:</h2>
+	  <ul>
+	  <% @import.errors.full_messages.each do |msg| %>
+	    <li><%= msg %></li>
+	  <% end %>
+	  </ul>
+	</div>
+<% end %>
+
+<p>Have a lot of data to import? Makers' Moon can help! Makers' Moon can upload csv files to populate or update data in your database.</p>
+<ul>
+	<li>Data can be stored in the following files: Openoffice, Excel, Google spreadsheets, Excelx, Libreoffice, CSV (comma delimited files). Not all have been tested so if you run into trouble please send along questions. The files should have a header row. The order of the columns does not matter.</li>
+	<li>A separate file is needed for each type of data (i.e. user, workcategories, works, venues, clients and activities).</li>
+	<li>If an <strong>id</strong> is supplied Makers' Moon will update the matching record instead of creating a new one.</li>
+</ul>
+<h2>Data types that can be uploaded</h2>
+<p>Click on each type of data for more information</p>
+<ul class="list indent">
+	<li><a id="import_users_display" class="display_toggle" href="#import_users">Users</a>
+		<div id="import_users" class="not-displayed">
+			<p>The following fields can be input.</p>
+			<ul>
+				<li><strong>email</strong>: required</li>
+				<li><strong>password</strong>: required</li>
+				<li><strong>password_confirmation</strong>: required</li>
+				<li><strong>name</strong>: the name of your business</li>
+				<li><strong>share_with_public</strong>: boolean (TRUE or FALSE), if set to false then all fields below are ignored</li>
+				<li><strong>tag_line</strong>: your business' tag line.</li>
+				<li><strong>blog</strong>: the URL to your blog (if you have one)</li>
+				<li><strong>share_about</strong>: boolean (TRUE or FALSE), whether to create an 'about' page for you on your public site. If set to false the next two fields are ignored</li>
+				<li><strong>about</strong>: up to 2000 characters available to describe yourself and your business</li>
+				<li><strong>domain</strong>: Do you already have a public site to promote yourself and your work (other than a social media site or blog)? Input the URL here and we will link to that other site on your about page.</li>
+				<li><strong>share_contact</strong>: boolean (TRUE or FALSE), whether to create a 'contact' page on your public site. If set to false the next 13 fields are ignored</li>
+				<li><strong>email</strong></li>
+				<li><strong>phone</strong></li>
+				<li><strong>address_street</strong></li>
+				<li><strong>address_city</strong></li>
+				<li><strong>address_state</strong></li>
+				<li><strong>address_zipcode</strong></li>
+				<li><strong>social_etsy</strong>: full URL to your Etsy profile</li>
+				<li><strong>social_googleplus</strong>: full URL to your Google+ profile</li>
+				<li><strong>social_facebook</strong>: full URL to your Facebook page or profile</li>
+				<li><strong>social_linkedin</strong>: full URL to your LinkedIn profile</li>
+				<li><strong>social_pinterest</strong>: full URL to your Pinterest profile</li>
+				<li><strong>social_twitter</strong>: full URL to your Twitter profile</li>
+				<li><strong>share_works</strong>: boolean (TRUE or FALSE), whether to create pages for the works you've selected to share on your public site. If set to false the following field is ignored</li>
+				<li><strong>share_price</strong>: boolean (TRUE or FALSE), whether the prices of available works are displayed on your public site</li>
+				<li><strong>share_purchase</strong>: boolean (TRUE or FALSE), whether a page should be created instructing visitors how to purchase your work.</li>
+			</ul>
+			<p>Note the username cannot be changed and the image included in the about page of the public site cannot be updated with this import functionality.</p>
+			<br /><br />
+		</div>
+	</li>
+
+	<li><a id="import_workcategories_display" class="display_toggle" href="#import_workcategories">Work categories</a>
+		<div id="import_workcategories" class="not-displayed">
+			<p>The following fields can be input.</p>
+			<ul>
+				<li><strong>username</strong>: required</li>
+				<li><strong>name</strong>: required, the name of the category</li>
+				<li><strong>description</strong>: an artist's statement on this category of works</li>
+				<li><strong>parent</strong>: the name of the parent category (if there is one). Note, as in nature, the parent categories must exist before children can be created.</li>
+			</ul>
+			<br /><br />
+		</div>
+	</li>
+
+	<li><a id="import_works_display" class="display_toggle" href="#import_works">Works</a>
+		<div id="import_works" class="not-displayed">
+			<p>The following fields can be input.</p>
+			<ul>
+				<li><strong>username</strong>: required</li>
+				<li><strong>title</strong>: required</li>
+				<li><strong>creation_date</strong>: required, the date the work was created</li>
+				<li><strong>inventory_id</strong>: required, the id you use to track this work</li>
+				<li><strong>category</strong>: the name of the work category the work belongs in</li>
+				<li><strong>description</strong></li>
+				<li><strong>dimention1</strong></li>
+				<li><strong>dimention2</strong></li>
+				<li><strong>dimention_units</strong></li>
+				<li><strong>expense_hours</strong>: the number of hours spent on the work</li>
+				<li><strong>expense_materials</strong>: the expense of the materials used in the work</li>
+				<li><strong>income_retail</strong>: the retail value of the work</li>
+				<li><strong>income_wholesale</strong>: the income you recieved or expect from this work</li>
+				<li><strong>share_public</strong>: boolean (TRUE or FALSE), whether to share this work on your public site</li>
+			</ul>
+			<br /><br />
+		</div>
+	</li>
+
+	<li><a id="import_venues_display" class="display_toggle" href="#import_venues">Venues</a>
+		<div id="import_venues" class="not-displayed">
+			<p>The following fields can be input.</p>
+			<ul>
+				<li><strong>username</strong>: required</li>
+				<li><strong>name</strong>: required, the name of the venue</li>
+				<li><strong>category</strong>: the category the venue belongs to, either: Galleries, Stores, Studios, Booths or Online</li>
+				<li><strong>phone</strong></li>
+				<li><strong>email</strong></li>
+				<li><strong>site</strong></li>
+				<li><strong>address_street</strong></li>
+				<li><strong>address_city</strong></li>
+				<li><strong>address_state</strong></li>
+				<li><strong>address_zipcode</strong></li>
+			</ul>
+			<br /><br />
+		</div>
+	</li>
+
+	<li><a id="import_clients_display" class="display_toggle" href="#import_clients">Clients</a>
+		<div id="import_clients" class="not-displayed">
+			<p>The following fields can be input.</p>
+			<ul>
+				<li><strong>username</strong>: required</li>
+				<li><strong>name</strong>: required, the name of the client</li>
+				<li><strong>phone</strong></li>
+				<li><strong>email</strong></li>
+				<li><strong>address_street</strong></li>
+				<li><strong>address_city</strong></li>
+				<li><strong>address_state</strong></li>
+				<li><strong>address_zipcode</strong></li>
+			</ul>
+			<br /><br />
+		</div>
+	</li>
+
+	<li><a id="import_activities_display" class="display_toggle" href="#import_activities">Activities</a>
+		<div id="import_activities" class="not-displayed">
+			<p>The following fields can be input.</p>
+			<ul>
+				<li><strong>username</strong>: required</li>
+				<li><strong>category</strong>: required, the category the venue belongs to, either: Sale, Commission, Consignment, Donate, Gift, or Recycle</li>
+				<li><strong>work</strong>: required, the inventory ID of a work that exists in the database</li>
+				<li><strong>venue</strong>: required, the name of a venue that exists in the database</li>
+				<li><strong>client</strong>: the name of the client (this is only relevant for sales, commissions, and gift activities)</li>
+				<li><strong>date_start</strong>: required, the date of the activity</li>
+				<li><strong>date_end</strong>: the date of the activity stopped (this is only relevant for commissions and consignment activities)</li>
+				<li><strong>income_wholesale</strong>: the received or expected income of the work</li>
+				<li><strong>income_retail</strong>: the retail value of the work</li>
+			</ul>
+			<br /><br />
+		</div>
+	</li>
+</ul>
+<h2>Upload data</h2>
+
+<%= form_for(@import, :html => { :class => "form-horizontal" }) do |f| %>
+  <div class="row-fluid span5">
+	<div class="control-group">
+      <%= f.label :model, "Category", :class => "control-label" %>
+      <div class="controls"><%= f.select :model, ['Users', 'Work categories', 'Works', 'Venues', 'Clients', 'Activities'], :prompt => true %></div>
+    </div>
+	<div class="control-group">
+      <%= f.label :file, :class => "control-label" %>
+      <div class="controls"><%= f.file_field :file %></div>
+    </div>
+  </div>
+
+  <div class="row-fluid span12">
+    <div class="form-actions"><%= f.submit "Import", class: "btn" %></div> 
+  </div>
+<% end %>
+

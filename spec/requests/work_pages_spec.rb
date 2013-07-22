@@ -58,8 +58,9 @@ describe "Work pages" do
     end
 
     describe "when there are activities" do
+      let!(:vc)   { FactoryGirl.create(:venuecategory) }
       let!(:c)    { FactoryGirl.create(:client, user: user) }
-    	let!(:v)    { FactoryGirl.create(:venue, user: user) }
+    	let!(:v)    { FactoryGirl.create(:venue, user: user , venuecategory_id: vc.id) }
 
       describe "and piece is not available" do
         let!(:ac_sold)   { FactoryGirl.create(:activitycategory, name:'Sale', status:'Sold') }

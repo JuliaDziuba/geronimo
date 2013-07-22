@@ -3,9 +3,6 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
-  $('#new_activity_select').click ->
-    $('#new_activity').slideToggle()
-$ ->
   if (window.location.pathname.match(/activities/))
     format_activity_form()
 

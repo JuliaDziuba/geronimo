@@ -1,7 +1,7 @@
 class VenuesController < ApplicationController
   before_filter :signed_in_user
-  # before_filter :correct_user,   only: :destroy
-
+  before_filter :correct_user, except: [:create, :index]
+  
   def create
     @venue = current_user.venues.build(params[:venue])
     if @venue.save
@@ -60,5 +60,15 @@ class VenuesController < ApplicationController
       redirect_to venues_path
     end
   end
+
+  private
+
+    def correct_user
+      @venue = current_user.venues.find_by_munged_name(params[:id])
+      if @venue.nil?
+        flash[:error] = "Sorry that venue does not belong to you!"
+        redirect_to venues_path
+      end
+    end
 
 end

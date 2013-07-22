@@ -6,6 +6,7 @@
 #  user_id          :integer
 #  venuecategory_id :integer
 #  name             :string(255)
+#  munged_name      :string(255)
 #  phone            :integer
 #  address_street   :string(255)
 #  address_city     :string(255)
@@ -13,6 +14,8 @@
 #  address_zipcode  :integer
 #  email            :string(255)
 #  site             :string(255)
+#  share_makers     :boolean          default(FALSE)
+#  share_public     :boolean          default(FALSE)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #
@@ -20,8 +23,9 @@
 require 'spec_helper'
 
 describe Venue do
+  let(:vc) { FactoryGirl.create(:venuecategory) }
   let(:user) { FactoryGirl.create(:user) }
-  before { @venue = user.venues.build(name: "Last Stop") }
+  before { @venue = user.venues.build(name: "Last Stop", venuecategory_id: vc.id) }
   
   subject { @venue }
 

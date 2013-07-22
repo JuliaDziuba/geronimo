@@ -2,9 +2,8 @@
 	<%= form_for(@user, :html => {}) do |f| %>
 	  <%= render 'shared/error_messages', object: f.object %>
 	  <div class="row-fluid">
-	    <%= f.text_field :name, id: "Name", placeholder: "Full Name" %>
-	   	<%= f.text_field :username, id: "Username", placeholder: "UserName" %>
-	    <%= f.text_field :email , id: "Email", placeholder: "Email"%>
+	    <%= f.text_field :username, id: "Username", placeholder: "UserName", class: "popover-input", rel: "popover", :"data-title" => "User name", :"data-content" => "This cannot be changed so choose wisely!" %>
+	    <%= f.text_field :email , id: "Email", placeholder: "Email", class: "popover-input", rel: "popover", :"data-title" => "Email", :"data-content" => "We may need to get in contact with you if you loose a password or have questions."%>
 	    <%= f.password_field :password , id: "Password", placeholder: "Password"%>
 	    <%= f.password_field :password_confirmation, id: "Password_confirmation", placeholder: "Confirm Password" %>
 	    <%= f.submit "Sign up!", class: "btn" %>

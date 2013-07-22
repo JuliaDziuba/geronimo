@@ -13,9 +13,11 @@
 #  income_wholesale    :decimal(, )
 #  income_retail       :decimal(, )
 #  description         :string(255)
-#  dimention1          :decimal(, )
-#  dimention2          :decimal(, )
+#  dimention1          :string(255)
+#  dimention2          :string(255)
 #  dimention_units     :string(255)
+#  share_makers        :boolean          default(FALSE)
+#  share_public        :boolean          default(FALSE)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  image1_file_name    :string(255)
@@ -36,7 +38,7 @@ class Work < ActiveRecord::Base
 
 	validates :user_id, presence: true
   validates :creation_date, presence: true
-  validates :title, presence: true, length: { maximum: 30 }
+  validates :title, presence: true, length: { maximum: 50 }
   validates :inventory_id, presence: true, length: { maximum: 30 }
   validates_uniqueness_of :inventory_id, :scope => :user_id, :case_sensitive => false
   validates :description, length: { maximum: 500 }

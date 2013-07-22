@@ -9,7 +9,7 @@ module ApplicationHelper
     elsif !signed_in?
       "#{base_title} | #{page}"
     else
-      "#{base_title} | " + current_user.name
+      "#{base_title} | " + current_user.name 
     end
   end
   

@@ -1,6 +1,7 @@
 class WorkcategoriesController < ApplicationController
   before_filter :signed_in_user
-  # before_filter :correct_user,   only: :destroy
+  before_filter :correct_user, except: [:create, :index]
+  
 
   def index
     @parentcategories = current_user.workcategories.parents_only.all
@@ -57,5 +58,15 @@ class WorkcategoriesController < ApplicationController
     @workcategory.destroy
     redirect_to workcategories_path
   end
+
+  private
+
+    def correct_user
+      @workcategory = current_user.workcategories.find_by_id(params[:id])
+      if @workcategory.nil?
+        flash[:error] = "Sorry that work category does not belong to you!"
+        redirect_to workcategories_path
+      end
+    end
 
 end

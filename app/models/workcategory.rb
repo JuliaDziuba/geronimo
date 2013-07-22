@@ -16,15 +16,19 @@ class Workcategory < ActiveRecord::Base
   belongs_to :user
   has_many :works
   
-	validates :user_id, presence: true
-	validates :name, presence: true, length: { maximum: 25 }
-  validates :description, length: { maximum: 500 }
+  validates :user_id, presence: true
+  validates :name, presence: true, length: { maximum: 25 }
+  validates_uniqueness_of :name, :scope => :user_id, :case_sensitive => false
+  validates :description, length: { maximum: 1000 }
 
 	default_scope order: 'workcategories.name'
 
+	scope :shared_with_public, lambda { joins('INNER JOIN works ON works.workcategory_id = workcategories.id').where('works.share_public = ?', TRUE).uniq }
+	scope :parents_of_shared_with_public, lambda { where('(id in (?) AND parent_id is NULL) OR id in (?)', shared_with_public.collect(&:id), shared_with_public.collect(&:parent_id)).uniq }
 	scope :parents_only, lambda { where('workcategories.parent_id is NULL') }
-	scope :children_only, lambda { |parent| where('workcategories.parent_id = ?', parent.id) }
-	scope :excluding, lambda { |category| where('workcategories.id != ?',category.id) }
+	scope :children_only, lambda { where('!(workcategories.parent_id is NULL)') }
+	scope :children_of_parent, lambda { |parent| where('workcategories.parent_id = ?', parent.id) }
+  scope :excluding, lambda { |category| where('workcategories.id != ?',category.id) }
 
 	def children
 		self.user.workcategories.where('workcategories.parent_id = ?', self.id)

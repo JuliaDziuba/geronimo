@@ -3,11 +3,9 @@
 	<div class="span3">
 		<%= image_tag @user.image.url(:medium) %>
 	</div>
-	<div class="span3">
+	<div class="span6">
 		<%= "#{@user.name} (#{@user.username})" %><br /> 
 		<span class="lighter"> 
-			<% if !@user.location_city.blank? %><%= @user.location_city %>,<% end %> 
-			<% if !@user.location_state.blank? %><%= @user.location_state %><% end %>
 		</span><br />
 		<i><%= @user.about %></i><br />
 	</div>

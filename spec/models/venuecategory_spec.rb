@@ -3,7 +3,6 @@
 # Table name: venuecategories
 #
 #  id          :integer          not null, primary key
-#  user_id     :integer
 #  name        :string(255)
 #  description :string(255)
 #  created_at  :datetime         not null

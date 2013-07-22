@@ -1,0 +1,39 @@
+<% provide(:title, 'Contact') %>
+<div class="contact-info">
+	<% if @user.phone.present? %>
+		<%= @user.phone %><br />
+	<% end %>	
+	<% if @user.email.present? %>
+		<%= @user.email %><br />
+	<% end %>	
+	<% if @user.address_street.present? %>
+		<%= @user.address_street %><br />
+	<% end %>
+	<% if @user.address_state.present? && @user.address_zipcode.present? %>
+		<%= @user.address_city %> <%= @user.address_state %>, <%= @user.address_zipcode %>
+	<% else %>
+	  <%= @user.address_city %> <%= @user.address_state %> <%= @user.address_zipcode %>
+	<% end %>	
+  <br /><br />
+  <% if @user.social_links_present? %>
+  	<h2>Connect and Follow</h2>
+  <% end %>
+  <% if !@user.social_linkedin.blank? %>
+	<%= link_to image_tag("socialMedia/linkedin.png", alt: "LinkedIn link"), @user.social_linkedin %>
+  <% end %>
+  <% if !@user.social_facebook.blank? %>
+	<%= link_to image_tag("socialMedia/facebook.png", alt: "Facebook link"), @user.social_facebook %>
+  <% end %>
+  <% if !@user.social_twitter.blank? %>
+    <%= link_to image_tag("socialMedia/twitter.png", alt: "Twitter link"), @user.social_twitter %>
+  <% end %>
+  <% if !@user.social_etsy.blank? %>
+    <%= link_to image_tag("socialMedia/etsy.png", alt: "Etsy link"), @user.social_etsy %>
+  <% end %>
+  <% if !@user.social_pinterest.blank? %>
+    <%= link_to image_tag("socialMedia/pinterest.png", alt: "Pinterest link"), @user.social_pinterest %>
+  <% end %>
+  <% if !@user.social_googleplus.blank? %>
+  	<%= link_to image_tag("socialMedia/googleplus.png", alt: "Google+ link"), @user.social_googleplus %>
+  <% end %>
+</div>

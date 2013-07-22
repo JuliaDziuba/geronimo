@@ -57,9 +57,4 @@ FactoryGirl.define do
     user
   end
 
-  factory :site do
-    brand "Paintings by Patty"
-    user
-  end
-
 end

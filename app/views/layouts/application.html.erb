@@ -6,6 +6,7 @@
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= render 'layouts/shim' %> 
+    <%= favicon_link_tag 'favicon.ico' %>
   </head>
   <body>
     <header class="navbar navbar-static-top">
@@ -33,11 +34,11 @@
               <span class="h2">
                 <%= link_to "new", yield(:new_link) if yield(:new_link).present? %>
                 <% if yield(:new_form).present? %>
-                  <a id=<%= yield(:new_form)  + "_select" %> href=<%= "#" + yield(:new_form) %>>new</a>
+                  <a id=<%= yield(:new_form)  + "_display" %> class="display_toggle" href=<%= "#" + yield(:new_form) %>>new</a>
                 <% end %>
                 <%= link_to "update", yield(:edit_link) if yield(:edit_link).present? %>
                 <% if yield(:edit_form).present? %>
-                  <a id=<%= yield(:edit_form)  + "_select" %> href=<%= "#" + yield(:edit_form) %>>edit</a>
+                  <a id=<%= yield(:edit_form)  + "_display" %> class="display_toggle" href=<%= "#" + yield(:edit_form) %>>edit</a>
                 <% end %>
                 <%if yield(:delete_record).present? %>&nbsp; 
                   <%= link_to "delete", yield(:delete_record), method: :delete,
@@ -54,7 +55,7 @@
         </div><!-- /content -->
       </div>
     </div> <!-- /container -->
-    <footer class="navbar-fixed-bottom">
+    <footer class="navbar-static-bottom">
       <%= render 'layouts/footer'%>
     </footer>
   </body>

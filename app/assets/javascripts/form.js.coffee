@@ -10,3 +10,18 @@ $ ->
                 changeYear : true,
                 yearRange : "c-20:c+5"
             })
+
+$ ->
+  $(".tooltip").tooltip()    
+
+$ ->
+  $(".popover-input").popover({ 
+    trigger: "hover" 
+  })   
+
+$ ->
+  $(".display_toggle").click ->
+    element_id = $(@).attr("id").replace("_display", "")
+    $('#' + element_id).slideToggle()
+
+

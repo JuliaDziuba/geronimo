@@ -3,6 +3,7 @@
 # Table name: activities
 #
 #  id                  :integer          not null, primary key
+#  user_id             :integer
 #  activitycategory_id :integer
 #  venue_id            :integer
 #  client_id           :integer
@@ -18,9 +19,10 @@
 require 'spec_helper'
 
 describe Activity do
+  let(:vc)   { FactoryGirl.create(:venuecategory) }
   let(:user) { FactoryGirl.create(:user) }
   let(:w)    { FactoryGirl.create(:work, user: user) }
-  let(:v)    { FactoryGirl.create(:venue, user: user) }
+  let(:v)    { FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id) }
   let(:c)    { FactoryGirl.create(:client, user: user) }
   let(:ac)   { FactoryGirl.create(:activitycategory, name: "Consignment", status: "Consigned", final: false) }
   let(:ac_final)   { FactoryGirl.create(:activitycategory, name: "Sale", status: "Sold", final: true) }

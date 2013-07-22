@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_filter :signed_in_user, only: [:create]  
+  before_filter :signed_in_user
 
   def create
     @question = current_user.questions.build(params[:question])

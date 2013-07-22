@@ -14,11 +14,11 @@
 	<%= render 'table_works', works: @works, categoryfilter: @categoryfilter %>
 <% elsif  @parentcategories.any? %>
 	<p>Nice start creating categories. Create more categories or start uploading works!</p>
-	<h2><a id="new_workcategory_select" href="#new_workcategory">Create more categories</a></h2>
+	<h2><a id="new_workcategory_display" class="display_toggle" href="#new_workcategory">Create more categories</a></h2>
   <div id="new_workcategory" class="not-displayed">
     <%= render 'workcategories/form_workcategory', category: @workcategory, categories: @parentcategories %>
   </div>
-  <h2><a id="new_work_select" href="#new_work">Start uploading works</a></h2>
+  <h2><a id="new_work_display" class="display_toggle" href="#new_work">Start uploading works</a></h2>
   <div id="new_work" class="not-displayed">
     <%= render 'form_work', work: @work, categories: @workcategories %>
   </div>

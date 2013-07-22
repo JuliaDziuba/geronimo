@@ -13,9 +13,11 @@
 #  income_wholesale    :decimal(, )
 #  income_retail       :decimal(, )
 #  description         :string(255)
-#  dimention1          :decimal(, )
-#  dimention2          :decimal(, )
+#  dimention1          :string(255)
+#  dimention2          :string(255)
 #  dimention_units     :string(255)
+#  share_makers        :boolean          default(FALSE)
+#  share_public        :boolean          default(FALSE)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  image1_file_name    :string(255)
@@ -81,7 +83,7 @@ describe Work do
   end
 
   describe "when title that is too long" do
-    before { @work.title = "a" * 31 }
+    before { @work.title = "a" * 51 }
     it { should_not be_valid }
   end
 

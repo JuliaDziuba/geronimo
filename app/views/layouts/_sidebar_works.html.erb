@@ -37,7 +37,7 @@
             <% if parent.children.any? %>
               <% parent.children.each do |child| %>
                 <% if child.works.any? %>
-                  <li class="sidebar-sublist"><%= link_to parent.name + " > " + child.name, works_path(:categoryfilter => parent.name + "." + child.name) %> (<%= child.works.count %>)</li>
+                  <li><%= link_to parent.name + " > " + child.name, works_path(:categoryfilter => parent.name + "." + child.name) %> (<%= child.works.count %>)</li>
                 <% end %>
               <% end %>
             <% end %>

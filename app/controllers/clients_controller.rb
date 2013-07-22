@@ -1,5 +1,6 @@
 class ClientsController < ApplicationController
   before_filter :signed_in_user
+  before_filter :correct_user, except: [:create, :index]
   
   def create
   	@client = current_user.clients.build(params[:client])
@@ -42,5 +43,15 @@ class ClientsController < ApplicationController
     @client.destroy
     redirect_to clients_path
   end
+
+  private
+
+    def correct_user
+      @client = current_user.clients.find_by_munged_name(params[:id])
+      if @client.nil?
+        flash[:error] = "Sorry that client does not belong to you!"
+        redirect_to clients_path
+      end
+    end
   
 end

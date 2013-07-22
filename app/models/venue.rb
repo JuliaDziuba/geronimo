@@ -6,6 +6,7 @@
 #  user_id          :integer
 #  venuecategory_id :integer
 #  name             :string(255)
+#  munged_name      :string(255)
 #  phone            :integer
 #  address_street   :string(255)
 #  address_city     :string(255)
@@ -13,6 +14,8 @@
 #  address_zipcode  :integer
 #  email            :string(255)
 #  site             :string(255)
+#  share_makers     :boolean          default(FALSE)
+#  share_public     :boolean          default(FALSE)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #
@@ -30,6 +33,7 @@ class Venue < ActiveRecord::Base
 	validates :user_id, presence: true
 	validates :name, presence: true, length: { maximum: 30 }
   validates :munged_name, presence: true, uniqueness: { case_sensitive: false }
+  validates :venuecategory_id, presence: true
   validates_inclusion_of :share_makers, :in => [true, false]
   validates_inclusion_of :share_public, :in => [true, false]
   

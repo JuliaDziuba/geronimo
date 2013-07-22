@@ -1,0 +1,137 @@
+<%= form_for(user, :html => { :class => "form-horizontal" }) do |f| %>
+ 	<%= render 'shared/error_messages', object: f.object %>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>This configures you public site. The information included in pages you decide to create will be public. If you decide later to not have a public site all you have to do is uncheck the box.</p>
+      <legend><%= f.check_box :share_with_public, class: "popover-input", rel: "popover", :"data-title" => "Create a public site", :"data-content" => "Check this to create a public site to showcase you and your work!" %> I'd like a public site</legend>
+      <div class="not-displayed"><%= f.check_box :share_with_makers %></div>
+      <div id="general_content" class="not-displayed">
+        <div class="span6">
+          <div class="control-group">
+            <%= f.label :name, "Business name", :class => "control-label" %>
+           <div class="controls"><%= f.text_field :name, class: "popover-input", rel: "popover", :"data-title" => "Business name", :"data-content" => "While usernames and domains are often restricted you can call your business whatever you like. Makers sometimes simply use their names." %></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :tag_line, "Tag line", :class => "control-label" %>
+            <div class="controls">
+                  <%= f.text_field :tag_line%>
+            </div>
+          </div>
+        </div>
+        <div class="span6">
+          <div class="control-group">
+            <%= f.label :blog, "Blog URL", :class => "control-label" %>
+            <div class="controls">
+                  <%= f.text_field :blog%>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="share_about" class="not-displayed">
+        <legend><%= f.check_box :share_about %> Create an about page</legend>
+      </div>
+      <div id="about_content" class="not-displayed">
+        <div class="span6">
+          <div class="control-group">
+            <%= f.label :about, "About", :class => "control-label" %>
+            <div class="controls">
+              <%= f.text_area :about, placeholder: "The public site's about page will automatically include information on the venues you wish to tell fans about. What other biographical informaiton would you like to include?", rows:"14"%>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= f.label :domain, "Alternate URL", :class => "control-label" %>
+            <div class="controls">
+                  <%= f.text_field :domain, class: "popover-input", rel: "popover", :"data-title" => "Alternate domain URL", :"data-content" => "Do you already have a public site to promote yourself and your work (other than a social media site or blog)? Input the URL here and we will link to that other site on your about page." %>
+            </div>
+          </div>
+        </div>
+        <div class="span6">
+          <div class="control-group">
+            <%= image_tag user.image.url(:thumb) %>
+            <%= f.label :image, "Image", :class => "control-label" %>
+            <div class="controls"><%= f.file_field :image %></div>
+          </div>
+        </div>
+      </div>
+      <div id="share_contact" class="not-displayed">
+        <legend><%= f.check_box :share_contact %> Create a contact page</legend>
+      </div>
+      <div id="contact_content" class="not-displayed">
+        <div class="span6">
+          <div class="control-group">
+            <%= f.label :email, :class => "control-label" %>
+            <div class="controls"><%= f.text_field :email%></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :phone, :class => "control-label" %>
+            <div class="controls"><%= f.text_field :phone%></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :address_street, "Street address", :class => "control-label" %>
+            <div class="controls"><%= f.text_field :address_street%></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :address_city, "City", :class => "control-label" %>
+            <div class="controls"><%= f.text_field :address_city%></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :address_state, "State", :class => "control-label" %>
+            <div class="controls"><%= f.text_field :address_state%></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :address_zipcode, "Zip code", :class => "control-label" %>
+            <div class="controls"><%= f.text_field :address_zipcode%></div>
+          </div>
+        </div>
+        <div class="span6">
+          <div class="control-group">
+            <%= f.label :social_etsy, "Etsy", :class => "control-label" %>
+            <div class="controls"><%= f.text_field :social_etsy %></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :social_linkedin, "LinkedIn", :class => "control-label" %>
+            <div class="controls"><%= f.text_field :social_linkedin %></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :social_facebook, "Facebook", :class => "control-label" %>
+            <div class="controls"><%= f.text_field :social_facebook %></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :social_twitter, "Twitter", :class => "control-label" %>
+            <div class="controls"><%= f.text_field :social_twitter %></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :social_pinterest, "Pinterest", :class => "control-label" %>
+            <div class="controls"><%= f.text_field :social_pinterest %></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :social_googleplus, "Google+", :class => "control-label" %>
+            <div class="controls"><%= f.text_field :social_googleplus %></div>
+          </div>
+        </div>
+      </div>
+      <div id="share_works" class="not-displayed">
+        <legend><%= f.check_box :share_works %> Create pages for public works</legend>
+      </div>
+      <div id="works_content" class="not-displayed">
+        There are currently <%= user.works.shared_with_public.count %> works shared with the public and an additional <%= user.works.not_shared_with_public.count %> works could be shared. To change which works are public click on the <i>Works</i> link and edit those you wish.
+        <div class="control-group">
+            <%= f.label :share_price, "Include prices", :class => "control-label" %>
+            <div class="controls"><%= f.check_box :share_price %></div>
+          </div>
+      </div>
+      <div id="share_purchase" class="not-displayed">
+        <legend><%= f.check_box :share_purchase %> Create a purchase page</legend>
+      </div>
+      <div id="purchase_content" class="not-displayed">
+        There is nothing to configure in this section as it is generated automatically. This page will instruct clients how to purchase any of the works included on your public site that are currently available. Below is a summary of the works.
+      </div>
+    </div>
+  </div>
+  <div class="row-fluid">
+    <div class="form-actions">
+      <%= f.submit "Update Public Site", class: "btn" %>
+    </div> 
+  </div>
+<% end %> 
+    

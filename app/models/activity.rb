@@ -3,6 +3,7 @@
 # Table name: activities
 #
 #  id                  :integer          not null, primary key
+#  user_id             :integer
 #  activitycategory_id :integer
 #  venue_id            :integer
 #  client_id           :integer

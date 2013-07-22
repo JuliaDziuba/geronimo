@@ -62,7 +62,7 @@
         <div id="work_image">
           <%= image_tag work.image1.url(:medium) %>
         </div>
-        <a id="update_image_select" href="#update_image">Update Image</a>
+        <a id="update_image_display" class="display_toggle" href="#update_image">Update Image</a>
         <div id="update_image" class="not-displayed">
           <%= f.file_field :image1 %>
         </div>
@@ -100,12 +100,12 @@
     </div>
   </div>
   <div class="row-fluid">
-    <div class="control-group">
+    <div class="control-group not-displayed">
       <%= f.label :share_makers, "Share with other makers", :class => "control-label" %>
       <div class="controls"><%= f.check_box :share_makers %></div>
     </div>
     <div class="control-group">
-      <%= f.label :share_public, "Share with the public", :class => "control-label" %>
+      <%= f.label :share_public, "Make public", :class => "control-label" %>
       <div class="controls"><%= f.check_box :share_public %></div>
     </div>
   </div>

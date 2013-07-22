@@ -8,12 +8,12 @@
     </ol>
   </p>
   <p>To organize the works and public site we create categories of work. Learn more about categories and create some by clicking on 'Start creating categories' or skip this step and start uploading works.</p>
-  <h2><a id="get_started_workcategory_select" href="#get_started_workcategory">Start creating categories</a></h2>
+  <h2><a id="get_started_workcategory_display" class="display_toggle" href="#get_started_workcategory">Start creating categories</a></h2>
   <div id="get_started_workcategory" class="not-displayed">
     <%= render 'workcategories/get_started_workcategories', category: @workcategory, categories: @parentcategories %>
   </div>
 
-  <h2><a id="new_work_select" href="#new_work">Start uploading works</a></h2>
+  <h2><a id="new_work_display" class="display_toggle" href="#new_work">Start uploading works</a></h2>
   <div id="new_work" class="not-displayed">
     <%= render 'form_work', work: @work, categories: @workcategories %>
   </div>

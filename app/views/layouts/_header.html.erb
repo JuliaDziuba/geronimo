@@ -4,24 +4,47 @@
       <ul class="nav pull-right">
          <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              site <b class="caret"></b>
+              public site <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <% if @current_user.sites.all.any? %>
-              <% site = @current_user.sites.first %>
-              <li><%= link_to "Update", edit_site_path(site) %></li>
-              <li><%= link_to "View", site_path(site) %></li>
+            <% if @current_user.share_with_public %>
+              <li><%= link_to "Update", public_user_path(current_user) %></li>
+              <li class="divider"></li>
+              <% if @current_user.share_about %>
+                <li><%= link_to "About", about_user_path(@current_user) %></li>
+              <% end %>
+              <% if @current_user.blog.present? %>
+                <li><%= link_to "Blog", @current_user.blog %></li>
+              <% end %>  
+              <% if @current_user.share_works && @current_user.works.shared_with_public.any? %>
+                <% @current_user.workcategories.parents_of_shared_with_public.each do |parent| %>
+                  <% if @current_user.works.shared_with_public.in_category(parent).any? %>
+                    <li><%= link_to parent.name, "/makers/#{@current_user.to_param}/#{parent.name}" %></li>
+                  <% end %>
+                  <% @current_user.workcategories.children_of_parent(parent).shared_with_public.each do |child| %>
+                    <li><%= link_to "#{parent.name} > #{child.name}", "/makers/#{@current_user.to_param}/#{child.name}" %></li>
+                  <% end %>
+                <% end %>
+              <% end %>
+              <% if @current_user.share_purchase %>
+                <li><%= link_to "Purchase", purchase_user_path(@current_user) %></li>
+              <% end %>
+              <% if @current_user.share_contact %>
+                <li><%= link_to "Contact", contact_user_path(@current_user) %></li>
+              <% end %>
             <% else %>
-              <li><%= link_to "Create", new_site_path %></li>
+              <li><%= link_to "Create", public_user_path(current_user) %></li>
             <% end %>  
           </ul>
-        </li><li class="dropdown">
+        </li>
+        <li class="dropdown">
           <a href="#" class="dropdown-toggle icon" data-toggle="dropdown">
             &nbsp; &nbsp; &nbsp; &nbsp; <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
             <li><%= link_to "Makers", users_path %></li>
             <li><%= link_to "Profile", edit_user_path(current_user) %></li>
+            <li><%= link_to "Import", new_import_path %></li>
             <li><%= link_to "Help",  help_path %></li>
             <li class="divider"></li>
             <li><%= link_to "Sign out", signout_path, method: "delete" %></li>

@@ -1,6 +1,6 @@
 class VenuecategoriesController < ApplicationController
   before_filter :signed_in_user
-  # before_filter :correct_user,   only: :destroy
+  before_filter :admin_user
 
   def create
     @category = Venuecategory.new(params[:venuecategory])
@@ -22,6 +22,6 @@ class VenuecategoriesController < ApplicationController
 
   def destroy
     Venuecategory.find_by_id(params[:id]).destroy
-    redirect_to sitevenues_path
+    redirect_to venues_path
   end
 end

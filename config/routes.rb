@@ -1,32 +1,36 @@
 Geronimo::Application.routes.draw do
 
   root to: 'static_pages#home'
+  match '/help',    to: 'static_pages#help'
+  match '/signup',  to: 'users#new'
+  match '/signin',  to: 'sessions#new'
+  match '/signout', to: 'sessions#destroy', via: :delete
 
   resource :static_pages, only: [:home, :help]
-  resources :sites, exclude: [:index], path: "/public/" do
-    member do
-      get :home
+
+  resources :users, path: "makers/" do
+    member do 
+      get :public
       get :about
       get :contact
-      get :works
+      get :purchase
+      get :work
     end
   end
-  resources :users, path: '/makers/'
+
   resources :sessions, only: [:new, :create, :destroy]
   resources :activities, path: "internal/works/activities/"
   resources :workcategories , exclude: [:new, :show], path: "/internal/works/categories/"
   resources :works, exclude: [:new, :edit], path: "/internal/works/"
   resources :venues, exclude: [:new, :edit], path: "/internal/venues/"
   resources :clients, exclude: [:new, :edit], path: "/internal/clients/"
+  resources :imports, only: [:new, :create]
 
   resources :questions, only: [:create]
 
-  match '/help',    to: 'static_pages#help'
-  match '/signup',  to: 'users#new'
-  match '/signin',  to: 'sessions#new'
-  match '/signout', to: 'sessions#destroy', via: :delete
-  match '/:workcategory', to: 'sites#works'
 
+  match '/makers/:user/:workcategory', to: 'users#work', as: 'workcategory_user'
+  match '/makers/:user/:workcategory/:work', to: 'users#work', as: 'work_user'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

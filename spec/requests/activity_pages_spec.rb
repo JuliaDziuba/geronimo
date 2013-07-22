@@ -3,10 +3,10 @@ require 'spec_helper'
 describe "Activity pages" do
 
 	subject { page }
-
+	let(:vc)   { FactoryGirl.create(:venuecategory) }
 	let(:user) 					{ FactoryGirl.create(:user) }
 	let!(:w)    				{ FactoryGirl.create(:work, user: user) }
-	let!(:v) 						{ FactoryGirl.create(:venue, user: user) }
+	let!(:v) 						{ FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id) }
 	let!(:ac_consign) 	{ FactoryGirl.create(:activitycategory, name: "Consignment", status: "Consigned", final: false) }
 	let!(:ac_sale) 			{ FactoryGirl.create(:activitycategory, name: "Sale",    status: "Sold", final: true) } 
 			
@@ -18,7 +18,7 @@ describe "Activity pages" do
   		before { visit activities_path }
 
 			it { should have_selector('h1', text: "Activities") }
-  		it { should have_selector('p', text: "Make a sale or donate, gift, or recycle a piece?") }
+  		it { should have_selector('p', text: "Made a sale or donate, gift, or recycle a piece?") }
   	end
 
   	describe "when there are activities" do

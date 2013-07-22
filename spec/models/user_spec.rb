@@ -4,14 +4,33 @@
 #
 #  id                 :integer          not null, primary key
 #  admin              :boolean
-#  about              :string(255)
-#  name               :string(255)
-#  email              :string(255)
-#  location_city      :string(255)
-#  location_state     :string(255)
+#  share_with_makers  :boolean
+#  share_with_public  :boolean
+#  share_about        :boolean
+#  share_contact      :boolean
+#  share_price        :boolean          default(FALSE)
+#  share_purchase     :boolean
+#  share_works        :boolean
+#  username           :string(255)
 #  password_digest    :string(255)
 #  remember_token     :string(255)
-#  username           :string(255)
+#  name               :string(255)
+#  domain             :string(255)
+#  tag_line           :string(255)
+#  blog               :string(255)
+#  about              :string(255)
+#  email              :string(255)
+#  phone              :string(255)
+#  address_street     :string(255)
+#  address_city       :string(255)
+#  address_state      :string(255)
+#  address_zipcode    :string(255)
+#  social_etsy        :string(255)
+#  social_googleplus  :string(255)
+#  social_facebook    :string(255)
+#  social_linkedin    :string(255)
+#  social_twitter     :string(255)
+#  social_pinterest   :string(255)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  image_file_name    :string(255)
@@ -24,38 +43,63 @@ require 'spec_helper'
 
 describe User do
 
+  let!(:vc) { FactoryGirl.create(:venuecategory) }
+
  before do
-    @user = User.new(name: "Example User", username: "ExampleUser", email: "user@example.com", about: "A little bit about this user is interesting. But only a little bit.",
-                     password: "foobar", password_confirmation: "foobar")
+    @user = User.new(username: "ExampleUser", email: "user@example.com", about: "A little bit about this user is interesting. But only a little bit.",
+                     password: "password", password_confirmation: "password")
   end
 
   subject { @user }
 
-  it { should respond_to(:name) }
+  it { should respond_to(:admin) }
+  it { should respond_to(:share_with_makers) }
+  it { should respond_to(:share_with_public) }
+  it { should respond_to(:share_about) }
+  it { should respond_to(:share_contact) }
+  it { should respond_to(:share_price) }
+  it { should respond_to(:share_purchase) }
+  it { should respond_to(:share_works) }
   it { should respond_to(:username) }
-  it { should respond_to(:email) }
-  it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
+  it { should respond_to(:password_digest) }
   it { should respond_to(:remember_token) }
+  it { should respond_to(:name) }
+  it { should respond_to(:domain) }
+  it { should respond_to(:tag_line) }
+  it { should respond_to(:blog) }
   it { should respond_to(:about) }
-  it { should respond_to(:location_city) }
-  it { should respond_to(:location_state) }
-  it { should respond_to(:admin) }
+  it { should respond_to(:email) }
+  it { should respond_to(:phone) }
+  it { should respond_to(:address_street) }
+  it { should respond_to(:address_city) }
+  it { should respond_to(:address_state) }
+  it { should respond_to(:address_zipcode) }
+  it { should respond_to(:social_etsy) }
+  it { should respond_to(:social_googleplus) }
+  it { should respond_to(:social_facebook) }
+  it { should respond_to(:social_linkedin) }
+  it { should respond_to(:social_twitter) }
+  it { should respond_to(:social_pinterest) }
+  it { should respond_to(:created_at) }
+  it { should respond_to(:updated_at) }
+  it { should respond_to(:image_file_name) }
+  it { should respond_to(:image_content_type) }
+  it { should respond_to(:image_file_size) }
+  it { should respond_to(:image_updated_at) }
   it { should respond_to(:authenticate) }
   it { should respond_to(:workcategories) }
   it { should respond_to(:works) }
   it { should respond_to(:venues) }
   it { should respond_to(:clients) }
   it { should respond_to(:activities) }
-  it { should respond_to(:sites) }
   it { should respond_to(:questions) }
 
   it { should be_valid }
   it { should_not be_admin }
 
   # Admin
-
   describe "with admin attribute set to 'true'" do
     before do
       @user.save!
@@ -65,20 +109,7 @@ describe User do
     it { should be_admin }
   end
 
-  # name tests
-
-  describe "when name is not present" do
-    before { @user.name = " " }
-    it { should_not be_valid }
-  end
-
-  describe "when name is too long" do
-    before { @user.name = "a" * 51 }
-    it { should_not be_valid }
-  end
-
-  # username tests
-
+  # Username tests
   describe "when username is not present" do
     before { @user.username = " " }
     it { should_not be_valid }
@@ -99,8 +130,12 @@ describe User do
     it { should_not be_valid }
   end 
 
-  # email tests
+  describe "when username has characters, numbers, and underscores" do
+    before { @user.username = "h3ll0_t3st" }
+    it { should be_valid }
+  end
 
+  # Email tests
   describe "when email is not present" do
     before { @user.email = " " }
     it { should_not be_valid }
@@ -138,9 +173,8 @@ describe User do
   end
 
   # Password tests
-
   describe "when password is not present" do
-  	before { @user.password = @user.password_confirmation = " " }
+  	before { @user.password =  " " }
   	it { should_not be_valid }
 	end
 
@@ -149,8 +183,11 @@ describe User do
   	it { should_not be_valid }
 	end
 
-	describe "when password confirmation is nil" do
- 		before { @user.password_confirmation = nil }
+	describe "when password is present but confirmation is nil" do
+ 		before do
+      @user.password = "newPassword"
+      @user.password_confirmation = " " 
+    end
  		it { should_not be_valid }
 	end
 
@@ -176,22 +213,25 @@ describe User do
 	end
 
   # Remember token tests
-
   describe "remember token" do
     before { @user.save }
     its(:remember_token) { should_not be_blank }
   end
 
-  # About tests
+  # Name tests
+  describe "when name is too long" do
+    before { @user.name = "a" * 51 }
+    it { should_not be_valid }
+  end
 
+  # About tests
   describe "when about is too long" do
-    before { @user.about = "a" * 401 }
+    before { @user.about = "a" * 2001 }
     it { should_not be_valid }
   end
 
   # Workcategories and works
-
-  describe "workcategory, worksubcategory, and work associations" do
+  describe "workcategory and work associations" do
 
     before { @user.save }
     let!(:b_workcategory) do 
@@ -234,13 +274,10 @@ describe User do
 
 
   # Venuecategories and venues
-
-  describe "venuecategory and venue associations" do
+  describe "venue associations" do
 
     before { @user.save }
-    let!(:vc) do
-      FactoryGirl.create(:venuecategory, name: "Stores", description: "Stores in the United States.")
-    end
+    
     let!(:b_venue) do
       FactoryGirl.create(:venue, user: @user, venuecategory_id: vc.id, name: "Beauty Store")
     end
@@ -252,7 +289,7 @@ describe User do
       @user.venues.should == [a_venue, b_venue]
     end
 
-    it "should destroy associated venuecategories and venues" do
+    it "should destroy associated venues" do
       venues = @user.venues.dup
       @user.destroy
 
@@ -263,16 +300,7 @@ describe User do
     end
   end
 
-  #Activities
-
-  describe "activity associations" do
-    
-    pending "destroying user should destroy associated activities"
-    
-  end
-
   # Clients
-
   describe "client associations" do
 
     before { @user.save }
@@ -297,20 +325,29 @@ describe User do
     end
   end
 
-  # Sites
-
-  describe "site associations" do
-
+  #Activities
+  describe "activity associations" do
+    
     before { @user.save }
-    let!(:site) { FactoryGirl.create(:site, user: @user, brand: "Paintings by Patty") }
+    let!(:work) do 
+      FactoryGirl.create(:work, user: @user, title: "A work", creation_date:"2012-01-01")
+    end
+    let!(:venue) do 
+      FactoryGirl.create(:venue, user: @user, venuecategory_id: vc.id, name: "Beauty Store")
+    end
+    let!(:activity) do 
+      FactoryGirl.create(:activity, user: @user, work: work, venue: venue, date_start:"2012-02-02")
+    end
 
-    it "should destroy associated sites" do
-      sites = @user.sites.dup
+    it "destroying user should destroy associated activities" do
+      activities = @user.activities.dup
       @user.destroy
-      sites.should_not be_empty
-      sites.each do |site|
-        Site.find_by_id(site.id).should be_nil
+      activities.should_not be_empty
+      activities.each do |activity|
+        Activity.find_by_id(activity.id).should be_nil
       end
     end
   end
+
+ 
 end

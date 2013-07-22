@@ -1,19 +1,6 @@
 class ActivitycategoriesController < ApplicationController
   before_filter :signed_in_user
-  
-  def index
-  	@activitycategories = Activitycategory.all
-    @category = Activitycategory.new
-  end
-
-  def show
-    @category = Activitycategory.find(params[:id])
-    @activities = @category.activities
-  end
-
-  def new
-    @category = Activitycategory.new
-  end
+  before_filter :admin_user
 
   def create
     @category = Activitycategory.new(params[:activitycategory])
@@ -23,10 +10,6 @@ class ActivitycategoriesController < ApplicationController
     else
       render 'index'
     end
-  end
-
-  def edit
-    @category = Activitycategory.find_by_id(params[:id])
   end
 
   def update

@@ -1,6 +1,6 @@
 class WorksController < ApplicationController
-  before_filter :signed_in_user  
-  #before_filter :correct_user,   only: :destroy
+  before_filter :signed_in_user
+  before_filter :correct_user, except: [:create, :index]
 
   def create
     @work = current_user.works.build(params[:work])
@@ -70,7 +70,10 @@ class WorksController < ApplicationController
 
     def correct_user
       @work = current_user.works.find_by_inventory_id(params[:id])
-      redirect_to works_path if @work.nil?
+      if @work.nil?
+        flash[:error] = "Sorry that work does not belong to you!"
+        redirect_to works_path 
+      end
     end
 
     def works_given_filters(categoryfilter, statusfilter)

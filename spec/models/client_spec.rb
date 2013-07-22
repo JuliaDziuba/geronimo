@@ -4,6 +4,7 @@
 #
 #  id              :integer          not null, primary key
 #  name            :string(255)
+#  munged_name     :string(255)
 #  email           :string(255)
 #  phone           :string(255)
 #  address_street  :string(255)

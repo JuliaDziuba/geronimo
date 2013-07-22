@@ -1,4 +1,6 @@
 class ActivitiesController < ApplicationController
+  before_filter :signed_in_user
+  before_filter :correct_user, except: [:create, :index]
 
   def create
     @activity = current_user.activities.build(params[:activity])
@@ -41,7 +43,7 @@ class ActivitiesController < ApplicationController
   end
 
   def show
-    @activity = current_user.activities.find(params[:id])
+    @activity = current_user.activities.find_by_id(params[:id])
     @activitycategories = Activitycategory.all
     @works = current_user.works.all
     @venues = current_user.venues.all
@@ -85,5 +87,15 @@ class ActivitiesController < ApplicationController
     else false
     end
   end
+
+  private
+
+    def correct_user
+      @activity = current_user.activities.find_by_id(params[:id])
+      if @activity.nil?
+        flash[:error] = "Sorry that work activity does not belong to you!"
+        redirect_to activities_path
+      end
+    end
 
 end

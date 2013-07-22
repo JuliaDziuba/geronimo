@@ -25,7 +25,7 @@ describe "Venue pages" do
     end
 
     describe "when there are venues" do
-      let!(:v) { FactoryGirl.create(:venue, user: user) }
+      let!(:v) { FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id) }
 			before { visit venues_path }
       
       it { should have_selector('h1', text: "Venues") }
@@ -35,13 +35,12 @@ describe "Venue pages" do
   end
 
   describe  "show page" do
-  	let!(:v) { FactoryGirl.create(:venue, user: user) }
+  	let!(:v) { FactoryGirl.create(:venue, user: user , venuecategory_id: vc.id) }
 		before { visit venue_path(v) }
     
 
     it { should have_selector('a', text:  "Venues") }
-	  it { should have_selector('a', text:  "Uncategorized") }
-	  it { should have_selector('h1', text: v.name) }
+	it { should have_selector('h1', text: v.name) }
     
 	  describe "when there are current consignments to show" do
 	  	let!(:vc) { FactoryGirl.create(:venuecategory, name: 'Galleries') }

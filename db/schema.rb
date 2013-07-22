@@ -64,45 +64,37 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "sites", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "brand"
-    t.string   "munged_brand"
+  create_table "users", :force => true do |t|
+    t.boolean  "admin"
+    t.boolean  "share_with_makers"
+    t.boolean  "share_with_public"
+    t.boolean  "share_about"
+    t.boolean  "share_contact"
+    t.boolean  "share_price",                        :default => false
+    t.boolean  "share_purchase"
+    t.boolean  "share_works"
+    t.string   "username"
+    t.string   "password_digest"
+    t.string   "remember_token"
+    t.string   "name"
+    t.string   "domain"
     t.string   "tag_line"
+    t.string   "blog"
+    t.string   "about",              :limit => 2000
     t.string   "email"
     t.string   "phone"
     t.string   "address_street"
     t.string   "address_city"
     t.string   "address_state"
     t.string   "address_zipcode"
-    t.string   "domain"
-    t.string   "blog"
     t.string   "social_etsy"
     t.string   "social_googleplus"
     t.string   "social_facebook"
     t.string   "social_linkedin"
     t.string   "social_twitter"
     t.string   "social_pinterest"
-    t.string   "bio_pic"
-    t.string   "bio_text"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-  end
-
-  add_index "sites", ["user_id"], :name => "index_sites_on_user_id"
-
-  create_table "users", :force => true do |t|
-    t.boolean  "admin"
-    t.string   "about"
-    t.string   "name"
-    t.string   "email"
-    t.string   "location_city"
-    t.string   "location_state"
-    t.string   "password_digest"
-    t.string   "remember_token"
-    t.string   "username"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
@@ -146,7 +138,7 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
   create_table "workcategories", :force => true do |t|
     t.integer "user_id"
     t.string  "name"
-    t.string  "description"
+    t.string  "description", :limit => 1000
     t.integer "parent_id"
   end
 
@@ -164,8 +156,8 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.decimal  "income_wholesale"
     t.decimal  "income_retail"
     t.string   "description"
-    t.decimal  "dimention1"
-    t.decimal  "dimention2"
+    t.string   "dimention1"
+    t.string   "dimention2"
     t.string   "dimention_units"
     t.boolean  "share_makers",        :default => false
     t.boolean  "share_public",        :default => false

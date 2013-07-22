@@ -38,6 +38,16 @@ $navbarBorder:                    darken($navbarBackground, 12%) !default;
   color: $brandColor;
 }
 
+.tooltip {
+	z-index: auto;
+	opacity:1;
+}
+
+.popover {
+	z-index: auto;
+	opacity:1;
+}
+
 @mixin box_sizing {
   -moz-box-sizing: border-box; 
   -webkit-box-sizing: border-box; 
@@ -223,6 +233,10 @@ a:hover {
 
 .divider {
 	border-top: 1px dotted #e5e5e5;
+}
+
+.users-index {
+	padding: 10px 0;
 }
 
 

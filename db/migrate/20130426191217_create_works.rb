@@ -11,8 +11,8 @@ class CreateWorks < ActiveRecord::Migration
       t.decimal :income_wholesale
       t.decimal :income_retail
       t.string  :description
-      t.decimal :dimention1
-      t.decimal :dimention2
+      t.string :dimention1
+      t.string :dimention2
       t.string  :dimention_units
       t.boolean :share_makers, default: false
       t.boolean :share_public, default: false
