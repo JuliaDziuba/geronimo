@@ -19,19 +19,22 @@
 	margin:0 auto;
 }
 
-.box{
+.box_signin{
 	position:relative;
 	right:10px;
 	float:left;
 }
 
-.tinted_box{
-	padding:10px 30px 80px 30px;
+.box{
+	padding:10px 30px 120px 30px;
 	position:relative;
 	right:50px;
+}
+
+.tinted{
 	background-color:#121643;
 	background: rgb(18, 22, 67); /* Fall-back for browsers that don't support rgba */
-  background: rgba(18, 22, 67, .4);
+  	background: rgba(18, 22, 67, .4);
 }
 
 .landing_title{
@@ -54,4 +57,8 @@
 .landing_description{
 	color:#888;
 	margin-bottom:190px;
+}
+
+.top_padding {
+	padding-top:30px;
 }

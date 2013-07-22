@@ -11,7 +11,7 @@ describe "Static pages" do
   #  it { should have_link('Sign up') }
   #  it { should have_link('Sign in') }
   	it { should have_content('We are working hard for you!') }
-  	it { should have_button('Stay Tuned, Subscribe!') }
+  	it { should have_button('Subscribe') }
   end
 end
 

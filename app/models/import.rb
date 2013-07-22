@@ -20,6 +20,7 @@ class Import
   def save
     if imported.map(&:valid?).all?
       imported.each(&:save!)
+      update_workcategory_parents if self.model = "Work categories"
       true
     else
       imported.each_with_index do |record, index|
@@ -67,6 +68,16 @@ class Import
     end
   end
 
+  def update_workcategory_parents
+    spreadsheet = open_spreadsheet
+    header = spreadsheet.row(1)
+    (2..spreadsheet.last_row).map do |i|
+      row = Hash[[header, spreadsheet.row(i)].transpose]
+      user = find_user(row)
+      record = update_workcategory_parent(row,user)
+    end
+  end
+
   def load_user(row)
     record = User.find_by_id(row["id"]) || User.new
     record.assign_attributes(row.to_hash.slice(*User.accessible_attributes))
@@ -82,13 +93,18 @@ class Import
   def load_workcategory(row,user)
     record = user.workcategories.find_by_id(row["id"]) || user.workcategories.build()
     record.assign_attributes(row.to_hash.slice(*Workcategory.accessible_attributes))
+    record
+  end
+
+  def update_workcategory_parent(row,user)
+    record = user.workcategories.find_by_id(row["id"]) || user.workcategories.find_by_name(row["name"])
     p = row["parent"]
     if !p.blank?
       p = user.workcategories.find_by_name(p)
       if p.blank?
 #        errors.add :base, "The parent specified for #{record.name} does not exist. No parent was assigned."
       else
-        record.assign_attributes(:parent_id => p.id)
+        record.update_attributes(:parent_id => p.id)
       end
     end    
     record
