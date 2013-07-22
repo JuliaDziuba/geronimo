@@ -17,7 +17,7 @@
 #
 
 class Activity < ActiveRecord::Base
-  attr_accessible :activitycategory_id, :client_id, :date_end, :date_start, :income_retail, :income_wholesale, :venue_id, :work_id
+  attr_accessible :activitycategory_id, :client_id, :date_end, :date_start, :retail, :income, :venue_id, :work_id
 
 	belongs_to :user
   belongs_to :activitycategory

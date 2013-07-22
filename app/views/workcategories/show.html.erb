@@ -6,7 +6,7 @@
 <div id="edit_workcategory" class="not-displayed">
   <%= render 'form_workcategory', category: @workcategory, categories: @parentcategories %>
 </div>
-<%= @workcategory.description %>
+<%= @workcategory.artist_statement %>
 
 <% if @works.any? %>
   <%= render 'works/table_works', works: @works, categoryfilter: @workcategory.name %>

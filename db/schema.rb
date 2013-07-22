@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.integer  "work_id"
     t.date     "date_start"
     t.date     "date_end"
-    t.decimal  "income_wholesale"
-    t.decimal  "income_retail"
+    t.decimal  "income"
+    t.decimal  "retail"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
   end
@@ -119,11 +119,11 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.integer  "venuecategory_id"
     t.string   "name"
     t.string   "munged_name"
-    t.integer  "phone"
+    t.string   "phone"
     t.string   "address_street"
     t.string   "address_city"
     t.string   "address_state"
-    t.integer  "address_zipcode"
+    t.string   "address_zipcode"
     t.string   "email"
     t.string   "site"
     t.boolean  "share_makers",     :default => false
@@ -138,7 +138,7 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
   create_table "workcategories", :force => true do |t|
     t.integer "user_id"
     t.string  "name"
-    t.string  "description", :limit => 1000
+    t.string  "artist_statement", :limit => 1000
     t.integer "parent_id"
   end
 
@@ -153,8 +153,8 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.date     "creation_date"
     t.decimal  "expense_hours"
     t.decimal  "expense_materials"
-    t.decimal  "income_wholesale"
-    t.decimal  "income_retail"
+    t.decimal  "income"
+    t.decimal  "retail"
     t.string   "description"
     t.string   "dimention1"
     t.string   "dimention2"

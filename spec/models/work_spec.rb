@@ -48,8 +48,8 @@ describe Work do
   it { should respond_to(:creation_date) }
   it { should respond_to(:expense_hours) }
   it { should respond_to(:expense_materials) }
-  it { should respond_to(:income_wholesale) }
-  it { should respond_to(:income_retail) }
+  it { should respond_to(:income) }
+  it { should respond_to(:retail) }
   it { should respond_to(:description) }
   it { should respond_to(:dimention1) }
   it { should respond_to(:dimention2) }

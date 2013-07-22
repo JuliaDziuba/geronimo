@@ -8,8 +8,8 @@ class CreateActivities < ActiveRecord::Migration
       t.integer :work_id
       t.date :date_start
       t.date :date_end
-      t.decimal :income_wholesale
-      t.decimal :income_retail
+      t.decimal :income
+      t.decimal :retail
 
       t.timestamps
     end

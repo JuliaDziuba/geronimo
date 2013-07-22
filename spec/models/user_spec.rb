@@ -235,10 +235,10 @@ describe User do
 
     before { @user.save }
     let!(:b_workcategory) do 
-      FactoryGirl.create(:workcategory, user: @user, name: "Banana Slings", description: "Slings for bananas")
+      FactoryGirl.create(:workcategory, user: @user, name: "Banana Slings", artist_statement: "Slings for bananas")
     end
     let!(:a_workcategory) do
-      FactoryGirl.create(:workcategory, user: @user, name: "Apple Sacks", description: "Sacks for apples")
+      FactoryGirl.create(:workcategory, user: @user, name: "Apple Sacks", artist_statement: "Sacks for apples")
     end
     let!(:work_1) do
       FactoryGirl.create(:work, user: @user, title: "A work", creation_date:"2012-01-01")

@@ -14,7 +14,7 @@ require 'spec_helper'
 describe Workcategory do
 
   let(:user) { FactoryGirl.create(:user) }
-  before { @workcategory = user.workcategories.build(name: "Wooden Fruit", description: "Handmade wooden fruit") }
+  before { @workcategory = user.workcategories.build(name: "Wooden Fruit", artist_statement: "Handmade wooden fruit") }
   
   subject { @workcategory }
 
@@ -23,7 +23,7 @@ describe Workcategory do
   it { should respond_to(:user) }
   it { should respond_to(:user_id) }
   it { should respond_to(:name) }
-  it { should respond_to(:description) }
+  it { should respond_to(:artist_statement) }
 
   it { should be_valid }
 
@@ -50,8 +50,8 @@ describe Workcategory do
     it { should_not be_valid }
   end
 
-  describe "with description that is too long" do
-    before { @workcategory.description = "a" * 1001 }
+  describe "with artist_statement that is too long" do
+    before { @workcategory.artist_statement = "a" * 1001 }
     it { should_not be_valid }
   end
 

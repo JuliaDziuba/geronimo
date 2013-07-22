@@ -52,8 +52,8 @@ describe Activity do
   it { should respond_to(:work_id) }
   it { should respond_to(:date_start) }
   it { should respond_to(:date_end) }
-  it { should respond_to(:income_wholesale) }
-  it { should respond_to(:income_retail) }
+  it { should respond_to(:income) }
+  it { should respond_to(:retail) }
 	it { should respond_to(:created_at) }
 	it { should respond_to(:updated_at) }
 

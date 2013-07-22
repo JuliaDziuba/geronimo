@@ -14,7 +14,7 @@ FactoryGirl.define do
 
   factory :workcategory do
     name "Wooden Fruit"
-    description "Handmade wooden fruit"
+    artist_statement "Handmade wooden fruit"
     user
   end
 

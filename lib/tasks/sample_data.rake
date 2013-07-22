@@ -17,8 +17,8 @@ namespace :db do
 
       3.times do |b|
         name = Faker::Name.last_name
-        description = Faker::Lorem.sentence(5)
-        workcategory = user.workcategories.create!(name: name, description: description)
+        artist_statement = Faker::Lorem.sentence(5)
+        workcategory = user.workcategories.create!(name: name, artist_statement: artist_statement)
         
   
         10.times do |c|
@@ -27,8 +27,8 @@ namespace :db do
           creation_date = DateTime.new(2012,1,2) 
           expense_hours = 5
           expense_materials = 30
-          income_wholesale = 100
-          income_retail = 120
+          income = 100
+          retail = 120
           description = Faker::Lorem.sentence(10)
           dimention1 = 16
           dimention2 = 36
@@ -40,8 +40,8 @@ namespace :db do
             creation_date: creation_date,
             expense_hours: expense_hours,
             expense_materials: expense_materials,
-            income_wholesale: income_wholesale,
-            income_retail: income_retail,
+            income: income,
+            retail: retail,
             description: description, 
             dimention1: dimention1,
             dimention2: dimention2,

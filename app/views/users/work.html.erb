@@ -29,11 +29,11 @@
 		</div>
 	</div>
 </div>
-<% if !@category.description.blank? %>
+<% if !@category.artist_statement.blank? %>
 	<div class="row-fluid pw_statement">
 		<div class="pw_container span12">
 			<%= "Artist's statement on #{@category.name} #{@category.parent.name if @category.parent.name != 'None'}:" %><br />
-			<i><%= @category.description %></i>
+			<i><%= @category.artist_statement %></i>
 		</div>
 	</div>
 <% end %>

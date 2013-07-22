@@ -5,11 +5,11 @@ class CreateVenues < ActiveRecord::Migration
       t.integer :venuecategory_id
       t.string :name
       t.string :munged_name
-      t.integer :phone
+      t.string :phone
       t.string :address_street
       t.string :address_city
       t.string :address_state
-      t.integer :address_zipcode
+      t.string :address_zipcode
       t.string :email
       t.string :site
       t.boolean :share_makers, default: false

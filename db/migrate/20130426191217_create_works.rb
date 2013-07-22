@@ -8,11 +8,11 @@ class CreateWorks < ActiveRecord::Migration
       t.date    :creation_date
       t.decimal :expense_hours
       t.decimal :expense_materials
-      t.decimal :income_wholesale
-      t.decimal :income_retail
+      t.decimal :income
+      t.decimal :retail
       t.string  :description
-      t.string :dimention1
-      t.string :dimention2
+      t.string  :dimention1
+      t.string  :dimention2
       t.string  :dimention_units
       t.boolean :share_makers, default: false
       t.boolean :share_public, default: false

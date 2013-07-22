@@ -11,7 +11,7 @@
 
 
 class Workcategory < ActiveRecord::Base
-  attr_accessible :description, :name, :parent_id
+  attr_accessible :artist_statement, :name, :parent_id
   
   belongs_to :user
   has_many :works
@@ -19,7 +19,7 @@ class Workcategory < ActiveRecord::Base
   validates :user_id, presence: true
   validates :name, presence: true, length: { maximum: 25 }
   validates_uniqueness_of :name, :scope => :user_id, :case_sensitive => false
-  validates :description, length: { maximum: 1000 }
+  validates :artist_statement, length: { maximum: 1000 }
 
 	default_scope order: 'workcategories.name'
 

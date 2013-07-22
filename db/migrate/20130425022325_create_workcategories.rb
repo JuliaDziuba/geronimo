@@ -3,7 +3,7 @@ class CreateWorkcategories < ActiveRecord::Migration
     create_table :workcategories do |t|
       t.integer :user_id
       t.string :name
-      t.string :description, :limit => 1000
+      t.string :artist_statement, :limit => 1000
       t.integer :parent_id
     end
     add_index :workcategories, [:user_id]
