@@ -26,7 +26,10 @@ class Client < ActiveRecord::Base
 
 	validates :user_id, presence: true
 	validates :name, presence: true, length: { maximum: 30 }
-	validates :munged_name, presence: true, uniqueness: { case_sensitive: false }
+  validates_uniqueness_of :name, :scope => :user_id, :case_sensitive => false
+	validates :munged_name, presence: true
+  validates_uniqueness_of :munged_name, :scope => :user_id, :case_sensitive => false
+  
   
   default_scope order: 'clients.name'
   scope :all_known, lambda { where('clients.name != ?', 'Unknown') }

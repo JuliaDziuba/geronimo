@@ -4,8 +4,8 @@ class Import
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :file, :model
-
+  attr_accessor :username, :file, :model
+  
   validates :file, presence: true
   validates :model, presence: true
 
@@ -41,19 +41,15 @@ class Import
     header = spreadsheet.row(1)
     (2..spreadsheet.last_row).map do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      if self.model == "Users"
-        record = load_user(row)
-      else
         user = find_user(row)
         record = case self.model
-            when "Work categories"  then load_workcategory(row, user)
-            when "Works"            then load_work(row, user)
-            when "Venues"           then load_venue(row, user)
-            when "Clients"          then load_client(row, user)
-            when "Activities"       then load_activity(row, user)
-          else 
-            raise "Unknown data type"
-          end
+          when "Work categories"  then load_workcategory(row, user)
+          when "Works"            then load_work(row, user)
+          when "Venues"           then load_venue(row, user)
+          when "Clients"          then load_client(row, user)
+          when "Activities"       then load_activity(row, user)
+        else 
+          raise "Unknown data type"
         end
         record 
     end
@@ -79,25 +75,26 @@ class Import
   end
 
   def load_user(row)
-    record = User.find_by_id(row["id"]) || User.new
+    record = User.find_by_id(row["username"]) || self.username
     record.assign_attributes(row.to_hash.slice(*User.accessible_attributes))
     record
   end
 
   def find_user(row)
-    user = User.find_by_username(row["username"])
+    username = (User.find_by_username(row["username"]) && User.find_by_username(self.username).admin) || self.username
+    user = User.find_by_username(username)
     raise "The user does not exist!" if user.nil?
     user
   end
 
   def load_workcategory(row,user)
-    record = user.workcategories.find_by_id(row["id"]) || user.workcategories.build()
+    record = user.workcategories.find_by_name(row["name"]) || user.workcategories.build()
     record.assign_attributes(row.to_hash.slice(*Workcategory.accessible_attributes))
     record
   end
 
   def update_workcategory_parent(row,user)
-    record = user.workcategories.find_by_id(row["id"]) || user.workcategories.find_by_name(row["name"])
+    record = user.workcategories.find_by_name(row["name"])
     p = row["parent"]
     if !p.blank?
       p = user.workcategories.find_by_name(p)
@@ -111,7 +108,7 @@ class Import
   end
 
   def load_work(row,user)
-    record = user.works.find_by_id(row["id"]) || user.works.build()
+    record = user.works.find_by_inventory_id(row["inventory_id"]) || user.works.build()
     record.assign_attributes(row.to_hash.slice(*Work.accessible_attributes))
     wc = user.workcategories.find_by_name(row["category"])
     if wc.nil?
@@ -124,7 +121,7 @@ class Import
   end
 
   def load_venue(row,user)
-    record = user.venues.find_by_id(row["id"]) || user.venues.build()
+    record = user.venues.find_by_name(row["name"]) || user.venues.build()
     record.assign_attributes(row.to_hash.slice(*Venue.accessible_attributes))
     vc = Venuecategory.find_by_name(row["category"])
     if vc.nil?
@@ -136,7 +133,7 @@ class Import
   end
 
   def load_client(row,user)
-    record = user.clients.find_by_id(row["id"]) || user.clients.build()
+    record = user.clients.find_by_name(row["name"]) || user.clients.build()
     record.assign_attributes(row.to_hash.slice(*Client.accessible_attributes))
     record
   end

@@ -12,17 +12,19 @@
 <% end %>
 
 <p>Have a lot of data to import? Makers' Moon can help! Makers' Moon can upload csv files to populate or update data in your database.</p>
+<%= "#{@import.username}: admin: #{User.find_by_username(@import.username).admin}" %>
 <div class="row-fluid">
 	<div class="span6">
 		<h2>Import tips</h2>
 		<ul>
-			<li>Data can be stored in the following files: Openoffice, Excel, Google spreadsheets, Excelx, Libreoffice, CSV (comma delimited files). Not all have been tested so if you run into trouble please send along questions. The files should have a header row. The order of the columns does not matter.</li>
-			<li>A separate file is needed for each type of data (i.e. user, workcategories, works, venues, clients and activities).</li>
-			<li>If an <strong>id</strong> is supplied Makers' Moon will update the matching record instead of creating a new one.</li>
+			<li>Data can be stored in the following files: Openoffice, Excel, Google spreadsheets, Excelx, Libreoffice, CSV (comma delimited files). The files should have a header row. The order of the columns does not matter.</li>
+			<li>There are 5 types of data that can be import and a separate file is needed for each: work categories, works, venues, clients and activities.</li>
+			<li>All types of data have an identifier column that must be unique (for each user). If a record already exists in the database then the record will be updated with the imported data. If no record exists then a new record will be created. The exception is activities. There is not currently a good way to distinquish existing and new activitie so these cannot be updated with the import functionality (and odd things may happen to the existing activities if you try). </li>
 		</ul>
 		<h2>Data types that can be uploaded</h2>
 		<p>Click on each type of data for more information</p>
 		<ul class="list indent">
+			<!--
 			<li><a id="import_users_display" class="display_toggle" href="#import_users">Users</a>
 				<div id="import_users" class="not-displayed">
 					<p>The following fields can be input.</p>
@@ -58,13 +60,12 @@
 					<br /><br />
 				</div>
 			</li>
-
+			-->
 			<li><a id="import_workcategories_display" class="display_toggle" href="#import_workcategories">Work categories</a>
 				<div id="import_workcategories" class="not-displayed">
 					<p>The following fields can be input.</p>
 					<ul>
-						<li><strong>username</strong>: required</li>
-						<li><strong>name</strong>: required, the name of the category</li>
+						<li><strong>name</strong>: identifier column and must be unique, required, the name of the category</li>
 						<li><strong>artist_statement</strong>: an artist's statement on this category of works</li>
 						<li><strong>parent</strong>: the name of the parent category (if there is one). Note, as in nature, the parent categories must exist before children can be created.</li>
 					</ul>
@@ -76,10 +77,9 @@
 				<div id="import_works" class="not-displayed">
 					<p>The following fields can be input.</p>
 					<ul>
-						<li><strong>username</strong>: required</li>
+						<li><strong>inventory_id</strong>: identifier column and must be unique, required, the id you use to track this work, can be letters, numbers, and underscores</li>
 						<li><strong>title</strong>: required</li>
 						<li><strong>creation_date</strong>: required, the date the work was created</li>
-						<li><strong>inventory_id</strong>: required, the id you use to track this work</li>
 						<li><strong>category</strong>: the name of the work category the work belongs in</li>
 						<li><strong>description</strong></li>
 						<li><strong>dimention1</strong></li>
@@ -99,9 +99,8 @@
 				<div id="import_venues" class="not-displayed">
 					<p>The following fields can be input.</p>
 					<ul>
-						<li><strong>username</strong>: required</li>
-						<li><strong>name</strong>: required, the name of the venue</li>
-						<li><strong>category</strong>: the category the venue belongs to, either: Galleries, Stores, Studios, Booths or Online</li>
+						<li><strong>name</strong>: identifier column and must be unique, required, the name of the venue</li>
+						<li><strong>category</strong>: required, the category the venue belongs to, either: Galleries, Stores, Studios, Booths or Online</li>
 						<li><strong>phone</strong></li>
 						<li><strong>email</strong></li>
 						<li><strong>site</strong></li>
@@ -118,8 +117,7 @@
 				<div id="import_clients" class="not-displayed">
 					<p>The following fields can be input.</p>
 					<ul>
-						<li><strong>username</strong>: required</li>
-						<li><strong>name</strong>: required, the name of the client</li>
+						<li><strong>name</strong>: identifier column and must be unique, required, the name of the client</li>
 						<li><strong>phone</strong></li>
 						<li><strong>email</strong></li>
 						<li><strong>address_street</strong></li>
@@ -158,7 +156,7 @@
 		  <div class="row-fluid">
 			<div class="control-group">
 		      <%= f.label :model, "Category", :class => "control-label" %>
-		      <div class="controls"><%= f.select :model, ['Users', 'Work categories', 'Works', 'Venues', 'Clients', 'Activities'], :prompt => true %></div>
+		      <div class="controls"><%= f.select :model, ['Work categories', 'Works', 'Venues', 'Clients', 'Activities'], :prompt => true %></div>
 		    </div>
 			<div class="control-group">
 		      <%= f.label :file, :class => "control-label" %>
