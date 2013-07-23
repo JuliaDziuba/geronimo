@@ -10,9 +10,9 @@ gem 'jquery-rails', '2.0.2'
 gem 'roo'
 gem 'paperclip', '~> 3.0' 
 gem 'cocaine', '0.3.2'
+gem 'pg', '0.12.2'
 
 group :development, :test do
-  gem 'sqlite3', '1.3.5'
   gem 'rspec-rails', '2.11.0'
   gem 'annotate', '2.5.0'
   gem 'debugger'
@@ -43,7 +43,7 @@ group :test do
 end
 
 group :production do
-  gem 'pg', '0.12.2'
+  
 end
 
 # To use ActiveModel has_secure_password
