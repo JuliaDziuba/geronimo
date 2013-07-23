@@ -10,9 +10,9 @@ gem 'will_paginate', '3.0.3'
 gem 'bootstrap-will_paginate', '0.0.6'
 gem 'jquery-rails', '2.0.2'
 gem 'roo'
-gem 'paperclip', '~> 3.0' 
+gem 'paperclip', '3.4.2' 
 gem 'aws-sdk'
-gem 'cocaine', '0.3.2'
+gem 'cocaine', '~> 0.5.0'
 gem 'pg', '0.12.2'
 
 group :development, :test do
