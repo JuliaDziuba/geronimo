@@ -47,10 +47,10 @@ class Work < ActiveRecord::Base
   validate  :inventory_id_format
 
   default_scope order: 'works.creation_date DESC'
-  scope :shared_with_public, lambda { where('works.share_public == ?', true) }
-  scope :not_shared_with_public, lambda { where('works.share_public == ?', false) }
-  scope :shared_with_makers, lambda { where('works.share_makers == ?', true) }
-  scope :not_shared_with_makers, lambda { where('works.share_makers == ?', false) }
+  scope :shared_with_public, lambda { where('works.share_public') }
+  scope :not_shared_with_public, lambda { where('NOT works.share_public') }
+  scope :shared_with_makers, lambda { where('works.share_makers') }
+  scope :not_shared_with_makers, lambda { where('NOT works.share_makers') }
   scope :in_category, lambda { |category| where('works.workcategory_id = ?', category.id) }
   scope :available, lambda { joins('left join activities on activities.work_id = works.id').where('activities.id IS NULL') }
   scope :uncategorized, lambda { where('works.workcategory_id IS NULL') }
