@@ -4,25 +4,19 @@
 	<div id="error_explanation">
 	  <h2><%= pluralize(@import.errors.count, "error") %> prohibited this import from completing:</h2>
 	  <ul>
-	    <li><%= msg %></li>
-	  <% end %>
+	    <% @import.errors.full_messages.each do |msg| %>
+       	<li><%= msg %></li>
+      <% end %>
 	  </ul>
 	</div>
 <% end %>
 
-<p>Have a lot of data to import? Makers' Moon can help! Makers' Moon can upload csv files to populate or update data in your database.</p>
-<%= "#{@import.username}: admin: #{User.find_by_username(@import.username).admin}" %>
 <div class="row-fluid">
-	<div class="span6">
-		<h2>Import tips</h2>
+	<div class="span7">
+		Makers' Moon can import data in the following file types: Openoffice, Excel, Google spreadsheets, Excelx, Libreoffice, and CSV (comma delimited files). The files should have a header row. The order of the columns does not matter.<br /><br />
+		There are 5 types of data that can be import: work categories, works, venues, clients and activities. Each data type has an identifier column that must be unique (for each user). If a record already exists in the database then the record will be updated with the imported data. If no record exists then a new record will be created. The exception is activities. Only new activities should be imported.There is not currently a good way to distinquish existing from new activities and odd things may happen to the existing activities if you try to update them with this import functionality. <br /><br />
+		Click on the data type of interest for more specifics on the columns that can be imported.
 		<ul>
-			<li>Data can be stored in the following files: Openoffice, Excel, Google spreadsheets, Excelx, Libreoffice, CSV (comma delimited files). The files should have a header row. The order of the columns does not matter.</li>
-			<li>There are 5 types of data that can be import and a separate file is needed for each: work categories, works, venues, clients and activities.</li>
-			<li>All types of data have an identifier column that must be unique (for each user). If a record already exists in the database then the record will be updated with the imported data. If no record exists then a new record will be created. The exception is activities. There is not currently a good way to distinquish existing and new activitie so these cannot be updated with the import functionality (and odd things may happen to the existing activities if you try). </li>
-		</ul>
-		<h2>Data types that can be uploaded</h2>
-		<p>Click on each type of data for more information</p>
-		<ul class="list indent">
 			<!--
 			<li><a id="import_users_display" class="display_toggle" href="#import_users">Users</a>
 				<div id="import_users" class="not-displayed">
@@ -148,7 +142,7 @@
 		</ul>
 	</div>
 	<div class="span4 offset1">	
-		<h2>Upload data</h2>
+		<h2>Import!</h2>
 		<legend></legend>
 
 		<%= form_for(@import, :html => { :class => "form-horizontal" }) do |f| %>

@@ -1,13 +1,76 @@
-<% provide(:title, "Maker") %>
+<% provide(:title, "Maker's Dashboard") %>
 <div class="row-fluid">
-	<div class="span3">
-		<%= image_tag @user.image.url(:medium) %>
+	<div class="span5">
+		<legend class="h2">Works</legend>
+		<% if @user.works.any? %>
+			You currently have <%=@user.works.all.count %> works in Makers' Moon.<br />
+			<%= link_to "Add!", "#{works_path}#new_work", :class => "btn" %> <%= link_to "View works", works_path, :class => "btn" %>
+		<% else %>
+			Get started by uploading some works to Makers' Moon.<br />
+			<%= link_to "Add!", works_path, :class => "btn" %>
+		<% end %>
+		<br /><br />
+		<legend class="h2">Venues</legend>
+		<% if @user.venues.any? %>
+			You currently have <%=@user.venues.all.count %> venues.<br />
+			 <%= link_to "Add!",  "#{venues_path}#new_venue", :class => "btn" %> <%= link_to "View venues", venues_path, :class => "btn" %>
+		<% else %>
+			No venues have been added yet!<br />
+			 <%= link_to "Get started adding venues!", venues_path, :class => "btn" %>
+		<% end %>
+		<br /><br />
+		<legend class="h2">Clients</legend>
+		<% if @user.clients.any? %>
+			You currently have <%=@user.clients.all.count %> clients.<br />
+			 <%= link_to "Add!",  "#{clients_path}#new_client", :class => "btn" %> <%= link_to "View clients", clients_path, :class => "btn" %>
+		<% else %>
+			No clients have been added yet!<br />
+			 <%= link_to "Get started adding clients!", clients_path, :class => "btn" %>
+		<% end %>
 	</div>
-	<div class="span6">
-		<%= "#{@user.name} (#{@user.username})" %><br /> 
-		<span class="lighter"> 
-		</span><br />
-		<i><%= @user.about %></i><br />
+	<div class="span5 offset1">
+		<legend class="h2">Public Site</legend>
+		<% if @user.share_with_public %>
+			You've created the following public pages using Makers' Moon: <br /><br />
+			<% if @user.share_about %>
+              <%= link_to "About", about_user_path(@user) %>
+            <% end %>
+            <% if @user.blog.present? %>
+              <%= link_to "Blog", @user.blog %>
+            <% end %>  
+            <% if @user.share_works && @user.works.shared_with_public.any? %>
+              <% @user.workcategories.parents_of_shared_with_public.each do |parent| %>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <%= parent.name %> <b class="caret"></b>
+                <ul class="dropdown-menu">
+                  <% if @user.works.shared_with_public.in_category(parent).any? %>
+                    <li><%= link_to parent.name, "/makers/#{@user.to_param}/#{parent.name}" %></li>
+                  <% end %>
+                  <% @user.workcategories.children_of_parent(parent).shared_with_public.each do |child| %>
+                    <li><%= link_to child.name, "/makers/#{@user.to_param}/#{child.name}" %></li>
+                  <% end %>
+                </ul>
+              <% end %>
+            <% end %>
+            <% if @user.share_purchase %>
+              <%= link_to "Purchase", purchase_user_path(@user) %>
+            <% end %>
+            <% if @user.share_contact %>
+              <%= link_to "Contact", contact_user_path(@user) %>
+            <% end %>
+			<br /><br />
+			<%= link_to "Would you like to update these or add more pages?", public_user_path(@user), :class => "btn" %> 
+
+		<% else %>
+			You are not currently using Makers' Moon to promote yourself and your works!<br />
+			<%= link_to "Care to start now?", public_user_path(@user) %>
+		<% end %>
+		<br /><br />
+		<legend class="h2">Fellow Makers</legend>
+		Check out other makers using Makers' Moon and what they have shared on their public sites!<br />
+			<%= link_to "Makers on their way to the moon!", users_path, :class => "btn" %>
+
+		
 	</div>
 </div><!-- row-fluid -->
 

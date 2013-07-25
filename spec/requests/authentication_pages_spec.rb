@@ -308,7 +308,7 @@ describe "Authentication" do
         describe "visiting the home page" do
           # is should render page fine
           before { visit root_path }
-          it { should have_button('Stay Tuned, Subscribe!') }
+          it { should have_button('Subscribe') }
         end
 
         describe "visiting the help page" do

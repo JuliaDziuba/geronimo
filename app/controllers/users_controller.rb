@@ -3,6 +3,21 @@ class UsersController < ApplicationController
   before_filter :correct_user,   only: [:show, :edit, :update, :public]
   before_filter :admin_user,     only: :destroy
   
+  def insight
+    @user = User.find_by_username(params[:id])
+    @current_activities = @user.work_current_activities
+    sale_activities = @user.activities.where('activities.activitycategory_id = ?', Activitycategory.find_by_name('Sale').id).all
+    @sold_works = []
+    sale_activities.each do | sale |
+      work = @user.works.where('works.id = ?', sale.work_id).first.attributes
+      work["retail"] = sale.retail
+      work["income"] = sale.income
+      work["sale_date"] = sale.date_start
+      @sold_works.push(work)
+    end
+    @date_of_oldest_work = @user.works.last.creation_date
+  end
+
   def about
     @user = User.find_by_username(params[:id])
     if @user.share_with_public

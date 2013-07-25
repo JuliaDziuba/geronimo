@@ -28,7 +28,7 @@ describe Activity do
   let(:ac_final)   { FactoryGirl.create(:activitycategory, name: "Sale", status: "Sold", final: true) }
   before do
     user.venues.create(name: "My Studio")
-    @activity = user.activities.create(activitycategory_id: ac.id, work_id: w.id, date_start: '2013-01-01')
+    @activity = user.activities.create(activitycategory_id: ac.id, work_id: w.id, venue_id: v.id, date_start: '2013-01-01')
   end
   
   subject { @activity }

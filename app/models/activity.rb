@@ -81,7 +81,7 @@ class Activity < ActiveRecord::Base
     end
 
     def set_venue
-      self.venue_id = 1 if self.venue_id.nil?
+      self.venue_id = self.user.venues.all.collect(&:id).min() if self.venue_id.nil?
     end
 
 end

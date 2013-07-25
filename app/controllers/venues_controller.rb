@@ -53,7 +53,7 @@ class VenuesController < ApplicationController
       @activities = @venue.activities.all
       if @activities.any?
         @activities.each do |activity|
-          activity.update_attributes(:venue_id => 1)
+          activity.update_attributes(:venue_id => current_user.venues.all.collect(&:id).min())
         end
       end
       @venue.destroy

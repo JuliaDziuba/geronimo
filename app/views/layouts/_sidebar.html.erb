@@ -14,7 +14,12 @@
         <%= link_to "Clients", clients_path, class: "accordion-toggle-small" %>
       </div>
     </div>
-
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <%= link_to "Insights", insight_user_path(current_user), class: "accordion-toggle-small" %>
+      </div>
+    </div>
+    <!--
     <div class="accordion-group">
       <div class="accordion-heading">
         <a class="accordion-toggle-small" data-toggle="collapse" data-parent="#accordianParent" href="#reportSection">
@@ -32,5 +37,6 @@
         </div>
       </div>
     </div>
+    -->
   </div>
 </div>

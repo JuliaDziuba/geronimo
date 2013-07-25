@@ -81,9 +81,9 @@ class Import
   end
 
   def find_user(row)
-    username = (User.find_by_username(row["username"]) && User.find_by_username(self.username).admin) || self.username
-    user = User.find_by_username(username)
-    raise "The user does not exist!" if user.nil?
+    name = (User.find_by_username(row["username"]) && User.find_by_username(self.username).admin) || self.username
+    user = User.find_by_username(name)
+    raise "The user #{self.username} does not exist! row[username]: #{row["username"]}User.find_by_username(row[username]: #{User.find_by_username(row[username])} User.find_by_username(self.username).admin: #{User.find_by_username(self.username).admin} " if user.nil?
     user
   end
 

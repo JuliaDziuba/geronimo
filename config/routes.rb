@@ -10,6 +10,7 @@ Geronimo::Application.routes.draw do
 
   resources :users, path: "makers/" do
     member do 
+      get :insight
       get :public
       get :about
       get :contact
