@@ -44,9 +44,9 @@ Geronimo::Application.configure do
     :url => ':s3_domain_url',
     :path => '/:class/:attachment/:id_partition/:style/:filename',
     :s3_credentials => {
-      :bucket => ENV['devmakersmoon'],
-      :access_key_id => ENV['AKIAI5L6S2KSTEAAUYKA'],
-      :secret_access_key => ENV['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']
+      :bucket => ENV['AWS_BUCKET'],
+      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
     }
   }
 end
