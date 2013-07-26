@@ -39,5 +39,14 @@ Geronimo::Application.configure do
   # Tell Paperclip where ImageMagick lives
   Paperclip.options[:command_path] = "c:\windows\system32\convert"
 
-
+  config.paperclip_defaults = {
+    :storage => :s3,
+    :url => ':s3_domain_url',
+    :path => '/:class/:attachment/:id_partition/:style/:filename',
+    :s3_credentials => {
+      :bucket => ENV['devmakersmoon'],
+      :access_key_id => ENV['AKIAI5L6S2KSTEAAUYKA'],
+      :secret_access_key => ENV['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']
+    }
+  }
 end

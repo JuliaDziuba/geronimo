@@ -15,4 +15,4 @@
 /tmp
 
 # Ignore s3 config keys
-/config/initializers/s3_constants.rb 
+/config/initializers/s3_constants.rb
