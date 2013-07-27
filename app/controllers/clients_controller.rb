@@ -8,6 +8,7 @@ class ClientsController < ApplicationController
       # flash[:success] = "Your new client is created!""
       redirect_to clients_path
     else
+      @clients = current_user.clients.all_known
       render 'index'
     end
   end

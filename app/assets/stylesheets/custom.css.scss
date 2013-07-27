@@ -119,7 +119,7 @@ a:hover {
 
 #content-container {	
 	background:$contentBackgroundColor;
-	min-height: 400px;
+	min-height: 600px;
 	display:block;
 	padding-bottom:40px;
 	padding-right:60px;
@@ -129,6 +129,7 @@ a:hover {
 	background-image:url("SidebarImageLight.jpg");
 	background-repeat:no-repeat;
 	background-position:left top;
+	background-color: #A2A4B1;
 	position:fixed;
 	top: 75px;
 	left: 0px;
