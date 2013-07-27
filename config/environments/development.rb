@@ -1,4 +1,4 @@
-Geronimo::Application.configure do
+Makersmoon::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
@@ -44,9 +44,9 @@ Geronimo::Application.configure do
     :url => ':s3_domain_url',
     :path => '/:class/:attachment/:id_partition/:style/:filename',
     :s3_credentials => {
-      :bucket => ENV['AWS_BUCKET'],
-      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
-      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+      :bucket => "devmakersmoon",
+      :access_key_id => ENV['AWS_ACCESS_KEY'],
+      :secret_access_key => ENV['AWS_SECRET']
     }
   }
 end

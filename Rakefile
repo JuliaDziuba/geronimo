@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Geronimo::Application.load_tasks
+Makersmoon::Application.load_tasks
