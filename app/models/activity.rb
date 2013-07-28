@@ -37,8 +37,8 @@ class Activity < ActiveRecord::Base
   # Add validation that date_end >= date_start
 
 	default_scope order: 'activities.date_start DESC'
-  scope :startingBeforeDate, lambda { |date| where('date_start <= ?', date)}
-  scope :startingAfterDate, lambda { |date| where('date_start > ?', date)}
+  scope :startingBeforeDate, lambda { |date, id| where('date_start <= ? AND id != ?', date, id)}
+  scope :startingAfterDate, lambda { |date, id| where('date_start > ? AND id != ?', date, id)}
   scope :currentActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end > :date) AND (date_start <= :date)', { id: id, date: Date.today })  }
   scope :previousActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end < :date)', { id: id, date: Date.today })  }
   
@@ -47,11 +47,11 @@ class Activity < ActiveRecord::Base
   end
 
   def activity_before
-    Work.find_by_id(self.work_id).activities.startingBeforeDate(self.date_start).first
+    Work.find_by_id(self.work_id).activities.startingBeforeDate(self.date_start, self.id).first
   end
 
   def activity_after
-    Work.find_by_id(self.work_id).activities.startingAfterDate(self.date_start).last
+    Work.find_by_id(self.work_id).activities.startingAfterDate(self.date_start, self.id).last
   end
 
   def occurs_after_existing_final_activity
