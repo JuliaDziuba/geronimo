@@ -18,11 +18,14 @@ Makersmoon::Application.routes.draw do
       get :work
     end
   end
-
   resources :sessions, only: [:new, :create, :destroy]
   resources :activities, path: "internal/works/activities/"
   resources :workcategories , exclude: [:new, :show], path: "/internal/works/categories/"
-  resources :works, exclude: [:new, :edit], path: "/internal/works/"
+  resources :works, exclude: [:new, :edit], path: "/internal/works/" do
+    collection do
+      put :update_multiple
+    end
+  end
   resources :venues, exclude: [:new, :edit], path: "/internal/venues/"
   resources :clients, exclude: [:new, :edit], path: "/internal/clients/"
   resources :imports, only: [:new, :create]

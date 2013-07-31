@@ -1,0 +1,55 @@
+<%= form_tag update_multiple_works_path, :method => :put, :multipart => true do %>
+  <% works.each do | work| %>
+    <% if !work.errors.empty? %>
+      <%= "Updates to <i>#{work.title}</i> (#{work.inventory_id}) had the following errors:" %><br />
+      <ul>
+        <% work.errors.full_messages.each do |e| %>
+          <li><%= e %></li><br />
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+  <div id="Works_table_view" class="table">
+    <div class="thead">
+      <div class="row">
+        <div class="cell s3">Category</div><!-- /cell -->
+        <div class="cell s3">Title</div><!-- /cell -->
+        <div class="cell s2">Inventory ID</div><!-- /cell -->
+        <div class="cell s3">Creation Date</div><!-- /cell -->
+        <div class="cell s3">Description</div><!-- /cell -->
+        <div class="cell s1">First Dim</div><!-- /cell -->
+        <div class="cell s1">Second Dim</div><!-- /cell -->
+        <div class="cell s1">Dim Units</div><!-- /cell -->
+        <div class="cell s1">Time (hrs)</div><!-- /cell -->
+        <div class="cell s1">Materials ($)</div><!-- /cell -->
+        <div class="cell s1">Income</div><!-- /cell -->
+        <div class="cell s1">Retail</div><!-- /cell -->
+        <div class="cell s3">Image</div><!-- /cell -->
+        <div class="cell s1">Public</div><!-- /cell -->
+      </div><!-- /row -->
+    </div><!-- /thead -->
+    <div class="tbody">
+      <% works.each do |work| %>
+  	    <%= fields_for "works[]", work do |f| %>
+  	      <div class="row">
+  	        <div class="cell s3"><%= f.collection_select :workcategory_id, categories, :id, :name, { :include_blank => "Uncategorized" } %></div><!-- /cell -->
+  	        <div class="cell s3"><%= f.text_field :title %></div><!-- /cell -->
+  	        <div class="cell s2"><%= f.text_field :inventory_id %></div><!-- /cell -->
+  	        <div class="cell s3"><%= f.text_field :creation_date, :class => "datepicker" %></div><!-- /cell -->
+  	        <div class="cell s3"><%= f.text_field :description %></div><!-- /cell -->
+  	        <div class="cell s1"><%= f.text_field :dimention1 %></div><!-- /cell -->
+  	        <div class="cell s1"><%= f.text_field :dimention2 %></div><!-- /cell -->
+  	        <div class="cell s1"><%= f.text_field :dimention_units %></div><!-- /cell -->
+  	        <div class="cell s1"><%= f.text_field :expense_hours %></div><!-- /cell -->
+  	        <div class="cell s1"><%= f.text_field :expense_materials %></div><!-- /cell -->
+  	        <div class="cell s1"><%= f.text_field :income %></div><!-- /cell -->
+  	        <div class="cell s1"><%= f.text_field :retail %></div><!-- /cell -->
+            <div class="cell s3"><%= f.file_field :image1 %></div><!-- /cell -->
+  	        <div class="cell s1"><%= f.check_box :share_public %></div><!-- /cell -->
+  	      </div><!-- /row -->
+  	    <% end %>
+      <% end %>
+      </div><!-- /tbody -->
+  </div><!-- /table -->
+  <p><%= submit_tag "Update works", :class => "edit_works_submit btn" %></p>
+<% end %>

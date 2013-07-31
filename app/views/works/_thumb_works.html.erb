@@ -1,0 +1,13 @@
+<table id="works_thumb_view">
+	<tr>
+		<% works.each_with_index do |work, index| %>
+			<% if index % 4 == 0 and index > 0 and index + 1 < works.length %>
+				</tr><tr>
+			<% end %>
+			<td width="25%">
+				<%= link_to image_tag(work.image1.url(:thumb)), work_path(work) %>
+				<br /><%= "#{work.title} (#{work.inventory_id})" %><br /><%= work.status %>
+			</td>
+		<% end %>
+	</tr>
+</table>

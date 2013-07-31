@@ -1,6 +1,6 @@
 class WorksController < ApplicationController
   before_filter :signed_in_user
-  before_filter :correct_user, except: [:create, :index]
+#  before_filter :correct_user, except: [:create, :index, :edit_multiple, :update_multiple]
 
   def create
     @work = current_user.works.build(params[:work])
@@ -34,7 +34,25 @@ class WorksController < ApplicationController
       @works  = []
       @works.push(@work)
       render 'show'
-      
+    end
+  end
+
+  def update_multiple
+    ids = []
+    params[:works].keys.each do |inventory_id|
+      ids.push(current_user.works.find_by_inventory_id(inventory_id).id)
+    end
+    @works = Work.update(ids, params[:works].values).reject { |w| w.errors.empty? }
+    if @works.empty?
+      flash[:notice] = "Works have been updated!"
+      redirect_to works_url
+    else
+      @statusfilter = "failed update"
+      @parentcategories = current_user.workcategories.parents_only.all
+      @workcategories = current_user.workcategories_showing_families
+      @workcategory = Workcategory.new
+      @work = Work.new
+      render :action => "index"
     end
   end
 

@@ -2,3 +2,105 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
+#works_thumb_view {
+	width: "100%";
+
+	td {
+	text-align: center;
+	padding-bottom: 10px;
+	}
+
+}
+
+.table {
+	position:relative;
+  display: table;
+  table-layout:fixed;
+  width: 100%;
+  border-collapse: collapse;
+  text-align:center;
+}
+
+
+.row {
+	display: table-row;
+}
+
+$header_height:50px;
+$body_height:400px;
+
+.thead {
+	position:absolute; 
+	top:0px;
+  display: table-row-group;
+  padding-right:18px;
+  .row {
+  	display: table-row;
+    height:$header_height;
+    width:100%;
+  }
+  .cell{
+  	font-size:14px;
+  }
+}
+
+.tbody {
+	position:absolute;
+	top:$header_height;
+ 	display: table-row-group;
+	overflow: auto;
+	height:$body_height;
+	.row {
+		display: table-row;
+    width:100%;
+	}
+}
+.cell {
+    display: table-cell;
+    border: 1px solid white;
+    padding-top:0px;
+    padding-bottom:0px;
+    padding-left:0px;
+	  padding-right:0px;
+
+    select, input {
+	    margin: 0;
+	    display: block;
+	    border-width: 0;
+	    width: 100%;
+	    text-align: center;
+#	    line-height:32px;
+	    padding-left:4px;
+	    padding-right:4px;
+	    border-image-width:0;
+	    border-top-left-radius:0;
+			border-top-right-radius:0;
+			border-bottom-left-radius:0;
+			border-bottom-right-radius:0;
+	    vertical-align:text-top;
+	    background-color:transparent;
+	    font-size:12px;
+    }
+}
+
+$units: 4%;
+
+.s3{
+	width:$units*3;
+}
+.s2{
+	width:$units*2;
+}
+.s1{
+	width:$units;
+}
+
+.s0{
+	width:$units/3;
+}
+
+.edit_works_submit{
+	position:absolute;
+	top: $header_height + $body_height + 30;
+}

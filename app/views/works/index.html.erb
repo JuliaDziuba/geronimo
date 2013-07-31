@@ -2,16 +2,22 @@
 
 <% if @works.any? %>
 	<% provide(:new_form, "new_work") %>
+	<% provide(:alt_view, "thumb_view") %>
 	<div id="new_work" class="not-displayed">
 		<%= render 'form_work', work: @work, categories: @workcategories %>
 	</div>
 	<% if !@categoryfilter.nil? %>
 		<% categoryfilter = @categoryfilter.split('.') %>
-		Works have been filtered to show only <%= categoryfilter[1] %> <%= categoryfilter[0] %> works.
+		Works have been filtered to show only <%= categoryfilter[1] %> <%= categoryfilter[0] %> works.<br /><br />
 	<% elsif !@statusfilter.nil? %>
-		Works have been filtered to show only <%= @statusfilter.downcase %> works.
-	<% end %><br /><br />
-	<%= render 'table_works', works: @works, categoryfilter: @categoryfilter %>
+		Works have been filtered to show only <%= @statusfilter.downcase %> works.<br /><br />
+	<% end %>
+	<div id="list_view" class="show">
+		<%= render 'table_edit_works', works: @works, categories: @workcategories %>
+	</div>
+	<div id="thumb_view" class="not-displayed">
+		<%= render 'thumb_works', works: @works %>
+	</div>
 <% elsif  @parentcategories.any? %>
 	<p>Nice start creating categories. Create more categories or start uploading works!</p>
 	<h2><a id="new_workcategory_display" class="display_toggle" href="#new_workcategory">Create more categories</a></h2>
