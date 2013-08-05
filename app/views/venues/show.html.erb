@@ -1,29 +1,32 @@
-<% provide(:crumbs, 'Venues,' + venues_path + '|' + @venue.venuecategory.name + ',#') %>
+<% provide(:crumbs, 'Venues,' + venues_path) %>
 <% provide(:title, @venue.name) %>
-<% provide(:edit_form, "edit_venue") %>
 <% provide(:delete_record, @venue) %>
 
-<div id="edit_venue" class="not-displayed">
-  <%= render 'form_venue', venue: @venue, venuecategories: @venuecategories %>
-</div>
+<%= render 'form_venue', venue: @venue, venuecategories: @venuecategories %>
 
-<div id="venue_data">
-	<%= render 'venue_contact', venue: @venue %>
-	<br />
-	<%= render 'venue_address', venue: @venue %>
-</div>
+<h2>New Activity</h2>
+<%= render 'activities/form_activity', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>
 
-<br />
-<br />
-<% if @currentconsignments.any? %>
-	<h2>Works Currently Consigned</h2>
-	<%= render 'activities/table_activities', activities: @currentconsignments, date_end_include: true, client_include: false %>
+<% 
+	currentConsignments = @venue.current_consignments
+	pastConsignments = @venue.past_consignments
+	sales = @venue.sales
+%>
+<h2>Current and Future Works Consigned</h2>
+<% if currentConsignments.any? %>
+	<%= render 'activities/table_activities', activities: currentConsignments, date_end_include: true, client_include: false %>
+<% else %>
+	There are no works currently consigned to this venue.
 <% end %>
-<% if @pastconsignments.any? %>
-	<h2>Works Previously Consigned</h2>
-	<%= render 'activities/table_activities', activities: @pastconsignments, date_end_include: true, client_include: false %>
+<h2>Works Previously Consigned</h2>
+<% if pastConsignments.any? %>
+	<%= render 'activities/table_activities', activities: pastConsignments, date_end_include: true, client_include: false %>
+<% else %>
+	There were no works previously consigned to this venue.
 <% end %>
-<% if @sales.any? %>
-	<h2>Works Sold</h2>
-	<%= render 'activities/table_activities', activities: @sales, date_end_include: false, client_include: false %>
+<h2>Works Sold</h2>
+<% if sales.any? %>
+	<%= render 'activities/table_activities', activities: sales, date_end_include: false, client_include: false %>
+<% else %>
+	There are no sales to this venue yet.
 <% end %>

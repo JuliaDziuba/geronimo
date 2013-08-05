@@ -37,21 +37,31 @@ class Activity < ActiveRecord::Base
   # Add validation that date_end >= date_start
 
 	default_scope order: 'activities.date_start DESC'
-  scope :startingBeforeDate, lambda { |date, id| where('date_start <= ? AND id != ?', date, id)}
-  scope :startingAfterDate, lambda { |date, id| where('date_start > ? AND id != ?', date, id)}
-  scope :currentActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end > :date) AND (date_start <= :date)', { id: id, date: Date.today })  }
-  scope :previousActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end < :date)', { id: id, date: Date.today })  }
-  
+  scope :startingBeforeDate, lambda { |date| where('date_start <= ?', date)}
+  scope :startingAfterDate, lambda { |date| where('date_start > ?', date)}
+  scope :startingBeforeDateExcludingSelf, lambda { |date, id| where('date_start <= ? AND id != ?', date, id)}
+  scope :startingAfterDateExcludingSelf, lambda { |date, id| where('date_start > ? AND id != ?', date, id)}
+  scope :currentActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end IS NULL OR date_end > :date)', { id: id, date: Date.today })  }
+  scope :previousActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end <= :date)', { id: id, date: Date.today })  }
+
   def client
     self.user.clients.find_by_id(read_attribute(:client_id)) || self.user.clients.build(:id => 0, :name => "Unknown")
   end
 
   def activity_before
-    Work.find_by_id(self.work_id).activities.startingBeforeDate(self.date_start, self.id).first
+    if self.id.nil?
+      Work.find_by_id(self.work_id).activities.startingBeforeDate(self.date_start).first
+    else
+      Work.find_by_id(self.work_id).activities.startingBeforeDateExcludingSelf(self.date_start, self.id).first
+    end
   end
 
   def activity_after
-    Work.find_by_id(self.work_id).activities.startingAfterDate(self.date_start, self.id).last
+    if self.id.nil?
+      Work.find_by_id(self.work_id).activities.startingAfterDate(self.date_start).last
+    else
+      Work.find_by_id(self.work_id).activities.startingAfterDateExcludingSelf(self.date_start, self.id).last
+    end
   end
 
   def occurs_after_existing_final_activity
@@ -60,8 +70,7 @@ class Activity < ActiveRecord::Base
   end
 
   def is_final_but_occurs_before_existing_activities
-    @activity_after_new = self.activity_after
-    !@activity_after_new.nil? && Activitycategory.find_by_id(self.activitycategory_id).final
+    Activitycategory.find_by_id(self.activitycategory_id).final && !self.activity_after.nil?
   end
 
   def starts_before_existing_activity_ended

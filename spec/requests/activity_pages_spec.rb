@@ -7,6 +7,7 @@ describe "Activity pages" do
 	let(:user) 					{ FactoryGirl.create(:user) }
 	let!(:w)    				{ FactoryGirl.create(:work, user: user) }
 	let!(:v) 						{ FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id) }
+	let!(:v_second) 		{ FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id, name: "Second Venue") }
 	let!(:ac_consign) 	{ FactoryGirl.create(:activitycategory, name: "Consignment", status: "Consigned", final: false) }
 	let!(:ac_sale) 			{ FactoryGirl.create(:activitycategory, name: "Sale",    status: "Sold", final: true) } 
 			
@@ -129,10 +130,21 @@ describe "Activity pages" do
 		let(:w)    { FactoryGirl.create(:work, user: user) }
 	  let(:a)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, venue: v) }
 
+	  let(:update_activity) { "Update Activity" }
+
 		before { visit edit_activity_path(a) }
 
     it { should have_selector('a', text:  "Activities") }
     it { should have_selector('h1', text: "Update") }
+
+    describe "when the venue of a consignment is changed" do 
+			before do
+				select_second_option('activity_venue_id')    
+				click_button update_activity
+      end
+
+  		it { should have_content('The activity was updated!') }
+		end
 	end
 
 end

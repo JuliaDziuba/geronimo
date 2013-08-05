@@ -27,12 +27,12 @@ FactoryGirl.define do
   end
 
   factory :venuecategory do
-    name "Gallery"
+    name "Galleries"
     description "Galleries in the United States."
   end
 
   factory :venue do
-    name "Last Stop"
+    name "First Venue"
     user
   end
 

@@ -1,6 +1,7 @@
 <table id="Activities">
   <thead>
     <tr>
+      <th></th>
       <th>Activity</th>
       <th>Work</th>
       <th>Venue</th>
@@ -20,7 +21,11 @@
   <tbody>
     <% activities.each do |activity| %>
       <tr>
-        <td><div class=largeoverflow><%= link_to activity.activitycategory.name, activity_path(activity) %></div></td>
+        <td>
+          <%= link_to icon(:edit), activity_path(activity), class: "icon-edit bottom" %> &nbsp;
+          <%= link_to icon(:trash), activity, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete this #{activity.activitycategory.name.downcase} of #{activity.work.title}?" }, title: 'Delete?' %>
+        </td>
+        <td><div class=largeoverflow><%= activity.activitycategory.name %></div></td>
         <td><div class=largeoverflow><%= link_to activity.work.title, work_path(activity.work) %></td>
         <td><div class=largeoverflow><%= link_to activity.venue.name, venue_path(activity.venue) %></div></td>
         <td><div class=largeoverflow><%= activity.date_start %></div></td>

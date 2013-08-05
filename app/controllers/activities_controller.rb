@@ -13,7 +13,7 @@ class ActivitiesController < ApplicationController
       @activitycategories = Activitycategory.all
       @works = current_user.works.all
       @venues = current_user.venues.all
-      @clients = current_user.clients
+      @clients = current_user.clients.all
       render 'index'
     end
   end
@@ -23,7 +23,7 @@ class ActivitiesController < ApplicationController
     @activitycategories = Activitycategory.all
     @works = current_user.works.all
     @venues = current_user.venues.all
-    @clients = current_user.clients
+    @clients = current_user.clients.all
   end
 
   def update
@@ -37,7 +37,7 @@ class ActivitiesController < ApplicationController
       @activitycategories = Activitycategory.all
       @works = current_user.works.all
       @venues = current_user.venues.all
-      @clients = current_user.clients
+      @clients = current_user.clients.all
       render 'edit'
     end
   end

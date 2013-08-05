@@ -28,13 +28,12 @@ class Venue < ActiveRecord::Base
 	belongs_to :venuecategory
 	has_many :activities
 
-  before_validation :set_munged_name
+  before_save :set_munged_name
 
 	validates :user_id, presence: true
 	validates :name, presence: true, length: { maximum: 30 }
   validates_uniqueness_of :name, :scope => :user_id, :case_sensitive => false
-  validates :munged_name, presence: true
-  validates_uniqueness_of :munged_name, :scope => :user_id, :case_sensitive => false
+  validate :munged_name_is_unique
   validates :venuecategory_id, presence: true
   validates_inclusion_of :share_makers, :in => [true, false]
   validates_inclusion_of :share_public, :in => [true, false]
@@ -44,6 +43,7 @@ class Venue < ActiveRecord::Base
   scope :not_shared_with_public, lambda { where('venues.share_public == ?', false) }
   scope :shared_with_makers, lambda { where('venues.share_makers == ?', true) }
   scope :not_shared_with_makers, lambda { where('venues.share_makers == ?', false) }
+  scope :excluding_current, lambda { | id | where('venues.id != ?', id) }
   
   def to_param
     munged_name
@@ -58,5 +58,39 @@ class Venue < ActiveRecord::Base
   def venuecategory
 		Venuecategory.find_by_id(read_attribute(:venuecategory_id)) || Venuecategory.new(:id => 0, :name => "Uncategorized")
   end
+
+  def current_consignments
+    result = []
+    activity = Activitycategory.find_by_name('Consignment')
+    if !activity.nil?
+     result = self.activities.currentActivityCategory(activity.id)
+    end
+    result
+  end
+
+  def past_consignments
+    result = []
+    activity = Activitycategory.find_by_name('Consignment')
+    if !activity.nil?
+     result = self.activities.previousActivityCategory(activity.id)
+    end
+    result
+  end
+
+  def sales
+    result = []
+    activity = Activitycategory.find_by_name('Sale')
+    if !activity.nil?
+     result = self.activities.previousActivityCategory(activity.id)
+    end
+    result
+  end
+
+  def munged_name_is_unique
+    return unless errors.blank?
+    munged_name_unique = self.user.venues.excluding_current(self.id).find_by_munged_name(name.parameterize).nil?
+    errors.add(:name, "is too similar to an existing name and will not result in a unique URL") unless (munged_name_unique)
+  end
+  
 
 end

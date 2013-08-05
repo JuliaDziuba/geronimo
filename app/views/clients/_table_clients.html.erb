@@ -1,6 +1,7 @@
 <table id="Clients">
   <thead>
     <tr>
+      <th></th>
       <th>Name</th>
       <th>Email</th>
       <th>Phone</th>
@@ -14,7 +15,11 @@
   <tbody>
     <% clients.each do |client| %>
       <tr>
-        <td><div class=largeoverflow><%= link_to client.name, client_path(client) %></div></td>
+        <td>
+          <%= link_to icon(:edit), client_path(client), class: "icon-edit bottom" %> &nbsp;
+          <%= link_to icon(:trash), client, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete #{client.name}?" }, title: 'Delete?' %>
+        </td>
+        <td><div class=largeoverflow><%= client.name %></div></td>
         <td><div class=overflow><%= client.email %></div></td>
         <td><div class=overflow><%= client.phone %></div></td>
         <td><div class=overflow><%= client.address_street %></div></td>

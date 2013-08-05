@@ -20,6 +20,35 @@ $navbarBackgroundHighlight:       #ffffff !default;
 $navbarBackground:                $grayBlue; //darken($navbarBackgroundHighlight, 20%)
 $navbarBorder:                    darken($navbarBackground, 12%) !default;
 
+
+/* bootstrap mixin changes made in mixin file but included here too*/
+@mixin grid-fluid ($columnWidth, $gutterWidth) {
+  .row-fluid {
+    width: 100%;
+    @include clearfix();
+    [class*="span"] {
+      @include input-block-level();
+      float: left;
+      margin-left: $gutterWidth;
+      *margin-left: $gutterWidth - (.5px / $gridRowWidth * 100 * 1%);
+    }
+    [class*="span"]:first-child {
+      margin-left: 0;
+    }
+	//JD: Added
+	[class*="first-child"] {
+      margin-left: 0; 
+    }
+
+    // generate .spanX and .offsetX
+    @for $i from 1 through $gridColumns {
+      .span#{$i} { @include grid-fluid-span($i, $columnWidth, $gutterWidth); }
+      .offset#{$i} { @include grid-fluid-offset($i, $columnWidth, $gutterWidth); }
+      .offset#{$i}:first-child { @include grid-fluid-offsetFirstChild($i, $columnWidth, $gutterWidth); }
+    }
+  }
+}
+
 @import "bootstrap";
 
 /* bootstrap class changes */
@@ -37,6 +66,7 @@ $navbarBorder:                    darken($navbarBackground, 12%) !default;
   text-shadow: 0 0 1px $navbarBackgroundHighlight; //JD
   color: $brandColor;
 }
+
 
 /* thead { display:block; margin:0px; cell-spacing:0px; left:0px; } */
 /* tbody { display:block; overflow:auto; height:300px; width:100%} */
@@ -103,6 +133,12 @@ h2, .h2{
 	text-transform:uppercase;
 	text-shadow:0px 0px 1px #fff;
 	
+}
+
+h3, .h3{
+	font-size:20px;
+	font-weight:200;
+	text-transform:none;	
 }
 
 .p {
@@ -200,6 +236,10 @@ a:hover {
 
 .center {
 	text-align: center;
+}
+
+.first-child {
+	margin-left:0;
 }
 
 .not-displayed {

@@ -22,17 +22,17 @@ class Client < ActiveRecord::Base
   belongs_to :user
 	has_many :activities
 
-	before_validation :set_munged_name
+	before_save :set_munged_name
 
 	validates :user_id, presence: true
 	validates :name, presence: true, length: { maximum: 30 }
   validates_uniqueness_of :name, :scope => :user_id, :case_sensitive => false
-	validates :munged_name, presence: true
-  validates_uniqueness_of :munged_name, :scope => :user_id, :case_sensitive => false
+	validate :munged_name_is_unique
   
   
   default_scope order: 'clients.name'
   scope :all_known, lambda { where('clients.name != ?', 'Unknown') }
+  scope :excluding_current, lambda { | id | where('clients.id != ?', id) }
 
   def to_param
     munged_name
@@ -40,5 +40,11 @@ class Client < ActiveRecord::Base
 
   def set_munged_name
     self.munged_name = name.parameterize
+  end
+
+  def munged_name_is_unique
+    return unless errors.blank?
+    munged_name_unique = self.user.clients.excluding_current(self.id).find_by_munged_name(name.parameterize).nil?
+    errors.add(:name, "is too similar to an existing name and will not result in a unique URL") unless (munged_name_unique)
   end
 end

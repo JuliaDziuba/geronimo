@@ -1,23 +1,16 @@
 <% provide(:crumbs, "Clients," + clients_path) %>
 <% provide(:title, @client.name) %>
-<% provide(:edit_form, "edit_client") %>
 <% provide(:delete_record, @client) %>
 
-<div id="edit_client" class="not-displayed">
-  <%= render 'form_client', client: @client %>
-</div>
+<%= render 'form_client', client: @client %>
 
-<div id="client_data">
-	<%= render 'client_contact', client: @client %>
-	<br />
-	<%= render 'client_address', client: @client %>
-</div>
+<h2>New Activity</h2>
+<%= render 'activities/form_activity', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>
 
+<h2>Collected Works</h2>
 <% if @activities.any? %>
-	<br />
-	<br />
-	<h2>Collected Works</h2>
-	<%= render 'activities/table_activities', activities: @activities, date_end_include: false, client_include: false %>
-	
+<%= render 'activities/table_activities', activities: @activities, date_end_include: false, client_include: false %>
+<% else %>
+This client has not yet purchased works.
 <% end %>
 

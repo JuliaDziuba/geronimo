@@ -169,7 +169,7 @@ describe "User pages" do
         it { should have_content("Create pages for public works") }
         it { should have_content("Create a purchase page") }
 
-        describe "when a there is an about page shared" do
+        describe "with an about page shared" do
           before do
             check "user_share_about"
             click_button update
@@ -178,7 +178,7 @@ describe "User pages" do
           it { should have_content("Alternate URL") }
         end
 
-        describe "when there is a contact page shared" do
+        describe "with a contact page shared" do
           before do
             check "user_share_contact"
             click_button update
@@ -187,7 +187,7 @@ describe "User pages" do
           it { should have_content("Etsy") }
         end
 
-        describe "when there are works shared" do
+        describe "with works shared" do
           before do
             check "user_share_works"
             click_button update
@@ -196,7 +196,7 @@ describe "User pages" do
           it { should have_content("There are currently") }
         end
 
-        describe "when there is a purchase page shared" do
+        describe "with a purchase page shared" do
           before do
             check "user_share_purchase"
             click_button update

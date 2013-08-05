@@ -22,6 +22,12 @@ def sign_in(user)
   cookies[:remember_token] = user.remember_token
 end
 
+def select_option(id,n)
+  option_xpath = "//*[@id='#{id}']/option[#{n}]"
+  option = find :xpath, option_xpath
+  select option.text, :from => id
+end
+
 def select_second_option(id)
   second_option_xpath = "//*[@id='#{id}']/option[2]"
   second_option = find :xpath, second_option_xpath

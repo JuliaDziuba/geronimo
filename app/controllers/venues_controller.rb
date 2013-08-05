@@ -5,41 +5,50 @@ class VenuesController < ApplicationController
   def create
     @venue = current_user.venues.build(params[:venue])
     if @venue.save
-      # flash[:success] = "Your new type of venues created! Add some venues to it!"
+      flash[:success] = "Your new venue has been added!"
       redirect_to venues_path
     else
-      render 'new'
+      flash[:error] = "There was an error with the new venue. Please click 'new' to see the issue."
+      @venues = current_user.venues.all
+      @venuecategories = Venuecategory.all
+      render 'index'
     end
   end
 
   def update
+
     @venue = current_user.venues.find_by_munged_name(params[:id]) 
-    if @venue.update_attributes(params[:venue])
+    @venue.assign_attributes(params[:venue])
+    if @venue.valid?
+      @venue.save
+      flash[:success] = "The venue has been updated!"
       redirect_to venue_path(@venue)
     else
-      render 'edit'
+      flash[:error] = "There was a problem with the changes made to the venue. Please click edit to view error and correct."
+      @venuecategories = Venuecategory.all
+      @activitycategories = Activitycategory.for_venues.all
+      @activity = current_user.activities.build(:venue_id => @venue.id)
+      @works = current_user.works.all
+      @clients = current_user.clients.all
+      @venues = []
+      @venues.push(@venue)
+      render 'show'
     end
   end
 
   def show
     @venue = current_user.venues.find_by_munged_name(params[:id])
     @venuecategories = Venuecategory.all
-    @currentconsignments = []
-    @pastconsignments =[]
-    @sales =[]
-    consign = Activitycategory.find_by_name('Consignment')
-    if !consign.nil?
-      @currentconsignments = @venue.activities.currentActivityCategory(consign.id)
-      @pastconsignments = @venue.activities.previousActivityCategory(consign.id)
-    end
-    sale = Activitycategory.find_by_name('Sale')
-    if !sale.nil?
-      @sales = @venue.activities.previousActivityCategory(sale.id)
-    end
+    @activitycategories = Activitycategory.for_venues.all
+    @activity = current_user.activities.build(:venue_id => @venue.id)
+    @works = current_user.works.all
+    @clients = current_user.clients.all
+    @venues = []
+    @venues.push(@venue)
   end
 
   def index
-    @venue = current_user.venues.build if signed_in?
+    @venue = current_user.venues.build
     @venues = current_user.venues.all
     @venuecategories = Venuecategory.all
   end
@@ -64,6 +73,7 @@ class VenuesController < ApplicationController
   private
 
     def correct_user
+      munged_name = params[:id]
       @venue = current_user.venues.find_by_munged_name(params[:id])
       if @venue.nil?
         flash[:error] = "Sorry that venue does not belong to you!"

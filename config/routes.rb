@@ -26,7 +26,7 @@ Makersmoon::Application.routes.draw do
       put :update_multiple
     end
   end
-  resources :venues, exclude: [:new, :edit], path: "/internal/venues/"
+  resources :venues, exclude: [:new], path: "/internal/venues/"
   resources :clients, exclude: [:new, :edit], path: "/internal/clients/"
   resources :imports, only: [:new, :create]
 

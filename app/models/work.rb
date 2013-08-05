@@ -29,7 +29,7 @@
 
 class Work < ActiveRecord::Base
   attr_accessible :creation_date, :description, :dimention1, :dimention2, :dimention_units, :expense_hours, :expense_materials, :image1, :retail, :income, :inventory_id, :share_makers, :share_public, :title, :workcategory_id
-	has_attached_file :image1, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/:style/missing.png"
+	has_attached_file :image1, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "MissingImage.jpg"
 
 	belongs_to :user
   belongs_to :workcategory

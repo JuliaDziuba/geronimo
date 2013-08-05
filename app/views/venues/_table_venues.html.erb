@@ -1,8 +1,9 @@
 <table id="Venues">
   <thead>
     <tr>
-      <th>Category</th>
+      <th></th>
       <th>Name</th>
+      <th>Category</th>
       <th>Email</th>
       <th>Phone</th>
       <th>Site</th>
@@ -17,8 +18,12 @@
   <tbody>
     <% venues.each do |venue| %>
       <tr>
+        <td>
+          <%= link_to icon(:edit), venue_path(venue), class: "icon-edit bottom" %> &nbsp;
+          <%= link_to icon(:trash), venue, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete #{venue.name}?" }, title: 'Delete?' %>
+        </td>
+        <td><div class=overflow><%= venue.name %></div></td>
         <td><div class=overflow><%= venue.venuecategory.name %></div></td>
-        <td><div class=overflow><%= link_to venue.name, venue_path(venue) %></div></td>
         <td><div class=overflow><%= venue.email %></div></td>
         <td><div class=overflow><%= venue.phone %></div></td>
         <td><div class=overflow><%= venue.site %></div></td>

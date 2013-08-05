@@ -24,5 +24,7 @@ class Activitycategory < ActiveRecord::Base
   
 
 	default_scope order: 'activitycategories.name'
+	scope :for_venues, where("name in ('Consignment','Donate','Sale')")
+	scope :for_clients, where("name in ('Commission','Gift','Sale')")
   
 end
