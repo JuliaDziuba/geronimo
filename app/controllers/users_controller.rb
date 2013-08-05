@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:show, :index, :edit, :update, :destroy, :public]
   before_filter :correct_user,   only: [:show, :edit, :update, :public]
-  before_filter :admin_user,     only: :destroy
+  before_filter :admin_user,     only: [:new, :destroy]
   
   def insight
     @user = User.find_by_username(params[:id])
@@ -15,7 +15,12 @@ class UsersController < ApplicationController
       work["sale_date"] = sale.date_start
       @sold_works.push(work)
     end
-    @date_of_oldest_work = @user.works.last.creation_date
+    oldest_work = @user.works.last
+    if oldest_work.nil?
+      @date_of_oldest_work = Date.today
+    else
+      @date_of_oldest_work = @user.works.last.creation_date
+    end
   end
 
   def about
@@ -100,7 +105,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
-      flash[:success] = "Welcome to Makers' Moon! Add more information about yourself to fill out your website or add works, clients and venues to start building your database!"
+      flash[:success] = "Welcome to Makers' Moon! This tool has two primary features: 1) an easy to use database that manages your works and the venues and clients that support your business and 2) public facing sites that promote you and your works. Which would you like to develop first?"
       redirect_to @user
       @user.venues.create!(name: "My Studio", venuecategory_id: Venuecategory.find_by_name("Studios").id)
     else
@@ -142,7 +147,11 @@ class UsersController < ApplicationController
     end
 
     def admin_user
-      redirect_to signin_path unless current_user.admin?
+      if signed_in?
+        redirect_to signin_path unless current_user.admin?
+      else 
+        redirect_to root_url
+      end
     end
 
     def work_categories

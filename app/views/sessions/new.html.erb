@@ -4,5 +4,5 @@
     <%= f.password_field :password, id: "Password", placeholder: "Password", class: "input-small" %>
     <%= f.submit "Sign in!", class: "btn" %>
   <% end %>
-  <a class="landing_tag" href="<%= signup_path %>">New user? Sign up!</a>
+  <div class="alt-link"><%= link_to "Not a member? Let us know you're interested!", root_path %></div>
 </div>

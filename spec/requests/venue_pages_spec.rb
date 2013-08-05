@@ -51,6 +51,7 @@ describe "Venue pages" do
 
     describe "when there are venues" do
       let!(:v) { FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id) }
+      let!(:v_2) { FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id, name:"Second Venue") }
 			before { visit venues_path }
       
       it { should have_selector('h1', text: "Venues") }

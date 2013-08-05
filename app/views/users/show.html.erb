@@ -1,17 +1,14 @@
 <% provide(:title, "Maker's Dashboard") %>
 <div class="row-fluid">
 	<div class="span4">
-		<legend class="h2">My Business</legend>
+		<legend class="h2">Business Database</legend>
 		<h3>Works</h3>
 		<% if @user.works.any? %>
 			You currently have <%=@user.works.all.count %> works. <%= link_to "Add or view works", works_path, :class => "btn f-right" %><br /><br /><br />
 			<%= link_to "Manage work categories", workcategories_path, :class => "btn" %><%= link_to "Manage work activities", activities_path, :class => "btn f-right" %>
-
-
-
 		<% else %>
-			Get started by uploading some works to Makers' Moon.<br />
-			<%= link_to "Add!", works_path, :class => "btn f-right" %>
+			No works have been added yet!<br />
+			<%= link_to "Get started!", works_path, :class => "btn f-right" %>
 		<% end %>
 		<br /><br />
 		<h3>Venues</h3>
@@ -39,8 +36,8 @@
 			<%= render 'public_pages_list', user: @user %>
 			<br /><br />
 		<% else %>
-			You are not currently using Makers' Moon to promote yourself and your works!<br />
-			<%= link_to "Care to start now?", public_user_path(@user) %>
+			You are not currently using Makers' Moon to promote yourself and your works!
+			<%= link_to "Go public!", public_user_path(@user), :class => "btn f-right" %>
 			<br /><br />
 		<% end %>
 		<h3>Fellow Makers</h3>

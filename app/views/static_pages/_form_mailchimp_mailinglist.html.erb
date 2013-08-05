@@ -1,13 +1,15 @@
 <!-- Begin MailChimp Signup Form -->
 
 <div id="mc_embed_signup">
-<form action="http://makersmoon.us7.list-manage2.com/subscribe/post?u=b7ffb7875fe5af02be7a49059&amp;id=7b64e0cc91" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+<form action="http://MakersMoon.us7.list-manage.com/subscribe/post?u=b7ffb7875fe5af02be7a49059&amp;id=7b64e0cc91" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
 <div class="mc-field-group">
 	<label for="mce-EMAIL"></label>
-	<input type="email" value="" name="EMAIL" placeholder="Add your email to our mailing list!" class="required email" id="mce-EMAIL">
+	<input type="email" value="" name="EMAIL" placeholder="Email me more information!" class="required email" id="mce-EMAIL">
 </div>	
-<div>
-    <input type="submit" value="&nbsp; Subscribe &nbsp;" name="subscribe" id="mc-embedded-subscribe" class="btn">
+<div class="mc-field-group input-group">
+  <input type="checkbox" value="1" name="group[3249][1]" id="mce-group[3249]-3249-1" class="f-left bottom">
+  <label for="mce-group[3249]-3249-1" class = "checkbox inline landing_tag f-left less-indent" >Tell me how to join!</label>
+  <input type="submit" value="&nbsp; Subscribe &nbsp;" name="subscribe" id="mc-embedded-subscribe" class="btn f-right">
 </div>
 <div id="mce-responses" class="clear landing_tag top_padding">
     <div class="response" id="mce-error-response" style="display:none"></div>
@@ -79,7 +81,7 @@ function mce_init_form(){
       var options = { errorClass: 'mce_inline_error', errorElement: 'div', onkeyup: function(){}, onfocusout:function(){}, onblur:function(){}  };
       var mce_validator = $("#mc-embedded-subscribe-form").validate(options);
       $("#mc-embedded-subscribe-form").unbind('submit');//remove the validator so we can get into beforeSubmit on the ajaxform, which then calls the validator
-      options = { url: 'http://makersmoon.us7.list-manage.com/subscribe/post-json?u=b7ffb7875fe5af02be7a49059&id=7b64e0cc91&c=?', type: 'GET', dataType: 'json', contentType: "application/json; charset=utf-8",
+      options = { url: 'http://MakersMoon.us7.list-manage1.com/subscribe/post-json?u=b7ffb7875fe5af02be7a49059&id=7b64e0cc91&c=?', type: 'GET', dataType: 'json', contentType: "application/json; charset=utf-8",
                     beforeSubmit: function(){
                         $('#mce_tmp_error_msg').remove();
                         $('.datefield','#mc_embed_signup').each(

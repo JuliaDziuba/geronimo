@@ -1,6 +1,6 @@
 <% provide(:title, 'Venues') %>
 
-<% if @venues.any? %>
+<% if @venues.count > 1 %>
 	<% provide(:new_form, "new_venue") %>
 
 	<div id="new_venue" class="not-displayed">

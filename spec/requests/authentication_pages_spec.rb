@@ -10,7 +10,7 @@ describe "Authentication" do
 
     it { should have_selector('title', text: full_title('')) }
     it { should have_content('one small step for you') }
-    it { should have_content('We are working hard for you!') }
+    it { should have_content("Makers' Moon is an online business management tool") }
     
 
     describe "with invalid information" do
@@ -20,7 +20,7 @@ describe "Authentication" do
       it { should have_selector('div.alert.alert-error', text: 'Invalid') }
 
       describe "after visiting another page" do
-        before { click_link "Sign up!" }
+        before { click_link "Not a member? Let us know you're interested!" }
         it { should_not have_selector('div.alert.alert-error') }
       end
     end
@@ -82,9 +82,9 @@ describe "Authentication" do
       describe "in the Users controller" do
 
         describe "visiting the new page" do
-          # is should render page fine
+          # is should redirect to the root unless they are an admin
           before { visit new_user_path }
-          it { should have_button('Sign up!') }
+          it { should have_button('Subscribe') }
         end
 
         describe "submitting to the create action" do

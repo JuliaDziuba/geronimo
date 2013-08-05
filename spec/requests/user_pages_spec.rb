@@ -16,27 +16,31 @@ describe "User pages" do
 
     before { visit signup_path }
 
-    let(:submit) { "Sign up!" }
+    it { should have_content("BETA sign in") }
 
-    describe "with invalid information" do
-      it "should not create a user" do
-        expect { click_button submit }.not_to change(User, :count)
-      end
-    end
+    pending("Currently only an admin can create a new user") {
+      
+      let(:submit) { "Sign up!" }
 
-    describe "with valid information" do
-      before do
-        fill_in "Username",     with: "RspecTest"
-        fill_in "Email",        with: "rspec@example.com"
-        fill_in "Password",     with: "password"
-        fill_in "Password_confirmation", with: "password"
+      describe "with invalid information" do
+        it "should not create a user" do
+          expect { click_button submit }.not_to change(User, :count)
+        end
       end
 
-      it "should create a user" do
-        expect { click_button submit }.to change(User, :count).by(1)
-      end
+      describe "with valid information" do
+        before do
+          fill_in "Username",     with: "RspecTest"
+          fill_in "Email",        with: "rspec@example.com"
+          fill_in "Password",     with: "password"
+          fill_in "Password_confirmation", with: "password"
+        end
 
-    end
+        it "should create a user" do
+          expect { click_button submit }.to change(User, :count).by(1)
+        end
+      end
+    }
   end #/signup
 
   describe "edit" do

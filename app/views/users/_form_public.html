@@ -2,7 +2,7 @@
  	<%= render 'shared/error_messages', object: f.object %>
   <div class="row-fluid">
     <div class="span12">
-      <p>This configures you public site. The information included in pages you decide to create will be public. If you decide later to not have a public site all you have to do is uncheck the box.</p>
+      <p>This configures you public site. The information included in pages created below will be public. If you decide later to not have a public site all you have to do is uncheck the box.</p>
       <legend><%= f.check_box :share_with_public, class: "popover-input", rel: "popover", :"data-title" => "Create a public site", :"data-content" => "Check this to create a public site to showcase you and your work!" %> I'd like a public site</legend>
       <div class="not-displayed"><%= f.check_box :share_with_makers %></div>
       <div id="general_content" class="not-displayed">
@@ -35,7 +35,7 @@
           <div class="control-group">
             <%= f.label :about, "About", :class => "control-label" %>
             <div class="controls">
-              <%= f.text_area :about, placeholder: "Tell clients and fans about your work, your accomplishments and your background.", rows:"14"%>
+              <%= f.text_area :about, placeholder: "Tell clients and venues about your work, your accomplishments and your background.", rows:"14"%>
             </div>
           </div>
           <div class="control-group">

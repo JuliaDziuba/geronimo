@@ -9,7 +9,7 @@
 }
 
 .moon{
-	padding-top:50px;
+	padding-top:40px;
 	background-color:#121643;
 	background-image:url("LandingImageShort.jpg");
 	background-repeat:no-repeat;
@@ -56,9 +56,21 @@
 }
 .landing_description{
 	color:#888;
-	margin-bottom:190px;
+	margin-bottom:175px;
 }
 
 .top_padding {
 	padding-top:30px;
+}
+
+.beta-link {
+	position: relative;
+	top: -10px;
+	float: right;
+}
+
+.alt-link {
+	a:hover {
+		color:#FFFFFF;
+	}
 }
