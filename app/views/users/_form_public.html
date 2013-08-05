@@ -35,7 +35,7 @@
           <div class="control-group">
             <%= f.label :about, "About", :class => "control-label" %>
             <div class="controls">
-              <%= f.text_area :about, placeholder: "The public site's about page will automatically include information on the venues you wish to tell fans about. What other biographical informaiton would you like to include?", rows:"14"%>
+              <%= f.text_area :about, placeholder: "Tell clients and fans about your work, your accomplishments and your background.", rows:"14"%>
             </div>
           </div>
           <div class="control-group">
@@ -120,12 +120,14 @@
             <div class="controls"><%= f.check_box :share_price %></div>
           </div>
       </div>
+      <!--
       <div id="share_purchase" class="not-displayed">
         <legend><%= f.check_box :share_purchase %> Create a purchase page</legend>
       </div>
       <div id="purchase_content" class="not-displayed">
         There is nothing to configure in this section as it is generated automatically. This page will instruct clients how to purchase any of the works included on your public site that are currently available. Below is a summary of the works.
       </div>
+    -->
     </div>
   </div>
   <div class="row-fluid">

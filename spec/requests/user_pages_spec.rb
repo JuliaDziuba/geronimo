@@ -167,7 +167,7 @@ describe "User pages" do
 
         it { should have_content("Create a contact page") }
         it { should have_content("Create pages for public works") }
-        it { should have_content("Create a purchase page") }
+        pending { it { should have_content("Create a purchase page") } }
 
         describe "with an about page shared" do
           before do
@@ -197,12 +197,14 @@ describe "User pages" do
         end
 
         describe "with a purchase page shared" do
-          before do
-            check "user_share_purchase"
-            click_button update
-            visit public_user_path(user_p)
-          end
-          it { should have_content("There is nothing to configure") }
+          pending {
+            before do
+              check "user_share_purchase"
+              click_button update
+              visit public_user_path(user_p)
+            end
+            it { should have_content("There is nothing to configure") }
+          }
         end
       end
     end
