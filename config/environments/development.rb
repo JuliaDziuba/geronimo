@@ -45,8 +45,8 @@ Makersmoon::Application.configure do
     :path => '/:class/:attachment/:id_partition/:style/:filename',
     :s3_credentials => {
       :bucket => "devmakersmoon",
-      :access_key_id => ENV['AWS_ACCESS_KEY'],
-      :secret_access_key => ENV['AWS_SECRET']
+      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
     }
   }
 end
