@@ -105,7 +105,6 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
-      flash[:success] = "Welcome to Makers' Moon! This tool has two primary features: 1) an easy to use database that manages your works and the venues and clients that support your business and 2) public facing sites that promote you and your works. Which would you like to develop first?"
       redirect_to @user
       @user.venues.create!(name: "My Studio", venuecategory_id: Venuecategory.find_by_name("Studios").id)
     else

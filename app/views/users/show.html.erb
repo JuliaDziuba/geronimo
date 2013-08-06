@@ -1,5 +1,10 @@
 <% provide(:title, "Maker's Dashboard") %>
 <div class="row-fluid">
+	<% if !@user.works.any? && !@user.share_with_public %>
+		<p>Welcome to Makers' Moon! This tool has two primary features: 1) an easy to use database that manages your works and the venues and clients that support your business and 2) optional public facing sites that promote you and your works. Which would you like to develop first?</p>
+	<% end %>
+</div>
+<div class="row-fluid">
 	<div class="span4">
 		<legend class="h2">Business Database</legend>
 		<h3>Works</h3>
