@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:show, :index, :edit, :update, :destroy, :public]
   before_filter :correct_user,   only: [:show, :edit, :update, :public]
-  before_filter :admin_user,     only: [:destroy]
+  before_filter :admin_user,     only: [:new, :destroy]
   
   def insight
     @user = User.find_by_username(params[:id])
