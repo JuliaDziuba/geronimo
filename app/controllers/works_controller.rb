@@ -98,23 +98,23 @@ class WorksController < ApplicationController
       if !categoryfilter.nil? 
         categoryarray = categoryfilter.split('.')
         if categoryarray.last == "Uncategorized"
-          works = current_user.works.uncategorized
+          works = current_user.works.uncategorized.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]])
         else
-          works = current_user.works.where('works.workcategory_id = ?', current_user.workcategories.find_by_name(categoryarray.last))
+          works = current_user.works.where('works.workcategory_id = ?', current_user.workcategories.find_by_name(categoryarray.last)).all(include: :activities)
         end
       elsif !statusfilter.nil?
         if statusfilter == "Available"
-          works = current_user.works.available
+          works = current_user.works.available.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]])
         else 
           works = []
-          current_user.works.each do |work|
+          current_user.works.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]]).each do |work|
             if work.current_activity == statusfilter
               works.push(work)
             end
           end
         end
       else
-        works = current_user.works.all
+        works = current_user.works.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]])
       end
       works 
     end

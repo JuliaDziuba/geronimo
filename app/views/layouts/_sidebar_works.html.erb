@@ -1,7 +1,11 @@
+<% 
+  works = @current_user.works.all
+  categories = @current_user.workcategories.all
+%>
 <div class="accordion-heading">
   <div class="accordion-toggle-small">
     <a href="<%= works_path %>">Works</a>
-    <% if @current_user.works.any? || @current_user.workcategories.any? %>
+    <% if works.any? || categories.any? %>
       <a data-toggle="collapse" data-parent="#accordianParent" href="#worksSection">&nbsp;<b class="caret lighter bottom"></b>&nbsp;</a>
     <% end %>
   </div>
@@ -9,20 +13,25 @@
 <div id="worksSection" class="accordion-body collapse">
   <div class="accordion-inner-small">
     <ul class="accordion-list">
-      <% if @current_user.works.any? %>
+      <% if works.any? %>
+        <% 
+          activitityCounts = @current_user.work_current_activities.inject(Hash.new(0)) { |total, e| total[e] += 1; total}
+          parentCategories = @current_user.workcategories.parents_only.all(include: :works)
+          uncategorizedWorks = @current_user.works.uncategorized.all 
+         %>
         <!-- Activities -->
         <li>By Status</li> 
         <ul class="accordion-list">
-          <% activities = @current_user.work_current_activities %>
-          <% count = activities.count("Available") %>
-          <% if count > 0  %>
-            <li><%= link_to "Available", works_path(:statusfilter => "Available") %> (<%= count %>)</li>
+          <% if activitityCounts["Available"] > 0  %>
+            <li><%= link_to "Available", works_path(:statusfilter => "Available") %> (<%= activitityCounts["Available"] %>)</li>
           <% end %>
           <% Activitycategory.all.each do |activitycategory| %>
-            <% count = activities.count(activitycategory.status) %>
-            <% if count > 0 %>
+            <% 
+              status = activitycategory.status
+            %>
+            <% if activitityCounts[status] > 0 %>
               <li>
-                <%= link_to activitycategory.status, works_path(:statusfilter => activitycategory.status) %> (<%= count %>)
+                <%= link_to status, works_path(:statusfilter => status) %> (<%= activitityCounts[status] %>)
               </li>
             <% end %>
           <% end %>
@@ -30,20 +39,22 @@
         <li>By Category</li>
         <!-- WorkCategories -->
         <ul class="accordion-list">
-          <% @current_user.workcategories.parents_only.each do |parent| %>
-            <% if parent.works.count > 0 %>
-              <li><%= link_to parent.name, works_path(:categoryfilter => parent.name) %> (<%= parent.works.count %>)</li>
+          <% parentCategories.each do |parent| %>
+            <% if parent.works.length > 0 %>
+              <li><%= link_to parent.name, works_path(:categoryfilter => parent.name) %> (<%= parent.works.length %>)</li>
             <% end %>
-            <% if parent.children.any? %>
-              <% parent.children.each do |child| %>
-                <% if child.works.any? %>
-                  <li><%= link_to parent.name + " > " + child.name, works_path(:categoryfilter => parent.name + "." + child.name) %> (<%= child.works.count %>)</li>
+            <% childrenCategories = parent.children %>
+            <% if childrenCategories.any? %>
+              <% childrenCategories.each do |child| %>
+                <% childWorks = child.works %>
+                <% if childWorks.any? %>
+                  <li><%= link_to parent.name + " > " + child.name, works_path(:categoryfilter => parent.name + "." + child.name) %> (<%= childWorks.length %>)</li>
                 <% end %>
               <% end %>
             <% end %>
           <% end %>
-          <% if @current_user.works.uncategorized.any? %>
-            <li><%= link_to "Uncategorized", works_path(:categoryfilter => "Uncategorized") %> (<%= @current_user.works.uncategorized.count %>)</li>
+          <% if uncategorizedWorks.any? %>
+            <li><%= link_to "Uncategorized", works_path(:categoryfilter => "Uncategorized") %> (<%= uncategorizedWorks.length %>)</li>
           <% end %>
         </ul>
         <!-- /WorkCategories -->

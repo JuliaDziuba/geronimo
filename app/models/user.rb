@@ -78,8 +78,13 @@ class User < ActiveRecord::Base
 
   def work_current_activities
     activities = []
-    self.works.each do | work |
-      activities.push(work.current_activity)
+    works = self.works.all(:include => { :activities => :activitycategory })
+    works.each do | work |
+      if work.available
+        activities.push("Available")
+      else
+        activities.push(work.activities.first.activitycategory.status)
+      end
     end
     activities
   end

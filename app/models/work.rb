@@ -64,8 +64,8 @@ class Work < ActiveRecord::Base
   end
 
   def available
-    as = self.activities
-    as.count == 0 || ( !as.first.activitycategory.final && as.first.date_start < Date.today && !as.first.date_end.nil? && as.first.date_end < Date.today )
+    as = self.activities.first
+    as.nil? || ( !as.activitycategory.final && as.date_start < Date.today && !as.date_end.nil? && as.date_end < Date.today )
   end
 
   def current_activity
