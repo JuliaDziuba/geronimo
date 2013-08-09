@@ -23,9 +23,9 @@
     <% works.each do |work| %>
       <tr>
         <% if categoryfilter.nil? %>
-          <td><div class=overflow><%= work.workcategory.name %></div></td>
+          <td><div class=overflow><%= workcategory_name(work) %></div></td>
         <% end %>
-        <td><div class=largeoverflow><%= work.status %></div></td>
+        <td><div class=largeoverflow><%= status(work) %></div></td>
         <td><div class=overflow><%= link_to work.title, work_path(work) %></td>
         <td><div class=overflow><%= work.inventory_id %></div></td>
         <td><div class=overflow><%= work.creation_date %></div></td>

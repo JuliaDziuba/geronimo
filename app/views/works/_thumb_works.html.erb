@@ -6,7 +6,7 @@
 			<% end %>
 			<td class="span3">
 				<%= link_to image_tag(work.image1.url(:medium)), work_path(work) %>
-				<br /><%= "#{work.title} (#{work.inventory_id})" %><br /><%= work.status %>
+				<br /><%= "#{work.title} (#{work.inventory_id})" %><br /><%= status(work) %>
 			</td>
 		<% end %>
 	</tr>

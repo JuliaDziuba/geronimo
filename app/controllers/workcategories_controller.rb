@@ -4,7 +4,7 @@ class WorkcategoriesController < ApplicationController
   
 
   def index
-    @parentcategories = current_user.workcategories.parents_only.all
+    @parentcategories = current_user.workcategories.parents_only.all(:include => :works)
     @workcategory = Workcategory.new
   end
 

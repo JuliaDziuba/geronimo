@@ -31,24 +31,8 @@
         <td><div class=overflow><%= venue.address_city %></div></td>
         <td><div class=overflow><%= venue.address_state %></div></td>
         <td><div class=overflow><%= venue.address_zipcode %></div></td>
-        <td><div class=overflow>
-          <%= record = Activitycategory.find_by_name('Consignment')
-            if record.nil?
-              0
-            else
-              venue.activities.currentActivityCategory(record.id).count 
-            end
-          %>
-        </div></td>
-        <td><div class=overflow>
-          <%= record = Activitycategory.find_by_name('Sale')
-            if record.nil?
-              0
-            else
-              venue.activities.previousActivityCategory(record.id).count 
-            end
-          %>
-        </div></td>
+        <td><div class=overflow><%= venue.activities.currentActivityCategory(@consignment_id).count %></div></td>
+        <td><div class=overflow><%= venue.activities.previousActivityCategory(@sale_id).count %></div></td>
       </tr>
     <% end %>
   </tbody>

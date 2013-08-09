@@ -59,10 +59,6 @@ class Work < ActiveRecord::Base
     inventory_id
   end
 
-  def workcategory
-    self.user.workcategories.find_by_id(read_attribute(:workcategory_id)) || self.user.workcategories.build(:id => 0, :name => "Uncategorized")
-  end
-
   def available
     as = self.activities.first
     as.nil? || ( !as.activitycategory.final && as.date_start < Date.today && !as.date_end.nil? && as.date_end < Date.today )
@@ -74,22 +70,6 @@ class Work < ActiveRecord::Base
     else
       self.activities.first.activitycategory.status
     end
-  end
-
-  def status
-  	if self.available
-      "Available"
-  	else
-  		a = self.activities.first
-  		s = a.activitycategory.status
-  		if a.activitycategory.final # This piece is sold, gifted, donated or recycled
-  			s + ' to ' + a.client.name
-  		elsif s == 'Consigned' # This piece is currently consigned
-  			s + ' to ' + a.venue.name
-  		else # This piece has been comissioned and is not yet complete
-        s + ' by ' + a.client.name
-  		end
-  	end
   end
 
   private

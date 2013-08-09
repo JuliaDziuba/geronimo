@@ -44,10 +44,6 @@ class Activity < ActiveRecord::Base
   scope :currentActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end IS NULL OR date_end > :date)', { id: id, date: Date.today })  }
   scope :previousActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end <= :date)', { id: id, date: Date.today })  }
 
-  def client
-    self.user.clients.find_by_id(read_attribute(:client_id)) || self.user.clients.build(:id => 0, :name => "Unknown")
-  end
-
   def activity_before
     if self.id.nil?
       Work.find_by_id(self.work_id).activities.startingBeforeDate(self.date_start).first

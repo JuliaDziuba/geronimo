@@ -43,7 +43,6 @@ describe Activity do
   its(:venue) { should == Venue.first }
 
   it { should respond_to(:client) }
-  it { subject.client.name.should == "Unknown" }
 
 	it { should respond_to(:user) }
   it { should respond_to(:activitycategory_id) }

@@ -35,7 +35,7 @@
         <td><div class=largeoverflow><%= activity.income %></div></td>
         <td><div class=largeoverflow><%= activity.retail %></div></td>
         <% if client_include  %>
-          <td><div class=largeoverflow><%= activity.client.name %></div></td>
+          <td><div class=largeoverflow><%= client_name(activity) %></div></td>
         <% end %>        
       </tr>
     <% end %>

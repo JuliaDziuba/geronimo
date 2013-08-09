@@ -12,8 +12,11 @@
       <li class="spaced">
         <%= render 'list_element_workcategory', category: parent %>
       	<ul class="sublist">
-      		<% if parent.children.any? %>
-      			<% parent.children.each do |child| %>
+          <% Rails.logger.warn("getting children")
+            children = parent.children.all(:include => [:works]) 
+            Rails.logger.warn("Done getting children") %>
+      		<% if children.any? %>
+      			<% children.each do |child| %>
          	 		<li class="spaced">
            		<%= render 'list_element_workcategory', category: child %>
          		 </li>

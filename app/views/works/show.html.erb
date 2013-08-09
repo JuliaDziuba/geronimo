@@ -2,13 +2,15 @@
 <% provide(:title, @work.title) %>
 <% provide(:delete_record, @work) %>
 <%= render 'form_work', work: @work, categories: @workcategories %>
+<% status = status(@work) %>
+<p>This work is <%= status %></p>
 
-<p>This work is <%= @work.status %></p>
-
-<% if @activities.any? || @work.status == 'Available' %>
+<% if @activities.any? || status == 'Available' %>
 	<h2>
 		<% if @activities.any? %>Its Journey &nbsp; <% end %>
-		<% if  @work.status == 'Available' %><a id="new_activity_display" class="display_toggle" href="#new_activity">New Activity</a><% end %>
+		<% if status == 'Available' %>
+			<a id="new_activity_display" class="display_toggle" href="#new_activity">New Activity</a>
+		<% end %>
 	</h2>
 <% end %>
 <div id="new_activity" class="not-displayed">

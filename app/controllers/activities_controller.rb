@@ -1,4 +1,5 @@
 class ActivitiesController < ApplicationController
+  
   before_filter :signed_in_user
   before_filter :correct_user, except: [:create, :index]
 
@@ -47,11 +48,11 @@ class ActivitiesController < ApplicationController
     @activitycategories = Activitycategory.all
     @works = current_user.works.all
     @venues = current_user.venues.all
-    @clients = current_user.clients
+    @clients = current_user.clients.all
   end
 
   def index
-  	@activities = current_user.activities.all
+  	@activities = current_user.activities.all(:include => [:activitycategory, :work, :venue, :client])
     @activity = Activity.new
     @activitycategories = Activitycategory.all
     @works = current_user.works.all
@@ -68,7 +69,7 @@ class ActivitiesController < ApplicationController
     if activity.valid?
       @work = current_user.works.find_by_id(activity.work_id)
       if activity.occurs_after_existing_final_activity
-        flash[:error]= "This work is already " + @work.status + ". It is not available for " +  Activitycategory.find_by_id(activity.activitycategory_id).name.downcase + ". If this is not correct please correct the previous activities before creating this new one."  
+        flash[:error]= "This work is already " + status(@work) + ". It is not available for " +  Activitycategory.find_by_id(activity.activitycategory_id).name.downcase + ". If this is not correct please correct the previous activities before creating this new one."  
         false
       elsif activity.is_final_but_occurs_before_existing_activities
         flash[:error]= "The new activity you tried to create is final but our records show activities after this one. If this is not a mistake please delete these later records and then try creating this new activity again."

@@ -39,30 +39,38 @@
         <li>By Category</li>
         <!-- WorkCategories -->
         <ul class="accordion-list">
+          <% parentListed = false %>
           <% parentCategories.each do |parent| %>
             <% if parent.works.length > 0 %>
-              <li><%= link_to parent.name, works_path(:categoryfilter => parent.name) %> (<%= parent.works.length %>)</li>
+              <li><%= link_to parent.name, works_path(:categoryfilter => parent.name) %> (<%= parent.works.length %>)<ul class="accordion-list">
+                <% parentListed = true %>
             <% end %>
             <% childrenCategories = parent.children %>
             <% if childrenCategories.any? %>
               <% childrenCategories.each do |child| %>
                 <% childWorks = child.works %>
                 <% if childWorks.any? %>
-                  <li><%= link_to parent.name + " > " + child.name, works_path(:categoryfilter => parent.name + "." + child.name) %> (<%= childWorks.length %>)</li>
+                  <% if !parentListed %>
+                    <li><%= parent.name %><ul class="accordion-list">
+                    <% parentListed = true %>
+                  <% end %>
+                  <li><%= link_to child.name, works_path(:categoryfilter => parent.name + "." + child.name) %> (<%= childWorks.length %>)</li>
                 <% end %>
               <% end %>
+            <% end %>
+            <% if parentListed %>
+              </ul></li>
             <% end %>
           <% end %>
           <% if uncategorizedWorks.any? %>
             <li><%= link_to "Uncategorized", works_path(:categoryfilter => "Uncategorized") %> (<%= uncategorizedWorks.length %>)</li>
           <% end %>
-        </ul>
         <!-- /WorkCategories -->
         <li class="divider"></li>
-          <li><%= link_to "Activities", activities_path %></li>
+        <li><%= link_to "Activities", activities_path %></li>
         <li class="divider"></li>
+        <li><%= link_to "Categories", workcategories_path %></li>
       <% end %>
-      <li><%= link_to "Categories", workcategories_path %></li>
     </ul>
   </div>
 </div>

@@ -1,4 +1,8 @@
-<% provide(:title, "#{@category.name} #{@category.parent.name if @category.parent.name != 'None'}") %>
+<% 
+	parentName = parent_name(@category) 
+  fullCategory = "#{@category.name} #{parentName if parentName != 'None'}" 
+%>
+<% provide(:title, fullCategory) %>
 <% provide(:subnav, "All Available") %>
 
 <div class="row-fluid">
@@ -23,7 +27,7 @@
 		<div class="row-fluid span6">
 			<p>
 				<strong><%= @work.title %></strong><span class="lighter">, <%= @work.creation_date.strftime("%B %Y") %><br />
-				<%= @work.current_activity %><% if @user.share_price && !@work.income_retail.blank? %>, $<%= @work.income_retail %><% end %></span>
+				<%= status(@work) %><% if @user.share_price && !@work.income_retail.blank? %>, $<%= @work.income_retail %><% end %></span>
 			</p>
 			<p><%= @work.description %></p>
 		</div>
@@ -32,7 +36,7 @@
 <% if !@category.artist_statement.blank? %>
 	<div class="row-fluid pw_statement">
 		<div class="pw_container span12">
-			<%= "Artist's statement on #{@category.name} #{@category.parent.name if @category.parent.name != 'None'}:" %><br />
+			<%= "Artist's statement on #{fullCategory}:" %><br />
 			<i><%= @category.artist_statement %></i>
 		</div>
 	</div>
