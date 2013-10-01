@@ -1,3 +1,4 @@
-<% provide(:title, 'New Work') %>
+<% provide(:crumbs, "Works," + works_path) %>
+<% provide(:title, 'New') %>
 
 <%= render 'form_work', work: @work, categories: @workcategories %>
