@@ -1,11 +1,8 @@
 <% provide(:title, 'Works') %>
 
 <% if @works.any? %>
-	<% provide(:new_form, "new_work") %>
+	<% provide(:new_link, "works/new") %>
 	<% provide(:alt_view, "thumb_view") %>
-	<div id="new_work" class="not-displayed">
-		<%= render 'form_work', work: @work, categories: @workcategories %>
-	</div>
 	<% if !@categoryfilter.nil? %>
 		<% categoryfilter = @categoryfilter.split('.') %>
 		Works have been filtered to show only <%= categoryfilter[1] %> <%= categoryfilter[0] %> works.<br /><br />

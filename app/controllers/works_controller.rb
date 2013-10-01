@@ -2,10 +2,15 @@ class WorksController < ApplicationController
   before_filter :signed_in_user
 #  before_filter :correct_user, except: [:create, :index, :edit_multiple, :update_multiple]
 
+  def new
+    @workcategories = current_user.workcategories_showing_families
+    @work = Work.new
+  end
+
   def create
     @work = current_user.works.build(params[:work])
     if @work.save
-      flash[:success] = "Your work has been added!"
+      # flash[:success] = "Your work has been added!"
       redirect_to works_path
     else
       @categoryfilter = params[:categoryfilter]
