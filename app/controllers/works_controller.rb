@@ -19,7 +19,7 @@ class WorksController < ApplicationController
       @workcategories = current_user.workcategories_showing_families
       @works = works_given_filters(@categoryfilter, @statusfilter)
       @workcategory = Workcategory.new
-      render 'index'
+      render 'new'
     end
   end
 
