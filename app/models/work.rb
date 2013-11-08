@@ -10,8 +10,8 @@
 #  creation_date       :date
 #  expense_hours       :decimal(, )
 #  expense_materials   :decimal(, )
-#  income_wholesale    :decimal(, )
-#  income_retail       :decimal(, )
+#  income              :decimal(, )
+#  retail              :decimal(, )
 #  description         :string(255)
 #  dimention1          :string(255)
 #  dimention2          :string(255)
@@ -42,6 +42,10 @@ class Work < ActiveRecord::Base
   validates :inventory_id, presence: true, length: { maximum: 30 }
   validates_uniqueness_of :inventory_id, :scope => :user_id, :case_sensitive => false
   validates :description, length: { maximum: 500 }
+  validates :expense_hours, :numericality => {:greater_than_or_equal_to => 0, :allow_nil => true }
+  validates :expense_materials, :numericality => { :greater_than_or_equal_to => 0, :allow_nil => true }
+  validates :retail, :numericality => { :greater_than_or_equal_to => 0, :allow_nil => true }
+  validates :income, :numericality => { :greater_than_or_equal_to => 0, :allow_nil => true }
   validates_inclusion_of :share_makers, :in => [true, false]
   validates_inclusion_of :share_public, :in => [true, false]
   validate  :inventory_id_format
@@ -73,6 +77,7 @@ class Work < ActiveRecord::Base
   end
 
   private
+
   def inventory_id_format
       all_valid_characters = inventory_id =~ /^[a-zA-Z0-9_]+$/
       errors.add(:inventory_id, "must contain only letters, digits, or underscores") unless all_valid_characters
