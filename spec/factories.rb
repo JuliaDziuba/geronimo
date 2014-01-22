@@ -57,4 +57,25 @@ FactoryGirl.define do
     user
   end
 
+  factory :document do
+    sequence(:name)  { |n| "Document #{n}" }
+    maker "Artist Name"
+    date Date::today
+    category Document::INVOICE
+    subject "1"
+    date_start "2011-01-01"
+    date_end "2012-01-01"
+    include_image true
+    include_title true
+    include_inventory_id true
+    include_creation_date true
+    include_quantity true
+    include_dimensions true 
+    include_materials true
+    include_description true
+    include_income true
+    include_retail true  
+    user
+  end
+
 end

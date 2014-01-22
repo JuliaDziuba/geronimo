@@ -34,13 +34,12 @@ describe "Work pages" do
     end
 
     describe "when there are works" do
-      let(:work) { FactoryGirl.create(:work, user: user) }
+      let!(:work) { FactoryGirl.create(:work, user: user) }
 			before { visit works_path }
       
       it { should have_selector('h1', text: "Works") }
       it { should_not have_selector('p', text: "START UPLOADING WORKS!") }
-
-      #TODO: cycle through works to make sure they are listed in table
+      it { should have_selector('table tbody tr', :count => 1) }
       
     end
 
@@ -70,7 +69,7 @@ describe "Work pages" do
         it { should have_selector('a', text:  "Works") }
         it { should have_selector('h1', text: work.title) }
         it { should have_selector('h2', content: "Its Journey") }
-        # Add test to make sure each activity is listed. 
+        it { should have_selector('table tbody tr', :count => 1) } 
       end
 
       describe "and piece is available" do

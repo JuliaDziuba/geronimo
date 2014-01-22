@@ -1,0 +1,60 @@
+<% 
+  historical = false #document.date_end <= Date.today
+  summary = {}
+  counts = ["all", "consigned", "sold", "removed"]
+  count_descriptions = ["Total consigned over period", "Total on consignment at end of period", "Total sold at end of period", "Total removed at end of period" ]
+  counts.each{|c| summary[c] = [0,0,0] }
+%>
+
+<% subjects.each do |activity| %> 
+  <% counts.each do |c| %>
+    <% if c == "all" || historical && 
+        ((c == "consigned" && activity.date_end.blank?) || 
+         (c == "sold" && !activity.date_end.blank?)  || 
+         (c == "removed" && !activity.date_end.blank?) ) %>
+      <% summary[c][0] += activity.quantity %>
+      <% summary[c][1] += activity.quantity * (activity.income || 0) %>
+      <% summary[c][2] += activity.quantity * (activity.retail || 0) %>
+    <% end %>
+    
+  <% end %>
+<% end %> 
+
+<% if historical %>
+  This consignment sheet shows the history of consignments occuring between <%= document.date_start %> and <%= document.date_end %>.
+ <% else %>
+  Current consignments of <%= document.maker %> at <%= subject_contact['name'] %>. 
+ <% end %> 
+
+<br /><br />
+<%= render 'table_consignments', document: @document, subjects: @subjects %> 
+<br /><br />
+
+<table id="ConsignmentsSummary" class="f-right print-friendly">
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th>Count</th>
+      <% if document.include_income %>
+        <th>Payable to Artist</th>
+      <% end %>
+      <% if document.include_retail %>
+        <th>Retail Value</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% counts.each_with_index do |c,i| %>
+      <tr>
+        <td><%= count_descriptions[i] %></td>
+        <td><%= summary[c][0] if (c == "all" || historical) %></td>
+        <% if document.include_income %>
+          <td><%= summary[c][1] if (c == "all" || historical) %></td>
+        <% end %>
+        <% if document.include_retail %>
+          <td><%= summary[c][2] if (c == "all" || historical) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>  
+</table> 

@@ -19,7 +19,6 @@
         <%= link_to "Insights", insight_user_path(current_user), class: "accordion-toggle-small" %>
       </div>
     </div>
-    <!--
     <div class="accordion-group">
       <div class="accordion-heading">
         <div class="accordion-toggle-small">
@@ -30,14 +29,12 @@
       <div id="documentsSection" class="accordion-body collapse">
         <div class="accordion-inner-small">
           <ul class="accordion-list">
-            <li><%= link_to "Consignment sheet", new_document_path(:category => "Consignment sheet") %></li>
-            <li><%= link_to "Invoice", new_document_path(:category => "Invoice") %></li>
-            <li><%= link_to "Price list", new_document_path(:category => "Price list") %></li>
-            <li><%= link_to "Portfolio page", new_document_path(:category => "Portfolio page") %></li>
+            <% Document::DOCUMENTS_ARRAY.each do |doc| %>
+              <li><%= link_to doc, documents_path(:category => doc) %></li>
+            <% end %>
           </ul>
         </div>
       </div>
     </div>
-  -->
   </div>
 </div>

@@ -18,7 +18,7 @@
 #  domain             :string(255)
 #  tag_line           :string(255)
 #  blog               :string(255)
-#  about              :string(255)
+#  about              :string(2000)
 #  email              :string(255)
 #  phone              :string(255)
 #  address_street     :string(255)
@@ -49,6 +49,7 @@ class User < ActiveRecord::Base
   has_many :venues, dependent: :destroy
   has_many :clients, dependent: :destroy
   has_many :activities, dependent: :destroy
+  has_many :documents
   has_many :questions
 
   before_save { |user| user.email = email.downcase }

@@ -1,0 +1,17 @@
+<div class="span12">
+  <legend>Works to include</legend>
+  <div class="subjects row-fluid">
+    <div class="row-fluid">
+      <% subjects.each.with_index do |subject, i| %>
+        <%= fields_for "subjects[]", subject do |sf| %>
+        <% if i % 4 == 0 and i != 0 %>
+            </div><div class="row-fluid">
+          <% end %>
+          <div class="span3">
+            <p class="small-font"><%= sf.check_box :share_public %> <%= subject.title + " (" + subject.inventory_id + ")" %></p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

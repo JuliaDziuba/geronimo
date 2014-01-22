@@ -2,11 +2,11 @@
 #
 # Table name: workcategories
 #
-#  id          :integer          not null, primary key
-#  user_id     :integer
-#  name        :string(255)
-#  description :string(255)
-#  parent_id   :integer
+#  id               :integer          not null, primary key
+#  user_id          :integer
+#  name             :string(255)
+#  artist_statement :string(1000)
+#  parent_id        :integer
 #
 
 require 'spec_helper'

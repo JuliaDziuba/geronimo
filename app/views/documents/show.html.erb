@@ -1,0 +1,37 @@
+<% provide(:crumbs, "Documents," + documents_path + "|" + @document.category + "s," + documents_path(:category => @document.category) ) %>
+<% provide(:title, @document.name) %>
+<div id="document-buttons" class="row-fluid">
+	<%= link_to "Edit", edit_document_path(@document), :class => "btn" %>
+	<%= link_to "Print", "#", :class => "btn document_print" %>
+</div>
+<div id="document">
+	<div id="document-header" class="row-fluid">
+		<% if @document.category == "Portfolio page" %>
+			<%= render 'header_portfolio',  document: @document %>
+		<% else %>
+			<div class="span5">
+				<%= render 'header_maker_contact', document: @document %>
+			</div>
+			<div class="span5 pull-right">
+				<span class="pull-right">
+					<h1><%= @document.category %></h1>
+					<%= @document.date %><br />
+					<br />
+					<%= render 'header_subject_contact', subject_contact: @subject_contact if @document.category != "Price sheet" %>
+				</span>
+			</div>
+		<% end %>
+	</div>
+	<br /><br />
+	<div id="document-content" class="row-fluid">
+		<% if @document.category == "Consignment sheet" %>
+			<%= render 'summary_consignments', document: @document, subjects: @subjects, subject_contact: @subject_contact %>
+		<% elsif @document.category == "Invoice" %>
+			<%= render 'summary_invoice', document: @document, subjects: @subjects %>
+		<% elsif @document.category == "Price list" %>
+			<%= render 'table_price_list', document: @document, subjects: @subjects %>
+		<% elsif @document.category == "Portfolio page" %>
+			<%= render 'portfolio', document: @document, subjects: @subjects %>
+		<% end %>
+	</div>
+</div>

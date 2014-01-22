@@ -10,10 +10,11 @@
 #  work_id             :integer
 #  date_start          :date
 #  date_end            :date
-#  income_wholesale    :decimal(, )
-#  income_retail       :decimal(, )
+#  income              :decimal(, )
+#  retail              :decimal(, )
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  quantity            :integer          default(1)
 #
 
 class Activity < ActiveRecord::Base
@@ -43,6 +44,10 @@ class Activity < ActiveRecord::Base
   scope :startingAfterDateExcludingSelf, lambda { |date, id| where('date_start > ? AND id != ?', date, id)}
   scope :currentActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end IS NULL OR date_end > :date)', { id: id, date: Date.today })  }
   scope :previousActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end <= :date)', { id: id, date: Date.today })  }
+  scope :currentConsignmentsAtVenueBetweenDates, lambda { |venue, date_start, date_end| where('activities.venue_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = 3 AND activities.date_end isNull', venue, date_start, date_end) }
+  scope :consignmentsAtVenueBetweenDates, lambda { |venue, date_start, date_end| where('activities.venue_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = 3', venue, date_start, date_end) }
+  scope :salesAtVenueBetweenDates, lambda { |venue, date_start, date_end| where('activities.venue_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = 1', venue, date_start, date_end) }
+  scope :salesToClientBetweenDates, lambda { |client, date_start, date_end| where('activities.client_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = 1', client, date_start, date_end) }
 
   def activity_before
     if self.id.nil?

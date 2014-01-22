@@ -10,10 +10,11 @@
 #  work_id             :integer
 #  date_start          :date
 #  date_end            :date
-#  income_wholesale    :decimal(, )
-#  income_retail       :decimal(, )
+#  income              :decimal(, )
+#  retail              :decimal(, )
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  quantity            :integer          default(1)
 #
 
 require 'spec_helper'

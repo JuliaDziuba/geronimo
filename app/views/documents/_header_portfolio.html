@@ -1,0 +1,28 @@
+<div class="center">
+<h1><%= document.maker %>'s Portfolio</h1>
+<%= document.date %><br />
+
+<% if !document.maker_medium.blank? %>
+	Medium: <%= document.maker_medium %><br />
+<% end %>
+<br />
+<% if !document.maker_phone.blank? %>
+	<%= document.maker_phone %><br />
+<% end %>
+<% if !document.maker_email.blank? %>
+	<%= document.maker_email %><br />
+<% end %>
+<!-- Address  -->
+<% if !document.maker_address_street.blank? %>
+	<%= document.maker_address_street %>,
+<% end %>
+<%= document.maker_address_city %>
+<% if !document.maker_address_state.blank? %>
+	<%= document.maker_address_state %>,
+<% end %>
+<%= document.maker_address_zipcode %>
+
+<% if !document.maker_site.nil? %>
+	<br /><br /><%= document.maker_site %><br />
+<% end %>
+</div>

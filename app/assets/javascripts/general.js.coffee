@@ -38,6 +38,10 @@ $ ->
     $('#list_view_display').toggleClass('show not-displayed')
     $('#list_view').toggleClass('show not-displayed')  
 
+$ ->
+  $(".document_print").click ->
+    toggle_print()
+
 
 # Pages that lead to js
 $ ->
@@ -62,9 +66,9 @@ $ ->
 
 $ ->    
   $('#activity_activitycategory_id').change ->
-    format_activity_form()           
+    format_activity_form()              
 
-# General functions
+# General functions 
 
 toggle_sidebar = () ->
   $('#toggleSidebar').toggleClass('icon-chevron-left icon-chevron-right')
@@ -121,4 +125,9 @@ format_activity_form = () ->
       $('#client').addClass('first-child span4')
     else if category == "Recycle"
       $('#date').removeClass('span3')    
-      $('#date').addClass('first-child span4')    
+      $('#date').addClass('first-child span4')  
+
+toggle_print = () ->
+  if $('#content').attr("class").toString().match("span10") != null
+    toggle_sidebar()
+  window.print() 

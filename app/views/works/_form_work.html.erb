@@ -72,6 +72,12 @@
   <div class="row-fluid">
     <div class="span8">
       <div class="control-group">
+        <%= f.label :materials, :class => "control-label" %>
+        <div class="controls">
+              <%= f.text_area :materials, rows: "1" %>
+        </div>
+      </div>
+      <div class="control-group">
         <%= f.label :description, :class => "control-label" %>
         <div class="controls">
               <%= f.text_area :description, rows: "3" %>

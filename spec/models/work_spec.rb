@@ -10,8 +10,8 @@
 #  creation_date       :date
 #  expense_hours       :decimal(, )
 #  expense_materials   :decimal(, )
-#  income_wholesale    :decimal(, )
-#  income_retail       :decimal(, )
+#  income              :decimal(, )
+#  retail              :decimal(, )
 #  description         :string(255)
 #  dimention1          :string(255)
 #  dimention2          :string(255)
@@ -24,6 +24,8 @@
 #  image1_content_type :string(255)
 #  image1_file_size    :integer
 #  image1_updated_at   :datetime
+#  materials           :string(255)
+#  quantity            :integer          default(1)
 #
 
 require 'spec_helper'

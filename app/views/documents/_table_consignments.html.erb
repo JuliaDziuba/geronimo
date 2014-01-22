@@ -1,0 +1,72 @@
+<table id="Consignments" class="print-friendly">
+  <thead>
+    <tr>
+      <% if document.include_image %>
+        <th>Image</th>
+      <% end %>
+      <% if document.include_inventory_id %>
+        <th>Item ID</th>
+      <% end %>
+      <% if document.include_title %>
+        <th>Title</th>
+      <% end %>
+      <% if document.include_creation_date %>
+        <th>Creation Date</th>
+      <% end %>
+      <% if document.include_quantity %>
+        <th>Quantity</th>
+      <% end %>
+      <% if document.include_materials %>
+        <th>Materials</th>
+      <% end %>
+      <% if document.include_description %>
+        <th>Description</th>
+      <% end %>
+      <% if document.include_income %>
+        <th>Artist' payment</th>
+      <% end %>
+      <% if document.include_retail %>
+        <th>Retail Price</th>
+      <% end %>
+      <th>Date In</th>
+      <th>Date Out</th>
+      <th>Sold/Removed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% subjects.each do |activity| %>
+      <tr>
+        <% if document.include_image %>
+          <td><%= image_tag(activity.work.image1.url(:thumb)) %></td>
+        <% end %>
+        <% if document.include_inventory_id %>
+          <td><%= activity.work.inventory_id %></td>
+        <% end %>
+        <% if document.include_title %>
+          <td><%= activity.work.title %></td>
+        <% end %>
+        <% if document.include_creation_date %>
+          <td><%= activity.work.creation_date %></td>
+        <% end %>
+        <% if document.include_quantity %>
+          <td><%= activity.quantity %></td>
+        <% end %>
+        <% if document.include_materials %>
+          <td><%= activity.work.materials %></td>
+        <% end %>
+        <% if document.include_description %>
+          <td><%= activity.work.description %></td>
+        <% end %>
+        <% if document.include_income %>
+          <td><%= activity.income %></td>
+        <% end %>
+        <% if document.include_retail %>
+          <td><%= activity.retail %></td>
+        <% end %>
+        <td><%= activity.date_start %></td>
+        <td><%= activity.date_end %></td>
+        <td>&nbsp;</td>
+      </tr>
+    <% end %>  
+  </tbody>
+</table>

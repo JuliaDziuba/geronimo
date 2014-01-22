@@ -1,0 +1,18 @@
+<% if @category.nil? %>
+	<% provide(:title, 'Documents') %>
+	<% provide(:new_link, "documents/new") %>
+<% else %>
+	<% provide(:crumbs, "Documents," + documents_path) %>
+	<% provide(:title, @category) %>
+	<% provide(:new_link, "documents/new?category=#{@category}") %>
+
+<% end %>	
+
+<% if @documents.count > 1 %>
+  <%= render 'table_documents', documents: @documents %>
+<% else %>
+	<p> There are no saved documents yet. Get started by creating a new one!</p>
+<% end %>
+
+
+

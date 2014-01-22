@@ -1,0 +1,53 @@
+<% category = @document.category %>
+<% if category.nil? %>
+	<% provide(:crumbs, "Documents," + documents_path ) %>
+<% else %>
+	<% provide(:crumbs, "Documents," + documents_path + "|" + category + "s," + documents_path(:category => category) ) %>
+<% end %>
+<% provide(:title, if @document.name.nil? then "New " else "Update" end) %>
+<div class="row-fluid">
+	<div class="span12">
+		All documents are created from works, venues, clients and activities already input into your database. Please make sure to input this data before creating the <%= if category.nil? then "new document" else category.downcase end %>.
+	</div>
+</div>
+<%= form_for(@document, :html => { :class => "form-horizontal" }) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+ 	<% if category.nil? %>
+ 		<div class="row-fluid">
+			<div class="control-group span4">
+	      		<%= f.label :category, "Document type", :class => "control-label" %>
+	      		<div class="controls">
+	  	    		<%= f.select :category, Document::DOCUMENTS_ARRAY, :prompt => true %>
+	      		</div>
+	    	</div>
+	    	<%= f.hidden_field :name, :value => "VanillaDocument" %>
+	  	</div>
+  	<% else %>
+		<div class="row-fluid">
+			<%= render 'form_general', f: f, category: category %>
+		</div>
+		<br/>
+		<div class="row-fluid">
+			<div class="span5">
+				<%= render 'form_work_details', f: f %>
+			</div>
+			<div class="span7">
+	  			<%= render 'form_maker', f: f %>
+			</div>
+		</div>
+		<br />
+		<div class="row-fluid">
+			<% if category == Document::CONSIGNMENT || category == Document::INVOICE %>
+				<%= render 'form_consignment_invoice', document: @document, subjects: @subjects, f: f %>
+			<% elsif category == Document::PRICE || category == Document::PORTFOLIO %>
+				<%= render 'form_works', subjects: @subjects, f: f, document: @document %>
+			<% end %>
+		</div>
+	<% end %>
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="form-actions"><%= f.submit class: "btn" %></div> 
+		</div>
+	</div>
+<% end %>
+

@@ -1,0 +1,19 @@
+<h1><%= document.maker %><br /></h1>
+<% if !document.maker_medium.blank? %>
+	Medium: <%= document.maker_medium %><br /><br />
+<% end %>
+<% if !document.maker_phone.blank? %>
+	<%= document.maker_phone %><br />
+<% end %>
+<% if !document.maker_email.blank? %>
+	<%= document.maker_email %><br />
+<% end %>
+<% if !document.maker_address_street.blank? %>
+	<%= document.maker_address_street %><br />
+<% end %>
+<% if !document.maker_address_city.blank? || !document.maker_address_state.blank? || !document.maker_address_zipcode.blank? %>
+	<%= document.maker_address_city %><%= document.maker_address_state %>, <%= document.maker_address_zipcode %>
+<% end %>
+<% if !document.maker_site.blank? %>
+	<br /><br /><%= document.maker_site %>
+<% end %>

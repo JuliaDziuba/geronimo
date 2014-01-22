@@ -1,0 +1,24 @@
+<table id="Documents">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Category</th>
+      <th>Name</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% documents.each do |document| %>
+      <tr>
+        <td>
+          <!-- <%= link_to icon(:print), document_path(document), class: "icon-print bottom document_print" %> &nbsp; -->
+          <%= link_to icon(:edit), document_path(document), class: "icon-edit bottom" %> &nbsp;
+          <%= link_to icon(:trash), document, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete #{document.name}?" }, title: 'Delete?' %>
+        </td>
+        <td><%= document.category %></td>
+        <td><%= document.name %></td>
+        <td><%= document.date %></td>        
+      </tr>
+    <% end %>
+  </tbody>
+</table>

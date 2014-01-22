@@ -1,0 +1,23 @@
+<% if document.category == "Consignment sheet"
+		subject_label = "Venue"
+	else 
+		subject_label = "Client"
+	end 
+%>
+<div class="span4">
+  <legend><%= subject_label.capitalize %> and activities start dates range</legend>
+  <div class="control-group">
+    <%= f.label :subject, subject_label, :class => "control-label" %>
+    <div class="controls">
+    	<%= f.collection_select :subject, subjects, :id, :name, :prompt => true %>
+  		</div>
+  </div>
+  <div class="control-group">
+  	<%= f.label :date_start, "From", :class => "control-label" %>
+  	<div class="controls"><%= f.text_field :date_start, :class => "datepicker" %></div>
+  </div>
+  <div class="control-group">
+  	<%= f.label :date_end, "To", :class => "control-label" %>
+  	<div class="controls"><%= f.text_field :date_end, :class => "datepicker" %></div>
+  </div>
+</div>

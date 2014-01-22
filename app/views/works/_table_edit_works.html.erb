@@ -17,12 +17,13 @@
         <div class="cell s3">Title</div><!-- /cell -->
         <div class="cell s2">Inventory ID</div><!-- /cell -->
         <div class="cell s2">Creation Date</div><!-- /cell -->
-        <div class="cell s5">Description</div><!-- /cell -->
+        <div class="cell s2">Materials</div><!-- /cell -->
+        <div class="cell s3">Description</div><!-- /cell -->
         <div class="cell s1">First Dim</div><!-- /cell -->
         <div class="cell s1">Second Dim</div><!-- /cell -->
         <div class="cell s2">Dim Units</div><!-- /cell -->
         <div class="cell s1">Time (hrs)</div><!-- /cell -->
-        <div class="cell s1">Materials ($)</div><!-- /cell -->
+        <div class="cell s1">Materials Costs</div><!-- /cell -->
         <div class="cell s1">Income</div><!-- /cell -->
         <div class="cell s1">Retail</div><!-- /cell -->
         <div class="cell s1">Public</div><!-- /cell -->
@@ -40,7 +41,8 @@
   	        <div class="cell s3"><%= f.text_field :title %></div><!-- /cell -->
   	        <div class="cell s2"><%= f.text_field :inventory_id %></div><!-- /cell -->
   	        <div class="cell s2"><%= f.text_field :creation_date, :class => "datepicker" %></div><!-- /cell -->
-  	        <div class="cell s5"><%= f.text_field :description %></div><!-- /cell -->
+  	        <div class="cell s2"><%= f.text_field :materials %></div><!-- /cell -->
+            <div class="cell s3"><%= f.text_field :description %></div><!-- /cell -->
   	        <div class="cell s1"><%= f.text_field :dimention1 %></div><!-- /cell -->
   	        <div class="cell s1"><%= f.text_field :dimention2 %></div><!-- /cell -->
   	        <div class="cell s2"><%= f.text_field :dimention_units %></div><!-- /cell -->

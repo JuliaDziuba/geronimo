@@ -18,7 +18,7 @@
 #  domain             :string(255)
 #  tag_line           :string(255)
 #  blog               :string(255)
-#  about              :string(255)
+#  about              :string(2000)
 #  email              :string(255)
 #  phone              :string(255)
 #  address_street     :string(255)

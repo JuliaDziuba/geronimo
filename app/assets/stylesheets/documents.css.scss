@@ -1,0 +1,58 @@
+// Place all the styles related to the Documents controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+$grayBlue: #C8C8D7;
+$brandColor: darken($grayBlue, 40%);
+
+.portfolio-image { 
+	
+	padding-top:1in;
+	max-height: 5in;
+}
+
+#document {
+	border:2px solid $grayBlue;
+	margin-top: 15px;
+	padding:20px;
+	background: white;
+
+	th, td {
+		border: 1px solid gray;
+	}
+}
+
+@media print {
+
+	/* Remove non-document items */
+	title, header,footer,#sidebar, #crumbs, .content-title, #document-buttons {display:none;}
+
+	.page-break	{ 
+		display: block; 
+		page-break-before: always; }
+
+	table.print-friendly tr td, table.print-friendly tr th {
+        page-break-inside: avoid;
+    }	
+
+	#content-container, .content, .content-body, #document-content, .Portfolio {float:none;}
+
+	#content-container {	
+		background:white;
+		min-height: 600px;
+		display:block;
+		padding-top:0px;
+		padding-bottom:0px;
+		padding-left:0px;
+		padding-right:20px;
+		margin-left:-20px;
+
+	}
+
+	#document {
+		border:0px;
+		margin:0px;
+		padding:0px;
+	}
+
+}	

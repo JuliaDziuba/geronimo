@@ -1,0 +1,66 @@
+<table id="PriceList" class="print-friendly">
+  <thead>
+    <tr>
+      <% if document.include_image %>
+        <th>Image</th>
+      <% end %>
+      <% if document.include_inventory_id %>
+        <th>Item ID</th>
+      <% end %>
+      <% if document.include_title %>
+        <th>Title</th>
+      <% end %>
+      <% if document.include_creation_date %>
+        <th>Creation Date</th>
+      <% end %>
+      <% if document.include_quantity %>
+        <th>Quantity</th>
+      <% end %>
+      <% if document.include_materials %>
+        <th>Materials</th>
+      <% end %>
+      <% if document.include_description %>
+        <th>Description</th>
+      <% end %>
+      <% if document.include_income %>
+        <th>Wholesale $</th>
+      <% end %>
+      <% if document.include_retail %>
+        <th>Retail $</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% subjects.each do |work| %>
+      <tr>
+        <% if document.include_image %>
+          <td><%= image_tag(work.image1.url(:thumb)) %></td>
+        <% end %>
+        <% if document.include_inventory_id %>
+          <td><%= work.inventory_id %></td>
+        <% end %>
+        <% if document.include_title %>
+          <td><%= work.title %></td>
+        <% end %>
+        <% if document.include_creation_date %>
+          <td><%= work.creation_date %></td>
+        <% end %>
+        <% if document.include_quantity %>
+          <td><%= work.quantity %></td>
+        <% end %>
+        <% if document.include_materials %>
+          <td><%= work.materials %></td>
+        <% end %>
+        <% if document.include_description %>
+          <td><%= work.description %></td>
+        <% end %>
+        <% if document.include_income %>
+          <td><%= work.income %></td>
+        <% end %>
+        <% if document.include_retail %>
+          <td><%= work.retail %></td>
+        <% end %>
+      </tr>
+    <% end %>  
+  </tbody>
+</table>

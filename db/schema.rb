@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130621205648) do
+ActiveRecord::Schema.define(:version => 20140815165255) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -23,8 +23,9 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.date     "date_end"
     t.decimal  "income"
     t.decimal  "retail"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.integer  "quantity",            :default => 1
   end
 
   add_index "activities", ["activitycategory_id"], :name => "index_activities_on_activitycategory_id"
@@ -56,6 +57,43 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  add_index "clients", ["munged_name"], :name => "index_clients_on_munged_name"
+
+  create_table "documents", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "munged_name"
+    t.string   "category"
+    t.date     "date"
+    t.date     "date_start"
+    t.date     "date_end"
+    t.text     "subject"
+    t.string   "maker"
+    t.string   "maker_medium"
+    t.string   "maker_phone"
+    t.string   "maker_email"
+    t.string   "maker_site"
+    t.string   "maker_address_street"
+    t.string   "maker_address_city"
+    t.string   "maker_address_state"
+    t.string   "maker_address_zipcode"
+    t.boolean  "include_image",         :default => false
+    t.boolean  "include_title",         :default => false
+    t.boolean  "include_inventory_id",  :default => false
+    t.boolean  "include_creation_date", :default => false
+    t.boolean  "include_dimensions",    :default => false
+    t.boolean  "include_materials",     :default => false
+    t.boolean  "include_description",   :default => false
+    t.boolean  "include_income",        :default => false
+    t.boolean  "include_retail",        :default => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+    t.boolean  "include_quantity",      :default => false
+  end
+
+  add_index "documents", ["munged_name"], :name => "index_documents_on_munged_name"
+  add_index "documents", ["user_id"], :name => "index_documents_on_user_id"
 
   create_table "questions", :force => true do |t|
     t.integer  "user_id"
@@ -132,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.datetime "updated_at",                          :null => false
   end
 
+  add_index "venues", ["munged_name"], :name => "index_venues_on_munged_name"
   add_index "venues", ["user_id"], :name => "index_venues_on_user_id"
   add_index "venues", ["venuecategory_id"], :name => "index_venues_on_venuecategory_id"
 
@@ -167,6 +206,8 @@ ActiveRecord::Schema.define(:version => 20130621205648) do
     t.string   "image1_content_type"
     t.integer  "image1_file_size"
     t.datetime "image1_updated_at"
+    t.string   "materials"
+    t.integer  "quantity",            :default => 1
   end
 
   add_index "works", ["inventory_id"], :name => "index_works_on_inventory_id"

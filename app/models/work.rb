@@ -24,11 +24,13 @@
 #  image1_content_type :string(255)
 #  image1_file_size    :integer
 #  image1_updated_at   :datetime
+#  materials           :string(255)
+#  quantity            :integer          default(1)
 #
 
 
 class Work < ActiveRecord::Base
-  attr_accessible :creation_date, :description, :dimention1, :dimention2, :dimention_units, :expense_hours, :expense_materials, :image1, :retail, :income, :inventory_id, :share_makers, :share_public, :title, :workcategory_id
+  attr_accessible :creation_date, :description, :dimention1, :dimention2, :dimention_units, :expense_hours, :expense_materials, :image1, :retail, :income, :inventory_id, :materials, :share_makers, :share_public, :title, :workcategory_id
 	has_attached_file :image1, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "MissingImage.jpg"
 
 	belongs_to :user

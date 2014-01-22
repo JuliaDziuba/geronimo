@@ -7,11 +7,11 @@
 #  venuecategory_id :integer
 #  name             :string(255)
 #  munged_name      :string(255)
-#  phone            :integer
+#  phone            :string(255)
 #  address_street   :string(255)
 #  address_city     :string(255)
 #  address_state    :string(255)
-#  address_zipcode  :integer
+#  address_zipcode  :string(255)
 #  email            :string(255)
 #  site             :string(255)
 #  share_makers     :boolean          default(FALSE)

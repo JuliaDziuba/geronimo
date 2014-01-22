@@ -1,0 +1,60 @@
+<% 
+  historical = false #document.date_end <= Date.today
+  summary = {}
+  counts = ["all", "paid"]
+  count_descriptions = ["Total works", "Works paid for"]
+  counts.each{|c| summary[c] = [0,0,0] }
+%>
+
+<% subjects.each do |activity| %> 
+  <% counts.each do |c| %>
+    <% if c == "all" || (c == "paid" && !activity.date_end.blank?) %>
+      <% summary[c][0] += activity.quantity %>
+      <% summary[c][1] += activity.quantity * (activity.income || 0) %>
+      <% summary[c][2] += activity.quantity * (activity.retail || 0) %>
+    <% end %>
+  <% end %>
+<% end %> 
+
+<br /><br />
+<%= render 'table_invoice', document: @document, subjects: @subjects %> 
+<br /><br />
+
+<table id="InvoiceSummary" class="f-right print-friendly">
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th>Count</th>
+      <% if document.include_income %>
+        <th>Payable to Artist</th>
+      <% end %>
+      <% if document.include_retail %>
+        <th>Value</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% counts.each_with_index do |c,i| %>
+      <tr>
+        <td><%= count_descriptions[i] %></td>
+        <td><%= summary[c][0] %></td>
+        <% if document.include_income %>
+          <td><%= summary[c][1] %></td>
+        <% end %>
+        <% if document.include_retail %>
+          <td><%= summary[c][2] %></td>
+        <% end %>
+      </tr>
+    <% end %>
+      <tr>
+        <td>Works remaining</td>
+        <td><%= summary["all"][0] - summary["paid"][0] %></td>
+        <% if document.include_income %>
+          <td><%= summary["all"][1] - summary["paid"][1] %></td>
+        <% end %>
+        <% if document.include_retail %>
+          <td><%= summary["all"][2] - summary["paid"][2] %></td>
+        <% end %>
+      </tr>
+  </tbody>  
+</table> 
