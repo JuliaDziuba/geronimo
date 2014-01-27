@@ -4,8 +4,7 @@
 
 <%= render 'form_client', client: @client %>
 
-<h2>New Activity</h2>
-<%= render 'activities/form_activity', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>
+<h2><%= link_to "New Activity", "../works/activities/new?client=#{@client.munged_name}" %></h2>
 
 <h2>Collected Works</h2>
 <% if @activities.any? %>

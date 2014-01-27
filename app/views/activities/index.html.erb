@@ -2,11 +2,8 @@
 <% provide(:title, 'Activities') %>
 
 <% if @activities.any? %>
-	<% provide(:new_form, "new_activity") %>
-  <div id="new_activity" class="not-displayed">
-	<%= render 'form_activity', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>
-</div>
-<%= render 'table_activities', activities: @activities, date_end_include: true, client_include: true %>
+	<% provide(:new_link, "activities/new") %>
+	<%= render 'table_activities', activities: @activities, date_end_include: true, client_include: true %>
 <% else %>
 	<%= render 'get_started_activities', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>
 <% end %>

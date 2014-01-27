@@ -1,7 +1,25 @@
 class ActivitiesController < ApplicationController
   
   before_filter :signed_in_user
-  before_filter :correct_user, except: [:create, :index]
+  before_filter :correct_user, except: [:new, :create, :index]
+
+  def new 
+    @activity = Activity.new
+    @activitycategories = Activitycategory.all
+    @work  = current_user.works.find_by_inventory_id(params[:work]) if params.has_key?(:work)
+    if params.has_key?(:venue)
+      @activitycategories = Activitycategory.for_venues.all
+      @venue = current_user.venues.find_by_munged_name(params[:venue]) 
+    end
+    if params.has_key?(:client)
+      @activitycategories = Activitycategory.for_clients.all
+      @client = current_user.clients.find_by_munged_name(params[:client])
+    end
+    @venues = current_user.venues.all
+    @clients = current_user.clients.all
+    @works = current_user.works.all
+    
+  end
 
   def create
     @activity = current_user.activities.build(params[:activity])
@@ -10,12 +28,11 @@ class ActivitiesController < ApplicationController
       flash[:success] = "Your new activity was recorded!"
       redirect_to activities_path
     else
-      @activities = current_user.activities.all
       @activitycategories = Activitycategory.all
       @works = current_user.works.all
       @venues = current_user.venues.all
       @clients = current_user.clients.all
-      render 'index'
+      render 'new'
     end
   end
 

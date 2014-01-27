@@ -32,12 +32,6 @@ class WorksController < ApplicationController
       @workcategories = current_user.workcategories_showing_families
       @activities = @work.activities.all
 
-      @activity = @activity = Activity.new
-      @activitycategories = Activitycategory.all
-      @venues = current_user.venues.all
-      @clients = current_user.clients
-      @works  = []
-      @works.push(@work)
       render 'show'
     end
   end
@@ -66,12 +60,6 @@ class WorksController < ApplicationController
     @workcategories = current_user.workcategories_showing_families
     @activities = @work.activities.all
 
-    @activity = current_user.activities.build(:work_id => @work.id)
-    @activitycategories = Activitycategory.all
-    @venues = current_user.venues.all
-    @clients = current_user.clients
-    @works  = []
-    @works.push(@work)
   end
 
   def index

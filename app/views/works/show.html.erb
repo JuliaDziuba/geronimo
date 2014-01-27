@@ -9,13 +9,10 @@
 	<h2>
 		<% if @activities.any? %>Its Journey &nbsp; <% end %>
 		<% if status == 'Available' %>
-			<a id="new_activity_display" class="display_toggle" href="#new_activity">New Activity</a>
+			<%= link_to "New Activity", "activities/new?work=#{@work.inventory_id}" %>
 		<% end %>
 	</h2>
 <% end %>
-<div id="new_activity" class="not-displayed">
-	<%= render 'activities/form_activity', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>
-</div>
 <% if @activities.any? %>
 	<%= render 'activities/table_activities', activities: @activities, date_end_include: true, client_include: true %>
 <% end %>

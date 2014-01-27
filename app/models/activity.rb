@@ -87,7 +87,7 @@ class Activity < ActiveRecord::Base
   private
 
     def set_date_end
-      self.date_end = self.date_start if !self.activitycategory.nil? && self.activitycategory.final 
+      self.date_end = self.date_start if !self.activitycategory.nil? && self.activitycategory.final && self.activitycategory.name != 'Sale'
     end
 
     def set_venue

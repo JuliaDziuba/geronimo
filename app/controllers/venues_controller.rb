@@ -26,12 +26,6 @@ class VenuesController < ApplicationController
     else
       flash[:error] = "There was a problem with the changes made to the venue. Please click edit to view error and correct."
       @venuecategories = Venuecategory.all
-      @activitycategories = Activitycategory.for_venues.all
-      @activity = current_user.activities.build(:venue_id => @venue.id)
-      @works = current_user.works.all
-      @clients = current_user.clients.all
-      @venues = []
-      @venues.push(@venue)
       render 'show'
     end
   end
@@ -39,12 +33,6 @@ class VenuesController < ApplicationController
   def show
     @venue = current_user.venues.find_by_munged_name(params[:id])
     @venuecategories = Venuecategory.all
-    @activitycategories = Activitycategory.for_venues.all
-    @activity = current_user.activities.build(:venue_id => @venue.id)
-    @works = current_user.works.all
-    @clients = current_user.clients.all
-    @venues = []
-    @venues.push(@venue)
   end
 
   def index

@@ -23,8 +23,9 @@ $ ->
 
 $ ->
   $(".popover-input").popover({ 
-    trigger: "hover" 
-  })   
+    trigger: "hover"     
+  }
+  console.log("Popover js has run"))   
 
 $ ->
   $(".display_toggle").click ->
@@ -45,24 +46,10 @@ $ ->
 
 # Pages that lead to js
 $ ->
-  if (window.location.pathname.match(/activities\//))
-    format_activity_form()
+  if (window.location.pathname.match(/activities\/new/))
+    hide_activity_form()
   else if (window.location.pathname.match(/activities/))
-    console.log("In else if block for activities.")
-    hide_activity_form()
-  else if (window.location.pathname.match(/works\//))
-    hide_activity_form()
-  else if (window.location.pathname.match(/works/))
-    console.log("In else if block for works.")
-    toggle_sidebar()
-
-$ ->
-  if (window.location.pathname.match(/venues\//))
-    hide_activity_form()
-
-$ ->
-  if (window.location.pathname.match(/clients\//))
-    hide_activity_form() 
+    format_activity_form()
 
 $ ->    
   $('#activity_activitycategory_id').change ->
@@ -82,50 +69,52 @@ hide_activity_form = () ->
   console.log("Running hide form. " + window.location.pathname)
   $('#venue').hide()
   $('#client').hide()
-  $('#date').hide()
+  $('#start_date').hide()
   $('#end_date').hide()
   $('#work').hide()
-  $('#client').removeClass('span4')
 
 format_activity_form = () ->
   console.log("Formatting form for new selection")
   category = $('#activity_activitycategory_id :selected').text()
   $('#venue').hide()
   $('#client').hide()
-  $('#date').hide()
+  $('#start_date').hide()
   $('#end_date').hide()
   $('#work').hide()
-  $('#date').addClass('span3')
-  $('#date').removeClass('span4')
-  $('#date').removeClass('first-child')
-  $('#client').removeClass('span4')
-  $('#client').removeClass('span3')
+  $('#start_date').removeClass('first-child')
   $('#client').removeClass('first-child')
-  $('#date').removeClass('first-child')
+  $('#start_date').removeClass('first-child')
   if category == "Commission" || category == "Consignment"
-    $('#date').show()
+    $('#start_date_label').show()
+    $('#date_label').hide()
+    $('#start_date').show()
+    $('#end_date_label').show()
+    $('#payment_date_label').hide()
     $('#end_date').show()
     $('#work').show()
     if category == "Commission"
       $('#client').show()
-      $('#client').addClass('first-child span4')
+      $('#client').addClass('first-child')
     else
       $('#venue').show()
   else if category != "Please select"
-    $('#date').show()
+    $('#start_date_label').hide()
+    $('#date_label').show()
+    $('#start_date').show()
     $('#work').show()
     if category == "Sale"
       $('#venue').show()
       $('#client').show()
-      $('#client').addClass('span3')
+      $('#end_date_label').hide()
+      $('#payment_date_label').show()
+      $('#end_date').show()
     else if category == "Donate"
       $('#venue').show()
     else if category == "Gift"
       $('#client').show()
-      $('#client').addClass('first-child span4')
-    else if category == "Recycle"
-      $('#date').removeClass('span3')    
-      $('#date').addClass('first-child span4')  
+      $('#client').addClass('first-child')
+    else if category == "Recycle"  
+      $('#start_date').addClass('first-child')  
 
 toggle_print = () ->
   if $('#content').attr("class").toString().match("span10") != null

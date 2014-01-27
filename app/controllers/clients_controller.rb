@@ -24,26 +24,13 @@ class ClientsController < ApplicationController
     else
       flash[:error] = "There was a problem with the changes made to the client. Please click edit to view error and correct."
       @activities = @client.activities.all
-      @activity = current_user.activities.build(:client_id => @client.id)
-      @activitycategories = Activitycategory.for_clients.all
-      @works  = current_user.works.all
-      @venues = current_user.venues.all
-      @clients = []
-      @clients.push(@client)
       render 'show'
     end
   end
 
   def show
   	@client = current_user.clients.find_by_munged_name(params[:id])
-    @activities = @client.activities.all
-    @activity = current_user.activities.build(:client_id => @client.id)
-    @activitycategories = Activitycategory.for_clients.all
-    @works  = current_user.works.all
-    @venues = current_user.venues.all
-    @clients = []
-    @clients.push(@client)
-    
+    @activities = @client.activities.all    
   end
 
   def index
