@@ -67,6 +67,16 @@ $navbarBorder:                    darken($navbarBackground, 12%) !default;
   color: $brandColor;
 }
 
+.form-horizontal .field_with_errors
+{
+  margin: 0;
+}
+
+.form-horizontal .field_with_errors:before, .form-horizontal .field_with_errors::after 
+{
+  display: block;
+  clear: none;
+}
 
 /* thead { display:block; margin:0px; cell-spacing:0px; left:0px; } */
 /* tbody { display:block; overflow:auto; height:300px; width:100%} */
