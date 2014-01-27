@@ -73,8 +73,9 @@ class User < ActiveRecord::Base
   end
 
   def name
-    read_attribute(:name) || read_attribute(:username)
-
+    brandname = read_attribute(:name)
+    brandname = read_attribute(:username) if brandname.blank?
+    brandname
   end
 
   def work_current_activities
