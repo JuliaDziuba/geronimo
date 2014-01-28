@@ -1,11 +1,7 @@
 <% provide(:title, 'Venues') %>
 
-<% if @venues.count > 1 %>
-	<% provide(:new_form, "new_venue") %>
-
-	<div id="new_venue" class="not-displayed">
-		<%= render 'form_venue', venue: @venue, venuecategories: @venuecategories %>
-	</div>
+<% if @venues.any? %>
+	<% provide(:new_link, "venues/new") %>
   <%= render 'table_venues', venues: @venues %>
 <% else %>
 	<%= render 'get_started_venues', venue: @venue, venuecategories: @venuecategories %>

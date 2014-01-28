@@ -1,11 +1,7 @@
 <% provide(:title, 'Clients') %>
 
 <% if @clients.any? %>
-	<% provide(:new_form, "new_client") %>
-
-	<div id="new_client" class="not-displayed">
-	  <%= render 'form_client', client: @client %>
-	</div>
+	<% provide(:new_link, "clients/new") %>
   <%= render 'table_clients', clients: @clients %>
 <% else %>
 	<%= render 'get_started_clients', client: @client %>

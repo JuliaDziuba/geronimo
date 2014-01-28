@@ -26,7 +26,8 @@ describe Activity do
   let(:v)    { FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id) }
   let(:c)    { FactoryGirl.create(:client, user: user) }
   let(:ac)   { FactoryGirl.create(:activitycategory, name: "Consignment", status: "Consigned", final: false) }
-  let(:ac_final)   { FactoryGirl.create(:activitycategory, name: "Sale", status: "Sold", final: true) }
+  let(:ac_finalSale)   { FactoryGirl.create(:activitycategory, name: "Sale", status: "Sold", final: true) }
+  let(:ac_finalDonation)   { FactoryGirl.create(:activitycategory, name: "Donate", status: "Donated", final: true) }
   before do
     user.venues.create(name: "My Studio")
     @activity = user.activities.create(activitycategory_id: ac.id, work_id: w.id, venue_id: v.id, date_start: '2013-01-01')
@@ -73,8 +74,13 @@ describe Activity do
     its(:date_end) { should == nil }
   end 
 
-  describe "when the activity category is final then date_end should be set to date_start" do
-    before { subject.update_attributes(:activitycategory_id => ac_final.id) }
+  describe "when the activity category is final and a sale then date_end should not be set to date_start" do
+    before { subject.update_attributes(:activitycategory_id => ac_finalSale.id) }
+    its(:date_end) { should == nil }
+  end
+
+  describe "when the activity category is final and not a sale then date_end should be set to date_start" do
+    before { subject.update_attributes(:activitycategory_id => ac_finalDonation.id) }
     its(:date_end) { should == @activity.date_start }
   end
 

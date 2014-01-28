@@ -1,0 +1,4 @@
+<% provide(:crumbs, "Venues," + venues_path) %>
+<% provide(:title, 'New') %>
+
+<%= render 'form_venue', venue: @venue, venuecategories: @venuecategories %>

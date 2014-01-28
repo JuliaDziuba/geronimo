@@ -11,42 +11,15 @@ describe "Venue pages" do
 	let!(:ac_commission) { FactoryGirl.create(:activitycategory, name: 'Commission', status: 'Being created', final: false) } 
 	let!(:ac_sale) { FactoryGirl.create(:activitycategory, name: 'Sale', status: 'Sold') }
 		
-		
-	
 	before { sign_in user }
 
 	describe "index page" do
-
-		let(:create) { "Create Venue" }
-
+		
     describe "when there are no venues" do
       before { visit venues_path }
       
       it { should have_selector('h1', text: "Venues") }
       it { should have_selector('p', text: "Include") }
-      it { should have_content("Include") }
-      it { should have_button(create) }
-
-	    describe "with invalid information" do
-	      it "should not create a venue" do
-	        expect { click_button create }.not_to change(Venue, :count)
-	      end
-	    end
-
-	    describe "with valid information" do
-	      before do
-	      	select_option("venue_venuecategory_id",2)
-	      	fill_in "Name",  with: "TestVenue"
-	      end
-
-	      it "should create a venue" do
-	        expect { click_button create }.to change(Venue, :count).by(1)
-	      end
-
-	      describe "#The response should result in the table of venues being shown" do
-	      	pending
-	      end
-	    end
     end
 
     describe "when there are venues" do
@@ -55,36 +28,8 @@ describe "Venue pages" do
 			before { visit venues_path }
       
       it { should have_selector('h1', text: "Venues") }
-      
-      describe "each venue should be shown in table" do
-      	pending
-      end
-
-      describe "and trying to create a new venue" do
-      	before do
-      		visit venues_path
-      		click_link "new"
-      	end
-
-				describe "with invalid information" do
-		      it "should not create a venue" do
-		        expect { click_button create }.not_to change(Venue, :count)
-		      end
-		    end
-
-		    describe "with valid information" do
-		      before do
-		      	select_option("venue_venuecategory_id",2)
-	      		fill_in "Name",  with: "TestVenue"
-		      end
-
-		      it "should create a venue" do
-		        expect { click_button create }.to change(Venue, :count).by(1)
-		      end
-		    end
-		  end
+      it { should have_selector('table tbody tr', :count => 2) }
     end
-
   end
 
   describe  "show page" do
@@ -95,14 +40,27 @@ describe "Venue pages" do
     it { should have_selector('a', text:  "Venues") }
 		it { should have_selector('h1', text: v.name) }
 		it { should have_button('Update Venue') }
-		it { should have_button('Create Activity') }
+		it { should have_selector('a', text: 'New Activity') }
 
 		describe "when a venue is updated" do
+			let(:update) { "Update Venue" }
 
 			describe "with a name that is too long" do
-				pending
-				describe "when the name is corrected it should result in an updated vending" do
-					pending 
+				before do 
+					fill_in "Name",  with: "This name is too too too too too too too too too too too long."
+					click_button update
+       	end
+
+       	it { should have_content("Name is too long")}
+				
+				describe "when the name is corrected" do
+					before do 
+						fill_in "Name",  with: "A Nice Short Name"
+						click_button update
+       		end 
+
+       		it { should have_content("The venue has been updated!") }
+       		it { should have_selector("h1", text: "A Nice Short Name")}
 				end
 			end
 
@@ -140,7 +98,51 @@ describe "Venue pages" do
 	  	it { should_not have_content("There are no sales to this venue yet.") }
 
 	  end
-
 	end
 
+	describe "new page" do
+		before { visit new_venue_path }
+
+		it { should have_selector('a', text: "Venues") }
+		it { should have_selector('h1', text: "New") }
+
+		let(:create) { "Create Venue" }
+
+		describe "with invalid information" do 
+      it "should not create a new venue" do
+        expect { click_button create }.not_to change(Venue, :count) 
+      end
+
+      describe "input the resulting page" do
+      	before { click_button create }
+
+          it { should have_selector('a', text: "Venues") }
+          it { should have_selector('h1', text: "New") }
+          it { should have_selector('label', text: "Name *") }
+          it { should have_content ("error") }
+    	end
+    end
+
+		describe "when a venue is created" do
+			before do 
+				select_option("venue_venuecategory_id",2)
+	      fill_in "Name",  with: "Awesome Venue"
+      end
+        
+      it "should create a new venue" do
+        expect { click_button create }.to change(Venue, :count).by(1)
+      end
+
+      describe "it should bring users to the venues index" do
+        before do
+        	click_button create
+        end
+
+        it { should have_selector('h1', text: "Venues") }
+        it { should_not have_selector('label', text: "Category *") }
+        it { should have_content('Your new venue has been added!') }
+				it { should have_selector('table tbody tr', :count => 1) }
+      end
+		end
+	end
 end

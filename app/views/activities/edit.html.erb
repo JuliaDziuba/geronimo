@@ -1,4 +1,0 @@
-<% provide(:crumbs, "Works," + works_path + "|" + 'Activities,' + activities_path + '|' + @activity.activitycategory.name + ', # |' + @activity.work.title + ',' + work_path(@activity.work)) %>
-<% provide(:title, 'Update') %>
-
-<%= render 'form_activity', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>

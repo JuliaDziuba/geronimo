@@ -1,22 +1,24 @@
 class VenuesController < ApplicationController
   before_filter :signed_in_user
-  before_filter :correct_user, except: [:create, :index]
+  before_filter :correct_user, except: [:new, :create, :index]
   
+  def  new
+    @venue = Venue.new
+    @venuecategories = Venuecategory.all
+  end
+
   def create
     @venue = current_user.venues.build(params[:venue])
     if @venue.save
       flash[:success] = "Your new venue has been added!"
       redirect_to venues_path
     else
-      flash[:error] = "There was an error with the new venue. Please click 'new' to see the issue."
-      @venues = current_user.venues.all
       @venuecategories = Venuecategory.all
-      render 'index'
+      render 'new'
     end
   end
 
   def update
-
     @venue = current_user.venues.find_by_munged_name(params[:id]) 
     @venue.assign_attributes(params[:venue])
     if @venue.valid?
@@ -24,7 +26,6 @@ class VenuesController < ApplicationController
       flash[:success] = "The venue has been updated!"
       redirect_to venue_path(@venue)
     else
-      flash[:error] = "There was a problem with the changes made to the venue. Please click edit to view error and correct."
       @venuecategories = Venuecategory.all
       render 'show'
     end
@@ -36,7 +37,7 @@ class VenuesController < ApplicationController
   end
 
   def index
-    @venue = current_user.venues.build
+    @venue = Venue.new
     @venues = current_user.venues.all
     @venuecategories = Venuecategory.all
   end

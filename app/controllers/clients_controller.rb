@@ -1,16 +1,18 @@
 class ClientsController < ApplicationController
   before_filter :signed_in_user
-  before_filter :correct_user, except: [:create, :index]
+  before_filter :correct_user, except: [:new, :create, :index]
   
+  def new
+    @client = Client.new
+  end
+
   def create
   	@client = current_user.clients.build(params[:client])
     if @client.save
       flash[:success] = "Your new client has been created!"
       redirect_to clients_path
     else
-      flash[:error] = "There was an error with the new venue. Please click 'new' to see the issue."
-      @clients = current_user.clients.all_known
-      render 'index'
+      render 'new'
     end
   end
 
@@ -22,7 +24,6 @@ class ClientsController < ApplicationController
       flash[:success] = "The client has been updated!"
       redirect_to client_path(@client)
     else
-      flash[:error] = "There was a problem with the changes made to the client. Please click edit to view error and correct."
       @activities = @client.activities.all
       render 'show'
     end
@@ -34,8 +35,8 @@ class ClientsController < ApplicationController
   end
 
   def index
+    @client = Client.new
   	@clients = current_user.clients.all_known
-    @client = current_user.clients.build
   end
 
   def destroy
