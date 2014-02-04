@@ -38,8 +38,12 @@ class VenuesController < ApplicationController
 
   def index
     @venue = Venue.new
-    @venues = current_user.venues.all
     @venuecategories = Venuecategory.all
+    @venues = current_user.venues.all(:joins => :venuecategory)
+    respond_to do |format|
+      format.html
+      format.csv { send_data Venue.to_csv(@venues) }
+    end
   end
 
   def destroy

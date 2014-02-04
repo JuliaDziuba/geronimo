@@ -75,6 +75,10 @@ class ActivitiesController < ApplicationController
     @works = current_user.works.all
     @venues = current_user.venues.all
     @clients = current_user.clients
+    respond_to do |format|
+      format.html
+      format.csv { send_data Activity.to_csv(@activities) }
+    end
   end
 
 	def destroy

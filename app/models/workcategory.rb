@@ -34,4 +34,18 @@ class Workcategory < ActiveRecord::Base
 		self.user.workcategories.where('workcategories.parent_id = ?', self.id)
 	end
 
+  def parent_name
+    parent = self.user.workcategories.where('id = ?', self.parent_id).first
+    if parent.nil? then "" else parent.name end
+  end
+
+	def self.to_csv(records)
+    CSV.generate do |csv|
+      csv << ["name", "artist_statement", "parent"]
+      records.each do |r|
+        csv << [r.name, r.artist_statement, r.parent_name]
+      end
+    end
+  end
+  
 end

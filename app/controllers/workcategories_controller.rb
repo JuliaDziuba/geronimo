@@ -6,6 +6,10 @@ class WorkcategoriesController < ApplicationController
   def index
     @parentcategories = current_user.workcategories.parents_only.all(:include => :works)
     @workcategory = Workcategory.new
+    respond_to do |format|
+      format.html
+      format.csv { send_data Workcategory.to_csv(current_user.workcategories.all) }
+    end
   end
 
   def create

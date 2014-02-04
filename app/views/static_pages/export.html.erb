@@ -1,0 +1,13 @@
+<% provide(:title, 'Export data') %>
+
+<div class="row-fluid">
+	<div class="span9">
+		Copies of your data can be exported and downloaded from Makers' Moon. This allows you to store local backups, view your data in local programs such as excel, or share this data with others. Click on the data you would like to download. 
+		<br /><br />
+	  	<%= link_to "Work Categories", workcategories_path(format: "csv") %> | 
+	  	<%= link_to "Works", works_path(format: "csv") %> | 
+	  	<%= link_to "Venues", venues_path(format: "csv") %> |
+	  	<%= link_to "Clients", clients_path(format: "csv") %> |
+	  	<%= link_to "Activities", activities_path(format: "csv") %>
+	  </div>
+</div>

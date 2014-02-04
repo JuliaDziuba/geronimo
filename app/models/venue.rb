@@ -92,5 +92,13 @@ class Venue < ActiveRecord::Base
     errors.add(:name, "is too similar to an existing name and will not result in a unique URL") unless (munged_name_unique)
   end
   
+  def self.to_csv(records)
+    CSV.generate do |csv|
+      csv << ["name", "category", "phone", "email", "site", "address_street", "address_city", "address_state", "address_zipcode"]
+      records.each do |r|
+        csv << [r.name, r.venuecategory.name, r.phone, r.email, r.site, r.address_street, r.address_city, r.address_state, r.address_zipcode]
+      end
+    end
+  end
 
 end

@@ -37,6 +37,10 @@ class ClientsController < ApplicationController
   def index
     @client = Client.new
   	@clients = current_user.clients.all_known
+    respond_to do |format|
+      format.html
+      format.csv { send_data Client.to_csv(@clients) }
+    end    
   end
 
   def destroy

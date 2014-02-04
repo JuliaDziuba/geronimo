@@ -47,4 +47,14 @@ class Client < ActiveRecord::Base
     munged_name_unique = self.user.clients.excluding_current(self.id).find_by_munged_name(name.parameterize).nil?
     errors.add(:name, "is too similar to an existing name and will not result in a unique URL") unless (munged_name_unique)
   end
+
+  def self.to_csv(records)
+    CSV.generate do |csv|
+      csv << ["name", "phone", "email", "address_street", "address_city", "address_state", "address_zipcode"]
+      records.each do |r|
+        csv << [r.name, r.phone, r.email, r.address_street, r.address_city, r.address_state, r.address_zipcode]
+      end
+    end
+  end
+
 end

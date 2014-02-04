@@ -70,6 +70,11 @@ class WorksController < ApplicationController
     @works = works_given_filters(@categoryfilter, @statusfilter)
     @workcategory = Workcategory.new
     @work = Work.new
+    respond_to do |format|
+      format.html
+      format.csv { 
+        send_data Work.to_csv(@works) }
+    end
   end
 
   def destroy
@@ -107,7 +112,7 @@ class WorksController < ApplicationController
           end
         end
       else
-        works = current_user.works.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]])
+        works = current_user.works.all(:include =>  [:workcategory, :activities => [:activitycategory, :user, :venue, :client]])
       end
       works 
     end

@@ -81,8 +81,17 @@ class Work < ActiveRecord::Base
   private
 
   def inventory_id_format
-      all_valid_characters = inventory_id =~ /^[a-zA-Z0-9_]+$/
-      errors.add(:inventory_id, "must contain only letters, digits, or underscores") unless all_valid_characters
+    all_valid_characters = inventory_id =~ /^[a-zA-Z0-9_]+$/
+    errors.add(:inventory_id, "must contain only letters, digits, or underscores") unless all_valid_characters
+  end
+
+  def self.to_csv(records)
+    CSV.generate do |csv|
+      csv << ["inventory_id", "title", "creation_date", "category", "description", "materials", "dimention1", "dimention2", "dimention_units", "expense_hours", "expense_materials", "retail", "income", "share_public", "image1_file_name"]
+      records.each do |r|
+        csv << [r.inventory_id, r.title, r.creation_date, if r.workcategory.nil? then "" else r.workcategory.name end, r.description, r.materials, r.dimention1, r.dimention2, r.dimention_units, r.expense_hours, r.expense_materials, r.income, r.retail, r.share_public, r.image1_file_name]
+      end
     end
+  end
  
 end

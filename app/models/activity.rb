@@ -94,4 +94,13 @@ class Activity < ActiveRecord::Base
       self.venue_id = self.user.venues.all.collect(&:id).min() if self.venue_id.nil?
     end
 
+  def self.to_csv(records)
+    CSV.generate do |csv|
+      csv << ["category", "work", "venue", "client", "date_start", "date_end", "income", "retail"]
+      records.each do |r|
+        csv << [ r.activitycategory.name, r.work.inventory_id, r.venue.name, if r.client.nil? then "unknown" else r.client.name end, r.date_start, r.date_end, r.income, r.retail]
+      end
+    end
+  end
+
 end
