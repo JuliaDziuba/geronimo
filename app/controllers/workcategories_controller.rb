@@ -1,7 +1,12 @@
 class WorkcategoriesController < ApplicationController
   before_filter :signed_in_user
-  before_filter :correct_user, except: [:create, :index]
+  before_filter :correct_user, except: [:new, :create, :index]
   
+
+  def new
+    @parentcategories = current_user.workcategories.parents_only.all(:include => :works)
+    @workcategory = Workcategory.new
+  end
 
   def index
     @parentcategories = current_user.workcategories.parents_only.all(:include => :works)

@@ -6,6 +6,9 @@ class ActivitiesController < ApplicationController
   def new 
     @activity = Activity.new
     @activitycategories = Activitycategory.all
+    if params.has_key?(:category)
+      @category = Activitycategory.find_by_status(params[:category])
+    end
     @work  = current_user.works.find_by_inventory_id(params[:work]) if params.has_key?(:work)
     if params.has_key?(:venue)
       @activitycategories = Activitycategory.for_venues.all

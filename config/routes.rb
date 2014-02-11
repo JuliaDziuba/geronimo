@@ -21,7 +21,7 @@ Makersmoon::Application.routes.draw do
   end
   resources :sessions, only: [:new, :create, :destroy]
   resources :activities, exclude: [:edit], path: "internal/works/activities/"
-  resources :workcategories , exclude: [:new, :show], path: "/internal/works/categories/"
+  resources :workcategories , exclude: [:show], path: "/internal/works/categories/"
   resources :works, exclude: [:edit], path: "/internal/works/" do
     collection do
       put :update_multiple

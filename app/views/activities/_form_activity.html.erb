@@ -5,7 +5,11 @@
         <div class="control-group">
           <%= f.label :activitycategory_id, "Category", :class => "control-label" %>
           <div class="controls">
-                <%= f.collection_select :activitycategory_id, activitycategories, :id, :name, :prompt => true %>
+            <% if @category.nil? %>
+              <%= f.collection_select :activitycategory_id, activitycategories, :id, :name, :prompt => true %>
+            <% else %>
+              <%= f.collection_select :activitycategory_id, activitycategories, :id, :name, :selected => @category.id %>
+            <% end %> 
           </div>
         </div>
       </div>

@@ -47,7 +47,10 @@ $ ->
 # Pages that lead to js
 $ ->
   if (window.location.pathname.match(/activities\/new/))
-    hide_activity_form()
+    if (window.location.search.match(/\?category/))
+      format_activity_form()
+    else
+      hide_activity_form()
   else if (window.location.pathname.match(/activities/))
     format_activity_form()
 
@@ -66,7 +69,7 @@ toggle_sidebar = () ->
   $('#sidebar-content').toggleClass('show not-displayed')
 
 hide_activity_form = () ->
-  console.log("Running hide form. " + window.location.pathname)
+  console.log("Running hide form. " + window.location.pathname + window.location.search)
   $('#venue').hide()
   $('#client').hide()
   $('#start_date').hide()

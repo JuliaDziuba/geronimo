@@ -2,11 +2,8 @@
 <% provide(:title, 'Categories') %>
 
 <% if @parentcategories.any? %>
-  <% provide(:new_form, "new_workcategory") %>
+  <% provide(:new_link, "categories/new") %>
 
-  <div id="new_workcategory" class="not-displayed">
-    <%= render 'form_workcategory', category: @workcategory, categories: @parentcategories %>
-  </div>
   <ul class="list">
     <% @parentcategories.each do |parent| %>
       <li class="spaced">

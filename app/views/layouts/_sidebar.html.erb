@@ -1,5 +1,5 @@
 <div id="sidebar-content" class="show">
-  MY BUSINESS<br /><br />
+  <%= link_to "DASHBOARD", user_path(current_user) %><br /><br />
   <div class="accordion" id="accordianParent">
     <div class="accordion-group">
       <%= render 'layouts/sidebar_works' %>

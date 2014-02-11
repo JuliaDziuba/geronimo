@@ -6,49 +6,68 @@
 </div>
 <div class="row-fluid">
 	<div class="span4">
-		<legend class="h2">Business Database</legend>
-		<h3>Works</h3>
-		<% if @user.works.any? %>
-			You currently have <%=@user.works.all.count %> works. <%= link_to "Add or view works", works_path, :class => "btn f-right" %><br /><br /><br />
-			<%= link_to "Manage work categories", workcategories_path, :class => "btn" %><%= link_to "Manage work activities", activities_path, :class => "btn f-right" %>
-		<% else %>
-			No works have been added yet!<br />
-			<%= link_to "Get started!", works_path, :class => "btn f-right" %>
-		<% end %>
-		<br /><br />
-		<h3>Venues</h3>
-		<% if @user.venues.any? %>
-			You currently have <%=@user.venues.all.count %> venues. <%= link_to "Add or view venues", venues_path, :class => "btn f-right" %>
-		<% else %>
-			No venues have been added yet!<br />
-			 <%= link_to "Get started!", venues_path, :class => "btn f-right" %>
-		<% end %>
-		<br /><br />
-		<h3>Clients</h3>
-		<% if @user.clients.any? %>
-			You currently have <%=@user.clients.all.count %> clients. <%= link_to "Add or View clients", clients_path, :class => "btn f-right" %>
-		<% else %>
-			No clients have been added yet!<br />
-			 <%= link_to "Get started!", clients_path, :class => "btn f-right" %>
-		<% end %>
+		<legend class="h2">Business Data <span class="p f-right"> <%= link_to "Import", new_import_path %> | <%= link_to "Export", export_path %> | <%= link_to "Insights", insight_user_path(current_user) %></span></legend>
+		<table class="padded-table">
+			<tr class="table-header-shading"><th class="left">Work Categories</th><th>Count</th><th>Actions</th></tr>
+			<tr>
+				<td class="left">All work categories</td>
+				<% count = @user.workcategories.all.count %>
+				<td><%= count %></td>
+				<td><%= link_to "New", new_workcategory_path %> | <% if count > 0 %><%= link_to "View",workcategories_path %><% else %><span class="lighter">View</span><% end %></td>
+				</tr>	
+			<tr class="table-header-shading"><th class="left">Works</th><th>Count</th><th>Actions</th></tr>
+			<% activitityCounts = @current_user.work_current_activities.inject(Hash.new(0)) { |total, e| total[e] += 1; total } %>
+			<tr><td class="left">All works</td><td><%= @user.works.all.count %></td><td><%= link_to "New", new_work_path %> | <%= link_to "View", works_path %></td></tr>
+      <tr>
+      	<td class="left">Available works</td>
+      	<td><%= activitityCounts["Available"] %></td>
+      	<td><% if activitityCounts["Available"] > 0  %><%= link_to "View", works_path(:statusfilter => "Available") %><% else %><span class="lighter">View</span><% end %></td>
+      </tr>
+			<% Activitycategory.all.each do |activitycategory| %>
+        <% status = activitycategory.status %>
+        <tr>
+        	<td class="left"><%= status %> works</td>
+        	<td><%= activitityCounts[status] %></td>
+        	<td><%= link_to "New", new_activity_path(:category => status) %> | <% if activitityCounts[status] > 0 %><%= link_to "View", works_path(:statusfilter => status) %><% else %><span class="lighter"> View </span><% end %></td>
+        </tr>        
+      <% end %>
+			<tr class="table-header-shading"><th class="left">Venues</th><th>Count</th><th>Actions</th></tr>
+			<tr>
+				<% count = @user.venues.all.count %>
+				<td class="left">All venues</td>
+				<td><%= count %></td>
+				<td><%= link_to "New", new_venue_path %> | <% if count > 0 %><%= link_to "View",venues_path %><% else %><span class="lighter">View</span><% end %></td>
+			</tr>
+			<tr class="table-header-shading"><th class="left">Clients</th><th>Count</th><th>Actions</th></tr>
+			<tr>
+				<% count = @user.clients.all.count %>
+				<td class="left">All clients</td>
+				<td><%= count %></td>
+				<td><%= link_to "New", new_client_path %> | <% if count > 0 %><%= link_to "View",clients_path %><% else %><span class="lighter">View</span><% end %></td>
+			</tr>
+			<tr class="table-header-shading"><th class="left">Documents</th><th>Count</th><th>Actions</th></tr>
+			<tr><td class="left">All documents</td><td><%= @user.documents.all.count %></td><td><%= link_to "New", new_document_path %> | <%= link_to "View", documents_path, :class => "f-right" %></td></tr>
+			<% Document::DOCUMENTS_ARRAY.each do |doc| %>
+				<tr>
+					<% count = @user.documents.where("category = ?", doc).count %>
+        	<td class="left"><%= doc %></td>
+        	<td><%= count %></td>
+        	<td><%= link_to "New", "../documents/new?category=#{doc}" %> | <% if count > 0 %><%= link_to "View", documents_path(:category => doc) %><% else %><span class="lighter"> View </span><% end %></td>
+        </tr>
+      <% end %>
+		</table>
 	</div>
-	<div class="span6 offset2">
-		<legend class="h2">Public Front</legend>
-		<h3>Public Site</h3>
+	<div class="span5 offset2">
+		<legend class="h2">Public Site</legend>
 		<% if @user.share_with_public %>
-			You've created the following public pages using Makers' Moon. <%= link_to "Manage public site", public_user_path(@user), :class => "btn f-right" %> 
-			<br /><br /><br />
-			<%= render 'public_pages_list', user: @user %>
-			<br /><br />
+			<%= render 'public_pages_list', user: @user %> <%= link_to "Manage site", public_user_path(@user), :class => "btn f-right" %> 
 		<% else %>
 			You are not currently using Makers' Moon to promote yourself and your works!
 			<%= link_to "Go public!", public_user_path(@user), :class => "btn f-right" %>
 			<br /><br />
 		<% end %>
-		<h3>Fellow Makers</h3>
-		Check out other makers on Makers' Moon!<%= link_to "To the moon!", users_path, :class => "btn f-right" %>
-
-		
+		<legend class="h2">Fellow Makers</legend>
+		Check out other makers on Makers' Moon!<%= link_to "Meet makers", users_path, :class => "btn f-right" %>
 	</div>
 </div><!-- row-fluid -->
 

@@ -276,6 +276,68 @@ a:hover {
 	float: left;
 }
 
+.rounded {
+	border: 2px solid white;
+  border-radius: 80px;
+  -moz-border-radius: 80px;
+  -khtml-border-radius: 80px;
+  -webkit-border-radius: 80px;
+  width: 120px;
+  height: 120px;
+  color: white;
+  text-align:center;
+  text-decoration:none;
+  font-size:120%;
+  background-size:150px 150px;
+	background-repeat:no-repeat;
+	background-position:center;
+}
+
+.btn-categories{
+	background-image:url("ButtonCategories.jpg");
+}
+
+.btn-works{
+	background-image:url("ButtonWorks.jpg");
+}
+
+.btn-venues{
+	background-image:url("ButtonVenues.jpg");
+}
+
+.btn-clients{
+	background-image:url("ButtonClients.jpg");
+}
+.table-header-text {
+	padding-top: 40px;
+}
+
+.table-header-shading {
+	background: -webkit-linear-gradient(white, #F0F0F0); /* For Safari */
+	background: -o-linear-gradient(white, #F0F0F0); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(white, #F0F0F0); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(white, #F0F0F0); /* Standard syntax */
+	border-bottom-width: 5px;
+	border-bottom-color: #555555;
+	padding-top: 40px;
+}
+
+.padded-table {
+	width:100%;
+  th {
+		padding: 10px 10px 5px 10px;
+
+  }
+	td {
+		padding: 10px 10px 5px 10px;
+		text-align: center;
+
+	}
+	.left {
+	text-align: left;
+}
+}
+
 .less-indent {
 	position: relative;
 	left: -12px;
