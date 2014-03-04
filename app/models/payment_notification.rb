@@ -13,7 +13,6 @@ private
         user.update_attribute(:tier, User::MASTER) 
       end
     end
-    end
   end
 
 end
