@@ -1,4 +1,4 @@
-class Payment Notification < ActiveRecord::Base
+class PaymentNotification < ActiveRecord::Base
   belongs_to :user
   serialize :params
   after_create :update_user_account
