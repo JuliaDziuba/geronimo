@@ -1,35 +1,112 @@
 // Place all the styles related to the StaticPages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$baseBlue: #A6ABCB;
+$hightlightBlue: #000055;
+$dullBlue: #445;
+$glow: #ffffff;
 
 .back{
 	margin:0 auto;
-	background-color:black;
-
+	background-color:$baseBlue;
 }
 
-.moon{
-	padding-top:40px;
-	background-color:#121643;
-	background-image:url("LandingImageShort.jpg");
-	background-repeat:no-repeat;
-	vertical-align: bottom;
-	max-width:1024px;
-	float:center;
-	margin:0 auto;
+.header{
+  background-image:url('Header.jpg');
+  background-repeat: no-repeat;
+  background-position:right top;
+  height:160px;
 }
 
-.box_signin{
-	position:relative;
-	right:10px;
-	float:left;
+.nav {
+	position: relative;
+	padding:20px 30px 5px 30px;
+	height:80px;
+	text-transform:uppercase;
+	text-align:bottom;
+	box-shadow: 0px 30px 40px rgba(0,0,0,.1);
 }
 
-.box{
-	padding:10px 30px 120px 30px;
-	position:relative;
-	right:50px;
+.public_brand{
+	position: absolute; bottom: 20px; left: 30px;
+	font-size:75px;
+	font-weight:100;
+	color:$hightlightBlue;
+	text-shadow:0px 0px 1px $glow;
 }
+.small{
+	font-size:45px;
+	color:$dullBlue;
+	text-shadow:0px 0px 1px $glow;
+}
+
+.nav_links {
+	position: absolute; bottom: 0; right: 220px;
+	a {
+		padding-left:20px;
+	}
+}
+
+.sign_links{
+	position: absolute; bottom:0; right:100px;
+	text-align:center;
+	color:#777;
+	font-size:15px;
+	font-weight:150;
+	text-shadow:0px 0px 1px $glow;
+
+	a {
+	font-size:25px;
+	}
+}
+
+.tag_line{
+	padding:10px 30px 5px 30px;
+	font-size:15px;
+	font-weight:100;
+	color:#FFF;
+}
+
+.public_table_header {
+	background: -webkit-linear-gradient(white, $baseBlue); /* For Safari */
+	background: -o-linear-gradient(white, $baseBlue); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(white, $baseBlue); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(white, $baseBlue); /* Standard syntax */
+	border-bottom-width: 5px;
+	padding-top: 40px;
+}
+
+.public_table {
+
+  th {
+		padding: 10px 10px 5px 10px;
+
+  }
+	td {
+		padding: 10px 10px 5px 10px;
+		text-align: center;
+	}
+	.left {
+		text-align: left;
+	}
+}
+
+.pricing_questions {
+	position: relative;
+	h3 {
+		font-style:italic
+	}
+}
+
+.pricing_questions_content {
+	position: absolute; top:-20px;
+}
+
+#public_footer {
+	height: 50px;
+}
+
+
 
 .tinted{
 	background-color:#121643;
@@ -37,23 +114,7 @@
   	background: rgba(18, 22, 67, .4);
 }
 
-.landing_title{
-	padding:0px 0px 15px 0px;
-	font-size:70px;
-	font-weight:100;
-	text-transform:uppercase;
-	color:#06C;
-}
-.small{
-	font-size:45px;
-	color:#888;
-}
-.landing_tag{
-	font-size:15px;
-	font-weight:100;
-	color:#FFF;
-	margin-bottom:40px;
-}
+
 .landing_description{
 	color:#888;
 	margin-bottom:175px;
@@ -63,10 +124,14 @@
 	padding-top:30px;
 }
 
-.beta-link {
+.alt-link {
 	position: relative;
-	top: -10px;
+	top: 0px;
 	float: right;
+	font-size:15px;
+	font-weight:100;
+	text-transform:none;
+	text-shadow:0px 0px 0px #fff;
 }
 
 .alt-link {

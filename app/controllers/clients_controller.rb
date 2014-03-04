@@ -1,6 +1,7 @@
 class ClientsController < ApplicationController
   before_filter :signed_in_user
   before_filter :correct_user, except: [:new, :create, :index]
+  before_filter :canHaveMoreClients?, only: :create
   
   def new
     @client = Client.new
@@ -62,6 +63,16 @@ class ClientsController < ApplicationController
       if @client.nil?
         flash[:error] = "Sorry that client does not belong to you!"
         redirect_to clients_path
+      end
+    end
+
+    def canHaveMoreClients?
+      tier = current_user.tier
+      limit = User::TYPE_LIMITS[tier]["clients"]
+      canHaveMore = limit.nil? || current_user.clients.all.count < limit 
+      if !canHaveMore
+        flash[:error] = "Sorry you have reached the limit of clients for your subscription level: #{tier}. Please upgrade your account before adding another work."
+        redirect_to upgrade_user_path(current_user) 
       end
     end
   

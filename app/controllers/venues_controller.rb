@@ -1,5 +1,6 @@
 class VenuesController < ApplicationController
   before_filter :signed_in_user
+  before_filter :canHaveMoreVenues?, only: :create
   before_filter :correct_user, except: [:new, :create, :index]
   
   def  new
@@ -71,6 +72,16 @@ class VenuesController < ApplicationController
       if @venue.nil?
         flash[:error] = "Sorry that venue does not belong to you!"
         redirect_to venues_path
+      end
+    end
+
+    def canHaveMoreVenues?
+      tier = current_user.tier
+      limit = User::TYPE_LIMITS[tier]["venues"]
+      canHaveMore = limit.nil? || current_user.venues.all.count < limit 
+      if !canHaveMore
+        flash[:error] = "Sorry you have reached the limit of venues for your subscription level: #{tier}. Please upgrade your account before adding another work."
+        redirect_to upgrade_user_path(current_user) 
       end
     end
 

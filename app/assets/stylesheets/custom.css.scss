@@ -276,38 +276,6 @@ a:hover {
 	float: left;
 }
 
-.rounded {
-	border: 2px solid white;
-  border-radius: 80px;
-  -moz-border-radius: 80px;
-  -khtml-border-radius: 80px;
-  -webkit-border-radius: 80px;
-  width: 120px;
-  height: 120px;
-  color: white;
-  text-align:center;
-  text-decoration:none;
-  font-size:120%;
-  background-size:150px 150px;
-	background-repeat:no-repeat;
-	background-position:center;
-}
-
-.btn-categories{
-	background-image:url("ButtonCategories.jpg");
-}
-
-.btn-works{
-	background-image:url("ButtonWorks.jpg");
-}
-
-.btn-venues{
-	background-image:url("ButtonVenues.jpg");
-}
-
-.btn-clients{
-	background-image:url("ButtonClients.jpg");
-}
 .table-header-text {
 	padding-top: 40px;
 }
@@ -379,6 +347,14 @@ a:hover {
 	padding: 10px 0;
 }
 
+/* tables */
+.no-decorations {
+	td {
+		padding: 0px;
+		border:0px;
+	}
+}
+
 
 /* lists */
 
@@ -422,7 +398,7 @@ a:hover {
 /* forms */
 
 input, textarea, select, .uneditable-input {
-  border: 1px solid #bbb;
+#  border: 1px solid #bbb;
   width: 100%;
   @include box_sizing;
 }

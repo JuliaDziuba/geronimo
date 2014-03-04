@@ -1,5 +1,6 @@
 class WorksController < ApplicationController
   before_filter :signed_in_user
+  before_filter :canHaveMoreWorks?, only: :create
 #  before_filter :correct_user, except: [:create, :index, :edit_multiple, :update_multiple]
 
   def new
@@ -83,6 +84,16 @@ class WorksController < ApplicationController
   end
 
   private
+
+    def canHaveMoreWorks?
+      tier = current_user.tier
+      limit = User::TYPE_LIMITS[tier]["works"]
+      canHaveMore = limit.nil? || current_user.works.all.count < limit 
+      if !canHaveMore
+        flash[:error] = "Sorry you have reached the limit of works for your subscription level: #{tier}. Please upgrade your account before adding another work."
+        redirect_to upgrade_user_path(current_user) 
+      end
+    end
 
     def correct_user
       @work = current_user.works.find_by_inventory_id(params[:id])

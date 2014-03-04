@@ -1,3 +1,39 @@
+# == Schema Information
+#
+# Table name: documents
+#
+#  id                    :integer          not null, primary key
+#  user_id               :integer
+#  name                  :string(255)
+#  munged_name           :string(255)
+#  category              :string(255)
+#  date                  :date
+#  date_start            :date
+#  date_end              :date
+#  subject               :text
+#  maker                 :string(255)
+#  maker_medium          :string(255)
+#  maker_phone           :string(255)
+#  maker_email           :string(255)
+#  maker_site            :string(255)
+#  maker_address_street  :string(255)
+#  maker_address_city    :string(255)
+#  maker_address_state   :string(255)
+#  maker_address_zipcode :string(255)
+#  include_image         :boolean          default(FALSE)
+#  include_title         :boolean          default(FALSE)
+#  include_inventory_id  :boolean          default(FALSE)
+#  include_creation_date :boolean          default(FALSE)
+#  include_dimensions    :boolean          default(FALSE)
+#  include_materials     :boolean          default(FALSE)
+#  include_description   :boolean          default(FALSE)
+#  include_income        :boolean          default(FALSE)
+#  include_retail        :boolean          default(FALSE)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  include_quantity      :boolean          default(FALSE)
+#
+
 
 require 'spec_helper'
 

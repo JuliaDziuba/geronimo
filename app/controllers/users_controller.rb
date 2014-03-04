@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:show, :index, :edit, :update, :destroy, :public]
   before_filter :correct_user,   only: [:show, :edit, :update, :public]
-  before_filter :admin_user,     only: [:new, :destroy]
+  before_filter :admin_user,     only: [:destroy]
   
   def insight
     @user = User.find_by_username(params[:id])
@@ -84,6 +84,11 @@ class UsersController < ApplicationController
       flash[:warning] = "Sorry but #{@user.name} does not have a public site powered by Makers' Moon."
       redirect_to root_url
     end
+  end
+
+  def account
+    @user = User.find_by_username(params[:id])
+    @tier = @user.tier
   end
 
   def show

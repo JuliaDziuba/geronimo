@@ -9,18 +9,16 @@
     <%= render 'layouts/google_analytics' %>
   </head>
   <body class="row-fluid span12 back">
-    <div class="row-fluid moon">
+    <header class="navbar navbar-static-top">
+      <%= render 'layouts/header_public'%>
+    </header>
+    <div id="public_content" class="container-fluid">
       <div class="row-fluid">
-        <div class="span4 offset1">
-          <%= render 'static_pages/title' %>
-          <%= render 'static_pages/about' %>
-        </div>
-        <div class="span4 offset2 center">
-          <%= render 'shared/flash_messages' %>
-          <%= yield %>
-        </div>
+        <%= yield %>
       </div>
-    </div><!-- /span12 moon -->
+    </div>
+    <div id="public_footer">&nbsp;
+    </div>
   </body>
 </html>
 

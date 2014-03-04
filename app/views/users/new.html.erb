@@ -1,13 +1,7 @@
-<div class="box tinted">
-	<%= form_for(@user, :html => {}) do |f| %>
-	  <%= render 'shared/error_messages', object: f.object %>
-	  <div class="row-fluid">
-	    <%= f.text_field :username, id: "Username", placeholder: "UserName", class: "popover-input", rel: "popover", :"data-title" => "User name", :"data-content" => "This cannot be changed so choose wisely!" %>
-	    <%= f.text_field :email , id: "Email", placeholder: "Email", class: "popover-input", rel: "popover", :"data-title" => "Email", :"data-content" => "We may need to get in contact with you if you loose a password or have questions."%>
-	    <%= f.password_field :password , id: "Password", placeholder: "Password"%>
-	    <%= f.password_field :password_confirmation, id: "Password_confirmation", placeholder: "Confirm Password" %>
-	    <%= f.submit "Sign up!", class: "btn" %>
-	  </div>
-	<% end %>
-  <a class="landing_tag" href="<%= signin_path %>">Have an acount? Sign in!</a>
+<div class="row-fluid">
+	<div class="span3 offset4">
+		<h1>Sign up</h1>
+	  <%= render 'form_user_initial', user: @user %>
+	  <a class="landing_tag" href="<%= signin_path %>">Have an acount? Sign in!</a>
+	</div>
 </div>

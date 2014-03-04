@@ -1,4 +1,18 @@
-<div class="box">
-	<div class="beta-link alt-link"><%= link_to "BETA sign in", signin_path %></div>
-	<%= render 'form_mailchimp_mailinglist' %>
+<div class="row-fluid">
+	<div class="span6 offset1">
+		<h1>Take control of your business</h1>
+		<p>Makers' Moon is a business tool for artists that makes it easy to manage your works, venues, clients, and the activities between them. This single integrated tool will save you time, organize your business, and help you promote your work along with understand and expand your business.</p>
+		<p>Learn more about the <%= link_to "features", features_path %>.</p>
+		<p>Check out the low cost of <%= link_to "subscription", pricing_path %>!</p>
+	</div>
+	<div class="span3 offset1">
+		<h1>Get Started!<span class="alt-link">Already a member? <a href="<%= signin_path %>">LOG IN</a></span></h1>
+		<p>Sign up for &nbsp; <span class="h2">free</span> &nbsp; then upgrade when you need to!</p>
+		<%= render 'users/form_user_initial', user: @user %>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span3 offset1">
+		<%= render 'form_mailchimp_mailinglist' %>
+	</div>
 </div>

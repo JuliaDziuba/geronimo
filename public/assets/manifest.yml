@@ -1,6 +1,8 @@
 ---
 Favicon.ico: Favicon-1948d23cc12c70cba5a625df729bfcba.ico
 Favicon/index.ico: Favicon-1948d23cc12c70cba5a625df729bfcba.ico
+Header.jpg: Header-8aebddb872acafe535f4d9ab1aeb167d.jpg
+Header/index.jpg: Header-8aebddb872acafe535f4d9ab1aeb167d.jpg
 LandingImageShort.jpg: LandingImageShort-cf0723423c789d533333239b73f60d25.jpg
 LandingImageShort/index.jpg: LandingImageShort-cf0723423c789d533333239b73f60d25.jpg
 MakersMoonIconGrayTransparent.gif: MakersMoonIconGrayTransparent-dcab8f4fdcf9e89d07197b0302b4e41c.gif
@@ -25,8 +27,8 @@ socialMedia/twitter.png: socialMedia/twitter-63c1fcab59bf9941e7310b0045aeb474.pn
 socialMedia/twitter/index.png: socialMedia/twitter-63c1fcab59bf9941e7310b0045aeb474.png
 application.js: application-8518bf54805073fb7301288f91d711ac.js
 application/index.js: application-8518bf54805073fb7301288f91d711ac.js
-application.css: application-8aad01a46a575cba95dfb43c11d43c62.css
-application/index.css: application-8aad01a46a575cba95dfb43c11d43c62.css
+application.css: application-1a93533694fe10c88d08f858d8ab01a2.css
+application/index.css: application-1a93533694fe10c88d08f858d8ab01a2.css
 jquery-ui/animated-overlay.gif: jquery-ui/animated-overlay-602eee4c79a4796b02bb6442948c9e28.gif
 jquery-ui/animated-overlay/index.gif: jquery-ui/animated-overlay-602eee4c79a4796b02bb6442948c9e28.gif
 jquery-ui/ui-bg_flat_0_aaaaaa_40x100.png: jquery-ui/ui-bg_flat_0_aaaaaa_40x100-7d1197a52442bc56fcad60d0390f4b32.png

@@ -1,34 +1,10 @@
-<%= form_for(user, :html => { :class => "form-horizontal" }) do |f| %>
+<%= form_for(user, :html => {}) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <div class="row-fluid">
-    <div class="control-group">
-      <%= f.label :username, "", :class => "control-label" %>
-      <div class="controls">
-        <%= f.text_field :username, placeholder: "UserName" %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label :email, "",:class => "control-label" %>
-      <div class="controls">
-        <%= f.text_field :email , placeholder: "Email"%>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label :password, "",:class => "control-label" %>
-      <div class="controls">
-        <%= f.password_field :password , placeholder: "Password"%>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label :password_confirmation, "", :class => "control-label" %>
-      <div class="controls">
-        <%= f.password_field :password_confirmation, placeholder: "Confirm Password" %>
-      </div>
-    </div>
-    <div class="control-group">
-      <div class="controls">
-        <%= f.submit "Sign up!", class: "btn" %>
-      </div>
-    </div>
+    <%= f.text_field :username, id: "Username", placeholder: "UserName", class: "popover-input", rel: "popover", :"data-title" => "User name", :"data-content" => "This cannot be changed so choose wisely!" %>
+    <%= f.text_field :email , id: "Email", placeholder: "Email", class: "popover-input", rel: "popover", :"data-title" => "Email", :"data-content" => "We may need to get in contact with you if you loose a password or have questions."%>
+    <%= f.password_field :password , id: "Password", placeholder: "Password"%>
+    <%= f.password_field :password_confirmation, id: "Password_confirmation", placeholder: "Confirm Password" %>
+    <%= f.submit "Sign up!", class: "btn" %>
   </div>
 <% end %>

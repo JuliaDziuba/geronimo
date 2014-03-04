@@ -37,11 +37,22 @@
 #  image_content_type :string(255)
 #  image_file_size    :integer
 #  image_updated_at   :datetime
+#  tier               :string(255)
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :admin, :email, :password, :password_confirmation, :username, :about, :address_city, :address_state, :address_street, :address_zipcode, :blog, :domain, :email, :image, :name, :phone, :share_with_makers, :share_about, :share_contact, :share_price, :share_purchase, :share_works, :share_with_public, :social_etsy, :social_googleplus, :social_facebook, :social_linkedin, :social_pinterest, :social_twitter, :tag_line
+  attr_accessible :admin, :email, :password, :password_confirmation, :username, :about, :address_city, :address_state, :address_street, :address_zipcode, :blog, :domain, :email, :image, :name, :phone, :share_with_makers, :share_about, :share_contact, :share_price, :share_purchase, :share_works, :share_with_public, :social_etsy, :social_googleplus, :social_facebook, :social_linkedin, :social_pinterest, :social_twitter, :tag_line, :tier
   has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "MakersMoonIconTransparent.gif"
+
+  # There are three types of Users listed as constants below. Their arrays are [typeName, works limit, clients limit, venues limit].
+  APPRENTICE = "apprentice"
+  MAKER = "maker"
+  MASTER = "master"
+  TIER_LIMITS = {
+    User::APPRENTICE => { "works" => 1, "clients" => 5, "venues" => 2 },
+    User::MAKER => { "works" => 100, "clients" => nil, "venues" => nil },
+    User::MASTER => { "works" => nil, "clients" => nil, "venues" => nil } 
+  }
 
   has_secure_password
   has_many :workcategories, dependent: :destroy
@@ -77,6 +88,19 @@ class User < ActiveRecord::Base
     brandname = read_attribute(:username) if brandname.blank?
     brandname
   end
+
+  def tier
+    read_attribute(:tier) || User::APPRENTICE
+  end
+
+  def limitReached?
+    tier = current_user.tier
+    workLimit = User::TIER_LIMITS[tier]["works"]
+    clientLimit = User::TIER_LIMITS[tier]["clients"]
+    venueLimit = User::TIER_LIMITS[tier]["venues"]
+    current_user.works.all.count == workLimit || current_user.clients.all.count == clientLimit || current_user.venues.all.count == venueLimit    
+  end
+
 
   def work_current_activities
     activities = []
@@ -120,4 +144,5 @@ class User < ActiveRecord::Base
       all_valid_characters = username =~ /^[a-zA-Z0-9_]+$/
       errors.add(:username, "must have at least one letter and contain only letters, digits, or underscores") unless (has_one_letter and all_valid_characters)
     end
+
 end

@@ -1,8 +1,11 @@
-<div class="box_signin">
-  <%= form_for(:session, url: sessions_path, :html => { :class => "form-inline" }) do |f| %>
-    <%= f.text_field :email, id: "Email", placeholder: "Email", class: "input-small"%>
-    <%= f.password_field :password, id: "Password", placeholder: "Password", class: "input-small" %>
-    <%= f.submit "Sign in!", class: "btn" %>
-  <% end %>
-  <div class="alt-link"><%= link_to "Not a member? Let us know you're interested!", root_path %></div>
+<div class="row-fluid">
+	<div class="span3 offset4">
+		<h1>Sign in</h1>
+	  <%= form_for(:session, url: sessions_path, :html => { :class => "form-inline" }) do |f| %>
+	    <%= f.text_field :email, id: "Email", placeholder: "Email", class: "input-small"%>
+	    <%= f.password_field :password, id: "Password", placeholder: "Password", class: "input-small" %>
+	    <%= f.submit "Sign in!", class: "btn" %>
+	  <% end %>
+	  <div class="landing_tag"><%= link_to "Not a member? Sign up!", signup_path %></div>
+	</div>
 </div>

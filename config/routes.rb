@@ -1,11 +1,14 @@
 Makersmoon::Application.routes.draw do
 
   root to: 'static_pages#home'
-  match '/help',    to: 'static_pages#help'
-  match '/export',  to: 'static_pages#export'
-  match '/signup',  to: 'users#new'
-  match '/signin',  to: 'sessions#new'
-  match '/signout', to: 'sessions#destroy', via: :delete
+  match '/features', to: 'static_pages#features'
+  match '/pricing',  to: 'static_pages#pricing'
+  match '/help',     to: 'static_pages#help'
+  match '/export',   to: 'static_pages#export'
+  match '/signup',   to: 'users#new'
+  match '/signin',   to: 'sessions#new'
+  match '/signout',  to: 'sessions#destroy', via: :delete
+  match '/PayPal_IPN', to: 'payment_notifications#create'
 
   resource :static_pages, only: [:home, :help]
 
@@ -17,6 +20,7 @@ Makersmoon::Application.routes.draw do
       get :contact
       get :purchase
       get :work
+      get :account
     end
   end
   resources :sessions, only: [:new, :create, :destroy]
