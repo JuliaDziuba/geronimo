@@ -8,7 +8,7 @@ Makersmoon::Application.routes.draw do
   match '/signup',   to: 'users#new'
   match '/signin',   to: 'sessions#new'
   match '/signout',  to: 'sessions#destroy', via: :delete
-  match '/PayPal_IPN', to: 'payment_notifications#create'
+  match '/PayPal_IPN', to: 'payment_notifications#create', via: :post
 
   resource :static_pages, only: [:home, :help]
 
