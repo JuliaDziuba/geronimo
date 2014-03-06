@@ -6,4 +6,16 @@ def create
   render :nothing => true
 end
 
+def show
+	@user = current_user
+end
+
+def success
+	@user = current_user
+end
+
+def failure
+	@user = current_user
+end
+
 end

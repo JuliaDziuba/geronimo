@@ -9,6 +9,8 @@ Makersmoon::Application.routes.draw do
   match '/signin',   to: 'sessions#new'
   match '/signout',  to: 'sessions#destroy', via: :delete
   match '/PayPal_IPN', to: 'payment_notifications#create'
+  match '/payment_notifications/success', to: 'payment_notifications#success'
+  match '/payment_notifications/failure', to: 'payment_notifications#failure'
 
   resource :static_pages, only: [:home, :help]
 
@@ -23,7 +25,6 @@ Makersmoon::Application.routes.draw do
       get :account
     end
   end
-  resources :payment_notifications, only: [:create]
   resources :sessions, only: [:new, :create, :destroy]
   resources :activities, exclude: [:edit], path: "internal/works/activities/"
   resources :workcategories , exclude: [:show], path: "/internal/works/categories/"

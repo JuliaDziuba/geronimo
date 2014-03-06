@@ -1,4 +1,4 @@
-<% provide(:title, "Maker's Dashboard") %>
+<% provide(:title, "Dashboard") %>
 <div class="row-fluid">
 	<% if !@user.works.any? && !@user.share_with_public %>
 		<p>Welcome to Makers' Moon! This tool has two primary features: 1) an easy to use database that manages your works and the venues and clients that support your business and 2) optional public facing sites that promote you and your works. Which would you like to develop first?</p>
@@ -58,6 +58,9 @@
 		</table>
 	</div>
 	<div class="span5 offset2">
+		<legend class="h2">Makers' Moon Tier</legend>
+		<%= @user.tier %> <%= link_to "Upgrade now", account_user_path(@user), :class => "btn f-right" %>
+		<br /><br />
 		<legend class="h2">Public Site</legend>
 		<% if @user.share_with_public %>
 			<%= render 'public_pages_list', user: @user %> <%= link_to "Manage site", public_user_path(@user), :class => "btn f-right" %> 
@@ -66,6 +69,7 @@
 			<%= link_to "Go public!", public_user_path(@user), :class => "btn f-right" %>
 			<br /><br />
 		<% end %>
+		<br /><br />
 		<legend class="h2">Fellow Makers</legend>
 		Check out other makers on Makers' Moon!<%= link_to "Meet makers", users_path, :class => "btn f-right" %>
 	</div>
