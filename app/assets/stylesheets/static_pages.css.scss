@@ -18,7 +18,7 @@ $glow: #ffffff;
   height:160px;
 }
 
-.nav {
+.nav_public {
 	position: relative;
 	padding:20px 30px 5px 30px;
 	height:80px;
@@ -106,6 +106,22 @@ $glow: #ffffff;
 	height: 50px;
 }
 
+.features_image {
+	-moz-border-radius: 120px;
+	border-radius: 120px;
+}
+
+.home-links {
+	position: relative;
+}
+
+.center {
+	position: absolute;
+	top:45%;
+	left:auto;
+	font-size:25px;
+	font-weight:900;
+}
 
 
 .tinted{
