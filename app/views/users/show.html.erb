@@ -59,7 +59,10 @@
 	</div>
 	<div class="span5 offset2">
 		<legend class="h2">Makers' Moon Tier</legend>
-		<%= @user.tier %> <%= link_to "Upgrade now", account_user_path(@user), :class => "btn f-right" %>
+		<%= @user.tier.capitalize %> 
+		<% if !@tier == User::MASTER %>
+			<%= link_to "Upgrade now", account_user_path(@user), :class => "btn f-right" %>
+		<% end %>	
 		<br /><br />
 		<legend class="h2">Public Site</legend>
 		<% if @user.share_with_public %>
