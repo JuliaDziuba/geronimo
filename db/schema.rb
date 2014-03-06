@@ -95,6 +95,16 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
   add_index "documents", ["munged_name"], :name => "index_documents_on_munged_name"
   add_index "documents", ["user_id"], :name => "index_documents_on_user_id"
 
+  create_table "payment_notifications", :force => true do |t|
+    t.text     "params"
+    t.integer  "user_id"
+    t.string   "status"
+    t.string   "transaction_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.string   "item"
+  end
+
   create_table "questions", :force => true do |t|
     t.integer  "user_id"
     t.string   "question"

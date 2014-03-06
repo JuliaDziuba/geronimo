@@ -1,4 +1,5 @@
 class PaymentNotification < ActiveRecord::Base
+  attr_accessible :params, :user_id, :item, :status, :transaction_id
   belongs_to :user
   serialize :params
   after_create :update_user_account
