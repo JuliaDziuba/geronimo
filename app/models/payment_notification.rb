@@ -7,6 +7,7 @@ class PaymentNotification < ActiveRecord::Base
 private
 
   def update_user_account
+     user.update_attribute(:tier, "updating_user")
     if status == "Completed"
       if item == "Maker" 
         user.update_attribute(:tier, User::MAKER)
