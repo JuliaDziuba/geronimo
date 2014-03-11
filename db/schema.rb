@@ -219,6 +219,7 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
     t.datetime "image1_updated_at"
     t.string   "materials"
     t.integer  "quantity",            :default => 1
+    t.string   "dimension"
   end
 
   add_index "works", ["inventory_id"], :name => "index_works_on_inventory_id"

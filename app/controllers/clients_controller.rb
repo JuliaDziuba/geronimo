@@ -37,7 +37,16 @@ class ClientsController < ApplicationController
 
   def index
     @client = Client.new
-  	@clients = current_user.clients.all_known
+  	@clients = current_user.clients.all_known.all(:include =>  [:activities => [:activitycategory, :user]])
+    @clients.each do |client|
+      count = 0
+      client.activities.each do |activity|
+        if Activitycategory::FINAL_ACTIVITIES_IDS.include? activity.activitycategory_id.to_s()
+          count = count + 1
+        end
+      end
+      client.id = count
+    end
     respond_to do |format|
       format.html
       format.csv { send_data Client.to_csv(@clients) }

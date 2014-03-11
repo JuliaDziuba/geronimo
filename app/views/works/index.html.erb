@@ -2,18 +2,31 @@
 
 <% if @works.any? %>
 	<% provide(:new_link, "works/new") %>
-	<% provide(:alt_view, "thumb_view") %>
 	<% if !@categoryfilter.nil? %>
 		<% categoryfilter = @categoryfilter.split('.') %>
 		Works have been filtered to show only <%= categoryfilter[1] %> <%= categoryfilter[0] %> works.<br /><br />
 	<% elsif !@statusfilter.nil? %>
 		Works have been filtered to show only <%= @statusfilter.downcase %> works.<br /><br />
 	<% end %>
-	<div id="list_view" class="show">
+
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs">
+	  <li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
+	  <li class="popover-input", rel="popover", data-title="An editable table", data-content="The content of each cell is editable. Just remember to click the Update works button to save changes.", data-placement="top"><a href="#table" data-toggle="tab">Table</a></li>
+	  <li><a href="#thumbnails" data-toggle="tab">Thumbnails</a></li>
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+	  <div class="tab-pane active" id="summary">
+	  	<%= render 'table_with_pictures_works', works: @works %>
+	  </div>
+	  <div class="tab-pane" id="table">
 		<%= render 'table_edit_works', works: @works, categories: @workcategories %>
-	</div>
-	<div id="thumb_view" class="not-displayed">
+	  </div>
+	  <div class="tab-pane" id="thumbnails">
 		<%= render 'thumb_works', works: @works %>
+	  </div>
 	</div>
 <% elsif  @parentcategories.any? %>
 	<p>Nice start creating categories. Create more categories or start uploading works!</p>

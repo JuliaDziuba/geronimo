@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def insight
     @user = User.find_by_username(params[:id])
     @current_activities = @user.work_current_activities
-    sale_activities = @user.activities.where('activities.activitycategory_id = ?', Activitycategory.find_by_name('Sale').id).all
+    sale_activities = @user.activities.sales.all
     @sold_works = []
     sale_activities.each do | sale |
       work = @user.works.where('works.id = ?', sale.work_id).first.attributes

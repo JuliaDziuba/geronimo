@@ -1,0 +1,39 @@
+<table id="Works">
+  <thead>
+    <tr>
+      <th width="10%">Image</th>
+      <th width="35%">Title</th>
+      <th width="25%">Details</th>
+      <th width="15%">Value</th>
+      <th width="15%">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% works.each do |work| %>
+      <tr>
+        <td><div><%= link_to image_tag(work.image1.url(:thumb)), work_path(work) %></div></td>
+        <td><div>
+          <%= "#{work.title} (#{work.inventory_id}) #{status(work)}" %><% if work.share_public %> <%= " and shown on public site" %><% end %><br />
+          <%= work.description %>
+        </div></td>
+        <td><div>
+          <span>Created: </span><%= work.creation_date %><br />
+          <span>Category: </span><%= workcategory_name(work) %><br />
+          <span>Materials: </span><%= work.materials %><br />
+          <span>Dimensions: </span><%= "#{work.dimention1}" %><% if !work.dimention2.blank? %><%= " by #{work.dimention2} "%><% end %><%=" #{work.dimention_units}" %><br />
+        </div></td>  
+        <td><div>
+          <span>Hours invested: </span><%= work.expense_hours %><br />
+          <span>Material costs: </span><%= work.expense_materials %><br />
+          <span>Income: </span><%= work.income %><br />
+          <span>Retail value: </span><%= work.retail %><br />
+        </div></td>
+        <td><div>
+          <%= link_to "Edit", work_path(work) %><br />
+              <%= link_to "Delete", work, method: :delete, data: { confirm: "Delete #{work.title}?" }, title: 'Delete?' %><br />
+          <%= link_to "Record new activity", "activities/new?work=#{work.inventory_id}" %>
+        </div></td>  
+      </tr>
+    <% end %>  
+  </tbody>
+</table>

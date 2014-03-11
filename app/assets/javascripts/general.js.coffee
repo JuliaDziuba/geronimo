@@ -1,72 +1,17 @@
 # All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-
-# IDs that lead to js
-$ ->
-  $('#toggleSidebar').click ->
-    toggle_sidebar()
-
-
-# Classes that lead to js
-
-$ ->
-  $(".datepicker").datepicker({
-                dateFormat : "dd MM yy",
-                #showOn : "both",
-                changeMonth : true,
-                changeYear : true,
-                yearRange : "c-20:c+5"
-            })
-
-$ ->
-  $(".tooltip").tooltip()    
-
-$ ->
-  $(".popover-input").popover({ 
-    trigger: "hover"     
-  }
-  console.log("Popover js has run"))   
-
-$ ->
-  $(".display_toggle").click ->
-    element_id = $(@).attr("id").replace("_display", "")
-    $('#' + element_id).slideToggle()
-
-$ ->
-  $(".view_toggle").click ->
-    $('#thumb_view_display').toggleClass('show not-displayed')
-    $('#thumb_view').toggleClass('show not-displayed')
-    $('#list_view_display').toggleClass('show not-displayed')
-    $('#list_view').toggleClass('show not-displayed')  
-
-$ ->
-  $(".document_print").click ->
-    toggle_print()
-
-
-# Pages that lead to js
-$ ->
-  if (window.location.pathname.match(/activities\/new/))
-    if (window.location.search.match(/\?category/))
-      format_activity_form()
-    else
-      hide_activity_form()
-  else if (window.location.pathname.match(/activities/))
-    format_activity_form()
-
-$ ->    
-  $('#activity_activitycategory_id').change ->
-    format_activity_form()              
+# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/             
 
 # General functions 
 
 toggle_sidebar = () ->
+  console.log("Side bar toggled.")
   $('#toggleSidebar').toggleClass('icon-chevron-left icon-chevron-right')
   $('#sidebar').toggleClass('span2 gone')
   $('#content').toggleClass('span10 span12')
   $('#content').toggleClass('offset2 offset0')
   $('#content').toggleClass('less-indent junk')
   $('#sidebar-content').toggleClass('show not-displayed')
+  format_editable_table_form()
 
 hide_activity_form = () ->
   console.log("Running hide form. " + window.location.pathname + window.location.search)
@@ -119,7 +64,98 @@ format_activity_form = () ->
     else if category == "Recycle"  
       $('#start_date').addClass('first-child')  
 
+format_editable_table_form = () ->
+  console.log("Modifying the theader row to match the tbody.")
+  # Change the selector if needed
+  $table = $("table.editable")
+  $bodyCells = $table.find("tbody tr:first").children()
+  colWidth = undefined
+
+  # Get the tbody columns width array
+  colWidth = $bodyCells.map(->
+    $(this).width()
+    ).get()
+
+  console.log("The tbody widths are: " + colWidth)
+
+  console.log("Before " + $table.find("thead tr:first").children().map(->
+    $(this).width()
+    ).get())
+
+  # Set the width of thead column
+  $table.find("thead tr").children().each (i, v) ->
+    $(v).width colWidth[i]
+
+  console.log("After " + $table.find("thead tr:first").children().map(->
+    $(this).width()
+    ).get())
+
 toggle_print = () ->
   if $('#content').attr("class").toString().match("span10") != null
     toggle_sidebar()
   window.print() 
+
+
+
+
+
+  # IDs that lead to js
+$ ->
+  $('#toggleSidebar').click ->
+    toggle_sidebar()
+
+
+# Classes that lead to js
+
+$ ->
+  $(".datepicker").datepicker({
+                dateFormat : "dd MM yy",
+                #showOn : "both",
+                changeMonth : true,
+                changeYear : true,
+                yearRange : "c-20:c+5"
+            })
+
+$ ->
+  $(".tooltip").tooltip()    
+
+$ ->
+  $(".popover-input").popover({ 
+    trigger: "hover"     
+  }
+  console.log("Popover js has run"))   
+
+$ ->
+  $(".display_toggle").click ->
+    element_id = $(@).attr("id").replace("_display", "")
+    $('#' + element_id).slideToggle()
+
+$ ->
+  if $('.editable')
+    $(document).ready(->
+     format_editable_table_form() 
+    )
+
+$ ->
+  $(".document_print").click ->
+    toggle_print()
+
+
+# Pages that lead to js
+$ ->
+  if (window.location.pathname.match(/activities\/new/))
+    if (window.location.search.match(/\?category/))
+      format_activity_form()
+    else
+      hide_activity_form()
+  else if (window.location.pathname.match(/activities/))
+    format_activity_form()
+
+$ ->    
+  $('#activity_activitycategory_id').change ->
+    format_activity_form()  
+
+# Events that lead to js
+$(window).resize(-> # Trigger resize handler 
+  format_editable_table_form()    
+).resize()   

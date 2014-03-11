@@ -9,52 +9,44 @@
       </ul>
     <% end %>
   <% end %>
-  <div id="Works_table_view" class="table">
-    <div class="thead">
-      <div class="row">
-        <div class="cell s1"></div><!-- /cell -->
-        <div class="cell s3">Category</div><!-- /cell -->
-        <div class="cell s3">Title</div><!-- /cell -->
-        <div class="cell s2">Inventory ID</div><!-- /cell -->
-        <div class="cell s2">Creation Date</div><!-- /cell -->
-        <div class="cell s2">Materials</div><!-- /cell -->
-        <div class="cell s3">Description</div><!-- /cell -->
-        <div class="cell s1">First Dim</div><!-- /cell -->
-        <div class="cell s1">Second Dim</div><!-- /cell -->
-        <div class="cell s2">Dim Units</div><!-- /cell -->
-        <div class="cell s1">Time (hrs)</div><!-- /cell -->
-        <div class="cell s1">Materials Costs</div><!-- /cell -->
-        <div class="cell s1">Income</div><!-- /cell -->
-        <div class="cell s1">Retail</div><!-- /cell -->
-        <div class="cell s1">Public</div><!-- /cell -->
-      </div><!-- /row -->
-    </div><!-- /thead -->
-    <div class="tbody">
+  <table class="editable">
+    <thead>
+      <tr>
+        <th><div>Category</div></th>
+        <th><div>Title</div></th>
+        <th><div>Inventory ID</div></th>
+        <th><div>Creation Date</div></th>
+        <th><div>Materials</div></th>
+        <th><div>Description</div></th>
+        <th><div>Dimensions</div></th>
+        <th><div>Hours Invested</div></th>
+        <th><div>Material Costs</div></th>
+        <th><div>Income</div></th>
+        <th><div>Retail</div></th>
+        <th><div>Public</div></th>
+        <th class="above_scroll"><div></div></th>
+      </tr>
+    </thead>
+    <tbody>
       <% works.each do |work| %>
-  	    <%= fields_for "works[]", work do |f| %>
-  	      <div class="row">
-            <div class="cell s1">
-              <%= link_to icon(:edit), work_path(work), class: "icon-edit bottom" %> &nbsp;
-              <%= link_to icon(:trash), work, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete #{work.title}?" }, title: 'Delete?' %>
-            </div><!-- /cell -->
-  	        <div class="cell s3"><%= f.collection_select :workcategory_id, categories, :id, :name, { :include_blank => "Uncategorized" } %></div><!-- /cell -->
-  	        <div class="cell s3"><%= f.text_field :title %></div><!-- /cell -->
-  	        <div class="cell s2"><%= f.text_field :inventory_id %></div><!-- /cell -->
-  	        <div class="cell s2"><%= f.text_field :creation_date, :class => "datepicker" %></div><!-- /cell -->
-  	        <div class="cell s2"><%= f.text_field :materials %></div><!-- /cell -->
-            <div class="cell s3"><%= f.text_field :description %></div><!-- /cell -->
-  	        <div class="cell s1"><%= f.text_field :dimention1 %></div><!-- /cell -->
-  	        <div class="cell s1"><%= f.text_field :dimention2 %></div><!-- /cell -->
-  	        <div class="cell s2"><%= f.text_field :dimention_units %></div><!-- /cell -->
-  	        <div class="cell s1"><%= f.text_field :expense_hours %></div><!-- /cell -->
-  	        <div class="cell s1"><%= f.text_field :expense_materials %></div><!-- /cell -->
-  	        <div class="cell s1"><%= f.text_field :income %></div><!-- /cell -->
-  	        <div class="cell s1"><%= f.text_field :retail %></div><!-- /cell -->
-  	        <div class="cell s1"><%= f.check_box :share_public %></div><!-- /cell -->
-  	      </div><!-- /row -->
-  	    <% end %>
-      <% end %>
-      </div><!-- /tbody -->
-  </div><!-- /table -->
+        <%= fields_for "works[]", work do |f| %>
+          <tr>
+            <td class="td_large"><%= f.collection_select :workcategory_id, categories, :id, :name, { :include_blank => "Uncategorized" } %></td>
+            <td class="td_large"><%= f.text_field :title %></td>
+            <td class="td_medium"><%= f.text_field :inventory_id %></td>
+            <td class="td_medium"><%= f.text_field :creation_date, :class => "datepicker" %></td>
+            <td class="td_large"><%= f.text_field :materials %></td>
+            <td class="td_x_large"><%= f.text_field :description %></td>
+            <td class="td_large"><%= f.text_field :dimention1 %></td>
+            <td class="td_small"><%= f.text_field :expense_hours %></td>
+            <td class="td_small"><%= f.text_field :expense_materials %></td>
+            <td class="td_small"><%= f.text_field :income %></td>
+            <td class="td_small"><%= f.text_field :retail %></td>
+            <td class="td_small"><%= f.check_box :share_public %></td>
+          </div><!-- /row -->
+        <% end %>
+      <% end %><!-- works loop -->
+      </tbody>
+  </table>
   <p><%= submit_tag "Update works", :class => "edit_works_submit btn" %></p>
 <% end %>

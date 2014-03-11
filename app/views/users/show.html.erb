@@ -46,7 +46,7 @@
 				<td><%= link_to "New", new_client_path %> | <% if count > 0 %><%= link_to "View",clients_path %><% else %><span class="lighter">View</span><% end %></td>
 			</tr>
 			<tr class="table-header-shading"><th class="left">Documents</th><th>Count</th><th>Actions</th></tr>
-			<tr><td class="left">All documents</td><td><%= @user.documents.all.count %></td><td><%= link_to "New", new_document_path %> | <%= link_to "View", documents_path, :class => "f-right" %></td></tr>
+			<tr><td class="left">All documents</td><td><%= @user.documents.all.count %></td><td><%= link_to "New", new_document_path %> | <%= link_to "View", documents_path %></td></tr>
 			<% Document::DOCUMENTS_ARRAY.each do |doc| %>
 				<tr>
 					<% count = @user.documents.where("category = ?", doc).count %>

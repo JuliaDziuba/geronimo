@@ -15,6 +15,16 @@
 class Activitycategory < ActiveRecord::Base
   attr_accessible :description, :name, :status, :final
   
+  SALE = { :name => "Sale", :id => "1" }
+  COMMISSION = { :name => "Commission", :id => "2" }
+  CONSIGNMENT = { :name => "Consignment", :id => "3" }
+  GIFT = { :name => "Gift", :id => "4" }
+  DONATE = { :name => "Donate", :id => "5" }
+  RECYCLE = { :name => "Recycle", :id => "6" }
+
+  FINAL_ACTIVITIES_NAMES = [Activitycategory::SALE[:name], Activitycategory::GIFT[:name], Activitycategory::DONATE[:name], Activitycategory::RECYCLE[:name]]
+	FINAL_ACTIVITIES_IDS = [Activitycategory::SALE[:id], Activitycategory::GIFT[:id], Activitycategory::DONATE[:id], Activitycategory::RECYCLE[:id]]
+  
 	has_many :activities
 
 	validates :name, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 25 }

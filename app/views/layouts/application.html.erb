@@ -45,12 +45,6 @@
                     data: { confirm: 'Delete?' },
                     title: 'Delete?' %>
                 <% end %>
-                <% if yield(:alt_view).present? %>
-                  <div class="f-right">
-                    <%= link_to icon("th-list"), "##{yield(:alt_list_view)}", :id => "list_view_display", :class => "not-displayed view_toggle" %>
-                    <%= link_to icon("th"), "##{yield(:alt_thumb_view)}", :id => "thumb_view_display", :class => "show view_toggle" %>
-                  </div>
-                <% end %>
               </span>
             </h1>
           </div>

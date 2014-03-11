@@ -44,10 +44,13 @@ class Activity < ActiveRecord::Base
   scope :startingAfterDateExcludingSelf, lambda { |date, id| where('date_start > ? AND id != ?', date, id)}
   scope :currentActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end IS NULL OR date_end > :date)', { id: id, date: Date.today })  }
   scope :previousActivityCategory, lambda { |id| where('activitycategory_id = :id AND (date_end <= :date)', { id: id, date: Date.today })  }
-  scope :currentConsignmentsAtVenueBetweenDates, lambda { |venue, date_start, date_end| where('activities.venue_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = 3 AND activities.date_end isNull', venue, date_start, date_end) }
-  scope :consignmentsAtVenueBetweenDates, lambda { |venue, date_start, date_end| where('activities.venue_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = 3', venue, date_start, date_end) }
-  scope :salesAtVenueBetweenDates, lambda { |venue, date_start, date_end| where('activities.venue_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = 1', venue, date_start, date_end) }
-  scope :salesToClientBetweenDates, lambda { |client, date_start, date_end| where('activities.client_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = 1', client, date_start, date_end) }
+  scope :currentConsignmentsAtVenueBetweenDates, lambda { |venue, date_start, date_end| where('activities.venue_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = ? AND activities.date_end isNull', venue, date_start, date_end, Activitycategory::COMMISSION[:id]) }
+  scope :consignmentsAtVenueBetweenDates, lambda { |venue, date_start, date_end| where('activities.venue_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = ?', venue, date_start, date_end, Activitycategory::COMMISSION[:id]) }
+  scope :salesAtVenueBetweenDates, lambda { |venue, date_start, date_end| where('activities.venue_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = ?', venue, date_start, date_end, Activitycategory::SALE[:id]) }
+  scope :salesToClientBetweenDates, lambda { |client, date_start, date_end| where('activities.client_id = ? AND activities.date_start >= ? AND activities.date_start <= ? AND activitycategory_id = ?', client, date_start, date_end, Activitycategory::SALE[:id]) }
+  scope :sales, where('activities.activitycategory_id = ?', Activitycategory::SALE[:id])
+  scope :commissions, where('activities.activitycategory_id = ?', Activitycategory::COMMISSION[:id])
+  scope :final, where('activities.activitycategory_id in (?)', Activitycategory::FINAL_ACTIVITIES_IDS)
 
   def activity_before
     if self.id.nil?
@@ -87,7 +90,7 @@ class Activity < ActiveRecord::Base
   private
 
     def set_date_end
-      self.date_end = self.date_start if !self.activitycategory.nil? && self.activitycategory.final && self.activitycategory.name != 'Sale'
+      self.date_end = self.date_start if !self.activitycategory.nil? && self.activitycategory.final && self.activitycategory.name != Activitycategory::SALE[:name]
     end
 
     def set_venue

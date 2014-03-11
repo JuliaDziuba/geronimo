@@ -1,5 +1,4 @@
 <% provide(:title, 'Clients') %>
-
 <% if @clients.any? %>
 	<% provide(:new_link, "clients/new") %>
   <%= render 'table_clients', clients: @clients %>
