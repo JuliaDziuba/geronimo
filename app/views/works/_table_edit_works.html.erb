@@ -37,7 +37,7 @@
             <td class="td_medium"><%= f.text_field :creation_date, :class => "datepicker" %></td>
             <td class="td_large"><%= f.text_field :materials %></td>
             <td class="td_x_large"><%= f.text_field :description %></td>
-            <td class="td_large"><%= f.text_field :dimention1 %></td>
+            <td class="td_large"><%= f.text_field :dimensions %></td>
             <td class="td_small"><%= f.text_field :expense_hours %></td>
             <td class="td_small"><%= f.text_field :expense_materials %></td>
             <td class="td_small"><%= f.text_field :income %></td>
@@ -48,5 +48,6 @@
       <% end %><!-- works loop -->
       </tbody>
   </table>
+  <br />
   <p><%= submit_tag "Update works", :class => "edit_works_submit btn" %></p>
 <% end %>

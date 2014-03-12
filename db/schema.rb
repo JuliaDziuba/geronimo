@@ -206,9 +206,6 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
     t.decimal  "income"
     t.decimal  "retail"
     t.string   "description"
-    t.string   "dimention1"
-    t.string   "dimention2"
-    t.string   "dimention_units"
     t.boolean  "share_makers",        :default => false
     t.boolean  "share_public",        :default => false
     t.datetime "created_at",                             :null => false
@@ -219,7 +216,7 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
     t.datetime "image1_updated_at"
     t.string   "materials"
     t.integer  "quantity",            :default => 1
-    t.string   "dimension"
+    t.string   "dimensions"
   end
 
   add_index "works", ["inventory_id"], :name => "index_works_on_inventory_id"

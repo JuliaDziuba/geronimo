@@ -20,7 +20,7 @@
           <span>Created: </span><%= work.creation_date %><br />
           <span>Category: </span><%= workcategory_name(work) %><br />
           <span>Materials: </span><%= work.materials %><br />
-          <span>Dimensions: </span><%= "#{work.dimention1}" %><% if !work.dimention2.blank? %><%= " by #{work.dimention2} "%><% end %><%=" #{work.dimention_units}" %><br />
+          <span>Dimensions: </span><%= work.dimensions %><br />
         </div></td>  
         <td><div>
           <span>Hours invested: </span><%= work.expense_hours %><br />

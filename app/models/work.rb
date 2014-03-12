@@ -13,9 +13,6 @@
 #  income              :decimal(, )
 #  retail              :decimal(, )
 #  description         :string(255)
-#  dimention1          :string(255)
-#  dimention2          :string(255)
-#  dimention_units     :string(255)
 #  share_makers        :boolean          default(FALSE)
 #  share_public        :boolean          default(FALSE)
 #  created_at          :datetime         not null
@@ -26,11 +23,12 @@
 #  image1_updated_at   :datetime
 #  materials           :string(255)
 #  quantity            :integer          default(1)
+#  dimensions          :string(255)
 #
 
 
 class Work < ActiveRecord::Base
-  attr_accessible :creation_date, :description, :dimention1, :dimention2, :dimention_units, :expense_hours, :expense_materials, :image1, :retail, :income, :inventory_id, :materials, :share_makers, :share_public, :title, :workcategory_id
+  attr_accessible :creation_date, :description, :dimensions, :expense_hours, :expense_materials, :image1, :retail, :income, :inventory_id, :materials, :share_makers, :share_public, :title, :workcategory_id
 	has_attached_file :image1, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "MissingImage.jpg"
 
 	belongs_to :user
@@ -87,9 +85,9 @@ class Work < ActiveRecord::Base
 
   def self.to_csv(records)
     CSV.generate do |csv|
-      csv << ["inventory_id", "title", "creation_date", "category", "description", "materials", "dimention1", "dimention2", "dimention_units", "expense_hours", "expense_materials", "retail", "income", "share_public", "image1_file_name"]
+      csv << ["inventory_id", "title", "creation_date", "category", "description", "materials", "dimensions", "expense_hours", "expense_materials", "retail", "income", "share_public", "image1_file_name"]
       records.each do |r|
-        csv << [r.inventory_id, r.title, r.creation_date, if r.workcategory.nil? then "" else r.workcategory.name end, r.description, r.materials, r.dimention1, r.dimention2, r.dimention_units, r.expense_hours, r.expense_materials, r.income, r.retail, r.share_public, r.image1_file_name]
+        csv << [r.inventory_id, r.title, r.creation_date, if r.workcategory.nil? then "" else r.workcategory.name end, r.description, r.materials, r.dimensions, r.expense_hours, r.expense_materials, r.income, r.retail, r.share_public, r.image1_file_name]
       end
     end
   end

@@ -13,9 +13,6 @@
 #  income              :decimal(, )
 #  retail              :decimal(, )
 #  description         :string(255)
-#  dimention1          :string(255)
-#  dimention2          :string(255)
-#  dimention_units     :string(255)
 #  share_makers        :boolean          default(FALSE)
 #  share_public        :boolean          default(FALSE)
 #  created_at          :datetime         not null
@@ -26,6 +23,7 @@
 #  image1_updated_at   :datetime
 #  materials           :string(255)
 #  quantity            :integer          default(1)
+#  dimensions          :string(255)
 #
 
 require 'spec_helper'

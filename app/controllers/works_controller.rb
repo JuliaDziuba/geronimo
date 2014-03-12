@@ -87,7 +87,7 @@ class WorksController < ApplicationController
 
     def canHaveMoreWorks?
       tier = current_user.tier
-      limit = User::TYPE_LIMITS[tier]["works"]
+      limit = User::TIER_LIMITS[tier]["works"]
       canHaveMore = limit.nil? || current_user.works.all.count < limit 
       if !canHaveMore
         flash[:error] = "Sorry you have reached the limit of works for your subscription level: #{tier}. Please upgrade your account before adding another work."

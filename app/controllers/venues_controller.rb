@@ -77,7 +77,7 @@ class VenuesController < ApplicationController
 
     def canHaveMoreVenues?
       tier = current_user.tier
-      limit = User::TYPE_LIMITS[tier]["venues"]
+      limit = User::TIER_LIMITS[tier]["venues"]
       canHaveMore = limit.nil? || current_user.venues.all.count < limit 
       if !canHaveMore
         flash[:error] = "Sorry you have reached the limit of venues for your subscription level: #{tier}. Please upgrade your account before adding another work."

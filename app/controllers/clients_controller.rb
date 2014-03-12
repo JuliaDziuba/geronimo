@@ -77,7 +77,7 @@ class ClientsController < ApplicationController
 
     def canHaveMoreClients?
       tier = current_user.tier
-      limit = User::TYPE_LIMITS[tier]["clients"]
+      limit = User::TIER_LIMITS[tier]["clients"]
       canHaveMore = limit.nil? || current_user.clients.all.count < limit 
       if !canHaveMore
         flash[:error] = "Sorry you have reached the limit of clients for your subscription level: #{tier}. Please upgrade your account before adding another work."
