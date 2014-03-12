@@ -6,7 +6,7 @@
           <li><%= link_to "About", about_user_path(@user) %></li>
         <% end %>
         <% if @user.blog.present? %>
-          <li><%= link_to "Blog", @user.blog %></li>
+          <li><%= link_to "Blog", "#{@user.blog}" %></li>
         <% end %>  
         <% if @user.share_works && @user.works.shared_with_public.any? %>
           <% @user.workcategories.parents_of_shared_with_public.each do |parent| %>

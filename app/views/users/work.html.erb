@@ -1,6 +1,6 @@
 <% 
-	parentName = parent_name(@category) 
-  fullCategory = "#{@category.name} #{parentName if parentName != 'None'}" 
+	parentName = parent_name(@workcategory) 
+  fullCategory = "#{@workcategory.name} #{parentName if parentName != 'None'}" 
 %>
 <% provide(:title, fullCategory) %>
 <% provide(:subnav, "All Available") %>
@@ -14,7 +14,7 @@
 					</tr><tr>
 				<% end %>
 				<td class="pw_thumbnail">
-					<%= link_to image_tag(work.image1.url(:thumb)), "/makers/#{@user.to_param}/#{@category.name}/#{work.inventory_id}" %>
+					<%= link_to image_tag(work.image1.url(:thumb)), "/makers/#{@user.to_param}/#{@workcategory.name}/#{work.inventory_id}" %>
 				</td>
 			<% end %>
 		</tr></table>
@@ -33,11 +33,11 @@
 		</div>
 	</div>
 </div>
-<% if !@category.artist_statement.blank? %>
+<% if !@workcategory.artist_statement.blank? %>
 	<div class="row-fluid pw_statement">
 		<div class="pw_container span12">
 			<%= "Artist's statement on #{fullCategory}:" %><br />
-			<i><%= @category.artist_statement %></i>
+			<i><%= @workcategory.artist_statement %></i>
 		</div>
 	</div>
 <% end %>

@@ -72,8 +72,8 @@ class UsersController < ApplicationController
     @user = User.find_by_username(params[:user])
     if @user.share_with_public
       if @user.share_works
-        @category = @user.workcategories.find_by_name(params[:workcategory])
-        @works = @user.works.shared_with_public.in_category(@category)
+        @workcategory = @user.workcategories.find_by_name(params[:workcategory])
+        @works = @user.works.shared_with_public.in_category(@workcategory)
         @work =  @user.works.find_by_inventory_id(params[:work]) || @works.first
         render :layout => 'site'
       else
