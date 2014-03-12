@@ -81,7 +81,7 @@ class ClientsController < ApplicationController
       canHaveMore = limit.nil? || current_user.clients.all.count < limit 
       if !canHaveMore
         flash[:error] = "Sorry you have reached the limit of clients for your subscription level: #{tier}. Please upgrade your account before adding another work."
-        redirect_to upgrade_user_path(current_user) 
+        redirect_to account_user_path(current_user) 
       end
     end
   
