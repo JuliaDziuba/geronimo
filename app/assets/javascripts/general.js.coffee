@@ -1,7 +1,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/             
 
-# General functions 
+# General functions
 
 toggle_sidebar = () ->
   console.log("Side bar toggled.")
@@ -11,7 +11,6 @@ toggle_sidebar = () ->
   $('#content').toggleClass('offset2 offset0')
   $('#content').toggleClass('less-indent junk')
   $('#sidebar-content').toggleClass('show not-displayed')
-  format_editable_table_form()
 
 hide_activity_form = () ->
   console.log("Running hide form. " + window.location.pathname + window.location.search)
@@ -64,46 +63,16 @@ format_activity_form = () ->
     else if category == "Recycle"  
       $('#start_date').addClass('first-child')  
 
-format_editable_table_form = () ->
-  console.log("Modifying the theader row to match the tbody.")
-  # Change the selector if needed
-  $table = $("table.editable")
-  $bodyCells = $table.find("tbody tr:first").children()
-  colWidth = undefined
-
-  # Get the tbody columns width array
-  colWidth = $bodyCells.map(->
-    $(this).width()
-    ).get()
-
-  console.log("The tbody widths are: " + colWidth)
-
-  console.log("Before " + $table.find("thead tr:first").children().map(->
-    $(this).width()
-    ).get())
-
-  # Set the width of thead column
-  $table.find("thead tr").children().each (i, v) ->
-    $(v).width colWidth[i]
-
-  console.log("After " + $table.find("thead tr:first").children().map(->
-    $(this).width()
-    ).get())
-
 toggle_print = () ->
   if $('#content').attr("class").toString().match("span10") != null
     toggle_sidebar()
   window.print() 
 
 
-
-
-
   # IDs that lead to js
 $ ->
   $('#toggleSidebar').click ->
     toggle_sidebar()
-
 
 # Classes that lead to js
 
@@ -131,12 +100,6 @@ $ ->
     $('#' + element_id).slideToggle()
 
 $ ->
-  if $('.editable')
-    $(document).ready(->
-     format_editable_table_form() 
-    )
-
-$ ->
   $(".document_print").click ->
     toggle_print()
 
@@ -156,6 +119,3 @@ $ ->
     format_activity_form()  
 
 # Events that lead to js
-$(window).resize(-> # Trigger resize handler 
-  format_editable_table_form()    
-).resize()   

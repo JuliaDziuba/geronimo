@@ -81,19 +81,19 @@ $navbarBorder:                    darken($navbarBackground, 12%) !default;
 .td_small { width: 5%; } /* 5 */ 
 .td_medium { width: 7%; } /* 2 */
 .td_large { width: 10%} /* 4 */
-.td_x_large { width: 21%} /* 1 */
+.td_x_large { width: 19%} /* 1 */
 
 table.editable{
 	width: 100%;
 	table-layout: fixed;
-	thead { display:block; margin:0px; left:0px; font-size:12px;}
-	tbody { display:inline-block;  overflow:scroll; height:300px; width:100%; }
+	thead { display:block; margin:0px; left:0px; font-size:12px; tr { display:block;}}
+	tbody { display:inline-block;  overflow-y:scroll; overflow-x:hidden; height:300px; width:100%; }
 	th { height:50px; div { overflow: hidden; } }
 	td { height:30px; margin:0px; padding:0px;}
 	input[type="text"] { border:0px; margin:0px; padding:2px; background-color: transparent; box-shadow:none; font-size:12px;}
 	.checkbox { vertical-align: middle; }
 	select { border:0px; margin:0px; padding:2px; background-color: transparent; font-size:12px; }
-	.above_scroll { width:7px; border-top:0px; border-right:0px; border-bottom:0px;}
+	.above_scroll { width:2%; border-top:0px; border-right:0px; border-bottom:0px;}
 }
 
 .tooltip {
