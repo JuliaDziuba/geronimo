@@ -101,7 +101,7 @@ $ ->
 
 $ ->
   $(".document_print").click ->
-    toggle_print()
+    toggle_print()   
 
 
 # Pages that lead to js

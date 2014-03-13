@@ -121,12 +121,22 @@ class UsersController < ApplicationController
   end
 
   def update
+    referer_public = params[:user] && params[:user][:share_with_public]
     if @user.update_attributes(params[:user])
-      flash[:success] = "Your profile was updated!"
       sign_in @user
-      redirect_to @user
+      if referer_public
+        flash[:success] = "Your public profile has been updated!"
+        redirect_to public_user_path(@user)
+      else
+        flash[:success] = "Your profile was updated!"
+        redirect_to @user
+      end
     else
-      render 'edit'
+      if referer_public
+        render 'public'
+      else
+        render 'edit'
+      end
     end
   end
 

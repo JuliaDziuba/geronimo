@@ -66,6 +66,7 @@ class User < ActiveRecord::Base
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token
 
+  validate  :full_urls
   validate  :username_format
   validates :username, presence: true, length: { maximum: 50 }, uniqueness: { case_sensitive: false }
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }, uniqueness: { case_sensitive: false }
@@ -143,6 +144,21 @@ class User < ActiveRecord::Base
       has_one_letter = username =~ /[a-zA-Z]/
       all_valid_characters = username =~ /^[a-zA-Z0-9_]+$/
       errors.add(:username, "must have at least one letter and contain only letters, digits, or underscores") unless (has_one_letter and all_valid_characters)
+    end
+
+    def full_urls
+      blog_url_not_valid = ! (blog.blank? or blog.include? 'http://' or blog.include? 'https://')
+      domain_url_not_valid = ! (domain.blank? or domain.include? "http://" or domain.include? "https://")
+      valid = true
+      if blog_url_not_valid
+        errors.add(:blog, "must start with http:// or https://")
+        valid = false
+      end
+      if domain_url_not_valid
+        errors.add(:domain, "must start with http:// or https://")
+        valid = false
+      end
+      valid
     end
 
 end

@@ -3,9 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
-  if (window.location.pathname.match(/public/))
-    # console.log('ran page loading')
-    if $('#user_share_with_public').attr('checked')=="checked"
+  if $('#user_share_with_public').attr('checked')=="checked"
       show_public_form()
 
 $ ->    
