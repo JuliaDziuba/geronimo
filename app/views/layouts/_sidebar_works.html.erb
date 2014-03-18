@@ -4,10 +4,7 @@
 %>
 <div class="accordion-heading">
   <div class="accordion-toggle-small">
-    <a href="<%= works_path %>">Works</a>
-    <% if works.any? || categories.any? %>
-      <a data-toggle="collapse" data-parent="#accordianParent" href="#worksSection">&nbsp;<b class="caret lighter bottom"></b>&nbsp;</a>
-    <% end %>
+    <a href="<%= works_path %>">Works</a><a data-toggle="collapse" data-parent="#accordianParent" href="#worksSection">&nbsp;<b class="caret lighter bottom"></b>&nbsp;</a>
   </div>
 </div>
 <div id="worksSection" class="accordion-body collapse">
@@ -41,8 +38,8 @@
         <li>By Category</li>
         <!-- WorkCategories -->
         <ul class="accordion-list">
-          <% parentListed = false %>
           <% parentCategories.each do |parent| %>
+            <% parentListed = false %>
             <% if parent.works.length > 0 %>
               <li><%= link_to parent.name, works_path(:categoryfilter => parent.name) %> (<%= parent.works.length %>)<ul class="accordion-list">
                 <% parentListed = true %>
@@ -52,7 +49,7 @@
               <% childrenCategories.each do |child| %>
                 <% childWorks = child.works %>
                 <% if childWorks.any? %>
-                  <% if !parentListed %>
+                  <% if not parentListed %>
                     <li><%= parent.name %><ul class="accordion-list">
                     <% parentListed = true %>
                   <% end %>
@@ -69,10 +66,8 @@
           <% end %>
         <!-- /WorkCategories -->
         <li class="divider"></li>
-        <li><%= link_to "Activities", activities_path %></li>
-        <li class="divider"></li>
-        <li><%= link_to "Categories", workcategories_path %></li>
       <% end %>
+      <li><%= link_to "Categories", workcategories_path %></li>
     </ul>
   </div>
 </div>

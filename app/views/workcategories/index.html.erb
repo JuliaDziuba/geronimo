@@ -1,35 +1,10 @@
 <% provide(:crumbs, "Works," + works_path) %>
 <% provide(:title, 'Categories') %>
+<% provide(:new_link, "categories/new") %>
 
 <% if @parentcategories.any? %>
-  <% provide(:new_link, "categories/new") %>
-
-  <ul class="list">
-    <% @parentcategories.each do |parent| %>
-      <li class="spaced">
-        <%= render 'list_element_workcategory', category: parent %>
-      	<ul class="sublist">
-          <% Rails.logger.warn("getting children")
-            children = parent.children.all(:include => [:works]) 
-            Rails.logger.warn("Done getting children") %>
-      		<% if children.any? %>
-      			<% children.each do |child| %>
-         	 		<li class="spaced">
-           		<%= render 'list_element_workcategory', category: child %>
-         		 </li>
-        		<% end %>
-        	<% end %>
-      	</ul>
-      </li>
-    <% end %>
-  </ul>
+  <%= render 'list_workcategories', parentcategories: @parentcategories %>
 <% else %>
-<p>This tool has two primary features 
-    <ol class="indent">
-      <li>keep a detailed inventory of all works, track their movement as they find a home, and the income they generate and</li>
-      <li>promote the artist and their works with a public site.</li>
-    </ol>
-  </p>
-  <p>Categories are used to organize the works and public site.</p>
-	<%= render 'get_started_workcategories', category: @workcategory, categories: @parentcategories %>
+  <%= render 'get_started_workcategories' %>
+  <b>Click the <%= link_to "NEW", new_workcategory_path %> button to get started!</b>
 <% end %>

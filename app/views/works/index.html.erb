@@ -1,7 +1,7 @@
 <% provide(:title, 'Works') %>
+<% provide(:new_link, "works/new") %>
 
 <% if @works.any? %>
-	<% provide(:new_link, "works/new") %>
 	<% if !@categoryfilter.nil? %>
 		<% categoryfilter = @categoryfilter.split('.') %>
 		Works have been filtered to show only <%= categoryfilter[1] %> <%= categoryfilter[0] %> works.<br /><br />
@@ -29,15 +29,14 @@
 	  </div>
 	</div>
 <% elsif  @parentcategories.any? %>
-	<p>Nice start creating categories. Create more categories or start uploading works!</p>
-	<h2><a id="new_workcategory_display" class="display_toggle" href="#new_workcategory">Create more categories</a></h2>
-  <div id="new_workcategory" class="not-displayed">
-    <%= render 'workcategories/form_workcategory', category: @workcategory, categories: @parentcategories %>
-  </div>
-  <h2><a id="new_work_display" class="display_toggle" href="#new_work">Start uploading works</a></h2>
-  <div id="new_work" class="not-displayed">
-    <%= render 'form_work', work: @work, categories: @workcategories %>
-  </div>
+	<%= render 'get_started_works' %>
+	<b>Click the <%= link_to "NEW", new_work_path %> button to start adding works.</b><br /><br /><br />
+	<b><%= link_to "Create MORE categories of works first!", new_workcategory_path %></b>
+	<h2>Existing work categories</h2>
+	<%= render 'workcategories/list_workcategories', parentcategories: @parentcategories %>
 <% else %>
-	<%= render 'get_started_works', parentcategories: @parentcategories, categories: @workcategories, workcategory: @workcategory%>
+	<%= render 'get_started_works' %>
+	<b>Click the <%= link_to "NEW", new_work_path %> button to start adding works.</b><br /><br /><br />
+	<%= render 'workcategories/get_started_workcategories' %>
+	<b><%= link_to "Create a NEW category of works first!", new_workcategory_path %></b>
 <% end %>

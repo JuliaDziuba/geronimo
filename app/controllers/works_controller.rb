@@ -66,7 +66,7 @@ class WorksController < ApplicationController
   def index
     @categoryfilter = params[:categoryfilter]
     @statusfilter = params[:statusfilter]
-    @parentcategories = current_user.workcategories.parents_only.all
+    @parentcategories = current_user.workcategories.parents_only.all(:include => :works)
     @workcategories = current_user.workcategories_showing_families
     @works = works_given_filters(@categoryfilter, @statusfilter)
     @workcategory = Workcategory.new

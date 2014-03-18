@@ -1,7 +1,8 @@
+<p>You can organize your works and public site by creating <i>categories</i> of work.</p>
 <p>A couple points about categories:</p>
 <ul>
-	<li>Categories can be added, modified or deleted at any time.</li>
-	<li>Works can belong to a single category at a time but can be moved from category to category at any time.</li>
+	<li>Categories can be added, modified or deleted at any time. When a category is deleted works in that category become 'uncategorized'.</li>
+	<li>Works can belong to a single category at a time and can be moved from category to category at any time.</li>
 	<li>Good categories capture a body of work you wish to present as a collection either because of when it was created and the common themes the collection may include or because of how it was created. Categories should not try to capture the "status" of the works (e.g. "Commissioned", "Sold", etc) since this will be automatically managed by the tool. </li>
 	<li>Makers' Moon supports parent and child categories. A category becomes a parent when another category claims it as its parent. No children categories can have children of their own.
 	
@@ -22,6 +23,4 @@
 		</ul>
 	</li>
 </ul>
-<p>
-<h2>Create a Category </h2>
-<%= render 'workcategories/form_workcategory', category: category, categories: categories %>
+</p>

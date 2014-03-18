@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
   MAKER = "maker"
   MASTER = "master"
   TIER_LIMITS = {
-    User::APPRENTICE => { "works" => 1, "clients" => 5, "venues" => 2 },
+    User::APPRENTICE => { "works" => 10, "clients" => 5, "venues" => 2 },
     User::MAKER => { "works" => 100, "clients" => nil, "venues" => nil },
     User::MASTER => { "works" => nil, "clients" => nil, "venues" => nil } 
   }

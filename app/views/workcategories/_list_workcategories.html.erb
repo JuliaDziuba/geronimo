@@ -1,0 +1,19 @@
+<ul class="list">
+  <% parentcategories.each do |parent| %>
+    <li class="spaced">
+      <%= render 'workcategories/list_element_workcategory', category: parent %>
+    	<ul class="sublist">
+        <% Rails.logger.warn("getting children")
+          children = parent.children.all(:include => [:works]) 
+          Rails.logger.warn("Done getting children") %>
+    		<% if children.any? %>
+    			<% children.each do |child| %>
+       	 		<li class="spaced">
+          		<%= render 'workcategories/list_element_workcategory', category: child %>
+        		</li>
+        	<% end %>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+</ul>

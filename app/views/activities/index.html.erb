@@ -1,9 +1,9 @@
-<% provide(:crumbs, "Works," + works_path) %>
 <% provide(:title, 'Activities') %>
+<% provide(:new_link, "activities/new") %>
 
 <% if @activities.any? %>
-	<% provide(:new_link, "activities/new") %>
 	<%= render 'table_activities', activities: @activities, date_end_include: true, client_include: true %>
 <% else %>
-	<%= render 'get_started_activities', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>
+	<%= render 'get_started_activities' %>
+	<b>Click the <%= link_to "NEW", new_activity_path %> button to get started!</b>
 <% end %>

@@ -1,0 +1,144 @@
+<% provide(:title, "Tour Makers' Moon") %>
+<div class="row-fluid">
+	<div class="span12">
+		<div class="span4">
+			<b>
+			<ul>
+				<li>At a glance</li>
+				<li><%= link_to "Private database", tour_path(:anchor => "tour-private-database") %>
+					<ul>
+						<li><%= link_to "Works", tour_path(:anchor => "tour-works") %></li>
+						<li><%= link_to "Venues", tour_path(:anchor => "tour-venues") %></li>
+						<li><%= link_to "Clients", tour_path(:anchor => "tour-clients") %></li>
+						<li><%= link_to "Activities", tour_path(:anchor => "tour-activities") %></li>
+						<li><%= link_to "Import and export of data", tour_path(:anchor => "tour-import-and-export") %></li>
+						<li><%= link_to "Insights and documents", tour_path(:anchor => "tour-insights-and-documents") %></li>
+					</ul>
+				</li>
+				<li><%= link_to "Public site", tour_path(:anchor => "tour-public-site") %></li>
+				<li><%= link_to "User configurations", tour_path(:anchor => "tour-user-configurations") %></li>
+			</ul>
+			</b>
+		</div>
+		<div class="span7 offset1">
+			<legend class="h2">At a glance</legend>
+			<p>Makers' Moon has two primary features:
+	    <ol class="indent">
+	      <li>Keep detailed records of all works, clients, and venues along with the activities between them</li>
+	      <li>Promote you the artist and your works with a public site</li>
+	    </ol>
+	    The first feature is managed in the panel to the left. The second feature is managed with the <i>Public site</i> drop down in the right side of the header. Your Makers' Moon account, profile, import and export of data and general help can all be found in the Makers' Moon drop down in the right side of the header.
+	  </p>
+		</div>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<br /><br />
+		<legend id= "tour-private-database" class="h2">Private database</legend>
+	</div>
+	<div class="span12">
+		<div class="span3 feature_image"><%= link_to (image_tag "tour_private_database.png"), image_path("tour_private_database.png"), :target => "_blank" %></div>
+		<div class="span8 offset1">
+			<p>Makers' moon provides artists with a secure database that is backed up nightly. To add, view, modify, delete, or analyze data from the database use the panel to the left. Clicking the arrow in the top right of the panel will hide the panel to maximize screen space when working with data.</p>
+		</div>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<br /><br />
+		<legend id= "tour-works" class="h2">Works</legend>
+	</div>
+	<div class="span12">
+		<div class="span6">
+			<%= render 'works/get_started_works' %>
+			<%= render 'workcategories/get_started_workcategories' %>
+		</div>
+		<div class="span6">
+			<%= link_to (image_tag "tour_works_s.png"), image_path("tour_works.png"), :target => "_blank", :class => "tour-works-image" %>
+		</div>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<br /><br />
+		<legend id= "tour-venues" class="h2">Venues</legend>
+	</div>
+	<div class="span9">
+		<%= render 'venues/get_started_venues', venuecategories: @venuecategories%>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<br /><br />
+		<legend id= "tour-clients" class="h2">Clients</legend>
+	</div>
+	<div class="span9">
+		<%= render 'clients/get_started_clients'%>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<br /><br />
+		<legend id= "tour-activities" class="h2">Activities</legend>
+	</div>
+	<div class="span9">
+		<%= render 'activities/get_started_activities'%>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<br /><br />
+		<legend id= "tour-import-and-export" class="h2">Import and export of data</legend>
+	</div>
+	<div class="span12">
+		<div class="span5">
+			Makers' Moon values your time and appreciates sometimes you have to move data in and out of the tool quickly. Importing and exporting is easy with Makers' Moon! <br /><br />There are links to import and export data on the <%= link_to "DASHBOARD", user_path(current_user) %> and also in the Makers' Moon drop down in the top right of the header. 
+		</div>
+		<div class="span7">
+			<%= link_to (image_tag "tour_import_and_export_s.png"), image_path("tour_import_and_export.png"), :target => "_blank", :class => "tour-works-image" %>
+		</div>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<br /><br />
+		<legend id= "tour-insights-documents" class="h2">Insights and documents</legend>
+	</div>
+	<div class="span9">
+		Having all of your businesses data in one place makes it easy to appreciate your business and its strengths. Makers' Moon has built in analyses that allow for insights into your sales, profits, and strongest venues and customers. Click on the <i>Insights</i> link in the left panel for more details.<br /><br />
+
+		Makers' Moon also helps you manage venue and client relations with a professional front by creating documents such as consignment sheets, invoices, price lists and portfolio pages. Click on the <i>Documents</i> link in the left panel for more details.
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<br /><br />
+		<legend id= "tour-public-site" class="h2">Public site</legend>
+	</div>
+	<div class="span12">
+		<div class="span6">
+			With just a couple easy clicks you can create public webpages to promote yourself and your work. Makers' Moon currently allows you to create an about page, a contact page, a link to an external blog, and pages for each category of work you wish to share. <br /><br />
+			To share works publically check the <i>Make public</i> box for each piece you like. Then in the <i>Public site</i> configuration check <i>Create works for public pages</i> and works will be automatically organized on your public site into their categories.
+			<br /><br />
+			<%= link_to (image_tag "publicSite.png"), image_path("publicSite.png"), :target => "_blank" %>
+		</div>
+		<div class="span5 offset1">
+			<%= link_to (image_tag "tour_public_site_s.png"), image_path("tour_public_site.png"), :target => "_blank" %>
+		</div>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<br /><br />
+		<legend id= "tour-user-configuration" class="h2">User configuration</legend>
+	</div>
+	<div class="span12">
+		<div class="span7">
+			Your account and profile can be configured by clicking links in the Makers' Moon drop down in the right of the header. Account configurations include the tier level of Makers' Moon and instructions if you wish to stop using the tool. Your profile configurations include your business name, email address, password, etc. This drop down menu also has a help link and a link to show other makers using Makers' Moon! 
+		</div>
+		<div class="span5">
+				<%= link_to (image_tag "tour_user_configurations.png"), image_path("tour_user_configurations.png"), :target => "_blank" %>
+			</div>
+		</div>
+</div>

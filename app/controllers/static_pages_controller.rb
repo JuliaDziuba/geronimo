@@ -10,6 +10,10 @@ class StaticPagesController < ApplicationController
   	end
   end
 
+  def tour
+    @venuecategories = Venuecategory.all
+  end
+
   def features
     render :layout => 'landing'
   end

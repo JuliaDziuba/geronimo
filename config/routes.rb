@@ -1,6 +1,7 @@
 Makersmoon::Application.routes.draw do
 
   root to: 'static_pages#home'
+  match '/tour', to: 'static_pages#tour'
   match '/features', to: 'static_pages#features'
   match '/pricing',  to: 'static_pages#pricing'
   match '/help',     to: 'static_pages#help'
