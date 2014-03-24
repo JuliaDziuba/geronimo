@@ -34,11 +34,11 @@
 						$<%= @work.retail %>
 					<% end %>
 					<br />
-					<% if @user.share_works_dimensions %><%= @work.dimensions %><br /><% end %>
-					<% if @user.share_works_materials %><%= " Created with #{@work.materials}." %><br /><% end %>
+					<% if @user.share_works_dimensions and not @work.dimensions.blank? %><%= @work.dimensions %><br /><% end %>
+					<% if @user.share_works_materials and not @work.materials.blank? %><%= " Created with #{@work.materials}." %><br /><% end %>
 				</span>
 			</p>
-			<p><% if @user.share_works_description %><%= @work.description %><% end %></p>
+			<% if @user.share_works_description %><p><%= @work.description %></p><% end %>
 		</div>
 	</div>
 </div>
