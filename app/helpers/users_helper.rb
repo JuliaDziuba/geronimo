@@ -77,4 +77,12 @@ module UsersHelper
 		change
 	end 
 
+	def image_alt_description(user, work)
+		description = "Work titled #{work.title} by #{user.name}"
+		description += " and created with #{work.materials}" if user.share_works_materials
+		description += "."
+		description += " #{work.description}" if user.share_works_description
+		description
+	end
+
 end
