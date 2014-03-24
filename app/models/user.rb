@@ -74,7 +74,9 @@ class User < ActiveRecord::Base
   validates :name, length: { maximum: 50 }
   validates :about, length: { maximum: 2000 }
   
-
+  default_scope order: 'users.created_at DESC'
+  scope :shared_publicly, where('users.share_with_public')
+  
 
   def to_param
     username

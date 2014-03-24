@@ -98,7 +98,8 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    @users = User.shared_publicly.all
+    @works = Work.shared_with_public.limit(100).order('works.updated_at DESC')
   end
 
   def new

@@ -1,22 +1,40 @@
-<% provide(:title, 'Makers on their way to the moon') %>
-<% @users.each do |user| %>
-<div class="row-fluid users-index">
-    <div class="span1"><%= image_tag user.image.url(:thumb), alt: "Picture of #{user.name}" %></div>
-    <div>
-      <h4>
-        <%= user.name %> 
-        <span class="p lighter">(<%= user.username %>) joined <%= user.created_at.strftime("%B %Y")%></span>
-        <% if current_user.admin? %>
-          <%= link_to icon(:trash), user, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete #{user.name}?" }, title: 'Delete?' %>
-        <% end %>
-      </h4>
-      <div class="lighter">
-	      <% if user.share_with_public %>
-          <%= render 'public_pages_list', user: user %>
-        <% else %>
-        This maker has not yet created a public site.
-        <% end %>
+<% provide(:title, "Public makers' moon") %>
+<div class="row-fluid">
+  <div class="span5 user-index-panel">
+    <h2>Public makers</h2>
+    <% @users.each do |user| %>
+      <div class="row-fluid">
+        <div class="span2 makers_image"><%= image_tag user.image.url(:thumb), alt: "Picture of #{user.name}" %></div>
+        <div class="span9">
+          <h4>
+            <%= user.name %> 
+            <span class="p lighter">(<%= user.username %>) joined <%= user.created_at.strftime("%B %Y")%></span>
+            <% if current_user.admin? %>
+              <%= link_to icon(:trash), user, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete #{user.name}?" }, title: 'Delete?' %>
+            <% end %>
+          </h4>
+          <div class="lighter">
+            <%= render 'public_pages_list', user: user %>
+          </div>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
-<% end %>
+  <div class="span5 offset1 user-index-panel">
+    <h2>Works recently updated and shared</h2>
+    <% @works.each do |work| %>
+      <div class="row-fluid">
+        <div class="span2 makers_image"><%= image_tag work.image1.url(:thumb), alt: "Picture of #{work.title}" %></div>
+        <div class="span9 lighter">
+          <%= link_to work.title, "/makers/#{work.user.to_param}/#{work.workcategory.name}/#{work.inventory_id}" %>
+          created by 
+          <% if work.user.share_about %>
+            <%= link_to work.user.name, about_user_path(work.user) %>
+          <% else %>
+            <%= work.user.name %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
