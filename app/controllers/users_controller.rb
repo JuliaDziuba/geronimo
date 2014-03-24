@@ -99,7 +99,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.shared_publicly.all
-    @works = Work.shared_with_public.limit(100).order('works.updated_at DESC')
+    @works = Work.shared_with_public.limit(100).order('works.updated_at DESC').all(:include =>  [:workcategory, :user])
   end
 
   def new

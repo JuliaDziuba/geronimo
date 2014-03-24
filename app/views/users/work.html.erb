@@ -27,9 +27,18 @@
 		<div class="row-fluid span6">
 			<p>
 				<strong><%= @work.title %></strong><span class="lighter">, <%= @work.creation_date.strftime("%B %Y") %><br />
-				<%= status(@work) %><% if @user.share_price && !@work.income_retail.blank? %>, $<%= @work.income_retail %><% end %></span>
+					<% status = status_short(@work) %>
+					<% if @user.share_works_status %><%= status %><% end %>
+					<% if @user.share_works_price and not @work.retail.blank? and not status == "Sold" and not status == "Commissioned" %>
+						<% if @user.share_works_status %>, <% end %>
+						$<%= @work.retail %>
+					<% end %>
+					<br />
+					<% if @user.share_works_dimensions %><%= @work.dimensions %><br /><% end %>
+					<% if @user.share_works_materials %><%= " Created with #{@work.materials}." %><br /><% end %>
+				</span>
 			</p>
-			<p><%= @work.description %></p>
+			<p><% if @user.share_works_description %><%= @work.description %><% end %></p>
 		</div>
 	</div>
 </div>

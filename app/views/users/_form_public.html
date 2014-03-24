@@ -114,11 +114,34 @@
         <legend><%= f.check_box :share_works %> Create pages for public works</legend>
       </div>
       <div id="works_content" class="not-displayed">
-        There are currently <%= user.works.shared_with_public.count %> works shared with the public and an additional <%= user.works.not_shared_with_public.count %> works could be shared. To change which works are public click on the <i>Works</i> link and edit those you wish.
-        <div class="control-group">
-            <%= f.label :share_price, "Include prices", :class => "control-label" %>
-            <div class="controls"><%= f.check_box :share_price %></div>
+        <p>There are currently <%= user.works.shared_with_public.count %> works shared with the public and an additional <%= user.works.not_shared_with_public.count %> works could be shared. To change which works are public click on the <i>Works</i> link and edit those you wish.</p>
+        <p>The title of the work and its creation date are automatically share. Which of the other details would you like to share about each work? Note prices are only shown for those works that are not commissioned or sold.</p>
+        <div class="row-fluid">
+          <div class="span3">
+            <div class="control-group">
+              <%= f.label :share_works_dimensions, "Dimensions", :class => "control-label" %>
+              <div class="controls"><%= f.check_box :share_works_dimensions %></div>
+            </div>
+            <div class="control-group">
+              <%= f.label :share_works_materials, "Materials", :class => "control-label" %>
+              <div class="controls"><%= f.check_box :share_works_materials %></div>
+            </div>
+            <div class="control-group">
+              <%= f.label :share_works_description, "Description", :class => "control-label" %>
+              <div class="controls"><%= f.check_box :share_works_description %></div>
+            </div>
           </div>
+          <div class="span3">
+            <div class="control-group">
+              <%= f.label :share_works_status, "Status", :class => "control-label" %>
+              <div class="controls"><%= f.check_box :share_works_status %></div>
+            </div>
+            <div class="control-group">
+              <%= f.label :share_works_price, "Prices", :class => "control-label" %>
+              <div class="controls"><%= f.check_box :share_works_price %></div>
+            </div>
+          </div>
+        </div>
       </div>
       <!--
       <div id="share_purchase" class="not-displayed">

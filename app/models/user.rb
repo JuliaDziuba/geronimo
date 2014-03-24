@@ -2,46 +2,51 @@
 #
 # Table name: users
 #
-#  id                 :integer          not null, primary key
-#  admin              :boolean
-#  share_with_makers  :boolean
-#  share_with_public  :boolean
-#  share_about        :boolean
-#  share_contact      :boolean
-#  share_price        :boolean          default(FALSE)
-#  share_purchase     :boolean
-#  share_works        :boolean
-#  username           :string(255)
-#  password_digest    :string(255)
-#  remember_token     :string(255)
-#  name               :string(255)
-#  domain             :string(255)
-#  tag_line           :string(255)
-#  blog               :string(255)
-#  about              :string(2000)
-#  email              :string(255)
-#  phone              :string(255)
-#  address_street     :string(255)
-#  address_city       :string(255)
-#  address_state      :string(255)
-#  address_zipcode    :string(255)
-#  social_etsy        :string(255)
-#  social_googleplus  :string(255)
-#  social_facebook    :string(255)
-#  social_linkedin    :string(255)
-#  social_twitter     :string(255)
-#  social_pinterest   :string(255)
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  image_file_name    :string(255)
-#  image_content_type :string(255)
-#  image_file_size    :integer
-#  image_updated_at   :datetime
-#  tier               :string(255)
+#  id                      :integer          not null, primary key
+#  admin                   :boolean          default(FALSE)
+#  share_with_makers       :boolean          default(FALSE)
+#  share_with_public       :boolean          default(FALSE)
+#  share_about             :boolean          default(FALSE)
+#  share_contact           :boolean          default(FALSE)
+#  share_works_price       :boolean          default(FALSE)
+#  share_purchase          :boolean          default(FALSE)
+#  share_works             :boolean          default(FALSE)
+#  username                :string(255)
+#  password_digest         :string(255)
+#  remember_token          :string(255)
+#  name                    :string(255)
+#  domain                  :string(255)
+#  tag_line                :string(255)
+#  blog                    :string(255)
+#  about                   :string(2000)
+#  email                   :string(255)
+#  phone                   :string(255)
+#  address_street          :string(255)
+#  address_city            :string(255)
+#  address_state           :string(255)
+#  address_zipcode         :string(255)
+#  social_etsy             :string(255)
+#  social_googleplus       :string(255)
+#  social_facebook         :string(255)
+#  social_linkedin         :string(255)
+#  social_twitter          :string(255)
+#  social_pinterest        :string(255)
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  image_file_name         :string(255)
+#  image_content_type      :string(255)
+#  image_file_size         :integer
+#  image_updated_at        :datetime
+#  tier                    :string(255)
+#  share_works_status      :boolean          default(TRUE)
+#  share_works_materials   :boolean          default(TRUE)
+#  share_works_dimensions  :boolean          default(TRUE)
+#  share_works_description :boolean          default(TRUE)
 #
 
+
 class User < ActiveRecord::Base
-  attr_accessible :admin, :email, :password, :password_confirmation, :username, :about, :address_city, :address_state, :address_street, :address_zipcode, :blog, :domain, :email, :image, :name, :phone, :share_with_makers, :share_about, :share_contact, :share_price, :share_purchase, :share_works, :share_with_public, :social_etsy, :social_googleplus, :social_facebook, :social_linkedin, :social_pinterest, :social_twitter, :tag_line, :tier
+  attr_accessible :admin, :email, :password, :password_confirmation, :username, :about, :address_city, :address_state, :address_street, :address_zipcode, :blog, :domain, :email, :image, :name, :phone, :share_with_makers, :share_about, :share_contact, :share_purchase, :share_works, :share_works_price, :share_works_status, :share_works_materials, :share_works_dimensions, :share_works_description, :share_with_public, :social_etsy, :social_googleplus, :social_facebook, :social_linkedin, :social_pinterest, :social_twitter, :tag_line, :tier
   has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "MakersMoonIconTransparent.gif"
 
   # There are three types of Users listed as constants below. Their arrays are [typeName, works limit, clients limit, venues limit].

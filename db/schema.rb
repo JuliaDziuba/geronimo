@@ -113,14 +113,14 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
   end
 
   create_table "users", :force => true do |t|
-    t.boolean  "admin"
-    t.boolean  "share_with_makers"
-    t.boolean  "share_with_public"
-    t.boolean  "share_about"
-    t.boolean  "share_contact"
-    t.boolean  "share_price",                        :default => false
-    t.boolean  "share_purchase"
-    t.boolean  "share_works"
+    t.boolean  "admin",                                   :default => false
+    t.boolean  "share_with_makers",                       :default => false
+    t.boolean  "share_with_public",                       :default => false
+    t.boolean  "share_about",                             :default => false
+    t.boolean  "share_contact",                           :default => false
+    t.boolean  "share_works_price",                       :default => false
+    t.boolean  "share_purchase",                          :default => false
+    t.boolean  "share_works",                             :default => false
     t.string   "username"
     t.string   "password_digest"
     t.string   "remember_token"
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
     t.string   "domain"
     t.string   "tag_line"
     t.string   "blog"
-    t.string   "about",              :limit => 2000
+    t.string   "about",                   :limit => 2000
     t.string   "email"
     t.string   "phone"
     t.string   "address_street"
@@ -141,13 +141,17 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
     t.string   "social_linkedin"
     t.string   "social_twitter"
     t.string   "social_pinterest"
-    t.datetime "created_at",                                            :null => false
-    t.datetime "updated_at",                                            :null => false
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.string   "tier"
+    t.boolean  "share_works_status",                      :default => true
+    t.boolean  "share_works_materials",                   :default => true
+    t.boolean  "share_works_dimensions",                  :default => true
+    t.boolean  "share_works_description",                 :default => true
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

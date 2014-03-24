@@ -30,4 +30,14 @@ module WorksHelper
   	end
   end
 
+  def status_short(work)
+    if work.available
+      "Available"
+    else
+      a = work.activities.first
+      s = a.activitycategory.status
+      s
+    end
+  end
+
 end
