@@ -1,7 +1,14 @@
 <% provide(:title, "Public makers' moon") %>
 <div class="row-fluid">
+  <div class="span6">
+    <h2>Public makers</h2>  
+  </div>
+  <div class="span5 offset1">
+    <h2>Works recently updated and shared</h2>  
+  </div>
+</div>
+<div class="row-fluid">
   <div class="span6 user-index-panel">
-    <h2>Public makers</h2>
     <% @users.each do |user| %>
       <div class="row-fluid">
         <div class="span2 makers_image"><%= image_tag user.image.url(:thumb), alt: "Picture of #{user.name}" %></div>
@@ -21,7 +28,6 @@
     <% end %>
   </div>
   <div class="span5 offset1 user-index-panel">
-    <h2>Works recently updated and shared</h2>
     <% @works.each do |work| %>
       <div class="row-fluid">
         <div class="span2 makers_image"><%= image_tag work.image1.url(:thumb), alt: "Picture of #{work.title}" %></div>
