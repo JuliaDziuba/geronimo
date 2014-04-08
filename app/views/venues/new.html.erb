@@ -1,4 +1,8 @@
 <% provide(:crumbs, "Venues," + venues_path) %>
 <% provide(:title, 'New') %>
 
-<%= render 'form_venue', venue: @venue, venuecategories: @venuecategories %>
+<div class="row-fluid">
+	<div class="span7 form-box">
+		<%= render 'form_venue', venue: @venue, venuecategories: @venuecategories %>
+	</div>
+</div>

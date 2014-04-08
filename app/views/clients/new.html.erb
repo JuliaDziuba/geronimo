@@ -1,4 +1,8 @@
 <% provide(:crumbs, "Clients," + clients_path) %>
 <% provide(:title, 'New') %>
 
-<%= render 'form_client', client: @client %>
+<div class="row-fluid">
+	<div class="span7 form-box">
+		<%= render 'form_client', client: @client %>
+	</div>
+</div>

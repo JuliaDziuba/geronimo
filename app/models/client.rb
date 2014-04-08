@@ -21,8 +21,11 @@ class Client < ActiveRecord::Base
 
   belongs_to :user
 	has_many :activities
-
+  has_many :notes, :as => :notable, dependent: :destroy
+  has_many :actions, :as => :actionable, dependent: :destroy
+  
 	before_save :set_munged_name
+
 
 	validates :user_id, presence: true
 	validates :name, presence: true, length: { maximum: 30 }

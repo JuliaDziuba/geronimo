@@ -27,6 +27,9 @@ class Venue < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :venuecategory
 	has_many :activities
+  has_many :notes, :as => :notable, dependent: :destroy
+  has_many :actions, :as => :actionable, dependent: :destroy
+  
 
   before_save :set_munged_name
 

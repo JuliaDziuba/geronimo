@@ -70,25 +70,25 @@
       <% end %>
 		</table>
 	</div>
-	<div class="span5 offset2">
-		<legend class="h2">Makers' Moon Tier</legend>
-		<%= @user.tier.capitalize %> 
-		<% if not @user.tier == User::MASTER %>
-			<%= link_to "Upgrade account", account_user_path(@user), :class => "btn f-right" %>
-		<% end %>	
-		<br /><br />
-		<legend class="h2">Public Site</legend>
+	<div class="span6 offset2">
+		<legend class="h2">Makers' Moon <%= @user.tier.capitalize %>
+			<% if not @user.tier == User::MASTER %>
+				<span class="p f-right"><%= link_to "Upgrade", account_user_path(@user) %></span>
+			<% end %>
+		</legend>
+		<legend class="h2">Public Site<span class="p f-right"><%= link_to "Mingle", users_path %> | <%= link_to "Manage", public_user_path(@user) %></span></legend>
 		<% if @user.share_with_public %>
-			<%= render 'public_pages_list', user: @user %> <%= link_to "Manage site", public_user_path(@user), :class => "btn f-right" %> 
+			<%= render 'public_pages_list', user: @user %>
 		<% else %>
-			Use Makers' Moon to promote yourself and your works!
+			Promote yourself and your work!
 			<%= link_to "Go public", public_user_path(@user), :class => "btn f-right" %>
-			<br /><br />
 		<% end %>
+		<br /><br /><br />
+		<%= render "actions/actions_area_full", actions: @actions %>
 		<br /><br />
-		<legend class="h2">Fellow Makers</legend>
-		Check out other makers on Makers' Moon!
-		<%= link_to "Meet makers", users_path, :class => "btn f-right" %>
+		<%= render "notes/notes_area_full", notes: @notes %>
+		<br /><br />
+	</div>
 	</div>
 </div><!-- row-fluid -->
 

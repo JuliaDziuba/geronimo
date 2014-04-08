@@ -1,0 +1,29 @@
+<div class="form-box">
+<%= form_tag update_multiple_actions_path, :method => :put, :multipart => true do %>
+  <% actions.each do | action| %>
+    <% if !action.errors.empty? %>
+      <%= "Updates to the <i>#{action.date}</i> action had the following errors:" %><br />
+      <ul>
+        <% action.errors.full_messages.each do |e| %>
+          <li><%= e %></li><br />
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+  <table class="editable overflow_auto">
+    <tbody>
+      <% actions.each do |action| %>
+        <%= fields_for "actions[]", action do |f| %>
+          <tr>
+            <td class="td_tiny"><%= f.check_box :complete %></td>
+            <td class="td_small"><%= f.text_field :due, :class => "datepicker" %></td>
+            <td class="td_large"><%= f.text_field :action %></td>      
+          </div>
+        <% end %>
+      <% end %><!-- actions loop -->
+      </tbody>
+  </table>
+  <br />
+  <p><%= submit_tag "Update actions", :class => "edit_actions_submit btn" %></p>
+<% end %>
+</div>

@@ -2,30 +2,45 @@
 <% provide(:title, @venue.name) %>
 <% provide(:delete_record, @venue) %>
 
-<%= render 'form_venue', venue: @venue, venuecategories: @venuecategories %>
-
-<h2><%= link_to "New Activity", "../works/activities/new?venue=#{@venue.munged_name}" %></h2>
-
-<% 
+<div class="row-fluid">
+	<div class="span7">
+		<div class="form-box">
+			<%= render 'form_venue', venue: @venue, venuecategories: @venuecategories %>
+		</div>
+		<br /><br />
+		<legend class="h2">Activities &nbsp; &nbsp; <%= link_to "New", "../works/activities/new?venue=#{@venue.munged_name}" %></legend>
+		<% 
 	currentConsignments = @venue.current_consignments
 	pastConsignments = @venue.past_consignments
 	sales = @venue.sales
 %>
-<h2>Current and Future Works Consigned</h2>
-<% if currentConsignments.any? %>
-	<%= render 'activities/table_activities', activities: currentConsignments, date_end_include: true, client_include: false %>
-<% else %>
-	There are no works currently consigned to this venue.
-<% end %>
-<h2>Works Previously Consigned</h2>
-<% if pastConsignments.any? %>
-	<%= render 'activities/table_activities', activities: pastConsignments, date_end_include: true, client_include: false %>
-<% else %>
-	There were no works previously consigned to this venue.
-<% end %>
-<h2>Works Sold</h2>
-<% if sales.any? %>
-	<%= render 'activities/table_activities', activities: sales, date_end_include: false, client_include: false %>
-<% else %>
-	There are no sales to this venue yet.
-<% end %>
+		<h2>Current and Future Works Consigned</h2>
+		<% if currentConsignments.any? %>
+			<div class="form-box">
+				<%= render 'activities/table_activities', activities: currentConsignments, date_end_include: true, client_include: false %>
+			</div>
+		<% else %>
+			There are no works currently consigned to this venue.
+		<% end %>
+		<h2>Works Previously Consigned</h2>
+		<% if pastConsignments.any? %>
+			<div class="form-box">
+				<%= render 'activities/table_activities', activities: pastConsignments, date_end_include: true, client_include: false %>
+			</div>
+		<% else %>
+			There were no works previously consigned to this venue.
+		<% end %>
+		<h2>Works Sold</h2>
+		<% if sales.any? %>
+			<div class="form-box"><%= render 'activities/table_activities', activities: sales, date_end_include: false, client_include: false %>
+			</div>
+		<% else %>
+			There are no sales to this venue yet.
+		<% end %>
+	</div>
+	<div class="span4 offset1">
+		<%= render 'actions/actions_area', actions: @actions %>
+		<br /><br />
+		<%= render 'notes/notes_area', notes: @notes %>
+	</div>
+</div>

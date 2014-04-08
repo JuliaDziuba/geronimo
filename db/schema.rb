@@ -13,6 +13,19 @@
 
 ActiveRecord::Schema.define(:version => 20140815165255) do
 
+  create_table "actions", :force => true do |t|
+    t.date     "due"
+    t.string   "action"
+    t.integer  "actionable_id"
+    t.string   "actionable_type"
+    t.boolean  "complete"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "actions", ["actionable_id"], :name => "index_actions_on_actionable_id"
+  add_index "actions", ["actionable_type"], :name => "index_actions_on_actionable_type"
+
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
     t.integer  "activitycategory_id"
@@ -94,6 +107,18 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
 
   add_index "documents", ["munged_name"], :name => "index_documents_on_munged_name"
   add_index "documents", ["user_id"], :name => "index_documents_on_user_id"
+
+  create_table "notes", :force => true do |t|
+    t.date     "date"
+    t.string   "note"
+    t.integer  "notable_id"
+    t.string   "notable_type"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "notes", ["notable_id"], :name => "index_notes_on_notable_id"
+  add_index "notes", ["notable_type"], :name => "index_notes_on_notable_type"
 
   create_table "payment_notifications", :force => true do |t|
     t.text     "params"

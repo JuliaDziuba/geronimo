@@ -2,14 +2,25 @@
 <% provide(:title, @client.name) %>
 <% provide(:delete_record, @client) %>
 
-<%= render 'form_client', client: @client %>
-
-<h2><%= link_to "New Activity", "../works/activities/new?client=#{@client.munged_name}" %></h2>
-
-<h2>Collected Works</h2>
-<% if @activities.any? %>
-<%= render 'activities/table_activities', activities: @activities, date_end_include: false, client_include: false %>
-<% else %>
-This client has not yet purchased works.
-<% end %>
+<div class="row-fluid">
+	<div class="span7">
+		<div class="form-box">
+			<%= render 'form_client', client: @client %>
+		</div>
+		<br /><br />
+		<legend class="h2">Activities &nbsp; &nbsp; <%= link_to "New", "../works/activities/new?client=#{@client.munged_name}" %></legend>
+		<% if @activities.any? %>
+			<div class="form-box">
+				<%= render 'activities/table_activities', activities: @activities, date_end_include: false, client_include: false %>
+			</div>
+		<% else %>
+			No activities recorded for this client yet.
+		<% end %>
+	</div>
+	<div class="span4 offset1">
+		<%= render 'actions/actions_area', actions: @actions %>
+		<br /><br />
+		<%= render 'notes/notes_area', notes: @notes %>
+	</div>
+</div>
 

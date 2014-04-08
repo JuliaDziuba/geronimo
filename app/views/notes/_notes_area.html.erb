@@ -1,0 +1,6 @@
+<legend class="h2">Notes<%= link_to "NEW", new_note_path, :class => "f-right" %></legend>
+<% if notes.any? %>
+	<%= render 'notes/table_edit_notes', notes: notes %>
+<% else %>
+	No notes are saved about this work.
+<% end %>

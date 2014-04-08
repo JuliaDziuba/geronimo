@@ -11,6 +11,7 @@
 						<li><%= link_to "Venues", tour_path(:anchor => "tour-venues") %></li>
 						<li><%= link_to "Clients", tour_path(:anchor => "tour-clients") %></li>
 						<li><%= link_to "Activities", tour_path(:anchor => "tour-activities") %></li>
+						<li><%= link_to "Actions and notes", tour_path(:anchor => "tour-actions-and-notes") %></li>
 						<li><%= link_to "Import and export of data", tour_path(:anchor => "tour-import-and-export") %></li>
 						<li><%= link_to "Insights and documents", tour_path(:anchor => "tour-insights-and-documents") %></li>
 					</ul>
@@ -84,6 +85,17 @@
 	</div>
 	<div class="span9">
 		<%= render 'activities/get_started_activities'%>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<br /><br />
+		<legend id= "tour-actions-and-notes" class="h2">Actions and Notes</legend>
+	</div>
+	<div class="span12">
+		<div class="span9">
+			Makers' Moon helps you stay organized and on top of your business with its actions and notes. General actions and notes can be made or they can be made about any specific work, venue, or client. This will allow you to remeber important details of interactions with venues or clients and make sure you follow up on time! Actions and notes are displayed on the <%= link_to "DASHBOARD", user_path(current_user) %> and are also shown on the page of each work, venue, or client they are specific to.  
+		</div>
 	</div>
 </div>
 <div class="row-fluid">

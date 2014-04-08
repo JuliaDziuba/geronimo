@@ -38,6 +38,17 @@ Makersmoon::Application.routes.draw do
   resources :clients, exclude: [:edit], path: "/internal/clients/"
   resources :imports, only: [:new, :create]
   resources :documents
+  resources :notes do
+    collection do
+      put :update_multiple
+    end
+  end
+
+  resources :actions do
+    collection do
+      put :update_multiple
+    end
+  end
 
   resources :questions, only: [:create]
 

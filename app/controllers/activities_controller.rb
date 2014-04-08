@@ -4,6 +4,7 @@ class ActivitiesController < ApplicationController
   before_filter :correct_user, except: [:new, :create, :index]
 
   def new 
+    session[:return_to] = request.referer
     @activity = Activity.new
     @activitycategories = Activitycategory.all
     if params.has_key?(:category)
@@ -25,11 +26,12 @@ class ActivitiesController < ApplicationController
   end
 
   def create
+    session[:return_to] ||= request.referer
     @activity = current_user.activities.build(params[:activity])
     @success = activity_plays_nice_with_others(@activity)
     if @success
       flash[:success] = "Your new activity was recorded!"
-      redirect_to activities_path
+      redirect_to session.delete(:return_to)
     else
       @activitycategories = Activitycategory.all
       @works = current_user.works.all
@@ -40,6 +42,7 @@ class ActivitiesController < ApplicationController
   end
 
   def edit
+    session[:return_to] = request.referer
     @activity = current_user.activities.find_by_id(params[:id])
     @activitycategories = Activitycategory.all
     @works = current_user.works.all
@@ -48,12 +51,13 @@ class ActivitiesController < ApplicationController
   end
 
   def update
+    session[:return_to] ||= request.referer
     @activity = current_user.activities.find_by_id(params[:id])
     @activity.attributes = params[:activity]
     @success = activity_plays_nice_with_others(@activity)
     if @success
       flash[:success] = "The activity was updated!"
-      redirect_to activities_path
+      redirect_to session.delete(:return_to)
     else
       @activitycategories = Activitycategory.all
       @works = current_user.works.all

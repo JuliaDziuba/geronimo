@@ -95,6 +95,8 @@ class UsersController < ApplicationController
     @user = User.find_by_username(params[:id])
     @workcategories = @user.workcategories
     @works = @user.works
+    @actions = Action.all_for_users(current_user.id);
+    @notes = Note.all_for_users(current_user.id);
   end
 
   def index

@@ -1,0 +1,10 @@
+<% provide(:crumbs, "#{@type[:crumb_name]}," + eval(@type[:crumb_path]) + "|" + 
+@crumb_name + "," + 
+@crumb_path) %>
+<% provide(:title, 'New') %>
+
+<div class="row-fluuid">
+	<div class="span5">
+		<%= render 'form_action', action: @action_item %>	
+	</div>
+</div>

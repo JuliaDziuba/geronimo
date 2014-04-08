@@ -33,6 +33,8 @@ class ClientsController < ApplicationController
   def show
   	@client = current_user.clients.find_by_munged_name(params[:id])
     @activities = @client.activities.all    
+    @notes = @client.notes.all
+    @actions = @client.actions.all
   end
 
   def index

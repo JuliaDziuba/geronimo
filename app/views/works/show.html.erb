@@ -1,18 +1,33 @@
 <% provide(:crumbs, "Works," + works_path) %>
 <% provide(:title, @work.title) %>
 <% provide(:delete_record, @work) %>
-<%= render 'form_work', work: @work, categories: @workcategories %>
-<% status = status(@work) %>
-<p>This work is <%= status %></p>
-
-<% if @activities.any? || status == 'Available' %>
-	<h2>
-		<% if @activities.any? %>Its Journey &nbsp; <% end %>
-		<% if status == 'Available' %>
-			<%= link_to "New Activity", "activities/new?work=#{@work.inventory_id}" %>
+<div class="row-fluid">
+	<div class="span7 form-box">
+		<%= render 'form_work', work: @work, categories: @workcategories %>
+	</div>
+	<div class="span4 offset1">
+		<% status = status(@work) %>
+		<p>Work is <%= status %></p>
+		<br />
+		<%= render 'actions/actions_area', actions: @actions %>
+		<br /><br />
+		<%= render 'notes/notes_area', notes: @notes %>
+	</div>
+</div>
+<br /><br />
+<div class="row-fluid">
+	<div class="span7">
+		<legend class="h2">Activities
+			<% if status == 'Available' or status.include? "Co" %>
+				&nbsp; &nbsp; <%= link_to "New", "activities/new?work=#{@work.inventory_id}" %>
+			<% end %>
+		</legend>
+		<% if @activities.any? %>
+			<div class="form-box">
+				<%= render 'activities/table_activities', activities: @activities,date_end_include: true, client_include: true  %>
+			</div>
+		<% else %>
+			No activities recorded yet about this work.
 		<% end %>
-	</h2>
-<% end %>
-<% if @activities.any? %>
-	<%= render 'activities/table_activities', activities: @activities, date_end_include: true, client_include: true %>
-<% end %>
+	</div>
+</div>

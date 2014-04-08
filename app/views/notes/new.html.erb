@@ -1,0 +1,10 @@
+<% if not @type.nil? %>
+	<% provide(:crumbs, "#{@type[:crumb_name]}," + eval(@type[:crumb_path]) + "|" + @crumb_name + "," + @crumb_path) %>
+<% end %>
+<% provide(:title, 'New') %>
+
+<div class="row-fluuid">
+	<div class="span5">
+		<%= render 'form_note', note: @note, works: @works, venues: @venues, clients: @clients %>	
+	</div>
+</div>

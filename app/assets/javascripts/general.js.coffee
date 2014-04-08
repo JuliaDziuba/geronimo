@@ -3,6 +3,32 @@
 
 # General functions
 
+format_note_form = () ->
+  console.log("Formatting note form.")
+  $('#note_form_works').hide()
+  $('#note_form_venues').hide()
+  $('#note_form_clients').hide()
+  type = $('#note_notable_type :selected').text()
+  if type == "Work"
+    $('#note_form_works').show()
+  else if type == "Venue"
+    $('#note_form_venues').show()
+  else if type == "Client"
+    $('#note_form_clients').show()
+
+format_action_form = () ->
+  console.log("Formatting action form.")
+  $('#action_form_works').hide()
+  $('#action_form_venues').hide()
+  $('#action_form_clients').hide()
+  type = $('#action_item_actionable_type :selected').text()
+  if type == "Work"
+    $('#action_form_works').show()
+  else if type == "Venue"
+    $('#action_form_venues').show()
+  else if type == "Client"
+    $('#action_form_clients').show()
+
 toggle_sidebar = () ->
   console.log("Side bar toggled.")
   $('#toggleSidebar').toggleClass('icon-chevron-left icon-chevron-right')
@@ -117,5 +143,23 @@ $ ->
 $ ->    
   $('#activity_activitycategory_id').change ->
     format_activity_form()  
+
+# Action related js
+$ ->
+  if (window.location.pathname.match(/actions\/new/))
+    format_action_form()   
+  
+$ ->
+  $('#action_item_actionable_type').change ->
+    format_action_form()    
+
+# Note related js
+$ ->
+  if (window.location.pathname.match(/notes\/new/))
+    format_note_form()   
+  
+$ ->
+  $('#note_notable_type').change ->
+    format_note_form()
 
 # Events that lead to js

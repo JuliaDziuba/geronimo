@@ -65,7 +65,9 @@ class User < ActiveRecord::Base
   has_many :venues, dependent: :destroy
   has_many :clients, dependent: :destroy
   has_many :activities, dependent: :destroy
-  has_many :documents
+  has_many :documents, dependent: :destroy
+  has_many :notes, :as => :notable, dependent: :destroy
+  has_many :actions, :as => :actionable, dependent: :destroy
   has_many :questions
 
   before_save { |user| user.email = email.downcase }

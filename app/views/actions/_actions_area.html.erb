@@ -1,0 +1,6 @@
+<legend class="h2">Actions<%= link_to "NEW", new_action_path, :class => "f-right" %></legend>
+<% if actions.any? %>
+	<%= render 'actions/table_edit_actions', actions: actions %>
+<% else %>
+	No actions are saved about this work.
+<% end %>

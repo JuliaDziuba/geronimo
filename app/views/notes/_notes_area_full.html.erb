@@ -1,0 +1,6 @@
+<legend class="h2">Notes<span class="p f-right"><%= link_to "New", new_note_path %> | <%= link_to "View", notes_path %></span></legend>
+<% if notes.any? %>
+	<%= render 'notes/table_full_edit_notes', notes: notes %>
+<% else %>
+	No notes have been saved.
+<% end %>

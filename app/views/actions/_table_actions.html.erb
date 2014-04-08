@@ -1,0 +1,27 @@
+<table id="Actions">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Complete</th>
+      <th>Due date</th>
+      <th>Category</th>
+      <th>Name</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% actions.each do |action| %>
+      <tr>
+        <td width="5%">
+          <%= link_to icon(:edit), edit_action_path(action), class: "icon-edit bottom" %> &nbsp;
+          <%= link_to icon(:trash), action, class: "icon-trash bottom", method: :delete, data: { confirm: "Are you sure?" }, title: 'Delete?' %>
+        </td>
+        <td width="5%"><%= action.complete %></td>
+        <td width="10%"><%= action.due %></td>
+        <td width="10%"><%= getNameOfActionableType(action.actionable_type) %></td>
+        <td width="15%"><%= getNameOfActionableId(action.actionable_type, action.actionable_id) %></td>
+        <td><%= action.action %></td>
+      </tr>
+    <% end %>  
+  </tbody>
+</table>

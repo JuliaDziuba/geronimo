@@ -1,4 +1,7 @@
 <% provide(:crumbs, "Works," + works_path) %>
 <% provide(:title, 'New') %>
-
-<%= render 'form_work', work: @work, categories: @workcategories %>
+<div class="row-fluid">
+	<div class="span7">
+		<%= render 'form_work', work: @work, categories: @workcategories %>
+	</div>
+</div>

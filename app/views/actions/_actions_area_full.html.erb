@@ -1,0 +1,6 @@
+<legend class="h2">Actions<span class="p f-right"><%= link_to "New", new_action_path %> | <%= link_to "View", actions_path %></span></legend>
+<% if actions.any? %>
+	<%= render 'actions/table_full_edit_actions', actions: actions %>
+<% else %>
+	No actions have been saved.
+<% end %>

@@ -1,0 +1,54 @@
+<%= form_for(note, :html => { :class => "form-horizontal" }) do |f| %>
+ 	<%= render 'shared/error_messages', object: f.object %>
+  <div class="row-fluid">
+    <% if note.notable_type.nil? %>
+      <div class="control-group">
+        <%= f.label :notable_type, "Type", :class => "control-label" %>
+        <div class="controls">
+          <%= f.select(:notable_type, Note::TYPES, :prompt => 'Select') %>
+        </div>
+      </div>
+      <div id="note_form_works" class="control-group">
+        <%= f.label :notable_id, "Work", :class => "control-label" %>
+        <div class="controls">
+          <%= f.collection_select :notable_id, works, :id, :title, :prompt => true %>
+        </div>
+      </div>
+      <div id="note_form_venues" class="control-group">
+        <%= f.label :notable_id, "Venue", :class => "control-label" %>
+        <div class="controls">
+          <%= f.collection_select :notable_id, venues, :id, :name, :prompt => true %>
+        </div>
+      </div>
+      <div id="note_form_clients" class="control-group">
+        <%= f.label :notable_id, "Client", :class => "control-label" %>
+        <div class="controls">
+          <%= f.collection_select :notable_id, clients, :id, :name, :prompt => true %>
+        </div>
+      </div>
+    <% else %>
+      <%= f.hidden_field :notable_type, :value => note.notable_type %>
+      <%= f.hidden_field :notable_id, :value => note.notable_id %>
+    <% end %> 
+    <div class="control-group">
+      <%= f.label :date, "Date", :class => "control-label" %>
+      <div class="controls">
+        <% if note.date.present? %>
+          <%= f.text_field :date, :class => "datepicker", :value => note.date.strftime("%d %B %Y") %>
+        <% else %>
+          <%= f.text_field :date, placeholder: "YYYY-MM-DD", :class => "datepicker" %>
+        <% end %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :note, :class => "control-label" %>
+      <div class="controls"><%= f.text_area :note, placeholder: "A note to yourself about this #{note.notable_type}.", rows: "3" %></div>
+    </div>
+    <div class="row-fluid">
+      <div class="form-actions">
+        <%= f.submit class: "btn" %>
+      </div> 
+    </div>
+  </div>
+<% end %> 
+    

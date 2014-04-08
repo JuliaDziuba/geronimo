@@ -60,7 +60,8 @@ class WorksController < ApplicationController
     @work = current_user.works.find_by_inventory_id(params[:id])
     @workcategories = current_user.workcategories_showing_families
     @activities = @work.activities.all
-
+    @notes = @work.notes.all
+    @actions = @work.actions.all
   end
 
   def index

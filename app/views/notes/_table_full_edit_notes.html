@@ -1,0 +1,29 @@
+<div class="form-box">
+<%= form_tag update_multiple_notes_path, :method => :put, :multipart => true do %>
+  <% notes.each do | note| %>
+    <% if !note.errors.empty? %>
+      <%= "Updates to the <i>#{note.date}</i> note had the following errors:" %><br />
+      <ul>
+        <% note.errors.full_messages.each do |e| %>
+          <li><%= e %></li><br />
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+  <table class="editable small-box overflow_auto">
+    <tbody>
+      <% notes.each do |note| %>
+        <%= fields_for "notes[]", note do |f| %>
+          <tr>
+            <td class="td_small"><%= f.text_field :date, :class => "datepicker" %></td>
+            <td class="td_medium lighter"><%= "#{getNameOfNotableType(note.notable_type)} #{getNameOfNotableId(note.notable_type, note.notable_id)}" %></td>
+            <td class="td_large"><%= f.text_field :note %></td>      
+          </div>
+        <% end %>
+      <% end %><!-- notes loop -->
+      </tbody>
+  </table>
+  <br />
+  <p><%= submit_tag "Update notes", :class => "edit_notes_submit btn" %></p>
+<% end %>
+</div>

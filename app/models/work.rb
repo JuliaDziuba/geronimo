@@ -28,13 +28,14 @@
 
 
 class Work < ActiveRecord::Base
-  attr_accessible :creation_date, :description, :dimensions, :expense_hours, :expense_materials, :image1, :retail, :income, :inventory_id, :materials, :share_makers, :share_public, :title, :workcategory_id
+  attr_accessible :creation_date, :description, :dimensions, :expense_hours, :expense_materials, :image1, :retail, :income, :inventory_id, :materials, :quantity, :share_makers, :share_public, :title, :workcategory_id
 	has_attached_file :image1, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "MissingImage.jpg"
 
 	belongs_to :user
   belongs_to :workcategory
 	has_many :activities
-  
+  has_many :notes, :as => :notable, dependent: :destroy 
+  has_many :actions, :as => :actionable, dependent: :destroy 
 
 	validates :user_id, presence: true
   validates :creation_date, presence: true
@@ -46,6 +47,7 @@ class Work < ActiveRecord::Base
   validates :expense_materials, :numericality => { :greater_than_or_equal_to => 0, :allow_nil => true }
   validates :retail, :numericality => { :greater_than_or_equal_to => 0, :allow_nil => true }
   validates :income, :numericality => { :greater_than_or_equal_to => 0, :allow_nil => true }
+  validates :quantity, :numericality => { :greater_than_or_equal_to => 0, :allow_nil => true }
   validates_inclusion_of :share_makers, :in => [true, false]
   validates_inclusion_of :share_public, :in => [true, false]
   validate  :inventory_id_format

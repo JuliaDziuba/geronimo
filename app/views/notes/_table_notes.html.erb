@@ -1,0 +1,25 @@
+<table id="Notes">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Date</th>
+      <th>Category</th>
+      <th>Name</th>
+      <th>Note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% notes.each do |note| %>
+      <tr>
+        <td width="5%">
+          <%= link_to icon(:edit), edit_note_path(note), class: "icon-edit bottom" %> &nbsp;
+          <%= link_to icon(:trash), note, class: "icon-trash bottom", method: :delete, data: { confirm: "Are you sure?" }, title: 'Delete?' %>
+        </td>
+        <td width="10%"><%= note.date %></td>
+        <td width="10%"><%= getNameOfNotableType(note.notable_type) %></td>
+        <td width="15%"><%= getNameOfNotableId(note.notable_type, note.notable_id) %></td>
+        <td><%= note.note %></td>
+      </tr>
+    <% end %>  
+  </tbody>
+</table>

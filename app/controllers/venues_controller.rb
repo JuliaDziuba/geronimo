@@ -35,6 +35,8 @@ class VenuesController < ApplicationController
   def show
     @venue = current_user.venues.find_by_munged_name(params[:id])
     @venuecategories = Venuecategory.all
+    @notes = @venue.notes.all
+    @actions = @venue.actions.all
   end
 
   def index
