@@ -31,7 +31,7 @@
         <td><div>
           <%= link_to "Edit", work_path(work) %><br />
               <%= link_to "Delete", work, method: :delete, data: { confirm: "Delete #{work.title}?" }, title: 'Delete?' %><br />
-          <%= link_to "Record new activity", "activities/new?work=#{work.inventory_id}" %>
+          <%= link_to "Record new activity", "works/activities/new?work=#{work.inventory_id}" %>
         </div></td>  
       </tr>
     <% end %>  
