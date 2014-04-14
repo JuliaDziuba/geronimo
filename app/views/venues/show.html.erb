@@ -9,33 +9,12 @@
 		</div>
 		<br /><br />
 		<legend class="h2">Activities &nbsp; &nbsp; <%= link_to "New", "../works/activities/new?venue=#{@venue.munged_name}" %></legend>
-		<% 
-	currentConsignments = @venue.current_consignments
-	pastConsignments = @venue.past_consignments
-	sales = @venue.sales
-%>
-		<h2>Current and Future Works Consigned</h2>
-		<% if currentConsignments.any? %>
+		<% if @activities.any? %>
 			<div class="form-box">
-				<%= render 'activities/table_activities', activities: currentConsignments, date_end_include: true, client_include: false %>
+				<%= render 'activities/table_activities', activities: @activities, date_end_include: true, client_include: false %>
 			</div>
 		<% else %>
-			There are no works currently consigned to this venue.
-		<% end %>
-		<h2>Works Previously Consigned</h2>
-		<% if pastConsignments.any? %>
-			<div class="form-box">
-				<%= render 'activities/table_activities', activities: pastConsignments, date_end_include: true, client_include: false %>
-			</div>
-		<% else %>
-			There were no works previously consigned to this venue.
-		<% end %>
-		<h2>Works Sold</h2>
-		<% if sales.any? %>
-			<div class="form-box"><%= render 'activities/table_activities', activities: sales, date_end_include: false, client_include: false %>
-			</div>
-		<% else %>
-			There are no sales to this venue yet.
+			No activities recorded for this venue yet.
 		<% end %>
 	</div>
 	<div class="span4 offset1">
