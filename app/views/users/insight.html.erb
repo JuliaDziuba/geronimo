@@ -67,10 +67,10 @@
   	<div id="SoldWorks_Content" class="row-fluid not-displayed">
 			Absolutes of sold works, reported in 'Dollars (# number of entries with data)' unless otherwise specified
 			<%
-		    sold_1_month  = soldWithin(@sold_works,1.month.ago.to_date)
-		    sold_6_months = soldWithin(@sold_works,6.months.ago.to_date) 
-		    sold_1_year   = soldWithin(@sold_works,1.year.ago.to_date)
-		    sold_5_years  = soldWithin(@sold_works,5.year.ago.to_date)
+		    sold_1_month  = soldSince(@sold_works,1.month.ago.to_date)
+		    sold_6_months = soldSince(@sold_works,6.months.ago.to_date) 
+		    sold_1_year   = soldSince(@sold_works,1.year.ago.to_date)
+		    sold_5_years  = soldSince(@sold_works,5.year.ago.to_date)
 		    sold_ever     = @sold_works
 				
 				sold_1_month_average_retail = averageAndCountNonNilKeys(sold_1_month,'retail')
@@ -263,7 +263,7 @@
 	</div>
 	<div class="span3 offset1">
 		<legend class="h2">Cyclical Reports</legend>
-		Reports of natural calendar cycles. Note these are updated as past records are updated. <br /><br />Coming soon!
+		Reports of natural calendar cycles. Note these are updated as past records are updated.
 		<br /><br />
 		<% current_year = Date.today.year %>
 		<% (0..(current_year - @date_of_oldest_work.year)).each do |i| %>
@@ -277,7 +277,7 @@
 				 	report_name = "#{year} Annual Report"
 				 end
 			%>
-			<%= link_to report_name, "#" %><br />
+			<%= link_to report_name, annual_user_path(current_user, :year => year) %><br />
 		<% end %>
 	</div>
 </div>

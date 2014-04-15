@@ -17,6 +17,7 @@ Makersmoon::Application.routes.draw do
 
   resources :users, path: "makers/" do
     member do 
+      get :annual
       get :insight
       get :public
       get :about

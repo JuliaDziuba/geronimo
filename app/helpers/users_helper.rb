@@ -1,6 +1,6 @@
 module UsersHelper
 
-  def soldWithin(works, date)
+  def soldSince(works, date)
     works.select{ |w| w["sale_date"] > date}
   end
 

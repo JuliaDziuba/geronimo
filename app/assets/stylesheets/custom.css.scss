@@ -93,6 +93,11 @@ $navbarBorder:                    darken($navbarBackground, 12%) !default;
 .td_large { width: 10%} /* 4 */
 .td_x_large { width: 19%} /* 1 */
 
+table {
+	caption {
+	text-align:left;
+	}
+}
 table.small-box{
 	tbody{ height:150px; }
 }

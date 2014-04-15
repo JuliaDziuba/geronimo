@@ -1,0 +1,92 @@
+<% provide(:title, "#{@year} annual report") %>
+<p>This report summarizes the sales and other activities of <%= @year %>. All statistics are shown by quarter, the total in <%= @year %>, and "to date". Quarters align with taxation quarters. Q1 is January, Feburary, and March. Q2 is April, May, and June. Q3 is July, August, and September. Q4 is October, November, and December. To date is the total in <%= @year %> through <%= @date_of_oldest_work %>.</p>
+<legend class="h2">Sales</legend>
+<div class="row-fluid">
+	<div class="span6">
+		<table id="AnnualAbsoluteSoldWorkTotals">
+		  <caption><span class="h3">Absolute sales</span>: Absolutes of sold works, reported in 'dollars (# number of entries with data)' unless otherwise specified</caption>
+		  <thead>
+		    <tr>
+		    	<th>Sale Details</th>
+		      <th>Q1</th>
+		      <th>Q2</th>
+		      <th>Q3</th>
+		      <th>Q4</th>
+		      <th><%= @year %></th>
+		      <th>To date</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		    	<td>Number of sales</td>
+		    	<% @sold_works_array.each do | a | %>
+		    		<td><%= a.count %></td>
+		    	<% end %>
+		    </tr>
+		    <% sum_outcomes = [["Retail value", "retail"], ["Income", "income"], ["Material costs", "expense_materials"], ["Profit", "profit"], ["Hours, in hrs", "expense_hours"]] %>
+		    <% sum_outcomes.each do | o | %>
+		    	<tr>
+		    		<td><%= o[0] %></td>
+		    		<% @sold_works_array.each do | a | %>
+		    			<td><%= sumAndCountNonNilKeys(a, o[1]) %></td>
+		    		<% end %>
+		    	</tr>
+		    <% end %>
+		  </tbody>
+		</table>
+	</div>
+	<div class="span5 offset1">
+		<table id="AnnualAverageSoldWorkTotals">
+			<caption><span class="h3">Average sales</span>: Average per sold work, reported in 'dollars (# number of entries with data)' unless otherwise specified</caption>
+		  <thead>
+		    <tr>
+		    	<th>Sale Details</th>
+		      <th>Q1</th>
+		      <th>Q2</th>
+		      <th>Q3</th>
+		      <th>Q4</th>
+		      <th><%= @year %></th>
+		      <th>To date</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <% sum_outcomes = [["Est. wage, in $/hr", "wage"], ["Retail value", "retail"], ["Income", "income"], ["Material costs", "expense_materials"], ["Profit", "profit"], ["Hours, in hrs", "expense_hours"]] %>
+		    <% sum_outcomes.each do | o | %>
+		    	<tr>
+		    		<td><%= o[0] %></td>
+		    		<% @sold_works_array.each do | a | %>
+		    			<td><%= averageAndCountNonNilKeys(a, o[1]) %></td>
+		    		<% end %>
+		    	</tr>
+		    <% end %>
+		  </tbody>
+		</table>
+	</div>
+</div>
+<br /><br />
+<div class="row-fluid">
+	<div class="span6">
+		<%= render "table_annual_sold_works_by_outcome", outcome: "category", hoaa: @sold_works_by_category_array, year: @year %>
+	</div>
+	<div class="span5 offset1">
+		<%= render "table_to_date_sold_works_by_outcome", outcome: "category", hoa: @sold_works_by_category_to_date %>
+	</div>
+</div>
+<br /><br />
+<div class="row-fluid">	
+	<div class="span6">
+		<%= render "table_annual_sold_works_by_outcome", outcome: "venue", hoaa: @sold_works_by_venue_array, year: @year %>
+	</div>
+	<div class="span5 offset1">
+		<%= render "table_to_date_sold_works_by_outcome", outcome: "venue", hoa: @sold_works_by_venue_to_date %>
+	</div>
+</div>
+<br /><br />
+<div class="row-fluid">
+	<div class="span6">
+			<%= render "table_annual_sold_works_by_outcome", outcome: "client", hoaa: @sold_works_by_client_array, year: @year %>
+	</div>
+	<div class="span5 offset1">
+		<%= render "table_to_date_sold_works_by_outcome", outcome: "client", hoa: @sold_works_by_client_to_date %>
+	</div>
+</div>
