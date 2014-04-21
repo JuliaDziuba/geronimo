@@ -111,12 +111,25 @@ class User < ActiveRecord::Base
     current_user.works.all.count == workLimit || current_user.clients.all.count == clientLimit || current_user.venues.all.count == venueLimit    
   end
 
+  def work_activities_at_time(date)
+    activities = []
+    works = self.works.createdBeforeDate(date).all(:include => { :activities => :activitycategory })
+    works.each do | work |
+      if work.availableAtDate(date)
+        activities.push("Available")
+      else
+        activities.push(work.activities.startingBeforeDate(date).first.activitycategory.status)
+      end
+    end
+    activities
+  end
+
 
   def work_current_activities
     activities = []
     works = self.works.all(:include => { :activities => :activitycategory })
     works.each do | work |
-      if work.available
+      if work.availableAtDate(Date.today)
         activities.push("Available")
       else
         activities.push(work.activities.first.activitycategory.status)

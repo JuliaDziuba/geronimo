@@ -53,6 +53,7 @@ class Work < ActiveRecord::Base
   validate  :inventory_id_format
 
   default_scope order: 'works.creation_date DESC'
+  scope :createdBeforeDate, lambda { |date| where('creation_date <= ?', date)}
   scope :shared_with_public, lambda { where('works.share_public') }
   scope :not_shared_with_public, lambda { where('NOT works.share_public') }
   scope :shared_with_makers, lambda { where('works.share_makers') }
@@ -65,13 +66,14 @@ class Work < ActiveRecord::Base
     inventory_id
   end
 
-  def available
-    as = self.activities.first
-    as.nil? || ( !as.activitycategory.final && as.date_start < Date.today && !as.date_end.nil? && as.date_end < Date.today )
+  def availableAtDate(date)
+    as = self.activities.startingBeforeDate(date).first
+    as.nil? || ( !as.activitycategory.final && !as.date_end.nil? && as.date_end < date )
+
   end
 
   def current_activity
-    if self.available
+    if self.availableAtDate(Date.today)
       "Available"
     else
       self.activities.first.activitycategory.status

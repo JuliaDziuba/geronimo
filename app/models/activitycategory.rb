@@ -15,12 +15,12 @@
 class Activitycategory < ActiveRecord::Base
   attr_accessible :description, :name, :status, :final
 
-  SALE = { :name => "Sale", :id => "1", :description => "Sale of a work." }
-  COMMISSION = { :name => "Commission", :id => "2", :description => "Commission of work started, sale to follow." }
-  CONSIGNMENT = { :name => "Consignment", :id => "3", :description => "Consignment of a work, hoping sale follows." }
-  GIFT = { :name => "Gift", :id => "4", :description => "Gift a work." }
-  DONATE = { :name => "Donate", :id => "5", :description => "Donate a work." }
-  RECYCLE = { :name => "Recycle", :id => "6", :description => "Recycle a work to create improved visions." }
+  SALE = { :name => "Sale", :status => 'Sold', :id => "1", :description => "Sale of a work." }
+  COMMISSION = { :name => "Commission", :status => 'Commissioned', :id => "2", :description => "Commission of work started, sale to follow." }
+  CONSIGNMENT = { :name => "Consignment", :status => 'Consigned', :id => "3", :description => "Consignment of a work, hoping sale follows." }
+  GIFT = { :name => "Gift", :status => 'Gifted', :id => "4", :description => "Gift a work." }
+  DONATE = { :name => "Donate", :status => 'Donated', :id => "5", :description => "Donate a work." }
+  RECYCLE = { :name => "Recycle", :status => 'Recycled', :id => "6", :description => "Recycle a work to create improved visions." }
 
   ACTIVITYCATEGORIES_ARRAY = [Activitycategory::SALE, Activitycategory::COMMISSION, Activitycategory::CONSIGNMENT, Activitycategory::GIFT, Activitycategory::DONATE, Activitycategory::RECYCLE]
   FINAL_ACTIVITIES_NAMES = [Activitycategory::SALE[:name], Activitycategory::GIFT[:name], Activitycategory::DONATE[:name], Activitycategory::RECYCLE[:name]]

@@ -1,5 +1,5 @@
 <table>
-	<caption><span class="h3"><%= "Sales to date by #{outcome}" %></span>: reported in 'dollars (# number of entries with data)' unless otherwise specified</caption>
+	<caption><span class="h3"><%= "Sales to date by #{outcome}" %></span>: sale from <%= period %> reported in dollars</caption>
   <thead>
     <tr>
     	<th><%= outcome.capitalize %></th>
@@ -14,9 +14,9 @@
     	<tr>
     		<td><%= k %></td>
 	    	<td><%= v.count %></td>
-	    	<td><%= sumAndCountNonNilKeys(v, "retail") %></td>
-	    	<td><%= sumAndCountNonNilKeys(v, "income") %></td>
-	    	<td><%= averageAndCountNonNilKeys(v, "income") %></td>
+	    	<td><%= sumKeys(v, "retail") %></td>
+	    	<td><%= sumKeys(v, "income") %></td>
+	    	<td><%= averageKeys(v, "income") %></td>
     	</tr>
 	   <% end %>
   </tbody>

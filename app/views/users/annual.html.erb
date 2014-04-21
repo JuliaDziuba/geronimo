@@ -1,6 +1,63 @@
 <% provide(:title, "#{@year} annual report") %>
-<p>This report summarizes the sales and other activities of <%= @year %>. All statistics are shown by quarter, the total in <%= @year %>, and "to date". Quarters align with taxation quarters. Q1 is January, Feburary, and March. Q2 is April, May, and June. Q3 is July, August, and September. Q4 is October, November, and December. To date is the total in <%= @year %> through <%= @date_of_oldest_work %>.</p>
+<p>This report summarizes the sales and other activities of <%= @year %>. All statistics are shown by quarter, the total in <%= @year %>, and "to date". Quarters align with taxation quarters. Q1 is January, Feburary, and March. Q2 is April, May, and June. Q3 is July, August, and September. Q4 is October, November, and December. To date is the total in <%= @year %> through <%= @date_of_oldest_work.strftime("%B %Y") %>.</p>
+<legend class="h2">Status of works</legend>
+<div class="row-fluid">
+	<div class="span6">
+			<table id="StatusOfWorks">
+				<caption><span class="h3">Status of works</span>: The status of works at the start of each quarter and the end of <%= @year %>, reported in count (%)</caption>
+			  <thead>
+			    <tr>
+			    	<th>Status</th>
+			    	<th>Q1</th>
+			      <th>Q2</th>
+			      <th>Q3</th>
+			      <th>Q4</th>
+			      <th><%= @year %> end</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <% activity_types = ['Available', Activitycategory::CONSIGNMENT[:status], Activitycategory::COMMISSION[:status], Activitycategory::SALE[:status], Activitycategory::GIFT[:status], Activitycategory::DONATE[:status], Activitycategory::RECYCLE[:status]] %>
+			    <tr>
+			    	<td>Total works</td>
+			    	<% @activities_array.each do | a | %>
+		    			<% countA = a.count %>
+							<td><%= countA %></td>
+						<% end %>
+					</tr>
+			    <% activity_types.each do | t | %>
+			    	<tr>
+			    		<td><%= t %></td>
+			    		<% @activities_array.each do | a | %>
+			    			<% countA = a.count
+			    				 countT = a.count(t) %>
+								<td><%= "#{countT} (#{number_to_percentage(100.0 * countT/countA, precision: 1)})" %></td>
+							<% end %>
+						</tr>
+			    <% end %>
+			  </tbody>
+			</table>
+	</div>
+	<div class="span5 offset1">
+		<ul>
+			<% 
+				s_all = @activities_array.first.count 
+				s_all_available = @activities_array.first.count('Available') + @activities_array.first.count(Activitycategory::CONSIGNMENT[:status]) 
+				s_all_unavailable = @activities_array.first.count(Activitycategory::SALE[:status]) + @activities_array.first.count(Activitycategory::GIFT[:status]) + @activities_array.first.count(Activitycategory::DONATE[:status]) + @activities_array.first.count(Activitycategory::RECYCLE[:status])
+				e_all = @activities_array.last.count 
+				e_all_available = @activities_array.last.count('Available') + @activities_array.last.count(Activitycategory::CONSIGNMENT[:status]) 
+				e_all_unavailable = @activities_array.last.count(Activitycategory::SALE[:status])  + @activities_array.last.count(Activitycategory::GIFT[:status]) + @activities_array.last.count(Activitycategory::DONATE[:status]) + @activities_array.last.count(Activitycategory::RECYCLE[:status])
+			%>
+			<li><%= "At the start of #{@year} there were #{s_all} works managed in Makers' Moon. Of these works #{s_all_available} were available for sale (housed in studio or consigned), #{@activities_array.first.count(Activitycategory::COMMISSION[:status])} were commissioned, and #{s_all_unavailable} had found homes or were recycled." %></li>
+			<li><%= "At the end of #{@year} there were #{e_all} works managed in Makers' Moon. Of these works #{e_all_available} were available for sale, #{@activities_array.last.count(Activitycategory::COMMISSION[:status])} were commissioned, and #{e_all_unavailable} had found homes or were recycled." %></li>
+			<li><%= "#{@activities_array.last.count - s_all} new works were created in #{@year}." %></li>
+			<li><%= "#{e_all_unavailable - s_all_unavailable} works found homes or were deconstructed in #{@year}, #{@activities_array.last.count(Activitycategory::SALE[:status]) - @activities_array.first.count(Activitycategory::SALE[:status])} of these were sales." %></li>
+		</ul>
+	</div>
+</div>
+<br /><br />
 <legend class="h2">Sales</legend>
+Makers' Moon calculates profit and an estimated wage. These calculated outcomes are composed of multiple data points and will be inaccurate if data is missing. Profit is based on the income and material costs of each sold work. The estimated wage is based on the profit and the number of hours spent on each work. 
+<br /><br />
 <div class="row-fluid">
 	<div class="span6">
 		<table id="AnnualAbsoluteSoldWorkTotals">
@@ -23,12 +80,12 @@
 		    		<td><%= a.count %></td>
 		    	<% end %>
 		    </tr>
-		    <% sum_outcomes = [["Retail value", "retail"], ["Income", "income"], ["Material costs", "expense_materials"], ["Profit", "profit"], ["Hours, in hrs", "expense_hours"]] %>
+		    <% sum_outcomes = [["Retail value", "retail"], ["Income", "income"], ["Material costs", "expense_materials"], ["Profit", "profit"], ["Hours (hrs)", "expense_hours"]] %>
 		    <% sum_outcomes.each do | o | %>
 		    	<tr>
 		    		<td><%= o[0] %></td>
 		    		<% @sold_works_array.each do | a | %>
-		    			<td><%= sumAndCountNonNilKeys(a, o[1]) %></td>
+		    			<td><%= sumKeys(a, o[1]) %></td>
 		    		<% end %>
 		    	</tr>
 		    <% end %>
@@ -50,12 +107,12 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		    <% sum_outcomes = [["Est. wage, in $/hr", "wage"], ["Retail value", "retail"], ["Income", "income"], ["Material costs", "expense_materials"], ["Profit", "profit"], ["Hours, in hrs", "expense_hours"]] %>
+		    <% sum_outcomes = [["Est. wage ($/hr)", "wage"], ["Retail value", "retail"], ["Income", "income"], ["Material costs", "expense_materials"], ["Profit", "profit"], ["Hours (hrs)", "expense_hours"]] %>
 		    <% sum_outcomes.each do | o | %>
 		    	<tr>
 		    		<td><%= o[0] %></td>
 		    		<% @sold_works_array.each do | a | %>
-		    			<td><%= averageAndCountNonNilKeys(a, o[1]) %></td>
+		    			<td><%= averageKeys(a, o[1]) %></td>
 		    		<% end %>
 		    	</tr>
 		    <% end %>
@@ -69,7 +126,7 @@
 		<%= render "table_annual_sold_works_by_outcome", outcome: "category", hoaa: @sold_works_by_category_array, year: @year %>
 	</div>
 	<div class="span5 offset1">
-		<%= render "table_to_date_sold_works_by_outcome", outcome: "category", hoa: @sold_works_by_category_to_date %>
+		<%= render "table_to_date_sold_works_by_outcome", outcome: "category", hoa: @sold_works_by_category_to_date, period: "#{@date_of_oldest_work.strftime("%B %Y")} through #{@year}" %>
 	</div>
 </div>
 <br /><br />
@@ -78,7 +135,7 @@
 		<%= render "table_annual_sold_works_by_outcome", outcome: "venue", hoaa: @sold_works_by_venue_array, year: @year %>
 	</div>
 	<div class="span5 offset1">
-		<%= render "table_to_date_sold_works_by_outcome", outcome: "venue", hoa: @sold_works_by_venue_to_date %>
+		<%= render "table_to_date_sold_works_by_outcome", outcome: "venue", hoa: @sold_works_by_venue_to_date, period: "#{@date_of_oldest_work.strftime("%B %Y")} through #{@year}"  %>
 	</div>
 </div>
 <br /><br />
@@ -87,6 +144,6 @@
 			<%= render "table_annual_sold_works_by_outcome", outcome: "client", hoaa: @sold_works_by_client_array, year: @year %>
 	</div>
 	<div class="span5 offset1">
-		<%= render "table_to_date_sold_works_by_outcome", outcome: "client", hoa: @sold_works_by_client_to_date %>
+		<%= render "table_to_date_sold_works_by_outcome", outcome: "client", hoa: @sold_works_by_client_to_date, period: "#{@date_of_oldest_work.strftime("%B %Y")} through #{@year}"  %>
 	</div>
 </div>

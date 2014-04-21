@@ -11,7 +11,7 @@ module WorksHelper
   end
 
   def status(work)
-  	if work.available
+  	if work.availableAtDate(Date.today)
       "Available"
   	else
   		a = work.activities.first
@@ -31,7 +31,7 @@ module WorksHelper
   end
 
   def status_short(work)
-    if work.available
+    if work.availableAtDate(Date.today)
       "Available"
     else
       a = work.activities.first

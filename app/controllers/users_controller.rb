@@ -6,25 +6,25 @@ class UsersController < ApplicationController
   def annual
     @year = params[:year].to_i || Date.today.year
     @user = User.find_by_username(params[:id])
-    sold_works = getSoldWorks(@user)
+    sold_works = getSoldWorksAtTime(@user, Date.parse("#{@year}-#{GlobalConstants::Q4_END}") )
     @sold_works_array = salesInYear(sold_works, @year)
     by_category = convertSalesHOAtoHOAAForYear(getSoldWorksByCategory(sold_works), @year)
     @sold_works_by_category_array = reduceToCurrentYear(by_category)
     @sold_works_by_category_to_date = reduceToToDate(by_category)
-    by_venue = convertSalesHOAtoHOAAForYear(getSoldWorksByOutcome(@user, "venue"), @year)
+    by_venue = convertSalesHOAtoHOAAForYear(getSoldWorksByOutcomeAtTime(@user, "venue", Date.parse("#{@year}-#{GlobalConstants::Q4_END}")), @year)
     @sold_works_by_venue_array = reduceToCurrentYear(by_venue)
     @sold_works_by_venue_to_date = reduceToToDate(by_venue)
-    by_client = convertSalesHOAtoHOAAForYear(getSoldWorksByOutcome(@user, "client"), @year)
+    by_client = convertSalesHOAtoHOAAForYear(getSoldWorksByOutcomeAtTime(@user, "client", Date.parse("#{@year}-#{GlobalConstants::Q4_END}")), @year)
     @sold_works_by_client_array = reduceToCurrentYear(by_client)
     @sold_works_by_client_to_date = reduceToToDate(by_client)
     @date_of_oldest_work = dateOfOldestWork(@user)
+    @activities_array  = getActivitiesInYear(@user, @year)
   end
-
 
   def insight
     @user = User.find_by_username(params[:id])
     @current_activities = @user.work_current_activities
-    @sold_works = getSoldWorks(@user)
+    @sold_works = getSoldWorksAtTime(@user, Date.today)
     @date_of_oldest_work = dateOfOldestWork(@user)
   end
 
@@ -184,9 +184,34 @@ class UsersController < ApplicationController
       current_user.works.all
     end
 
-    def getSoldWorks(user)
+    def getActivitiesInYear(user, year)
+    activities = []
+    works = user.works.all(:include => { :activities => :activitycategory }) 
+    activities.push getActivitiesForWorksAtTime(works, Date.parse("#{year}-#{GlobalConstants::Q1_START}"))
+    activities.push getActivitiesForWorksAtTime(works, Date.parse("#{year}-#{GlobalConstants::Q2_START}"))
+    activities.push getActivitiesForWorksAtTime(works, Date.parse("#{year}-#{GlobalConstants::Q3_START}"))
+    activities.push getActivitiesForWorksAtTime(works, Date.parse("#{year}-#{GlobalConstants::Q4_START}"))
+    activities.push getActivitiesForWorksAtTime(works, Date.parse("#{year}-#{GlobalConstants::Q4_END}"))
+    activities
+  end
+
+  def getActivitiesForWorksAtTime(works, date)
+    activities = [] 
+    works.each do | work |
+      if work.creation_date <= date
+        if work.availableAtDate(date)
+          activities.push("Available")
+        else
+          activities.push(work.activities.startingBeforeDate(date).first.activitycategory.status)
+        end
+      end
+    end
+    activities
+  end
+
+    def getSoldWorksAtTime(user, time)
       sold_works = []
-      sale_activities = user.activities.sales.all
+      sale_activities = user.activities.startingBeforeDate(time).sales.all
       sale_activities.each do | sale |
         work = user.works.where('works.id = ?', sale.work_id).first.attributes
         work["retail"] = sale.retail
@@ -197,9 +222,9 @@ class UsersController < ApplicationController
       sold_works
     end
 
-    def getSoldWorksByOutcome(user, outcome)
+    def getSoldWorksByOutcomeAtTime(user, outcome, time)
       hoa = {}
-      sale_activities = user.activities.sales.all
+      sale_activities = user.activities.startingBeforeDate(time).sales.all
       sale_activities.each do | sale |
         work = user.works.where('works.id = ?', sale.work_id).first.attributes
         work["retail"] = sale.retail

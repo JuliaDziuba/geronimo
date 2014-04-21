@@ -5,29 +5,43 @@ module UsersHelper
   end
 
 	def mapToCompactArray(works,key)
-	  works.map{ |w| w[key] }.compact || []
+	  works.map{ |w| w[key] || 0 }.compact || []
 	end
 
 	def mapToCompactProfitArray(works)
 	  array = works.map do |w| 
-	  	if w['income'].nil? || w['expense_materials'].nil?
-	  		nil
-	  	else
-	  		w['income'] - w['expense_materials']
-	  	end
+	  	w['income'] = 0 if w['income'].nil?
+	  	w['expense_materials'] = 0 if w['expense_materials'].nil?
+	  	w['income'] - w['expense_materials']
 	  end
 	  	array.compact || []
 	end
 
 	def mapToCompactWageArray(works)
 	  array = works.map do |w| 
-	  	if w['income'].nil? || w['expense_materials'].nil? || w['expense_hours'].nil?
+	  	w['income'] = 0 if w['income'].nil?
+	  	w['expense_materials'] = 0 if w['expense_materials'].nil?
+	  	if w['expense_hours'].nil?
 	  		nil
 	  	else
 	  		(w['income'] - w['expense_materials'])/ w['expense_hours']
 	  	end
 	  end
 	  	array.compact || []
+	end
+
+	def sumKeys(works,key)
+		if key == 'profit'
+			compactArray = mapToCompactProfitArray(works)
+		else
+			compactArray = mapToCompactArray(works,key)
+		end
+		count = compactArray.count
+		if count > 0
+			"#{ compactArray.sum.round(2) }"
+		else 
+			"0"
+		end
 	end
 
 	def sumAndCountNonNilKeys(works,key)
@@ -40,8 +54,26 @@ module UsersHelper
 		if count > 0
 			"#{ compactArray.sum.round(2) } (#{ count })"
 		else 
-			"--"
+			"0"
 		end
+	end
+
+	def averageKeys(works,key)
+		result = "0"
+		if  key == 'wage'
+			profitSum = mapToCompactProfitArray(works).sum
+			hoursSum = mapToCompactArray(works,'expense_hours').sum
+			result = (profitSum/hoursSum).round(2) if hoursSum > 0
+		else
+			if key == 'profit'
+				compactArray = mapToCompactProfitArray(works)
+			else
+				compactArray = mapToCompactArray(works,key)
+			end
+			count = compactArray.count
+			result = "#{(compactArray.sum/count).round(2)}" if count > 0
+		end
+		result
 	end
 
 	def averageAndCountNonNilKeys(works,key)
@@ -56,7 +88,7 @@ module UsersHelper
 		if count > 0
 			"#{ (compactArray.sum/count).round(2) } (#{ count })"
 		else 
-			"--"
+			"0"
 		end
 	end
 
