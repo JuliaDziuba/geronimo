@@ -8,13 +8,13 @@ class UsersController < ApplicationController
     @user = User.find_by_username(params[:id])
     sold_works = getSoldWorksAtTime(@user, Date.parse("#{@year}-#{GlobalConstants::Q4_END}") )
     @sold_works_array = salesInYear(sold_works, @year)
-    by_category = convertSalesHOAtoHOAAForYear(getSoldWorksByCategory(sold_works), @year)
+    by_category = convertSalesHOAtoHOAAForYear(sortWorksByOutcome(sold_works, 'category'), @year)
     @sold_works_by_category_array = reduceToCurrentYear(by_category)
     @sold_works_by_category_to_date = reduceToToDate(by_category)
-    by_venue = convertSalesHOAtoHOAAForYear(getSoldWorksByOutcomeAtTime(@user, "venue", Date.parse("#{@year}-#{GlobalConstants::Q4_END}")), @year)
+    by_venue = convertSalesHOAtoHOAAForYear(sortWorksByOutcome(sold_works, 'venue'), @year)
     @sold_works_by_venue_array = reduceToCurrentYear(by_venue)
     @sold_works_by_venue_to_date = reduceToToDate(by_venue)
-    by_client = convertSalesHOAtoHOAAForYear(getSoldWorksByOutcomeAtTime(@user, "client", Date.parse("#{@year}-#{GlobalConstants::Q4_END}")), @year)
+    by_client = convertSalesHOAtoHOAAForYear(sortWorksByOutcome(sold_works, 'client'), @year)
     @sold_works_by_client_array = reduceToCurrentYear(by_client)
     @sold_works_by_client_to_date = reduceToToDate(by_client)
     @date_of_oldest_work = dateOfOldestWork(@user)
@@ -23,9 +23,13 @@ class UsersController < ApplicationController
 
   def insight
     @user = User.find_by_username(params[:id])
-    @current_activities = @user.work_current_activities
-    @sold_works = getSoldWorksAtTime(@user, Date.today)
     @date_of_oldest_work = dateOfOldestWork(@user)
+    @activities_array = getActivitiesSnapShot(@user)
+    sold_works = getSoldWorksAtTime(@user, Date.today)
+    @sold_works_array = salesSnapShot(sold_works)
+    @sold_works_by_category_array = convertSalesHOAToHOAAForSnapshot(sortWorksByOutcome(sold_works, 'category'))
+    @sold_works_by_venue_array = convertSalesHOAToHOAAForSnapshot(sortWorksByOutcome(sold_works,'venue'))
+    @sold_works_by_client_array = convertSalesHOAToHOAAForSnapshot(sortWorksByOutcome(sold_works,'client'))
   end
 
   def about
@@ -195,6 +199,17 @@ class UsersController < ApplicationController
     activities
   end
 
+  def getActivitiesSnapShot(user)
+    activities = []
+    works = user.works.all(:include => { :activities => :activitycategory }) 
+    activities.push getActivitiesForWorksAtTime(works, Date.today)
+    activities.push getActivitiesForWorksAtTime(works, 1.month.ago.to_date)
+    activities.push getActivitiesForWorksAtTime(works, 6.months.ago.to_date)
+    activities.push getActivitiesForWorksAtTime(works, 1.year.ago.to_date)
+    activities.push getActivitiesForWorksAtTime(works, 5.year.ago.to_date)
+    activities
+  end 
+
   def getActivitiesForWorksAtTime(works, date)
     activities = [] 
     works.each do | work |
@@ -209,61 +224,62 @@ class UsersController < ApplicationController
     activities
   end
 
-    def getSoldWorksAtTime(user, time)
-      sold_works = []
-      sale_activities = user.activities.startingBeforeDate(time).sales.all
-      sale_activities.each do | sale |
-        work = user.works.where('works.id = ?', sale.work_id).first.attributes
-        work["retail"] = sale.retail
-        work["income"] = sale.income
-        work["sale_date"] = sale.date_start
-        sold_works.push(work)
-      end
-      sold_works
+  def getSoldWorksAtTime(user, time)
+    sold_works = []
+    sale_activities = user.activities.startingBeforeDate(time).sales.all
+    sale_activities.each do | sale |
+      work = user.works.where('works.id = ?', sale.work_id).first
+      sold_work = SoldWork.new(:sale_date => sale.date_start,
+        :venue_id => sale.venue_id,
+        :client_id => sale.client_id,
+        :expense_hours => work.expense_hours,
+        :expense_materials => work.expense_materials,
+        :retail => sale.retail,
+        :income => sale.income,
+        :workcategory_id => work.workcategory_id)
+      sold_works.push(sold_work)
     end
+    sold_works
+  end
 
-    def getSoldWorksByOutcomeAtTime(user, outcome, time)
-      hoa = {}
-      sale_activities = user.activities.startingBeforeDate(time).sales.all
-      sale_activities.each do | sale |
-        work = user.works.where('works.id = ?', sale.work_id).first.attributes
-        work["retail"] = sale.retail
-        work["income"] = sale.income
-        work["sale_date"] = sale.date_start
-        key = "Unknown"
-        if outcome == "venue" 
-          venue = user.venues.find(sale.venue_id)
-          key = venue["name"]
-        elsif outcome == "client"
-          if sale.client_id.nil?
-            key = "Unknown"
-          else
-            client = user.clients.find(sale.client_id)
-            key = client["name"]
+  def sortWorksByOutcome(works, outcome)
+    hoa = {}
+    works.each do | w |
+      if outcome == "category"
+        key = Workcategory.find(w.workcategory_id).name
+      elsif outcome == "venue"
+        key = Venue.find(w.venue_id).name
+      elsif outcome == "client"
+        if w.client_id.nil?
+          key = "Unknown"
+        else
+          key = Client.find(w.client_id).name
+        end
+      end
+      if hoa.has_key? key
+        hoa[key].push w 
+      else 
+        hoa[key] = []
+        hoa[key].push w 
+      end
+    end
+    hoa
+  end
+
+    
+
+    def salesSnapShot(works)
+      dates = [1.month.ago.to_date, 6.months.ago.to_date, 1.year.ago.to_date, 5.year.ago.to_date]
+      sales = [[],[],[],[],[]]
+      works.each do | w |
+        dates.each_with_index do | d, i = 0 |
+          if w.sale_date > d 
+            sales[i].push w 
           end
         end
-        if hoa.has_key? key
-          hoa[key].push work 
-        else 
-          hoa[key] = []
-          hoa[key].push work 
-        end
+        sales[4].push w 
       end
-      hoa
-    end
-
-    def getSoldWorksByCategory(works)
-      hoa = {}
-      works.each do | w |
-        id = Workcategory.find(w["workcategory_id"]).name
-        if hoa.has_key? id
-          hoa[id].push w
-        else
-          hoa[id] = []
-          hoa[id].push w
-        end
-      end
-      hoa
+      sales
     end
 
     def salesInYear(works, year)
@@ -291,6 +307,14 @@ class UsersController < ApplicationController
         end 
       end
       [q1, q2, q3, q4, all, todate]
+    end
+
+    def convertSalesHOAToHOAAForSnapshot(hoa)
+      hoaa = {}
+      hoa.each do | k, a |
+        hoaa[k] = salesSnapShot(a)
+      end
+      hoaa
     end
 
     def convertSalesHOAtoHOAAForYear(hoa, year)

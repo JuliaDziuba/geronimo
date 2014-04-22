@@ -1,0 +1,41 @@
+<table>
+  <caption><span class="h3"><%= "Sales by #{outcome}" %></span>: reported in dollars</caption>
+  <thead>
+    <tr>
+    	<th><%= outcome.capitalize %></th>
+    	<th>Sale Details</th>
+      <th>Past month</th>
+      <th>Past 6 months</th>
+      <th>Past year</th>
+      <th>Past 5 years</th>
+      <th>To date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% sum_outcomes = [["Absolute retail value", "retail"], ["Absolute income", "income"]] %>
+    <% hoaa.each do | k, v | %>
+    	<tr>
+    		<td rowspan="4"><%= k %></td>
+	    	<td>Number of sales</td>
+	    	<% v.each do | a | %>
+	    		<td><%= a.count %></td>
+	    	<% end %>
+    	</tr>
+	    <% sum_outcomes.each do | o | %>
+	    	<tr>
+	    		<td><%= o[0] %></td>
+	    		<% v.each do | a | %>
+	    			<td><%= sumKeys(a, o[1]) %></td>
+	    		<% end %>
+	    	</tr>
+	    <% end %>
+	    <tr>
+	    	<td>Average income</td>
+	    	<% v.each do | a | %>
+	    		<td><%= averageKeys(a, "income") %></td>
+	    	<% end %>
+    	</tr>
+	   <% end %>
+  </tbody>
+</table>
+

@@ -4,153 +4,99 @@
 		<legend class="h2">Current Snapshots</legend>
 		The statistics and insights below are calculated each time you visit this report and will thus change day to day. For instance the "past month" is the past thirty days and findings will change as the dates associated with works move in and out of this window of time.
 		<h2><a id="WorksStatus_Content_display" class="display_toggle" href="#WorksStatus_Content">Works status</a></h2>
-  	<div id="WorksStatus_Content" class="row-fluid not-displayed">
-			Status of the <%= @current_activities.count %> works in Makers' Moon
-			<table id="StatusOfWorks">
+  	<div id="WorksStatus_Content" class="row-fluid">
+
+  		<table id="StatusOfWorks">
+				<caption><span class="h3">Status of works</span>: The status of works today and at past time points, reported in count (%)</caption>
 			  <thead>
 			    <tr>
 			    	<th>Status</th>
-			      <th>Count</th>
-			      <th>%</th>
+			    	<th>Today</th>
+			      <th>1 month ago</th>
+			      <th>6 months ago</th>
+			      <th>1 year ago</th>
+			      <th>5 years ago</th>
 			    </tr>
 			  </thead>
 			  <tbody>
+			    <% activity_types = ['Available', Activitycategory::CONSIGNMENT[:status], Activitycategory::COMMISSION[:status], Activitycategory::SALE[:status], Activitycategory::GIFT[:status], Activitycategory::DONATE[:status], Activitycategory::RECYCLE[:status]] %>
 			    <tr>
-			    	<td>Available for sale</td>
-			    	<td><%= @current_activities.count('Available') + @current_activities.count('Consigned') %></td>
-			    	<td><%= number_to_percentage(100.0 * (@current_activities.count('Available') + @current_activities.count('Consigned'))/@current_activities.count, precision: 1) %></td>
-			    </tr>
-			    <tr>
-			    	<td>&nbsp; &nbsp; &nbsp; &nbsp; Available</td>
-			    	<td><%= @current_activities.count('Available') %></td>
-			    	<td><%= number_to_percentage(100.0 * @current_activities.count('Available')/@current_activities.count, precision: 1) %></td>
-			    </tr>
-			    <tr>
-			    	<td>&nbsp; &nbsp; &nbsp; &nbsp; Consigned</td>
-			    	<td><%= @current_activities.count('Consigned') %></td>
-			    	<td><%= number_to_percentage(100.0 * @current_activities.count('Consigned')/@current_activities.count, precision: 1) %></td>
-			    </tr>
-			    <tr>
-			    	<td>Commissioned</td>
-			    	<td><%= @current_activities.count('Commissioned') %></td>
-			    	<td><%= number_to_percentage(100.0 * @current_activities.count('Commissioned')/@current_activities.count, precision: 1) %></td>
-			    </tr>
-			    <tr>
-			    	<td>Sold</td>
-			    	<td><%= @current_activities.count('Sold') %></td>
-			    	<td><%= number_to_percentage(100.0 * @current_activities.count('Sold')/@current_activities.count, precision: 1) %></td>
-			    </tr>
-			    <tr>
-			    	<td>Gifted</td>
-			    	<td><%= @current_activities.count('Gifted') %></td>
-			    	<td><%= number_to_percentage(100.0 * @current_activities.count('Gifted')/@current_activities.count, precision: 1) %></td>
-			    </tr>
-			    <tr>
-			    	<td>Donated</td>
-			    	<td><%= @current_activities.count('Donated') %></td>
-			    	<td><%= number_to_percentage(100.0 * @current_activities.count('Donated')/@current_activities.count, precision: 1) %></td>
-			    </tr>
-			    <tr>
-			    	<td>Recycled</td>
-			    	<td><%= @current_activities.count('Recycled') %></td>
-			    	<td><%= number_to_percentage(100.0 * @current_activities.count('Recycled')/@current_activities.count, precision: 1) %></td>
-			    </tr>
+			    	<td>Total works</td>
+			    	<% @activities_array.each do | a | %>
+		    			<% countA = a.count %>
+							<td><%= countA %></td>
+						<% end %>
+					</tr>
+			    <% activity_types.each do | t | %>
+			    	<tr>
+			    		<td><%= t %></td>
+			    		<% @activities_array.each do | a | %>
+			    			<% countA = a.count
+			    				 countT = a.count(t) %>
+								<td><%= "#{countT} (#{number_to_percentage(100.0 * countT/countA, precision: 1)})" %></td>
+							<% end %>
+						</tr>
+			    <% end %>
 			  </tbody>
 			</table>
 			<br />
 			Insights
+			<% 
+				consigned = []
+				unavailable_array = []
+
+				unavailable_now = @activities_array[0].count(Activitycategory::SALE[:status]) + @activities_array[0].count(Activitycategory::GIFT[:status]) + @activities_array[0].count(Activitycategory::DONATE[:status]) + @activities_array[0].count(Activitycategory::RECYCLE[:status])
+
+				@activities_array.each do | a | 
+					c = a.count(Activitycategory::CONSIGNMENT[:status]).to_f
+					consigned.push "#{(c*100/(a.count('Available') + c)).round(1)}%" 
+
+					unavailable_array.push  unavailable_now - (a.count(Activitycategory::SALE[:status]) + a.count(Activitycategory::GIFT[:status]) + a.count(Activitycategory::DONATE[:status]) + a.count(Activitycategory::RECYCLE[:status]))
+				end
+			%>
 			<ul>
-				<li>We find <%= number_to_percentage(100.0 * @current_activities.count("Consigned")/(@current_activities.count("Consigned") + @current_activities.count("Available")), precision: 1) %> of works available for sale are currently consigned. </li>
+				<li><%="New works: #{@activities_array[0].count - @activities_array[1].count} were created in the last month, #{@activities_array[0].count - @activities_array[2].count} in the last six months, #{@activities_array[0].count - @activities_array[3].count} in the last year, and #{@activities_array[0].count - @activities_array[4].count} in the last five years." %></li>
+				<li><%="Placed works: #{unavailable_array[1]} found a home or were recycled in the last month, #{unavailable_array[2]} in the last six months, #{unavailable_array[3]} in the last year, and #{unavailable_array[4]} in the last five years." %></li>
+				<li><%="Consigned works: #{consigned[0]} of works available for sale are currently consigned. This percentage was #{consigned[1]} a month ago, #{consigned[2]} 6 months ago, #{consigned[3]} 1 year ago, and #{consigned[4]} 5 years ago." %></li> 
 			</ul>
 		</div><!-- /StatusOfWorks_Content -->
 		<h2><a id="SoldWorks_Content_display" class="display_toggle" href="#SoldWorks_Content">Sold works</a></h2>
-  	<div id="SoldWorks_Content" class="row-fluid not-displayed">
-			Absolutes of sold works, reported in 'Dollars (# number of entries with data)' unless otherwise specified
-			<%
-		    sold_1_month  = soldSince(@sold_works,1.month.ago.to_date)
-		    sold_6_months = soldSince(@sold_works,6.months.ago.to_date) 
-		    sold_1_year   = soldSince(@sold_works,1.year.ago.to_date)
-		    sold_5_years  = soldSince(@sold_works,5.year.ago.to_date)
-		    sold_ever     = @sold_works
-				
-				sold_1_month_average_retail = averageAndCountNonNilKeys(sold_1_month,'retail')
-				sold_6_month_average_retail = averageAndCountNonNilKeys(sold_6_months,'retail')
-				sold_1_year_average_retail = averageAndCountNonNilKeys(sold_1_year,'retail')
-				sold_5_year_average_retail = averageAndCountNonNilKeys(sold_5_years,'retail')
-				sold_1_month_average_profit = averageAndCountNonNilKeys(sold_1_month,'profit')
-				sold_6_month_average_profit = averageAndCountNonNilKeys(sold_6_months,'profit')
-				sold_1_year_average_profit = averageAndCountNonNilKeys(sold_1_year,'profit')
-				sold_5_year_average_profit = averageAndCountNonNilKeys(sold_5_years,'profit')
-				sold_1_month_average_wage = averageAndCountNonNilKeys(sold_1_month,'wage')
-				sold_6_month_average_wage = averageAndCountNonNilKeys(sold_6_months,'wage')
-				sold_1_year_average_wage = averageAndCountNonNilKeys(sold_1_year,'wage')
-				sold_5_year_average_wage = averageAndCountNonNilKeys(sold_5_years,'wage')
-			%>
-			<table id="AbsoluteSoldWorks">
+  	<div id="SoldWorks_Content" class="row-fluid">
+  		Makers' Moon calculates profit and an estimated wage. These calculated outcomes are composed of multiple data points and will be inaccurate if data is missing. Profit is based on the income and material costs of each sold work. The estimated wage is based on the profit and the number of hours spent on each work. 
+  		<br /><br />
+  		<table id="AnnualAbsoluteSoldWorkTotals">
+			  <caption><span class="h3">Absolute sales</span>: Absolutes of sold works, reported in dollars unless otherwise specified</caption>
 			  <thead>
 			    <tr>
 			    	<th>Sale Details</th>
 			      <th>Past month</th>
 			      <th>Past 6 months</th>
 			      <th>Past year</th>
-			      <th>Past 5 years </th>
-			      <th>Ever</th>
+			      <th>Past 5 years</th>
+			      <th>To date </th>
 			    </tr>
 			  </thead>
 			  <tbody>
 			    <tr>
 			    	<td>Number of sales</td>
-			    	<td><%= sold_1_month.count %></td>
-			    	<td><%= sold_6_months.count %></td>
-			    	<td><%= sold_1_year.count %></td>
-			    	<td><%= sold_5_years.count %></td>
-			    	<td><%= sold_ever.count %></td>
+			    	<% @sold_works_array.each do | a | %>
+			    		<td><%= a.count %></td>
+			    	<% end %>
 			    </tr>
-			    <tr>
-			    	<td>Retail value</td>
-			    	<td><%= sumAndCountNonNilKeys(sold_1_month,'retail') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_6_months,'retail') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_1_year,'retail') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_5_years,'retail') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_ever,'retail') %></td>
-			    </tr>
-			    <tr>
-			    	<td>Income</td>
-			    	<td><%= sumAndCountNonNilKeys(sold_1_month,'income') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_6_months,'income') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_1_year,'income') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_5_years,'income') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_ever,'income') %></td>
-			    </tr>
-			    <tr>
-			    	<td>Material costs</td>
-			    	<td><%= sumAndCountNonNilKeys(sold_1_month,'expense_materials') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_6_months,'expense_materials') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_1_year,'expense_materials') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_5_years,'expense_materials') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_ever,'expense_materials') %></td>
-			    </tr>
-			    <tr>
-			    	<td>Profit</td>
-			    	<td><%= sumAndCountNonNilKeys(sold_1_month,'profit') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_6_months,'profit') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_1_year,'profit') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_5_years,'profit') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_ever,'profit') %></td>
-			    </tr>
-			    <tr>
-			    	<td>Hours, in hours</td>
-			    	<td><%= sumAndCountNonNilKeys(sold_1_month,'expense_hours') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_6_months,'expense_hours') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_1_year,'expense_hours') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_5_years,'expense_hours') %></td>
-			    	<td><%= sumAndCountNonNilKeys(sold_ever,'expense_hours') %></td>
-			    </tr>
+			    <% sum_outcomes = [["Retail value", "retail"], ["Income", "income"], ["Material costs", "expense_materials"], ["Profit", "profit"], ["Hours (hrs)", "expense_hours"]] %>
+			    <% sum_outcomes.each do | o | %>
+			    	<tr>
+			    		<td><%= o[0] %></td>
+			    		<% @sold_works_array.each do | a | %>
+			    			<td><%= sumKeys(a, o[1]) %></td>
+			    		<% end %>
+			    	</tr>
+			    <% end %>
 			  </tbody>
 			</table>
 			<br />
-			Average per sold work, reported in 'Dollars (# number of entries with data)' unless otherwise specified
-			<table id="AverageSoldWorks">
+			<table id="AnnualAverageSoldWorkTotals">
+				<caption><span class="h3">Average sales</span>: Average per sold work, reported in dollars unless otherwise specified</caption>
 			  <thead>
 			    <tr>
 			    	<th>Sale Details</th>
@@ -158,105 +104,32 @@
 			      <th>Past 6 months</th>
 			      <th>Past year</th>
 			      <th>Past 5 years </th>
-			      <th>Ever</th>
+			      <th>To date</th>
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr>
-			    	<td>Retail value</td>
-			    	<td><%= sold_1_month_average_retail %></td>
-			    	<td><%= sold_6_month_average_retail %></td>
-			    	<td><%= sold_1_year_average_retail %></td>
-			    	<td><%= sold_5_year_average_retail %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_ever,'retail') %></td>
-			    </tr>
-			    <tr>
-			    	<td>Income</td>
-			    	<td><%= averageAndCountNonNilKeys(sold_1_month,'income') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_6_months,'income') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_1_year,'income') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_5_years,'income') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_ever,'income') %></td>
-			    </tr>
-			    <tr>
-			    	<td>Material costs</td>
-			    	<td><%= averageAndCountNonNilKeys(sold_1_month,'expense_materials') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_6_months,'expense_materials') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_1_year,'expense_materials') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_5_years,'expense_materials') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_ever,'expense_materials') %></td>
-			    </tr>
-			    <tr>
-			    	<td>Profit</td>
-			    	<td><%= sold_1_month_average_profit %></td>
-			    	<td><%= sold_6_month_average_profit %></td>
-			    	<td><%= sold_1_year_average_profit %></td>
-			    	<td><%= sold_5_year_average_profit %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_ever,'profit') %></td>
-			    </tr>
-			    <tr>
-			    	<td>Hours, in hours </td>
-			    	<td><%= averageAndCountNonNilKeys(sold_1_month,'expense_hours') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_6_months,'expense_hours') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_1_year,'expense_hours') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_5_years,'expense_hours') %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_ever,'expense_hours') %></td>
-			    </tr>
-			    <tr>
-			    	<td>Est. wage, in $/hr </td>
-			    	<td><%= sold_1_month_average_wage %></td>
-			    	<td><%= sold_6_month_average_wage %></td>
-			    	<td><%= sold_1_year_average_wage %></td>
-			    	<td><%= sold_5_year_average_wage %></td>
-			    	<td><%= averageAndCountNonNilKeys(sold_ever,'wage') %></td>
-			    </tr>
+			    <% sum_outcomes = [["Est. wage ($/hr)", "wage"], ["Retail value", "retail"], ["Income", "income"], ["Material costs", "expense_materials"], ["Profit", "profit"], ["Hours (hrs)", "expense_hours"]] %>
+			    <% sum_outcomes.each do | o | %>
+			    	<tr>
+			    		<td><%= o[0] %></td>
+			    		<% @sold_works_array.each do | a | %>
+			    			<td><%= averageKeys(a, o[1]) %></td>
+			    		<% end %>
+			    	</tr>
+			    <% end %>
 			  </tbody>
 			</table>
 			<br />
-			Change in sale metrics over time, reported in % change
-			<table id="AverageSoldWorks">
-			  <thead>
-			    <tr>
-			    	<th>Sale Metric</th>
-			      <th>Past month vs 6 months</th>
-			      <th>Past 6 months vs year</th>
-			      <th>Past year vs 5 years</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr>
-			    	<td>Rate of sales</td>
-			    	<td><%= reportChange(sold_1_month.count, sold_6_months.count/6.0) %></td>
-			    	<td><%= reportChange(sold_6_months.count, sold_1_year.count/2.0) %></td>
-			    	<td><%= reportChange(sold_1_year.count, sold_5_years.count/5.0) %></td>
-			    </tr>
-			    <tr>
-			    	<td>Retail value</td>
-			    	<td><%= reportChange(sold_1_month_average_retail, sold_6_month_average_retail) %></td>
-			    	<td><%= reportChange(sold_6_month_average_retail, sold_1_year_average_retail) %></td>
-			    	<td><%= reportChange(sold_1_year_average_retail, sold_5_year_average_retail) %></td>
-			    </tr>
-			    <tr>
-			    	<td>Profit</td>
-			    	<td><%= reportChange(sold_1_month_average_profit, sold_6_month_average_profit) %></td>
-			    	<td><%= reportChange(sold_6_month_average_profit, sold_1_year_average_profit) %></td>
-			    	<td><%= reportChange(sold_1_year_average_profit, sold_5_year_average_profit) %></td>
-			    </tr>
-			    <tr>
-			    	<td>Wage</td>
-			    	<td><%= reportChange(sold_1_month_average_wage, sold_6_month_average_wage) %></td>
-			    	<td><%= reportChange(sold_6_month_average_wage, sold_1_year_average_wage) %></td>
-			    	<td><%= reportChange(sold_1_year_average_wage, sold_5_year_average_wage) %></td>
-			    </tr>
-
-			  </tbody>
-			</table>
+			<%= render "table_snapshot_sold_works_by_outcome", outcome: "category", hoaa: @sold_works_by_category_array %>
+			<br />
+			<%= render "table_snapshot_sold_works_by_outcome", outcome: "venue", hoaa: @sold_works_by_venue_array %>
+			<br />
+			<%= render "table_snapshot_sold_works_by_outcome", outcome: "client", hoaa: @sold_works_by_client_array %>
 			<br />
 			Insights
 			<ul>
-				<li>The change in sale metrics can be volital if they are based on few sales. Consider the number of entries in the above tables when reviewing the change in the metrics.</li>
-				<% if sold_1_year_average_retail.to_f() > 0 %>
-					<li>In the past year you received, on average, <%= number_to_percentage(100 * averageAndCountNonNilKeys(sold_1_year,'income').to_f()/sold_1_year_average_retail.to_f(), precision: 0) %> of the retail value of your work.</li>
+				<% if averageKeys(@sold_works_array[2],'retail').to_f() > 0 %>
+					<li>In the past year you received, on average, <%= number_to_percentage(100 * averageKeys(@sold_works_array[2],'income').to_f()/averageKeys(@sold_works_array[2],'retail').to_f(), precision: 0) %> of the retail value of your work.</li>
 				<% end %>
 			</ul>
 		</div><!-- /SoldWorks_Content -->
