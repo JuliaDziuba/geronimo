@@ -1,8 +1,38 @@
 class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:show, :index, :edit, :update, :destroy, :public]
   before_filter :correct_user,   only: [:show, :edit, :update, :public]
-  before_filter :admin_user,     only: [:destroy]
+  before_filter :admin_user,     only: [:destroy, :admin]
   
+  def admin
+    @newEntries = getNewEntriesHOA()
+  end
+
+  def getNewEntriesHOA()
+    hoa = {}
+    hoa["Users"] = getNewEntriesArray(User.all)
+    hoa["Works"] = getNewEntriesArray(Work.all)
+    hoa["Categories"] = getNewEntriesArray(Workcategory.all)
+    hoa["Venues"] = getNewEntriesArray(Venue.all)
+    hoa["Clients"] = getNewEntriesArray(Client.all)
+    hoa["Activities"] = getNewEntriesArray(Activity.all)
+    hoa
+  end
+
+  def getNewEntriesArray(entries)
+    dates = [Date.today, 1.week.ago.to_date, 1.month.ago.to_date, 1.year.ago.to_date]
+    a = [0,0,0,0,0]
+    entries.each do | e | 
+      dates.each_with_index do | d, i = 0 |
+        if e.created_at >= d 
+          a[i] = a[i] + 1
+        end
+      end
+      a[4] = a[4] + 1 
+    end
+    a
+  end
+   
+
   def annual
     @year = params[:year].to_i || Date.today.year
     @user = User.find_by_username(params[:id])

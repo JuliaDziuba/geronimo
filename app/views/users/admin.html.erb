@@ -1,0 +1,28 @@
+<% provide(:title, "Admin Dashboard") %>
+<div class="row-fluid">
+  <div class="span6">
+    <h2>Data base entries</h2>  
+    <table>
+      <caption></caption>
+      <thead>
+        <th>&nbsp;</th>
+        <th>Today</th>
+        <th>This week</th>
+        <th>This month</th>
+        <th>This year</th>
+        <th>Ever</th>
+      </thead>
+      <tbody>
+        <% @newEntries.each do | k, a | %>
+          <tr>
+            <td><%= k %></td>
+              <% a.each do | v |  %>
+                <td><%= v %></td>
+              <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+ 

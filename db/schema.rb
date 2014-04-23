@@ -215,10 +215,12 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
   add_index "venues", ["venuecategory_id"], :name => "index_venues_on_venuecategory_id"
 
   create_table "workcategories", :force => true do |t|
-    t.integer "user_id"
-    t.string  "name"
-    t.string  "artist_statement", :limit => 1000
-    t.integer "parent_id"
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "artist_statement", :limit => 1000
+    t.integer  "parent_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "workcategories", ["parent_id"], :name => "index_workcategories_on_parent_id"

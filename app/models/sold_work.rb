@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: sold_works
+#
+#  sale_date         :date
+#  expense_hours     :decimal(, )
+#  expense_materials :decimal(, )
+#  retail            :decimal(, )
+#  income            :decimal(, )
+#  workcategory_id   :integer
+#  venue_id          :integer
+#  client_id         :integer
+#
+
 class SoldWork < ActiveRecord::Base
   def self.columns() @columns ||= []; end
  

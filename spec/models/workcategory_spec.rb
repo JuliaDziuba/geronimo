@@ -7,6 +7,8 @@
 #  name             :string(255)
 #  artist_statement :string(1000)
 #  parent_id        :integer
+#  created_at       :datetime
+#  updated_at       :datetime
 #
 
 require 'spec_helper'

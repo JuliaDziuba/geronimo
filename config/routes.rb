@@ -25,6 +25,7 @@ Makersmoon::Application.routes.draw do
       get :purchase
       get :work
       get :account
+      get :admin
     end
   end
   resources :sessions, only: [:new, :create, :destroy]
