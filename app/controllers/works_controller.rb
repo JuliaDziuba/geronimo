@@ -62,6 +62,9 @@ class WorksController < ApplicationController
     @activities = @work.activities.all
     @notes = @work.notes.all
     @actions = @work.actions.all
+    if @work.workcategory.nil?
+      flash[:info] = "We noticed you wish to make this work public but it is uncategorized! Your public site organizes works using your 'Work Categories' so works must be categorized before they appear publically. Please create a new work category that is appropriate for this work or select an existing one!"
+    end
   end
 
   def index
