@@ -30,7 +30,7 @@ class Workcategory < ActiveRecord::Base
 	scope :children_of_parent, lambda { |parent| where('workcategories.parent_id = ?', parent.id) }
   scope :excluding, lambda { |category| where('workcategories.id != ?',category.id) }
 
-	def children
+  def children
 		self.user.workcategories.where('workcategories.parent_id = ?', self.id)
 	end
 

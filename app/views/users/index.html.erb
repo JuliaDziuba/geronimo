@@ -29,18 +29,20 @@
   </div>
   <div class="span5 offset1 user-index-panel">
     <% @works.each do |work| %>
-      <div class="row-fluid">
-        <div class="span2 makers_image"><%= image_tag work.image1.url(:thumb), alt: "Picture of #{work.title}" %></div>
-        <div class="span9 lighter">
-          <%= link_to work.title, "/makers/#{work.user.to_param}/#{work.workcategory.name}/#{work.inventory_id}" %>
-          created by 
-          <% if work.user.share_about %>
-            <%= link_to work.user.name, about_user_path(work.user) %>
-          <% else %>
-            <%= work.user.name %>
-          <% end %>
+      <% if not work.workcategory.nil? %>
+        <div class="row-fluid">
+          <div class="span2 makers_image"><%= image_tag work.image1.url(:thumb), alt: "Picture of #{work.title}" %></div>
+          <div class="span9 lighter">
+            <%= link_to work.title, "/makers/#{work.user.to_param}/#{work.workcategory.name}/#{work.inventory_id}" %>
+            created by 
+            <% if work.user.share_about %>
+              <%= link_to work.user.name, about_user_path(work.user) %>
+            <% else %>
+              <%= work.user.name %>
+            <% end %>
+          </div>
         </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </div>
