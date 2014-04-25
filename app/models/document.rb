@@ -72,6 +72,7 @@ class Document < ActiveRecord::Base
   validates_inclusion_of :include_income, :in => [true, false]
   validates_inclusion_of :include_retail, :in => [true, false]
 
+  default_scope order: 'documents.date DESC'
   scope :excluding_current, lambda { | id | where('documents.id != ?', id) }
 
   def to_param
