@@ -83,7 +83,14 @@ class WorksController < ApplicationController
   end
 
   def destroy
-    current_user.works.find_by_inventory_id(params[:id]).destroy
+    work = current_user.works.find_by_inventory_id(params[:id])
+    activities = work.activities.all
+    if activities.any?
+      activities.each do |activity|
+        activity.destroy
+      end
+    end
+    work.destroy
     redirect_to works_path
   end
 
