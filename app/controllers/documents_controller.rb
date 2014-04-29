@@ -49,7 +49,7 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    @document = Document.find_by_munged_name(params[:id])
+    @document = current_user.documents.find_by_munged_name(params[:id])
     @update_subjects = params[:subjects]
     @subject_contact = getSubjectContact(@document.subject)
     @subjects = getSubjectsForDocument(@document)
@@ -115,9 +115,9 @@ class DocumentsController < ApplicationController
 
   def getSubjectContact(document)
     if @document.category == Document::CONSIGNMENT
-      subject = Venue.find_by_id(@document.subject)
+      subject = current_user.venues.find_by_id(@document.subject)
     elsif @document.category == Document::INVOICE
-      subject = Client.find_by_id(@document.subject)
+      subject = current_user.clients.find_by_id(@document.subject)
     end
     if !subject.nil?
       @subject_contact = {
@@ -136,12 +136,12 @@ class DocumentsController < ApplicationController
 
   def getSubjectsForDocument(document)
     if document.category == Document::CONSIGNMENT
-      subjects = Activity.currentConsignmentsAtVenueBetweenDates(document.subject, document.date_start, document.date_end)
+      subjects = current_user.activities.currentConsignmentsAtVenueBetweenDates(document.subject, document.date_start, document.date_end)
       saleInfoOnSubjects = current_user.activities.salesAtVenueBetweenDates(document.subject, document.date_start, document.date_end)
     elsif document.category == Document::INVOICE
-      subjects = Activity.salesToClientBetweenDates(document.subject, document.date_start, document.date_end)
+      subjects = current_user.activities.salesToClientBetweenDates(document.subject, document.date_start, document.date_end)
     else
-      subjects = Work.where('works.inventory_id IN (?)', (document.subject || "").split(','))
+      subjects = current_user.works.where('works.inventory_id IN (?)', (document.subject || "").split(','))
     end
     subjects
   end
