@@ -10,8 +10,8 @@
 		<br /><br />
 		<legend class="h2">Activities &nbsp; &nbsp; <%= link_to "New", "../works/activities/new?venue=#{@venue.munged_name}" %></legend>
 		<% if @activities.any? %>
-			<div class="form-box">
-				<%= render 'activities/table_activities', activities: @activities, date_end_include: true, client_include: false %>
+			<div class="form-box limit-size">
+				<%= render 'activities/table_activities', activities: @activities, venue_include: false %>
 			</div>
 		<% else %>
 			No activities recorded for this venue yet.

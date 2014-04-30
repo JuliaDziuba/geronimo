@@ -87,6 +87,12 @@ $navbarBorder:                    darken($navbarBackground, 12%) !default;
 	padding-right:10px;
 }
 
+.limit-size{
+	max-height: 400px;
+	overflow-x: auto;
+	overflow-y: auto;
+}
+
 .td_tiny { width: 1%; }
 .td_small { width: 5%; } /* 5 */ 
 .td_medium { width: 7%; } /* 2 */

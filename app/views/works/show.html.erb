@@ -23,8 +23,8 @@
 			<% end %>
 		</legend>
 		<% if @activities.any? %>
-			<div class="form-box">
-				<%= render 'activities/table_activities', activities: @activities,date_end_include: true, client_include: true  %>
+			<div class="form-box limit-size">
+				<%= render 'activities/table_activities', activities: @activities, work_include: false  %>
 			</div>
 		<% else %>
 			No activities recorded yet about this work.

@@ -1,10 +1,21 @@
+<% 
+  work_include = true if work_include.nil?
+  venue_include = true if venue_include.nil?
+  client_include = true if client_include.nil?
+  date_end_include = true if date_end_include.nil?
+ %> 
+
 <table id="Activities">
   <thead>
     <tr>
-      <th></th>
+      <th>Actions</th>
       <th>Activity</th>
-      <th>Work</th>
-      <th>Venue</th>
+      <% if work_include %>
+        <th>Work</th>
+      <% end %>
+      <% if venue_include %>
+        <th>Venue</th>
+      <% end %>  
       <% if date_end_include %>
         <th>Start Date</th>
         <th>
@@ -31,8 +42,12 @@
           <%= link_to icon(:trash), activity, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete this #{activity.activitycategory.name.downcase} of #{activity.work.title}?" }, title: 'Delete?' %>
         </td>
         <td><div class=largeoverflow><%= activity.activitycategory.name %></div></td>
-        <td><div class=largeoverflow><%= link_to activity.work.title, work_path(activity.work) %></td>
-        <td><div class=largeoverflow><%= link_to activity.venue.name, venue_path(activity.venue) %></div></td>
+        <% if work_include %>
+          <td><div class=largeoverflow><%= link_to activity.work.title, work_path(activity.work) %></td>
+        <% end %>
+        <% if venue_include %>
+          <td><div class=largeoverflow><%= link_to activity.venue.name, venue_path(activity.venue) %></div></td>
+        <% end %>  
         <td><div class=largeoverflow><%= activity.date_start %></div></td>
         <% if date_end_include %>
           <td><div class=largeoverflow><%= activity.date_end %></div></td>
