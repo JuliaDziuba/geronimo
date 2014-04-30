@@ -1,12 +1,8 @@
-// Place all the styles related to the Documents controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
 $grayBlue: #C8C8D7;
 $brandColor: darken($grayBlue, 40%);
 
 .portfolio-image { 
-	
+
 	padding-top:1in;
 	max-height: 5in;
 }
@@ -22,18 +18,36 @@ $brandColor: darken($grayBlue, 40%);
 	}
 }
 
+.page-center {
+	vertical-align:middle;
+	text-align: center;
+}
+
 @media print {
 
 	/* Remove non-document items */
 	title, header,footer,#sidebar, #crumbs, .content-title, #document-buttons {display:none;}
 
-	.page-break	{ 
-		display: block; 
-		page-break-before: always; }
+	.page {
+		position: relative;
+		height: 7in;
+		page-break-after: always;
+	  page-break-inside: avoid;
+
+	  .portfolio-header {
+	   	position: relative;
+	   	top:30%;
+
+	  }
+	}
 
 	table.print-friendly tr td, table.print-friendly tr th {
         page-break-inside: avoid;
     }	
+
+  body {
+  	background:white;
+  }
 
 	#content-container, .content, .content-body, #document-content, .Portfolio {float:none;}
 
@@ -44,15 +58,18 @@ $brandColor: darken($grayBlue, 40%);
 		padding-top:0px;
 		padding-bottom:0px;
 		padding-left:0px;
-		padding-right:20px;
+		padding-right:0px;
 		margin-left:-20px;
 
 	}
 
 	#document {
+		position: relative;
+		left: -9%;
 		border:0px;
 		margin:0px;
 		padding:0px;
+
 	}
 
 }	

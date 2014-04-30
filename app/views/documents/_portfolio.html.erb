@@ -1,37 +1,39 @@
 <div class="Portfolio">
   <% subjects.each do |work| %>
-    <div class="page-break row-fluid center">
-      <%= image_tag(work.image1.url(), :class => "portfolio-image") %><br />
-      <% if document.include_title %>
-        <%= work.title %>
-         <% if document.include_inventory_id %>
-          (<%= work.inventory_id %>)
+    <div class="page">
+      <div class="page-center">
+        <%= image_tag(work.image1.url(), :class => "portfolio-image") %><br />
+        <% if document.include_title %>
+          <%= work.title %>
+           <% if document.include_inventory_id %>
+            (<%= work.inventory_id %>)
+          <% end %>
+        <% else %>
+          <% if document.include_inventory_id %>
+            <%= work.inventory_id %>
+          <% end %>
         <% end %>
-      <% else %>
-        <% if document.include_inventory_id %>
-          <%= work.inventory_id %>
+        <% if document.include_creation_date %>
+         , <%= work.creation_date %>
         <% end %>
-      <% end %>
-      <% if document.include_creation_date %>
-       , <%= work.creation_date %>
-      <% end %>
-      <br />
-      <% if document.include_materials %>
-        <%= work.materials %>
-      <% end %>
-      <% if document.include_quantity %>
-      <% if document.include_materials && !work.materials.blank?%>,<% end %> <%= work.quantity %> created
-      <% end %>
-      <br />
-      <% if document.include_description %>
-        <%= work.description %>
-      <% end %>
-      <% if document.include_income %>
-        $<%= work.income %> wholesale
-      <% end %>
-      <% if document.include_retail %>
-        <% if document.include_income %>,<% end %>  $<%= work.retail %> retail
-      <% end %>
+        <br />
+        <% if document.include_materials %>
+          <%= work.materials %>
+        <% end %>
+        <% if document.include_quantity %>
+        <% if document.include_materials && !work.materials.blank?%>,<% end %> <%= work.quantity %> created
+        <% end %>
+        <br />
+        <% if document.include_description %>
+          <%= work.description %>
+        <% end %>
+        <% if document.include_income %>
+          $<%= work.income %> wholesale
+        <% end %>
+        <% if document.include_retail %>
+          <% if document.include_income %>,<% end %>  $<%= work.retail %> retail
+        <% end %>
+      </div>
     </div>
   <% end %>  
 </div>
