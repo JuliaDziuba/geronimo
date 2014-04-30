@@ -37,8 +37,8 @@
         <% if date_end_include %>
           <td><div class=largeoverflow><%= activity.date_end %></div></td>
         <% end %>
-        <td><div class=largeoverflow><%= activity.income %></div></td>
-        <td><div class=largeoverflow><%= activity.retail %></div></td>
+        <td><div class=largeoverflow><%= "$#{cleanUpMoney(activity.income)}" if not activity.income.nil? %></div></td>
+        <td><div class=largeoverflow><%= "$#{cleanUpMoney(activity.retail)}" if not activity.retail.nil? %></div></td>
         <% if client_include  %>
           <td><div class=largeoverflow><%= client_name(activity) %></div></td>
         <% end %>        

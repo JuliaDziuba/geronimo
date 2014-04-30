@@ -12,7 +12,7 @@
 	<%= document.maker_address_street %><br />
 <% end %>
 <% if !document.maker_address_city.blank? || !document.maker_address_state.blank? || !document.maker_address_zipcode.blank? %>
-	<%= document.maker_address_city %><%= document.maker_address_state %>, <%= document.maker_address_zipcode %>
+	<%= document.maker_address_city %> <%= document.maker_address_state %>, <%= document.maker_address_zipcode %>
 <% end %>
 <% if !document.maker_site.blank? %>
 	<br /><br /><%= document.maker_site %>

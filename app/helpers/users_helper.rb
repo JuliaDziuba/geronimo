@@ -1,5 +1,13 @@
 module UsersHelper
 
+	def cleanUpMoney(amount)
+		if amount.nil?
+			amount
+		else
+			amount.to_i == amount ? amount.to_i : sprintf('%.2f',  amount.round(2))
+		end
+	end
+
   def soldSince(works, date)
     works.select{ |w| w["sale_date"] > date}
   end

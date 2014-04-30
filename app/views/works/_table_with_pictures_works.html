@@ -24,9 +24,9 @@
         </div></td>  
         <td><div>
           <span>Hours invested: </span><%= work.expense_hours %><br />
-          <span>Material costs: </span><%= work.expense_materials %><br />
-          <span>Income: </span><%= work.income %><br />
-          <span>Retail value: </span><%= work.retail %><br />
+          <span>Material costs: </span><%= "$#{cleanUpMoney(work.expense_materials)}" if not work.expense_materials.nil? %><br />
+          <span>Income: </span><%= "$#{cleanUpMoney(work.income)}" if not work.income.nil? %><br />
+          <span>Retail value: </span><%= "$#{cleanUpMoney(work.retail)}" if not work.retail.nil? %><br />
         </div></td>
         <td><div>
           <%= link_to "Edit", work_path(work) %><br />
