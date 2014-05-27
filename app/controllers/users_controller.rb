@@ -158,7 +158,7 @@ class UsersController < ApplicationController
       sign_in @user
       redirect_to @user
       @user.venues.create!(name: "My Studio", venuecategory_id: Venuecategory.find_by_name("Studios").id)
-    #  subscribeToMailChimp(@user)
+      subscribeToMailChimp(@user)
     else
       render 'new', :layout => 'landing'
     end
