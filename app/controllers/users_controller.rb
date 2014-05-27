@@ -203,7 +203,7 @@ class UsersController < ApplicationController
   private
 
     def subscribeToMailChimp(user)
-      mc = Gibbon::API.new
+      mc = Gibbon::API.new('c5eecab33527fd9cc144242419b9dc33-us7')
       mc.lists.subscribe({:id => 'e1e4a2dd84', :email => {:email => user.email}, :merge_vars => {:FNAME => user.username}, :double_optin => false})
     end
 
