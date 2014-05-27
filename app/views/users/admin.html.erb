@@ -31,6 +31,7 @@
       <thead>
         <th>ID</th>
         <th>Username</th>
+        <th>Email</th>
         <th>Works</th>
         <th>Clients</th>
         <th>Venues</th>
@@ -39,8 +40,9 @@
       <tbody>
         <% @userH.each do | k, a | %>
           <tr>
-            <td><%= k.split(" ").first %></td>
-            <td><%= k.split(" ").last %></td>
+            <% k.split(" ").each do | u | %>
+              <td><%= u %></td>
+            <% end %>
             <% a.each do | c | %>
               <td><%= c %></td>
             <% end %>

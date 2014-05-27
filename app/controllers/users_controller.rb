@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @newEntries = getNewEntriesHOA()
     @userH = Hash.new()
     User.all(:include => [:works, :clients, :venues, :activities]).each do | u |
-      @userH["#{u.id} #{u.username}"] = [ u.works.count, u.clients.count, u.venues.count, u.activities.count]
+      @userH["#{u.id} #{u.username} #{u.email}"] = [ u.works.count, u.clients.count, u.venues.count, u.activities.count]
     end
   end
 
