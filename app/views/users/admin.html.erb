@@ -24,5 +24,30 @@
       </tbody>
     </table>
   </div>
+  <div class="span6">
+    <h2>User data</h2>  
+    <table>
+      <caption></caption>
+      <thead>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Works</th>
+        <th>Clients</th>
+        <th>Venues</th>
+        <th>Activities</th>
+      </thead>
+      <tbody>
+        <% @userH.each do | k, a | %>
+          <tr>
+            <td><%= k.split(" ").first %></td>
+            <td><%= k.split(" ").last %></td>
+            <% a.each do | c | %>
+              <td><%= c %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
  

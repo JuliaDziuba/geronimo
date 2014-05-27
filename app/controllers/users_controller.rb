@@ -5,6 +5,10 @@ class UsersController < ApplicationController
   
   def admin
     @newEntries = getNewEntriesHOA()
+    @userH = Hash.new()
+    User.all(:include => [:works, :clients, :venues, :activities]).each do | u |
+      @userH["#{u.id} #{u.username}"] = [ u.works.count, u.clients.count, u.venues.count, u.activities.count]
+    end
   end
 
   def getNewEntriesHOA()

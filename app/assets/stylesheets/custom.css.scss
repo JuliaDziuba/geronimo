@@ -309,6 +309,13 @@ a:hover {
   -webkit-opacity: $opacityOfIcons; /* opacity [0-1] */
 /*  filter:alpha(opacity=50); For IE8 and earlier */
 }
+.relative {
+	position: relative;
+}
+
+.in-front {
+	z-index: 10000; 
+}
 
 .f-right {
 	float: right;
