@@ -203,25 +203,8 @@ class UsersController < ApplicationController
   private
 
     def subscribeToMailChimp(user)
-      email = user.email
-      fname = user.username
-      mc = Mailchimp::API.new('c5eecab33527fd9cc144242419b9dc33-us7')
-      list_id = 'e1e4a2dd84'
-      begin
-        mc.lists.subscribe(list_id, {'email' => email, 'fname' => fname})
-#        console.log("#{email} subscribed successfully")
-      rescue Mailchimp::ListAlreadySubscribedError
-        console.log("#{email} is already subscribed to the list")
-      rescue Mailchimp::ListDoesNotExistError
-        console.log("The list could not be found")
-        return
-      rescue Mailchimp::Error => ex
-        if ex.message
-          console.log(ex.message)
-        else
-          console.log("An unknown error occurred")
-        end
-      end
+      mc = Gibbon::API.new
+      mc.lists.subscribe({:id => 'e1e4a2dd84', :email => {:email => user.email}, :merge_vars => {:FNAME => user.username}, :double_optin => false})
     end
 
     def correct_user
