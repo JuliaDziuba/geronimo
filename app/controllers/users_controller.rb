@@ -158,6 +158,7 @@ class UsersController < ApplicationController
       sign_in @user
       redirect_to @user
       @user.venues.create!(name: "My Studio", venuecategory_id: Venuecategory.find_by_name("Studios").id)
+      subscribeToMailChimp(@user)
     else
       render 'new', :layout => 'landing'
     end
@@ -200,6 +201,28 @@ class UsersController < ApplicationController
   end
 
   private
+
+    def subscribeToMailChimp(user)
+      email = user.email
+      fname = user.username
+      mc = Mailchimp::API.new('c5eecab33527fd9cc144242419b9dc33-us7')
+      list_id = 'e1e4a2dd84'
+      begin
+        mc.lists.subscribe(list_id, {'email' => email, 'fname' => fname})
+#        console.log("#{email} subscribed successfully")
+      rescue Mailchimp::ListAlreadySubscribedError
+        console.log("#{email} is already subscribed to the list")
+      rescue Mailchimp::ListDoesNotExistError
+        console.log("The list could not be found")
+        return
+      rescue Mailchimp::Error => ex
+        if ex.message
+          console.log(ex.message)
+        else
+          console.log("An unknown error occurred")
+        end
+      end
+    end
 
     def correct_user
       @user = User.find_by_username(params[:id])
