@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= @user.name %></title>
+    <title><%= full_title(yield(:maker), yield(:page)) %></title>
+    <meta name="description" content="Maker #{yield(:maker)} has created public pages to introduce them self and share their works. This site is powered by Maker's Moon, an art inventory and business management tool for makers." />
+    <meta name="keywords" content="art inventory, business management, online database, #{yield(:maker)}">
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>

@@ -1,4 +1,6 @@
+<% provide(:page, "#{@activity.activitycategory.name} Activity") %>
 <% provide(:crumbs, 'Activities,' + activities_path + '|' + @activity.work.title + ',' + work_path(@activity.work)) %>
 <% provide(:title, @activity.activitycategory.name) %>
 <% provide(:delete_record, @activity) %>
 <%= render 'form_activity', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>
+

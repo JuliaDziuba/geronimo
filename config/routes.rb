@@ -12,6 +12,7 @@ Makersmoon::Application.routes.draw do
   match '/PayPal_IPN', to: 'payment_notifications#create'
   match '/payment_notifications/success', to: 'payment_notifications#success'
   match '/payment_notifications/failure', to: 'payment_notifications#failure'
+  match "/sitemap.:format", to: 'static_pages#sitemap', via: :get
 
   resource :static_pages, only: [:home, :help]
 

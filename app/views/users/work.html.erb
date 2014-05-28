@@ -1,3 +1,5 @@
+<% provide(:maker, @user.name) %>
+<% provide(:page, @work.title) %>
 <% 
 	parentName = parent_name(@workcategory) 
   fullCategory = "#{@workcategory.name} #{parentName if parentName != 'None'}" 

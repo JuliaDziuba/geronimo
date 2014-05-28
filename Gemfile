@@ -16,9 +16,6 @@ gem 'cocaine', '~> 0.5.0'
 gem 'pg', '0.12.2'
 gem 'newrelic_rpm'
 
-# MAILCHIMP API WRAPPER
-gem 'gibbon'
-
 group :development, :test do
   gem 'rspec-rails', '2.11.0'
   gem 'annotate', '2.5.0'

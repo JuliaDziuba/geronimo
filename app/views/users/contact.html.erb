@@ -1,3 +1,5 @@
+<% provide(:maker, @user.name ) %>
+<% provide(:page, 'Contact') %>
 <% provide(:title, 'Contact') %>
 <div class="contact-info">
 	<% if @user.phone.present? %>

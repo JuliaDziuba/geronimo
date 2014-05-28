@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= full_title(yield(:title)) %></title>
+    <title><%= full_title(yield(:maker), yield(:page)) %></title>
+    <meta name="description" content="Maker's Moon is a secure, private, online database for managing works, clients, and venues along with the activities between them. It can also promote the maker with public pages." />
+    <meta name="keywords" content="art inventory, business management, online database">
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>

@@ -1,3 +1,4 @@
+<% provide(:page, "#{@year} Annual Report") %>
 <% provide(:title, "#{@year} annual report") %>
 <p>This report summarizes the sales and other activities of <%= @year %>. All statistics are shown by quarter, the total in <%= @year %>, and "to date". Quarters align with taxation quarters. Q1 is January, Feburary, and March. Q2 is April, May, and June. Q3 is July, August, and September. Q4 is October, November, and December. To date is the total in <%= @year %> through <%= @date_of_oldest_work.strftime("%B %Y") %>.</p>
 <legend class="h2">Status of works</legend>

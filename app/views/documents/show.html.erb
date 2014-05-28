@@ -1,3 +1,4 @@
+<% provide(:page, "#{@document.name} Document") %>
 <% provide(:crumbs, "Documents," + documents_path + "|" + @document.category + "s," + documents_path(:category => @document.category) ) %>
 <% provide(:title, @document.name) %>
 <div id="document-buttons" class="row-fluid">

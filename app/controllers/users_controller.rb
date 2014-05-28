@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user, only: [:show, :index, :edit, :update, :destroy, :public]
+  before_filter :signed_in_user, only: [:show, :edit, :update, :destroy, :public]
   before_filter :correct_user,   only: [:show, :edit, :update, :public]
   before_filter :admin_user,     only: [:destroy, :admin]
   
@@ -145,6 +145,11 @@ class UsersController < ApplicationController
   def index
     @users = User.shared_publicly.all
     @works = Work.shared_with_public.limit(100).order('works.updated_at DESC').all(:include =>  [:workcategory, :user])
+    if !signed_in?
+      render :layout => 'landing'
+    end
+
+
   end
 
   def new

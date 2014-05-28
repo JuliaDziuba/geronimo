@@ -2,14 +2,17 @@ module ApplicationHelper
 	
   # Returns the full title on a per-page basis
   # TODO Extend this so that public sites have user | page. 
-  def full_title(page)
-    base_title = "Makers' Moon"
-    if !signed_in? && page.empty?
-      base_title
-    elsif !signed_in?
-      "#{base_title} | #{page}"
+  def full_title(maker, page)
+    keywords = "Art Inventory & Business Management for Makers"
+    company = "Makers' Moon"
+    if maker.empty?
+      if page.empty?
+        "#{keywords} | #{company}"
+      else
+        "#{keywords} | #{page} | #{company}"
+      end
     else
-      "#{base_title} | " + current_user.name 
+      "#{maker} | #{page} | #{company}"
     end
   end
   

@@ -1,3 +1,4 @@
+<% provide(:page, 'New Document') %>
 <% category = @document.category %>
 <% if category.nil? %>
 	<% provide(:crumbs, "Documents," + documents_path ) %>
