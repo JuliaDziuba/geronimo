@@ -28,6 +28,9 @@ class VenuesController < ApplicationController
       redirect_to venue_path(@venue)
     else
       @venuecategories = Venuecategory.all
+      @activities = @venue.activities.all 
+      @notes = @venue.notes.all
+      @actions = @venue.actions.all
       render 'show'
     end
   end
