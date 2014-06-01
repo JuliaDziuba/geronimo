@@ -13,9 +13,6 @@ class ClientsController < ApplicationController
       flash[:success] = "Your new client has been created!"
       redirect_to clients_path
     else
-      @activities = @client.activities.all    
-      @notes = @client.notes.all
-      @actions = @client.actions.all
       render 'new'
     end
   end
@@ -28,7 +25,9 @@ class ClientsController < ApplicationController
       flash[:success] = "The client has been updated!"
       redirect_to client_path(@client)
     else
-      @activities = @client.activities.all
+      @activities = @client.activities.all  
+      @notes = @client.notes.all
+      @actions = @client.actions.all
       render 'show'
     end
   end
