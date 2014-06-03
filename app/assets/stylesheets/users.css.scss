@@ -42,11 +42,14 @@
 }
 
 
-$pw_height: 300px;
+$pw_height: 320px;
 
-.pw_container{
-	padding: 1%;
+.pw_container {
+	padding-top:10px;
+	padding-left:10px;
+	padding-bottom:10px;
     background-color: #EEEEEE;
+#    border:1px solid #BBBBBB;
     -moz-border-radius: 10px;
 	border-radius: 10px;
 	-moz-box-shadow:0px 1px 3px rgba(0, 0, 0, 0.9);
@@ -58,6 +61,11 @@ $pw_height: 300px;
 	height: $pw_height;
 }
 
+.pw_vertical_scroll {
+	overflow-y:scroll;
+	height: $pw_height - 20px;
+}
+
 .pw_image{
 	text-align: center; 
 }
@@ -67,9 +75,12 @@ $pw_height: 300px;
 }
 
 .pw_thumbnail{
-#	border: 0px solid #DDDDDD;
-	width: 70px;
 	text-align: center; 
+
+	img {
+	padding-top:4%;
+	padding-bottom:4%;
+	}
 }
 
 .pw_thumbnail:hover{

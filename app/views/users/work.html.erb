@@ -9,21 +9,22 @@
 
 <div class="row-fluid">
 	<div class="pw_container span3">
-		<div id="pw_thumbnails" class="row-fluid pw_height mousescroll">
-			<table><tr>
-			<% @works.each_with_index do |work, index| %>
-				<% if index % 3 == 0 and index != 0 %>
-					</tr><tr>
+		<div class="pw_vertical_scroll">
+			<div class="row-fluid">
+				<% @works.each_with_index do |work, index| %>
+						<div class="span4 pw_thumbnail">
+							<%= link_to image_tag(work.image1.url(:thumb), alt: "#{image_alt_description(@user, work)}"), "/makers/#{@user.to_param}/#{@workcategory.name}/#{work.inventory_id}" %>
+						</div>
+						<% if index % 3 == 2 %>
+							</div>
+							<div class="row-fluid">
+					<% end %>
 				<% end %>
-				<td class="pw_thumbnail">
-					<%= link_to image_tag(work.image1.url(:thumb), alt: "#{image_alt_description(@user, work)}"), "/makers/#{@user.to_param}/#{@workcategory.name}/#{work.inventory_id}" %>
-				</td>
-			<% end %>
-		</tr></table>
+			</div>
 		</div>
 	</div>
-	<div class="pw_container span9">
-		<div class="row-fluid pw_height pw_image span6">
+	<div class="pw_container pw_height span9">
+		<div class="row-fluid pw_image span6">
 			<%= image_tag @work.image1.url(:medium), alt: "#{image_alt_description(@user, @work)}" %>
 		</div>
 		<div class="row-fluid span6">
