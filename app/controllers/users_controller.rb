@@ -72,12 +72,10 @@ class UsersController < ApplicationController
       if @user.share_about
         render :layout => 'site'
       else 
-        flash[:warning] = "Sorry but #{@user.name} does not have a public page about them powered by Makers' Moon."
-        redirect_to root_url
+        redirect_to root_url, alert: "Sorry but #{@user.name} does not have an 'about' page powered by Makers' Moon."
       end
     else 
-      flash[:warning] = "Sorry but #{@user.name} does not have a public site powered by Makers' Moon."
-      redirect_to root_url
+      redirect_to root_url, alert: "Sorry but #{@user.name} does not have a public site powered by Makers' Moon."
     end
   end
 
@@ -87,12 +85,10 @@ class UsersController < ApplicationController
       if @user.share_contact
         render :layout => 'site'
       else 
-        flash[:warning] = "Sorry but #{@user.name} does not have a public contact page powered by Makers' Moon."
-        redirect_to root_url
+        redirect_to root_url, alert: "Sorry but #{@user.name} does not have a 'contact' page powered by Makers' Moon."
       end
     else 
-      flash[:warning] = "Sorry but #{@user.name} does not have a public site powered by Makers' Moon."
-      redirect_to root_url
+      redirect_to root_url, alert: "Sorry but #{@user.name} does not have a public site powered by Makers' Moon."
     end
   end
 
@@ -102,12 +98,10 @@ class UsersController < ApplicationController
       if @user.share_purchase
         render :layout => 'site'
       else 
-        flash[:warning] = "Sorry but #{@user.name} does not have a public page about purchasing powered by Makers' Moon."
-        redirect_to root_url
+        redirect_to root_url, alert: "Sorry but #{@user.name} does not have a 'purchasing' page powered by Makers' Moon."
       end
     else 
-      flash[:warning] = "Sorry but #{@user.name} does not have a public site powered by Makers' Moon."
-      redirect_to root_url
+      redirect_to root_url, alert: "Sorry but #{@user.name} does not have a public site powered by Makers' Moon."
     end
   end
 
@@ -120,12 +114,10 @@ class UsersController < ApplicationController
         @work =  @user.works.find_by_inventory_id(params[:work]) || @works.first
         render :layout => 'site'
       else
-        flash[:warning] = "Sorry but #{@user.name} does not have a public page to promote their works powered by Makers' Moon."
-        redirect_to root_url
+        redirect_to root_url, alert: "Sorry but #{@user.name} does not have a public page to promote their works powered by Makers' Moon."
       end
     else
-      flash[:warning] = "Sorry but #{@user.name} does not have a public site powered by Makers' Moon."
-      redirect_to root_url
+      redirect_to root_url, alert: "Sorry but #{@user.name} does not have a public site powered by Makers' Moon."
     end
   end
 

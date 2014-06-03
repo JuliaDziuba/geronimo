@@ -12,7 +12,7 @@
 #
 
 class Note < ActiveRecord::Base
-  attr_accessible :date, :note, :notable_type, :notable_id
+  attr_accessible :date, :note, :notable, :notable_type, :notable_id
   
   USER   = { :type => "User",   :referer => "users",   :model => "user",   :selection => "General", :crumb_name => "Makers",  :crumb_path => "users_path"   }
   WORK   = { :type => "Work",   :referer => "works",   :model => "work",   :selection => "Work",    :crumb_name => "Works",   :crumb_path => "works_path"   }
@@ -36,10 +36,13 @@ class Note < ActiveRecord::Base
     TYPES = { Note::USER[:selection] => Note::USER[:type], 
             Note::WORK[:selection] => Note::WORK[:type],
             Note::VENUE[:selection] => Note::VENUE[:type],
-            Note::CLIENT[:selection] => Action::CLIENT[:type]}
+            Note::CLIENT[:selection] => Note::CLIENT[:type]}
 
   belongs_to :notable, :polymorphic => true
 
+  validates :notable_id, presence: true
+  validates :notable_type, presence: true
+  validates_inclusion_of :notable_type, :in => [Note::USER[:type], Note::WORK[:type], Note::VENUE[:type], Note::CLIENT[:type]]
   validates :date, presence: true
   validates :note, presence: true, length: { maximum: 200 }
 

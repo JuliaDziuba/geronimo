@@ -62,7 +62,7 @@ describe User do
   it { should respond_to(:share_with_public) }
   it { should respond_to(:share_about) }
   it { should respond_to(:share_contact) }
-  it { should respond_to(:share_price) }
+  it { should respond_to(:share_works_price) }
   it { should respond_to(:share_purchase) }
   it { should respond_to(:share_works) }
   it { should respond_to(:username) }

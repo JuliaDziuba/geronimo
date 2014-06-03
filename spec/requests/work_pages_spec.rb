@@ -14,7 +14,7 @@ describe "Work pages" do
 			before { visit works_path }
 
 			it { should have_selector('h1', text: "Works") }
-      it { should have_selector('p', text: "This tool has two primary features") }
+      it { should have_selector('p', text: "You can organize your works and public site by creating categories of work") }
       
     end
 
@@ -24,9 +24,9 @@ describe "Work pages" do
     	before { visit works_path }
 
     	it { should have_selector('h1', text: "Works") }
-      it { should have_selector('p', text: "Nice start creating categories.") }
-      it { should_not have_selector('h2', text: "START UPLOADING WORKS!") }
-      it { should have_selector('a', content: "Create another category") }
+      it { should have_selector('p', text: "Makers' Moon allows you to keep detailed records") }
+      it { should have_selector('b', text: "to start adding works") }
+      it { should have_selector('a', content: "Create MORE categories of works first!") }
       
     end
 
@@ -35,7 +35,7 @@ describe "Work pages" do
 			before { visit works_path }
       
       it { should have_selector('h1', text: "Works") }
-      it { should_not have_selector('p', text: "START UPLOADING WORKS!") }
+      it { should_not have_selector('b', text: "to start adding works") }
       
     end
 
@@ -49,7 +49,7 @@ describe "Work pages" do
 	    
 	    it { should have_selector('a', text:  "Works") }
 	    it { should have_selector('h1', text: work.title) }
-      it { should have_selector('a', text: "New Activity") }
+      it { should have_content("No activities recorded yet about this work.") }
     end
 
     describe "when there are activities" do
@@ -64,7 +64,7 @@ describe "Work pages" do
       
         it { should have_selector('a', text:  "Works") }
         it { should have_selector('h1', text: work.title) }
-        it { should have_selector('h2', content: "Its Journey") }
+        it { should have_selector('legend', content: "Activities") }
         it { should have_selector('table tbody tr', :count => 1) } 
       end
 
@@ -73,8 +73,8 @@ describe "Work pages" do
         let!(:a)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consignedPreviously, work: work, venue: v, client: c, date_start: '2012-01-01', date_end: '2013-01-01') }
         before { visit work_path(work) }
       
-        it { should have_selector('a', text: "New Activity") }
-        it { should have_selector('h2', content: "Its Journey") }
+        it { should have_selector('a', text: "New") }
+        it { should have_selector('legend', content: "Activities") }
       end
     end #/when there are activities
 	end

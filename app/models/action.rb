@@ -13,7 +13,7 @@
 #
 
 class Action < ActiveRecord::Base
-  attr_accessible :due, :action, :actionable_type, :actionable_id, :complete
+  attr_accessible :due, :action, :actionable, :actionable_type, :actionable_id, :complete
   
   USER = { :referer => "users", :model => "user", :type => "User", :selection => "General", :crumb_name => "Makers", :crumb_path => "users_path" }
   WORK = { :referer => "works", :model => "work", :type => "Work", :selection => "Work", :crumb_name => "Works", :crumb_path => "works_path" }
@@ -32,9 +32,9 @@ class Action < ActiveRecord::Base
 
   belongs_to :actionable, :polymorphic => true
 
+  validates :actionable_id, presence: true
   validates :actionable_type, presence: true
   validates_inclusion_of :actionable_type, :in => [Action::USER[:type], Action::WORK[:type], Action::VENUE[:type], Action::CLIENT[:type]]
-  validates :actionable_id, presence: true
   validates :due, presence: true
   validates :action, presence: true, length: { maximum: 200 }
   validates_inclusion_of :complete, :in => [true, false]

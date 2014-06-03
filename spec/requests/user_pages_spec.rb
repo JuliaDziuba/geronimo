@@ -8,23 +8,25 @@ describe "User pages" do
   describe "signup page" do
     before { visit signup_path }
 
-    it { should have_selector('title', text: full_title('')) }
+    it { should have_selector('title', text: full_title('', 'Sign Up')) }
     it { should have_content('one small step for you') } 
   end #/signup page
 
-  describe "signup" do
+  pending ("I need to figure out how to do this with gibbon and the api") do
+    describe "signup" do
 
-    before { visit signup_path }
+      before { visit signup_path }
 
-    it { should have_content("BETA sign in") }
-
-    pending("Currently only an admin can create a new user") {
-      
       let(:submit) { "Sign up!" }
 
       describe "with invalid information" do
         it "should not create a user" do
           expect { click_button submit }.not_to change(User, :count)
+        end
+
+        describe "should report 7 errors" do
+          before { click_button submit }
+          it { should have_content('The form contains 7 errors.') }
         end
       end
 
@@ -40,59 +42,63 @@ describe "User pages" do
           expect { click_button submit }.to change(User, :count).by(1)
         end
       end
-    }
-  end #/signup
+    end #/signup
+  end
 
-  describe "edit" do
+  describe "with signed in user" do
     let(:user) { FactoryGirl.create(:user) }
-    before do
-      sign_in user
-      visit edit_user_path(user)
-    end
-    describe "page" do
-      it { should have_selector('h1',    text: "Maker Profile") }
-      it { should have_selector('title', text: full_title('')) }
-    end
+    before { sign_in user }  
 
-    describe "with invalid information" do
-      before do
-        fill_in "New Password", with: "newpassword"
-        click_button "Update"
+    describe "edit" do
+      before { visit edit_user_path(user) }
+
+      describe "page" do
+        it { should have_selector('h1',    text: "Maker Profile") }
+        it { should have_selector('title', text: full_title('', 'Edit Profile')) }
       end
 
-      it { should have_content('error') }
-    end
+      describe "with invalid information" do
+        before do
+          fill_in "New Password", with: "newpassword"
+          click_button "Update"
+        end
 
-    describe "with valid information" do
-      let(:new_name)  { "New Name" }
-      let(:new_email) { "new@example.com" }
-      before do
-        click_link "Update Password"
-        fill_in "Name",             with: new_name
-        fill_in "Email",            with: new_email
-        fill_in "New Password",         with: "newpassword"
-        fill_in "Again", with: "newpassword"
-        click_button "Update"
+        it { should have_content('error') }
       end
 
-      it { should have_selector('title', text: full_title('')) }
-      it { should have_selector('div.alert.alert-success') }
-      it { should have_link('Sign out', href: signout_path) }
-      specify { user.reload.name.should  == new_name }
-      specify { user.reload.email.should == new_email }
-    end
-  end #/edit page
+      describe "with valid information" do
+        let(:new_name)  { "New Name" }
+        let(:new_email) { "new@example.com" }
+        before do
+          click_link "Update Password"
+          fill_in "Business Name",    with: new_name
+          fill_in "Email",            with: new_email
+          fill_in "New Password",     with: "newpassword"
+          fill_in "Again",            with: "newpassword"
+          click_button "Update"
+        end
 
-  describe "profile page" do
-    let(:user) { FactoryGirl.create(:user) }
-    before { visit user_path(user) }
+        it { should have_selector('title', text: full_title('', 'Dashboard')) }
+        it { should have_selector('div.alert.alert-success') }
+        it { should have_link('Sign out', href: signout_path) }
+        specify { user.reload.name.should  == new_name }
+        specify { user.reload.email.should == new_email }
+      end
+    end #/edit page
 
-    # it { should have_selector('h1',    text: user.name) }
-    it { should have_selector('title', text: full_title('')) }
-  end #/profile page
+    describe "dashboard page" do
+      before { visit user_path(user) }
 
-  describe "index page" do 
-  end #/index page
+      it { should have_selector('title', text: full_title('', 'Dashboard')) }
+    end #/profile page
+
+    describe "index page" do 
+      before { visit users_path}
+
+      it { should have_selector('title', text: full_title('', 'Public Makers'))}
+    end #/index page
+
+  end 
 
   describe "public page" do
     
@@ -143,7 +149,7 @@ describe "User pages" do
             click_button update
           end
 
-          it { should have_content('Your profile was updated') }          
+          it { should have_content('Your public profile has been updated') }          
         end
       end
     end

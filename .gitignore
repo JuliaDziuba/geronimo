@@ -15,4 +15,7 @@
 /tmp
 
 # Ignore s3 config keys
-/config/initializers/s3_constants.rb
+/config/initializers/s3_secret.rb
+
+# Ignore mailchimp api key for gibbon
+/config/initializers/gibbon_secret.rb

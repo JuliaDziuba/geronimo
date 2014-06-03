@@ -51,12 +51,17 @@ describe Work do
   it { should respond_to(:income) }
   it { should respond_to(:retail) }
   it { should respond_to(:description) }
-  it { should respond_to(:dimention1) }
-  it { should respond_to(:dimention2) }
-  it { should respond_to(:dimention_units) }
+  it { should respond_to(:share_makers) }
+  it { should respond_to(:share_public) }
 	it { should respond_to(:created_at) }
 	it { should respond_to(:updated_at) }
-
+  it { should respond_to(:image1_file_name) }
+  it { should respond_to(:image1_content_type) }
+  it { should respond_to(:image1_file_size) }
+  it { should respond_to(:image1_updated_at) }
+  it { should respond_to(:materials) }
+  it { should respond_to(:quantity) }
+  it { should respond_to(:dimensions) }
   it { should be_valid }
 
   describe "accessible attributes" do

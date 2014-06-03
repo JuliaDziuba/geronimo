@@ -3,6 +3,7 @@ class StaticPagesController < ApplicationController
 
   def home
   	if signed_in?
+      flash.keep
   		redirect_to user_url(current_user)
   	else
       @user = User.new

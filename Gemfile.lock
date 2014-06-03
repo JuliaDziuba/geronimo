@@ -180,8 +180,6 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0.4)
-    sitemap_generator (5.0.4)
-      builder
     spreadsheet (0.9.7)
       ruby-ole (>= 1.0)
     sprockets (2.2.2)
@@ -234,7 +232,6 @@ DEPENDENCIES
   roo
   rspec-rails (= 2.11.0)
   sass-rails (= 3.2.5)
-  sitemap_generator
   uglifier (= 1.2.3)
   unicorn
   will_paginate (= 3.0.3)
