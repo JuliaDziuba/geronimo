@@ -8,19 +8,17 @@ describe "Authentication" do
 
     before { visit signin_path }
 
-    it { should have_selector('title', text: full_title('')) }
-    it { should have_content('one small step for you') }
-    it { should have_content("Makers' Moon is an online business management tool") }
-    
-
+    it { should have_selector('title', text: full_title('','Log In')) }
+    it { should have_selector('h1', text: "Log in")}
+  
     describe "with invalid information" do
       before { click_button "Sign in!" }
 
-      it { should have_selector('title', text: full_title('')) }
+      it { should have_selector('title', text: full_title('', 'Log In')) }
       it { should have_selector('div.alert.alert-error', text: 'Invalid') }
 
       describe "after visiting another page" do
-        before { click_link "Not a member? Let us know you're interested!" }
+        before { click_link "Not a member? Sign up!" }
         it { should_not have_selector('div.alert.alert-error') }
       end
     end
@@ -30,6 +28,7 @@ describe "Authentication" do
       before { sign_in user }
 
       it { should have_selector('a', text: user.name) }
+      it { should have_selector('h1', text: "Dashboard") }
       it { should have_link('Sign out', href: signout_path) }
       it { should_not have_link('Sign in!', href: signin_path) }
       
@@ -84,7 +83,7 @@ describe "Authentication" do
         describe "visiting the new page" do
           # is should redirect to the root unless they are an admin
           before { visit new_user_path }
-          it { should have_button('Subscribe') }
+          it { should have_button('Sign up!') }
         end
 
         describe "submitting to the create action" do
@@ -102,10 +101,9 @@ describe "Authentication" do
         end
 
         describe "visiting the index page" do 
-          # it should redirect to the sign in page
+          # it should show the public version of the page. 
           before { visit users_path }
-          it { should have_content('Please sign in.') } 
-          it { should have_button('Sign in!') }
+          it { should have_selector('p', text: "Makers' Moon users are constantly creating new works") } 
         end
 
         describe "visting the edit page" do 
@@ -308,7 +306,22 @@ describe "Authentication" do
         describe "visiting the home page" do
           # is should render page fine
           before { visit root_path }
-          it { should have_button('Subscribe') }
+          it { should have_button('Sign up!') }
+          it { should have_selector('h1', text: 'Take control of your business')}
+          it { should have_selector('div', class: "public_brand") }
+        end
+
+        describe "visiting the features page" do
+          # is should render page fine
+          before { visit features_path }
+          it { should have_selector('h1', text: 'Features')}
+        end
+
+        describe "visiting the pricing page" do
+          # is should render page fine
+          before { visit pricing_path }
+          it { should have_button('Sign up!') }
+          it { should have_selector('h1', text: 'Pricing')}
         end
 
         describe "visiting the help page" do

@@ -95,7 +95,7 @@ describe "User pages" do
     describe "index page" do 
       before { visit users_path}
 
-      it { should have_selector('title', text: full_title('', 'Public Makers'))}
+      it { should have_selector('title', text: full_title('', 'Public Makers'))}      
     end #/index page
 
   end 

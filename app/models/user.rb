@@ -71,6 +71,7 @@ class User < ActiveRecord::Base
   has_many :questions
 
   before_save { |user| user.email = email.downcase }
+  before_save :set_tier
   before_save :create_remember_token
 
   validate  :full_urls
@@ -81,8 +82,9 @@ class User < ActiveRecord::Base
   validates :name, length: { maximum: 50 }
   validates :about, length: { maximum: 2000 }
   
-  default_scope order: 'users.created_at DESC'
   scope :shared_publicly, where('users.share_with_public')
+  scope :order_tier, order: 'users.tier DESC'
+  scope :order_share_works, order: 'users.share_works DESC'
   
 
   def to_param
@@ -157,6 +159,10 @@ class User < ActiveRecord::Base
   end
 
   private
+
+    def set_tier
+      self.tier = read_attribute(:tier) || User::APPRENTICE
+    end
 
     def create_remember_token
       self.remember_token = SecureRandom.urlsafe_base64

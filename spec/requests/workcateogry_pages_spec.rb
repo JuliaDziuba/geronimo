@@ -16,32 +16,7 @@ describe "Workcategory pages" do
       before { visit workcategories_path }
 
       it { should have_selector('h1', text: "Categories") }
-      it { should have_selector('p', text: "This tool has two primary features") }
-      it { should have_selector('h2', content: 'CREATE A CATEGORY') }
-
-      describe "workcategory creation" do
-
-        describe "workcategory creation with invalid creation" do
-          it "should not create a workcategory" do
-           expect { click_button "Create Workcategory" }.not_to change(Workcategory, :count)
-          end
-
-          describe "error messages" do
-            before { click_button "Create Workcategory" }
-            it { should have_content('There was a problem') } 
-          end
-        end
-
-        describe "with valid information" do
-
-          before { fill_in 'workcategory_name', with: "Paintings" }
-          
-          it "should create a workcategory" do
-           expect { click_button "Create Workcategory" }.to change(Workcategory, :count).by(1)
-         end
-        end
-      end
-
+      it { should have_selector('p', text: "You can organize your works and public site by creating") }
     end
 
     describe "when there are workcategories" do
@@ -78,4 +53,29 @@ describe "Workcategory pages" do
     end # when there are workcategories
   end # index page
 
+  describe "new page" do
+    before { visit new_workcategory_path }
+
+    it { should have_selector('h1', text: "New") }
+
+    describe "invalad workcategories" do
+      it "should not create a workcategory" do
+       expect { click_button "Create Workcategory" }.not_to change(Workcategory, :count)
+      end
+
+      describe "error messages" do
+        before { click_button "Create Workcategory" }
+        it { should have_content('There was a problem') } 
+      end
+    end
+
+    describe "with valid information" do
+
+      before { fill_in 'workcategory_name', with: "Paintings" }
+      
+      it "should create a workcategory" do
+       expect { click_button "Create Workcategory" }.to change(Workcategory, :count).by(1)
+      end
+    end
+  end
 end

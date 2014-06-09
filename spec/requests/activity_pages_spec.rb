@@ -117,7 +117,7 @@ describe "Activity pages" do
   		before { visit activities_path }
 
 			it { should have_selector('h1', text: "Activities") }
-  		it { should have_selector('p', text: "Made a sale or donate, gift, or recycle a piece?") }
+  		it { should have_selector('p', text: "Activities is a general term for the places and people your art meets") }
   	end
 
   	describe "when there are activities" do

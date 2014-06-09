@@ -135,7 +135,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.shared_publicly.all
+    @users = User.shared_publicly.order_tier.order_share_works
     @works = Work.shared_with_public.limit(100).order('works.updated_at DESC').all(:include =>  [:workcategory, :user])
     if !signed_in?
       render :layout => 'landing'

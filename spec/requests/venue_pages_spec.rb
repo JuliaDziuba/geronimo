@@ -10,7 +10,8 @@ describe "Venue pages" do
 	let!(:ac_consign) { FactoryGirl.create(:activitycategory, name: 'Consignment', status: 'Consigned', final: false) } 
 	let!(:ac_commission) { FactoryGirl.create(:activitycategory, name: 'Commission', status: 'Being created', final: false) } 
 	let!(:ac_sale) { FactoryGirl.create(:activitycategory, name: 'Sale', status: 'Sold') }
-		
+	let!(:v_default) { FactoryGirl.create(:venue, name: 'My Studio', venuecategory_id: vc.id) }
+     
 	before { sign_in user }
 
 	describe "index page" do
@@ -19,7 +20,7 @@ describe "Venue pages" do
       before { visit venues_path }
       
       it { should have_selector('h1', text: "Venues") }
-      it { should have_selector('p', text: "Include") }
+      it { should have_content("Include venues you are currently") }
     end
 
     describe "when there are venues" do
@@ -29,7 +30,7 @@ describe "Venue pages" do
       
       it { should have_selector('h1', text: "Venues") }
       it { should have_selector('table tbody tr', :count => 2) }
-    end
+  	end
   end
 
   describe  "show page" do
@@ -40,7 +41,7 @@ describe "Venue pages" do
     it { should have_selector('a', text:  "Venues") }
 		it { should have_selector('h1', text: v.name) }
 		it { should have_button('Update Venue') }
-		it { should have_selector('a', text: 'New Activity') }
+		it { should have_selector('a', text: 'New') }
 
 		describe "when a venue is updated" do
 			let(:update) { "Update Venue" }
@@ -69,35 +70,16 @@ describe "Venue pages" do
 
 		end
     
-	  describe "when there are current and future consignments to show" do
-	  	let!(:v) { FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id) }
-			let!(:a_current) { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, venue: v, date_start: '2013-01-01', date_end: '2018-01-01') }
-			let!(:a_future) { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, venue: v, date_start: '2018-01-01', date_end: '2023-01-01') }
-			before { visit venue_path(v) }
-
-			it { should_not have_content("There are no works currently consigned to this venue.") }
-			it { should have_content("There were no works previously consigned to this venue.") }
-	  	it { should have_content("There are no sales to this venue yet.") }
-	  end
-
-	  describe "when there are past consignments, future consignments and current commissions only consignments should be shown" do
-			let!(:a_consign_past)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, venue: v, date_start: '2013-01-01', date_end: '2013-02-01') }
+	  describe "when there are activities to show" do
+	  	let!(:a_consign_past)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, venue: v, date_start: '2013-01-01', date_end: '2013-02-01') }
 	  	let!(:a_consign_future)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, venue: v, date_start: '2023-01-01', date_end: '2023-02-01') }
 	  	let!(:a_commission_current)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_commission, work: w, venue: v, date_start: '2013-01-01', date_end: '2023-01-01') }
 	  	before { visit venue_path(v) }
 
-	  	it { should_not have_content("There are no works currently consigned to this venue.") }
-	  	it { should_not have_content("There were no works previously consigned to this venue.") }
-	  	it { should have_content("There are no sales to this venue yet.") }
+	  	it { should have_selector("legend", text: "Activities") }
+	  	it { should have_selector("table", id: "Activities") }
 	  end
 
-	  describe "when there are sales to show" do
-	  	let!(:a_sale)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_sale, work: w, venue: v, venue: v, date_start: '2013-01-01', date_end: '2013-01-01') }
-	  	before { visit venue_path(v) }
-
-	  	it { should_not have_content("There are no sales to this venue yet.") }
-
-	  end
 	end
 
 	describe "new page" do
