@@ -41,7 +41,7 @@ class Venue < ActiveRecord::Base
   validates_inclusion_of :share_makers, :in => [true, false]
   validates_inclusion_of :share_public, :in => [true, false]
   
-  default_scope order: 'venues.name'
+  scope :order_name, order: 'venues.name'
   scope :shared_with_public, lambda { where('venues.share_public == ?', true) }
   scope :not_shared_with_public, lambda { where('venues.share_public == ?', false) }
   scope :shared_with_makers, lambda { where('venues.share_makers == ?', true) }

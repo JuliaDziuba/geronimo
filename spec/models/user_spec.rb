@@ -240,24 +240,24 @@ describe User do
 
     before { @user.save }
     let!(:b_workcategory) do 
-      FactoryGirl.create(:workcategory, user: @user, name: "Banana Slings", artist_statement: "Slings for bananas")
+      FactoryGirl.create(:workcategory, user: @user, name: "B", artist_statement: "Slings for bananas")
     end
     let!(:a_workcategory) do
-      FactoryGirl.create(:workcategory, user: @user, name: "Apple Sacks", artist_statement: "Sacks for apples")
+      FactoryGirl.create(:workcategory, user: @user, name: "A", artist_statement: "Sacks for apples")
     end
-    let!(:work_1) do
-      FactoryGirl.create(:work, user: @user, title: "A work", creation_date:"2012-01-01")
+    let!(:work_b) do
+      FactoryGirl.create(:work, user: @user, title: "B", creation_date:"2012-01-01")
     end
-    let!(:work_2) do
-      FactoryGirl.create(:work, user: @user, title: "Another work", creation_date: "2013-01-01")
+    let!(:work_a) do
+      FactoryGirl.create(:work, user: @user, title: "A", creation_date: "2013-01-01")
     end
 
     it "should have the right categories in the right order" do
-      @user.workcategories.should == [a_workcategory, b_workcategory]
+      @user.workcategories.order_name.should == [a_workcategory, b_workcategory]
     end
 
     it "should have the right works in the right order" do
-      @user.works.should == [work_2, work_1]
+      @user.works.order_title.should == [work_a, work_b]
     end
 
     it "should destroy associated workcategories, and works" do
@@ -284,14 +284,14 @@ describe User do
     before { @user.save }
     
     let!(:b_venue) do
-      FactoryGirl.create(:venue, user: @user, venuecategory_id: vc.id, name: "Beauty Store")
+      FactoryGirl.create(:venue, user: @user, venuecategory_id: vc.id, name: "B Store")
     end
     let!(:a_venue) do
-      FactoryGirl.create(:venue, user: @user, venuecategory_id: vc.id, name: "Another Store")
+      FactoryGirl.create(:venue, user: @user, venuecategory_id: vc.id, name: "A Store")
     end
 
     it "should have the right venues in the right order" do
-      @user.venues.should == [a_venue, b_venue]
+      @user.venues.order_name.should == [a_venue, b_venue]
     end
 
     it "should destroy associated venues" do
@@ -317,7 +317,7 @@ describe User do
     end
 
     it "should have the right clients in the right order" do
-      @user.clients.should == [a_client, b_client]
+      @user.clients.order_name.should == [a_client, b_client]
     end
 
     it "destroying user should destroy associated clients" do

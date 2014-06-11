@@ -58,9 +58,9 @@ class DocumentsController < ApplicationController
   def index
     if params.has_key?(:category)
       @category = params[:category]
-      @documents = current_user.documents.where('documents.category = ?', @category)
+      @documents = current_user.documents.where('documents.category = ?', @category).order_date
     else
-      @documents = current_user.documents.all
+      @documents = current_user.documents.order_date.all
     end
   end
 
@@ -81,11 +81,11 @@ class DocumentsController < ApplicationController
 
   def getSubjectsForForm(category, subject)
     if category == Document::CONSIGNMENT
-      subjects = current_user.venues.all
+      subjects = current_user.venues.order_name.all
     elsif category == Document::INVOICE
-      subjects = current_user.clients.all
+      subjects = current_user.clients.order_name.all
     elsif category == Document::PORTFOLIO || category == Document::PRICE
-      subjects = current_user.works.all
+      subjects = current_user.works.order_title.all
       subjectArray = (subject || "").split(',')
       subjects.each do |subject|
         if subjectArray.include? subject.inventory_id
@@ -141,7 +141,7 @@ class DocumentsController < ApplicationController
     elsif document.category == Document::INVOICE
       subjects = current_user.activities.salesToClientBetweenDates(document.subject, document.date_start, document.date_end)
     else
-      subjects = current_user.works.where('works.inventory_id IN (?)', (document.subject || "").split(','))
+      subjects = current_user.works.where('works.inventory_id IN (?)', (document.subject || "").split(',')).order_title
     end
     subjects
   end

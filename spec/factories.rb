@@ -78,4 +78,20 @@ FactoryGirl.define do
     user
   end
 
+  factory :action do
+    due "2014-01-01"
+    action "Test"
+    complete false
+    actionable_id 0
+    actionable_type "User"
+  end
+
+
+  factory :note do
+    date "2014-01-01"
+    note "Test"
+    notable_id 0
+    notable_type "User"
+  end
+
 end

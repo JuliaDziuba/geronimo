@@ -52,7 +52,9 @@ class Work < ActiveRecord::Base
   validates_inclusion_of :share_public, :in => [true, false]
   validate  :inventory_id_format
 
-  default_scope order: 'works.creation_date DESC'
+  scope :order_creation_date, order: 'works.creation_date DESC'
+  scope :order_title, order: 'works.title'
+  scope :order_updated_at, order: 'works.updated_at DESC'
   scope :createdBeforeDate, lambda { |date| where('creation_date <= ?', date)}
   scope :shared_with_public, lambda { where('works.share_public') }
   scope :not_shared_with_public, lambda { where('NOT works.share_public') }

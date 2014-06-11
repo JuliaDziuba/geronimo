@@ -17,6 +17,21 @@ class ClientsController < ApplicationController
     end
   end
 
+  def show
+    @client = current_user.clients.find_by_munged_name(params[:id])
+    @activities = @client.activities.all    
+    @notes = @client.notes.order_date.all
+    @actions = @client.actions.order_due.all
+  end
+
+  def edit
+    @client = current_user.clients.find_by_munged_name(params[:id])
+    @activities = @client.activities.all    
+    @notes = @client.notes.order_date.all
+    @actions = @client.actions.order_due.all
+    render 'show'
+  end
+
   def update
   	@client = current_user.clients.find_by_munged_name(params[:id]) 
     @client.assign_attributes(params[:client])
@@ -26,22 +41,14 @@ class ClientsController < ApplicationController
       redirect_to client_path(@client)
     else
       @activities = @client.activities.all  
-      @notes = @client.notes.all
-      @actions = @client.actions.all
+      @notes = @client.notes.order_date.all
+      @actions = @client.actions.order_due.all
       render 'show'
     end
   end
 
-  def show
-  	@client = current_user.clients.find_by_munged_name(params[:id])
-    @activities = @client.activities.all    
-    @notes = @client.notes.all
-    @actions = @client.actions.all
-  end
-
   def index
-    @client = Client.new
-  	@clients = current_user.clients.all_known.all(:include =>  [:activities => [:activitycategory, :user]])
+  	@clients = current_user.clients.all_known.order_name.all(:include =>  [:activities => [:activitycategory, :user]])
     @clients.each do |client|
       count = 0
       client.activities.each do |activity|

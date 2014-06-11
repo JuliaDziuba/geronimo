@@ -2,7 +2,7 @@ class NotesController < ApplicationController
   before_filter :signed_in_user
 
   def index
-    @notes = Note.all_for_users(current_user.id);
+    @notes = Note.all_for_users(current_user.id).order_date;
   end
 
   def new
@@ -13,9 +13,9 @@ class NotesController < ApplicationController
     @type = Note::TYPE_HASH_BY_REFERER[referer_type]
     if @type.nil?
       @note = Note.new
-      @works = current_user.works.all
-      @venues = current_user.venues.all
-      @clients = current_user.clients.all
+      @works = current_user.works.order_title.all
+      @venues = current_user.venues.order_name.all
+      @clients = current_user.clients.order_name.all
 
     else
       object = objectGivenTypeFromReferer(@type, referer_id)

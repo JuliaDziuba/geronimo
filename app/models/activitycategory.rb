@@ -33,8 +33,7 @@ class Activitycategory < ActiveRecord::Base
   validates :description, length: { maximum: 150 }
   validates_inclusion_of :final, :in => [true, false]
   
-
-	default_scope order: 'activitycategories.name'
+  scope :order_name, order: 'activitycategories.name'
 	scope :for_venues, where("name in ('Consignment','Donate','Sale')")
 	scope :for_clients, where("name in ('Commission','Gift','Sale')")
   

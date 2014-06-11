@@ -19,6 +19,24 @@ class VenuesController < ApplicationController
     end
   end
 
+  def show
+    @venue = current_user.venues.find_by_munged_name(params[:id])
+    @venuecategories = Venuecategory.all
+    @activities = @venue.activities.all 
+    @notes = @venue.notes.order_date.all
+    @actions = @venue.actions.order_due.all
+    @test = true
+  end
+
+  def edit
+    @venue = current_user.venues.find_by_munged_name(params[:id])
+    @venuecategories = Venuecategory.all
+    @activities = @venue.activities.all 
+    @notes = @venue.notes.order_date.all
+    @actions = @venue.actions.order_due.all
+    render 'show'
+  end
+
   def update
     @venue = current_user.venues.find_by_munged_name(params[:id]) 
     @venue.assign_attributes(params[:venue])
@@ -29,24 +47,15 @@ class VenuesController < ApplicationController
     else
       @venuecategories = Venuecategory.all
       @activities = @venue.activities.all 
-      @notes = @venue.notes.all
-      @actions = @venue.actions.all
+      @notes = @venue.notes.order_date.all
+      @actions = @venue.actions.order_due.all
       render 'show'
     end
   end
 
-  def show
-    @venue = current_user.venues.find_by_munged_name(params[:id])
-    @venuecategories = Venuecategory.all
-    @activities = @venue.activities.all 
-    @notes = @venue.notes.all
-    @actions = @venue.actions.all
-  end
-
   def index
-    @venue = Venue.new
     @venuecategories = Venuecategory.all
-    @venues = current_user.venues.all(:joins => :venuecategory)
+    @venues = current_user.venues.order_name.all(:joins => :venuecategory)
     respond_to do |format|
       format.html
       format.csv { send_data Venue.to_csv(@venues) }

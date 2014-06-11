@@ -39,8 +39,7 @@ class Action < ActiveRecord::Base
   validates :action, presence: true, length: { maximum: 200 }
   validates_inclusion_of :complete, :in => [true, false]
 
-  default_scope order: 'actions.due DESC' 
-
+  scope :order_due, order: 'actions.due DESC' 
   scope :all_for_users, lambda { |user_id| where("(actionable_type = 'User' AND actionable_id = ?) OR (actionable_type = 'Work' and actionable_id in (?)) OR (actionable_type = 'Venue' and actionable_id in (?)) OR (actionable_type = 'Client' and actionable_id in (?))", user_id, User.find(user_id).works.all.map(&:id), User.find(user_id).venues.all.map(&:id), User.find(user_id).clients.all.map(&:id) ) }
    
   

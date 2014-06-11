@@ -23,8 +23,7 @@ class Workcategory < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :user_id, :case_sensitive => false
   validates :artist_statement, length: { maximum: 1000 }
 
-	default_scope order: 'workcategories.name'
-
+	scope :order_name, order: 'workcategories.name'
 	scope :shared_with_public, lambda { joins('INNER JOIN works ON works.workcategory_id = workcategories.id').where('works.share_public = ?', TRUE).uniq }
 	scope :parents_of_shared_with_public, lambda { where('(id in (?) AND parent_id is NULL) OR id in (?)', shared_with_public.collect(&:id), shared_with_public.collect(&:parent_id)).uniq }
 	scope :parents_only, lambda { where('workcategories.parent_id is NULL') }

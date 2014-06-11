@@ -4,12 +4,12 @@ class WorkcategoriesController < ApplicationController
   
 
   def new
-    @parentcategories = current_user.workcategories.parents_only.all(:include => :works)
+    @parentcategories = current_user.workcategories.parents_only.order_name.all(:include => :works)
     @workcategory = Workcategory.new
   end
 
   def index
-    @parentcategories = current_user.workcategories.parents_only.all(:include => :works)
+    @parentcategories = current_user.workcategories.parents_only.order_name.all(:include => :works)
     @workcategory = Workcategory.new
     respond_to do |format|
       format.html
@@ -23,7 +23,7 @@ class WorkcategoriesController < ApplicationController
       # flash[:success] = "Your new category of works created! Add some works to it!"
       redirect_to workcategories_url
     else
-      @parentcategories = current_user.workcategories.parents_only
+      @parentcategories = current_user.workcategories.parents_only.order_name.all
       flash[:error] = "There was a problem with the work category you tried to create. It was not created."
       render 'index'
     end
@@ -35,7 +35,7 @@ class WorkcategoriesController < ApplicationController
     if @workcategory.children.any?
       @parentcategories = []
     else
-      @parentcategories = current_user.workcategories.parents_only.excluding(@workcategory) 
+      @parentcategories = current_user.workcategories.parents_only.excluding(@workcategory).order_name
     end
     
   end

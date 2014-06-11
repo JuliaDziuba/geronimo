@@ -82,10 +82,9 @@ class User < ActiveRecord::Base
   validates :name, length: { maximum: 50 }
   validates :about, length: { maximum: 2000 }
   
-  scope :shared_publicly, where('users.share_with_public')
   scope :order_tier, order: 'users.tier DESC'
   scope :order_share_works, order: 'users.share_works DESC'
-  
+  scope :shared_publicly, where('users.share_with_public')  
 
   def to_param
     username
@@ -142,10 +141,10 @@ class User < ActiveRecord::Base
 
   def workcategories_showing_families
     categories = []
-    self.workcategories.parents_only.each do |parent|
+    self.workcategories.parents_only.order_name.each do |parent|
       categories.push(parent)
       if parent.children.any?
-        parent.children.each do |child|
+        parent.children.order_name.each do |child|
           child.name = parent.name + " > " + child.name
           categories.push(child)
         end

@@ -9,33 +9,7 @@ class UsersController < ApplicationController
     User.all(:include => [:works, :clients, :venues, :activities]).each do | u |
       @userH["#{u.id} #{u.username} #{u.email}"] = [ u.works.count, u.clients.count, u.venues.count, u.activities.count]
     end
-  end
-
-  def getNewEntriesHOA()
-    hoa = {}
-    hoa["Users"] = getNewEntriesArray(User.all)
-    hoa["Works"] = getNewEntriesArray(Work.all)
-    hoa["Categories"] = getNewEntriesArray(Workcategory.all)
-    hoa["Venues"] = getNewEntriesArray(Venue.all)
-    hoa["Clients"] = getNewEntriesArray(Client.all)
-    hoa["Activities"] = getNewEntriesArray(Activity.all)
-    hoa
-  end
-
-  def getNewEntriesArray(entries)
-    dates = [Date.today, 1.week.ago.to_date, 1.month.ago.to_date, 1.year.ago.to_date]
-    a = [0,0,0,0,0]
-    entries.each do | e | 
-      dates.each_with_index do | d, i = 0 |
-        if e.created_at >= d 
-          a[i] = a[i] + 1
-        end
-      end
-      a[4] = a[4] + 1 
-    end
-    a
-  end
-   
+  end   
 
   def annual
     @year = params[:year].to_i || Date.today.year
@@ -223,6 +197,31 @@ class UsersController < ApplicationController
 
     def works
       current_user.works.all
+    end
+
+    def getNewEntriesHOA()
+      hoa = {}
+      hoa["Users"] = getNewEntriesArray(User.all)
+      hoa["Works"] = getNewEntriesArray(Work.all)
+      hoa["Categories"] = getNewEntriesArray(Workcategory.all)
+      hoa["Venues"] = getNewEntriesArray(Venue.all)
+      hoa["Clients"] = getNewEntriesArray(Client.all)
+      hoa["Activities"] = getNewEntriesArray(Activity.all)
+      hoa
+    end
+
+    def getNewEntriesArray(entries)
+      dates = [Date.today, 1.week.ago.to_date, 1.month.ago.to_date, 1.year.ago.to_date]
+      a = [0,0,0,0,0]
+      entries.each do | e | 
+        dates.each_with_index do | d, i = 0 |
+          if e.created_at >= d 
+            a[i] = a[i] + 1
+          end
+        end
+        a[4] = a[4] + 1 
+      end
+      a
     end
 
     def getActivitiesInYear(user, year)

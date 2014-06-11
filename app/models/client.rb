@@ -33,7 +33,7 @@ class Client < ActiveRecord::Base
 	validate :munged_name_is_unique
   
   
-  default_scope order: 'clients.name'
+  scope :order_name, order: 'clients.name'
   scope :all_known, lambda { where('clients.name != ?', 'Unknown') }
   scope :excluding_current, lambda { | id | where('clients.id != ?', id) }
 

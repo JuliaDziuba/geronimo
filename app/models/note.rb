@@ -46,8 +46,7 @@ class Note < ActiveRecord::Base
   validates :date, presence: true
   validates :note, presence: true, length: { maximum: 200 }
 
-  default_scope order: 'notes.date DESC' 
-
+  scope :order_date, order: 'notes.date DESC' 
   scope :all_for_users, lambda { |user_id| where("(notable_type = 'User' AND notable_id = ?) OR (notable_type = 'Work' and notable_id in (?)) OR (notable_type = 'Venue' and notable_id in (?)) OR (notable_type = 'Client' and notable_id in (?))", user_id, User.find(user_id).works.all.map(&:id), User.find(user_id).venues.all.map(&:id), User.find(user_id).clients.all.map(&:id) ) }
    
   

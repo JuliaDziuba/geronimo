@@ -30,7 +30,7 @@ class StaticPagesController < ApplicationController
 
   def sitemap
     @users = User.shared_publicly.all
-    @works = Work.shared_with_public.limit(100).order('works.updated_at DESC').all(:include =>  [:workcategory, :user])
+    @works = Work.shared_with_public.all(:include =>  [:workcategory, :user])
   end
 
 end

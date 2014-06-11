@@ -6,22 +6,22 @@ class ActivitiesController < ApplicationController
   def new 
     session[:return_to] = request.referer
     @activity = Activity.new
-    @activitycategories = Activitycategory.all
+    @activitycategories = Activitycategory.order_name.all
     if params.has_key?(:category)
       @category = Activitycategory.find_by_status(params[:category])
     end
     @work  = current_user.works.find_by_inventory_id(params[:work]) if params.has_key?(:work)
     if params.has_key?(:venue)
-      @activitycategories = Activitycategory.for_venues.all
+      @activitycategories = Activitycategory.for_venues.order_name.all
       @venue = current_user.venues.find_by_munged_name(params[:venue]) 
     end
     if params.has_key?(:client)
-      @activitycategories = Activitycategory.for_clients.all
+      @activitycategories = Activitycategory.for_clients.order_name.all
       @client = current_user.clients.find_by_munged_name(params[:client])
     end
-    @venues = current_user.venues.all
-    @clients = current_user.clients.all
-    @works = current_user.works.all
+    @venues = current_user.venues.order_name.all
+    @clients = current_user.clients.order_name.all
+    @works = current_user.works.order_title.all
     
   end
 
@@ -33,10 +33,10 @@ class ActivitiesController < ApplicationController
       flash[:success] = "Your new activity was recorded!"
       redirect_to session.delete(:return_to)
     else
-      @activitycategories = Activitycategory.all
-      @works = current_user.works.all
-      @venues = current_user.venues.all
-      @clients = current_user.clients.all
+      @activitycategories = Activitycategory.order_name.all
+      @works = current_user.works.order_title.all
+      @venues = current_user.venues.order_name.all
+      @clients = current_user.clients.order_name.all
       render 'new'
     end
   end
@@ -44,10 +44,11 @@ class ActivitiesController < ApplicationController
   def edit
     session[:return_to] = request.referer
     @activity = current_user.activities.find_by_id(params[:id])
-    @activitycategories = Activitycategory.all
-    @works = current_user.works.all
-    @venues = current_user.venues.all
-    @clients = current_user.clients.all
+    @activitycategories = Activitycategory.order_name.all
+    @works = current_user.works.order_title.all
+    @venues = current_user.venues.order_name.all
+    @clients = current_user.clients.order_name.all
+    render 'show'
   end
 
   def update
@@ -59,29 +60,24 @@ class ActivitiesController < ApplicationController
       flash[:success] = "The activity was updated!"
       redirect_to session.delete(:return_to)
     else
-      @activitycategories = Activitycategory.all
-      @works = current_user.works.all
-      @venues = current_user.venues.all
-      @clients = current_user.clients.all
+      @activitycategories = Activitycategory.order_name.all
+      @works = current_user.works.order_title.all
+      @venues = current_user.venues.order_name.all
+      @clients = current_user.clients.order_name.all
       render 'edit'
     end
   end
 
   def show
     @activity = current_user.activities.find_by_id(params[:id])
-    @activitycategories = Activitycategory.all
-    @works = current_user.works.all
-    @venues = current_user.venues.all
-    @clients = current_user.clients.all
+    @activitycategories = Activitycategory.order_name.all
+    @works = current_user.works.order_title.all
+    @venues = current_user.venues.order_name.all
+    @clients = current_user.clients.order_name.all
   end
 
   def index
   	@activities = current_user.activities.all(:include => [:activitycategory, :work, :venue, :client])
-    @activity = Activity.new
-    @activitycategories = Activitycategory.all
-    @works = current_user.works.all
-    @venues = current_user.venues.all
-    @clients = current_user.clients
     respond_to do |format|
       format.html
       format.csv { send_data Activity.to_csv(@activities) }

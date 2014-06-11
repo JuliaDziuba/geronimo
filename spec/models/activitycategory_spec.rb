@@ -56,7 +56,7 @@ describe Activitycategory do
     end
 
     it "should have the right types in the right order" do
-      Activitycategory.all.should == [a_activitycategory, b_activitycategory]
+      Activitycategory.order_name.all.should == [a_activitycategory, b_activitycategory]
     end
 
   end

@@ -1,8 +1,8 @@
 class ActionsController < ApplicationController
   before_filter :signed_in_user
 
-    def index
-    @actions = Action.all_for_users(current_user.id);
+  def index
+    @actions = Action.all_for_users(current_user.id).order_due;
   end
 
   def new
@@ -13,10 +13,9 @@ class ActionsController < ApplicationController
     @type = Action::TYPE_HASH_BY_REFERER[referer_type]
     if @type.nil?
       @action_item = Action.new
-      @works = current_user.works.all
-      @venues = current_user.venues.all
-      @clients = current_user.clients.all
-
+      @works = current_user.works.order_title.all
+      @venues = current_user.venues.order_name.all
+      @clients = current_user.clients.order_name.all
     else
       object = objectGivenTypeFromReferer(@type, referer_id)
       @crumb_name = crumbNameGivenType(@type, object)

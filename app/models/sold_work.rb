@@ -30,8 +30,6 @@ class SoldWork < ActiveRecord::Base
 
   attr_accessible :sale_date, :expense_hours, :expense_materials, :retail, :income, :workcategory_id, :venue_id, :client_id
 
-  default_scope order: 'works.creation_date DESC'
- 
   def createFromWorkAndSale(work, sale)
     sale_date = sale.date_start 
     venue_id = sale.venue_id
