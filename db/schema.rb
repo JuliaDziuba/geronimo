@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
 
   add_index "actions", ["actionable_id"], :name => "index_actions_on_actionable_id"
   add_index "actions", ["actionable_type"], :name => "index_actions_on_actionable_type"
+  add_index "actions", ["due"], :name => "index_actions_on_due"
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -72,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
   end
 
   add_index "clients", ["munged_name"], :name => "index_clients_on_munged_name"
+  add_index "clients", ["name"], :name => "index_clients_on_name"
 
   create_table "documents", :force => true do |t|
     t.integer  "user_id"
@@ -211,6 +213,7 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
   end
 
   add_index "venues", ["munged_name"], :name => "index_venues_on_munged_name"
+  add_index "venues", ["name"], :name => "index_venues_on_name"
   add_index "venues", ["user_id"], :name => "index_venues_on_user_id"
   add_index "venues", ["venuecategory_id"], :name => "index_venues_on_venuecategory_id"
 
@@ -223,6 +226,7 @@ ActiveRecord::Schema.define(:version => 20140815165255) do
     t.datetime "updated_at"
   end
 
+  add_index "workcategories", ["name"], :name => "index_workcategories_on_name"
   add_index "workcategories", ["parent_id"], :name => "index_workcategories_on_parent_id"
   add_index "workcategories", ["user_id"], :name => "index_workcategories_on_user_id"
 
