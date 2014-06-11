@@ -47,7 +47,7 @@ class WorksController < ApplicationController
       redirect_to works_url
     else
       @statusfilter = "failed update"
-      @parentcategories = current_user.workcategories.parents_only.all
+      @parentcategories = current_user.workcategories.parents_only.order_name.all
       @workcategories = current_user.workcategories_showing_families
       @workcategory = Workcategory.new
       @work = Work.new
@@ -69,7 +69,7 @@ class WorksController < ApplicationController
   def index
     @categoryfilter = params[:categoryfilter]
     @statusfilter = params[:statusfilter]
-    @parentcategories = current_user.workcategories.parents_only.all(:include => :works)
+    @parentcategories = current_user.workcategories.parents_only.order_name.all(:include => :works)
     @workcategories = current_user.workcategories_showing_families
     @works = works_given_filters(@categoryfilter, @statusfilter)
     @workcategory = Workcategory.new
@@ -117,23 +117,23 @@ class WorksController < ApplicationController
       if !categoryfilter.nil? 
         categoryarray = categoryfilter.split('.')
         if categoryarray.last == "Uncategorized"
-          works = current_user.works.uncategorized.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]])
+          works = current_user.works.uncategorized.order_creation_date.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]])
         else
-          works = current_user.works.where('works.workcategory_id = ?', current_user.workcategories.find_by_name(categoryarray.last)).all(include: :activities)
+          works = current_user.works.where('works.workcategory_id = ?', current_user.workcategories.find_by_name(categoryarray.last)).order_creation_date.all(include: :activities)
         end
       elsif !statusfilter.nil?
         if statusfilter == "Available"
-          works = current_user.works.available.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]])
+          works = current_user.works.available.order_creation_date.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]])
         else 
           works = []
-          current_user.works.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]]).each do |work|
+          current_user.works.order_creation_date.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]]).each do |work|
             if work.current_activity == statusfilter
               works.push(work)
             end
           end
         end
       else
-        works = current_user.works.all(:include =>  [:workcategory, :activities => [:activitycategory, :user, :venue, :client]])
+        works = current_user.works.order_creation_date.all(:include =>  [:workcategory, :activities => [:activitycategory, :user, :venue, :client]])
       end
       works 
     end
