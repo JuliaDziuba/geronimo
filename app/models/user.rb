@@ -176,13 +176,44 @@ class User < ActiveRecord::Base
     def full_urls
       blog_url_not_valid = ! (blog.blank? or blog.include? 'http://' or blog.include? 'https://')
       domain_url_not_valid = ! (domain.blank? or domain.include? "http://" or domain.include? "https://")
+      social_etsy_url_not_valid = ! (social_etsy.blank? or social_etsy.include? "http://" or social_etsy.include? "https://")
+      social_googleplus_url_not_valid = ! (social_googleplus.blank? or social_googleplus.include? "http://" or social_googleplus.include? "https://")
+      social_facebook_url_not_valid = ! (social_facebook.blank? or social_facebook.include? "http://" or social_facebook.include? "https://")
+      social_linkedin_url_not_valid = ! (social_linkedin.blank? or social_linkedin.include? "http://" or social_linkedin.include? "https://")
+      social_twitter_url_not_valid = ! (social_twitter.blank? or social_twitter.include? "http://" or social_twitter.include? "https://")
+      social_pinterest_url_not_valid = ! (social_pinterest.blank? or social_pinterest.include? "http://" or social_pinterest.include? "https://")
+      
       valid = true
       if blog_url_not_valid
-        errors.add(:blog, "must start with http:// or https://")
+        errors.add(:blog, "must be the full URL starting with http:// or https://")
         valid = false
       end
       if domain_url_not_valid
-        errors.add(:domain, "must start with http:// or https://")
+        errors.add(:domain, "must be the full URL starting with http:// or https://")
+        valid = false
+      end
+      if social_etsy_url_not_valid
+        errors.add(:social_etsy, "must be the full URL starting with http:// or https://")
+        valid = false
+      end
+      if social_googleplus_url_not_valid
+        errors.add(:social_googleplus, "must be the full URL starting with http:// or https://")
+        valid = false
+      end
+      if social_facebook_url_not_valid
+        errors.add(:social_facebook, "must be the full URL starting with http:// or https://")
+        valid = false
+      end
+      if social_linkedin_url_not_valid
+        errors.add(:social_linkedin, "must be the full URL starting with http:// or https://")
+        valid = false
+      end
+      if social_twitter_url_not_valid
+        errors.add(:social_twitter, "must be the full URL starting with http:// or https://")
+        valid = false
+      end
+      if social_pinterest_url_not_valid
+        errors.add(:social_pinterest, "must be the full URL starting with http:// or https://")
         valid = false
       end
       valid

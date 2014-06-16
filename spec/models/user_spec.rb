@@ -235,6 +235,47 @@ describe User do
     it { should_not be_valid }
   end
 
+  # Full URL tests
+  describe "when blog is not the full URL" do
+    before { @user.blog = "www.fail.com" }
+    it { should_not be_valid }
+  end
+
+  describe "when domain is not the full URL" do
+    before { @user.domain = "www.fail.com" }
+    it { should_not be_valid }
+  end
+
+  describe "when social_etsy is not the full URL" do
+    before { @user.social_etsy = "www.fail.com" }
+    it { should_not be_valid }
+  end
+
+  describe "when social_googleplus is not the full URL" do
+    before { @user.social_googleplus = "www.fail.com" }
+    it { should_not be_valid }
+  end
+
+  describe "when social_facebook is not the full URL" do
+    before { @user.social_facebook = "www.fail.com" }
+    it { should_not be_valid }
+  end
+
+  describe "when social_linkedin is not the full URL" do
+    before { @user.social_linkedin = "www.fail.com" }
+    it { should_not be_valid }
+  end
+
+  describe "when social_twitter is not the full URL" do
+    before { @user.social_twitter = "www.fail.com" }
+    it { should_not be_valid }
+  end
+
+  describe "when social_pinterest is not the full URL" do
+    before { @user.social_pinterest = "www.fail.com" }
+    it { should_not be_valid }
+  end
+
   # Workcategories and works
   describe "workcategory and work associations" do
 
