@@ -14,7 +14,6 @@ gem 'paperclip', '3.4.2'
 gem 'aws-sdk'
 gem 'cocaine', '~> 0.5.0'
 gem 'pg', '0.12.2'
-gem 'newrelic_rpm'
 
 # MAILCHIMP API WRAPPER
 gem 'gibbon'

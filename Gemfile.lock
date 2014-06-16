@@ -114,7 +114,6 @@ GEM
     multi_json (1.10.1)
     multi_test (0.1.1)
     multi_xml (0.5.5)
-    newrelic_rpm (3.8.1.221)
     nokogiri (1.6.2.1-x86-mingw32)
       mini_portile (= 0.6.0)
     paperclip (3.4.2)
@@ -225,7 +224,6 @@ DEPENDENCIES
   gibbon
   jquery-rails (= 2.0.2)
   jquery-ui-rails
-  newrelic_rpm
   paperclip (= 3.4.2)
   pg (= 0.12.2)
   rails (= 3.2.13)
