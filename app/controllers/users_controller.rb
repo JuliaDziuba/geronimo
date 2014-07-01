@@ -378,7 +378,7 @@ class UsersController < ApplicationController
     end
 
     def dateOfOldestWork(user)
-      oldest_work = user.works.last
+      oldest_work = user.works.order_creation_date.last
       if oldest_work.nil?
         date = Date.today
       else
