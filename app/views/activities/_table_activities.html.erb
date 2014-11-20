@@ -1,62 +1,71 @@
-<% 
-  work_include = true if work_include.nil?
-  venue_include = true if venue_include.nil?
-  client_include = true if client_include.nil?
-  date_end_include = true if date_end_include.nil?
- %> 
-
 <table id="Activities">
   <thead>
     <tr>
-      <th>Actions</th>
-      <th>Activity</th>
-      <% if work_include %>
-        <th>Work</th>
+      <th>Actions</th> 
+      <% if category.nil? %> 
+        <th>Activity</th>
+        <th>Client/Venue</th>
+      <% elsif category[:consumer] != 'none' %>
+        <th><%= category[:consumer].capitalize %></th>
       <% end %>
-      <% if venue_include %>
-        <th>Venue</th>
-      <% end %>  
-      <% if date_end_include %>
+      <% if category.nil? %> 
         <th>Start Date</th>
         <th>
-          
-            End Date <%= link_to icon(:'star-empty'), "#", class: "icon-star-empty lighter popover-input", rel: "popover", :"data-title" => "The meaning of end date...", :"data-content" => "varies for different activities. Sales: full payment date. Consignments: work returned date. Commissions: work completed date. The other activities have the same start and end dates.", :"data-placement" => "top" %>
-          
+         End Date <%= link_to icon(:'star-empty'), "#", class: "icon-star-empty lighter popover-input", rel: "popover", :"data-title" => "The meaning of end date...", :"data-content" => "varies for different activities. Sales: full payment date. Shows and Consignments: the end, when work is returned. The other activities are instant so end date does not apply.", :"data-placement" => "top" %>
         </th>
-
-      <% else %>
+      <% elsif category[:instant] %>
         <th>Date</th>
+      <% elsif category == Activity::SALE %>
+        <th>Sale Date</th>
+        <th>Date Paid</th>
+      <% else %>
+        <th>Start Date</th>
+        <th>End Date</th>
       <% end %>
-      <th>Income</th>
-      <th>Retail</th>
-      <% if client_include  %>
-        <th>Client</th>
-      <% end %>
+      <th>Unique works</th>
+      <th>Total works</th>
+      <th>Sold works</th>
     </tr>
   </thead>
   <tbody>
     <% activities.each do |activity| %>
       <tr>
         <td>
-          <%= link_to icon(:edit), activity_path(activity), class: "icon-edit bottom" %> &nbsp;
-          <%= link_to icon(:trash), activity, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete this #{activity.activitycategory.name.downcase} of #{activity.work.title}?" }, title: 'Delete?' %>
+          <%= link_to icon(:print), activity_path(activity), class: "icon-print bottom" %> &nbsp; 
+          <%= link_to icon(:edit), edit_activity_path(activity), class: "icon-edit bottom" %> &nbsp;
+          <%= link_to icon(:trash), activity, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete?" }, title: 'Delete?' %>
         </td>
-        <td><div class=largeoverflow><%= activity.activitycategory.name %></div></td>
-        <% if work_include %>
-          <td><div class=largeoverflow><%= link_to activity.work.title, work_path(activity.work) %></td>
+        <% if category.nil? %> 
+          <% c = Activity::CATEGORY_ID_OBJECT_HASH[activity.category_id] %>
+          <td><div class=largeoverflow><%= c[:name] %></div></td>
+          <td><div class=largeoverflow>
+            <% if c[:consumer] == 'client' %>
+              <%= activity.client.name %>
+            <% elsif c[:consumer]  == 'venue' %>
+              <%= activity.venue.name %>
+            <% else %>
+              none
+            <% end %>
+          </div></td>
+        <% elsif category[:consumer] != 'none' %>
+          <% if category[:consumer] == 'client' %>
+            <td><%= activity.client.name %></td>
+          <% else category[:consumer]  == 'venue' %>
+            <td><%= activity.venue.name %></td>
+          <% end %>
         <% end %>
-        <% if venue_include %>
-          <td><div class=largeoverflow><%= link_to activity.venue.name, venue_path(activity.venue) %></div></td>
-        <% end %>  
-        <td><div class=largeoverflow><%= activity.date_start %></div></td>
-        <% if date_end_include %>
+        <% if category.nil? %> 
+          <td><div class=largeoverflow><%= activity.date_start %></div></td>
+          <td><div class=largeoverflow><%= activity.date_end %></div></td>
+        <% elsif category[:instant] %>
+          <td><div class=largeoverflow><%= activity.date_start %></div></td>
+        <% else %>
+          <td><div class=largeoverflow><%= activity.date_start %></div></td>
           <td><div class=largeoverflow><%= activity.date_end %></div></td>
         <% end %>
-        <td><div class=largeoverflow><%= "$#{cleanUpMoney(activity.income)}" if not activity.income.nil? %></div></td>
-        <td><div class=largeoverflow><%= "$#{cleanUpMoney(activity.retail)}" if not activity.retail.nil? %></div></td>
-        <% if client_include  %>
-          <td><div class=largeoverflow><%= client_name(activity) %></div></td>
-        <% end %>        
+        <td><div class=largeoverflow><%= activity.activityworks.count %></div></td>
+        <td><div class=largeoverflow><%= activity.activityworks_quantity %></div></td>
+        <td><div class=largeoverflow><%= activity.activityworks_sold %></div></td>
       </tr>
     <% end %>
   </tbody>

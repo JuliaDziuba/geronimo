@@ -1,0 +1,30 @@
+<%= form_for(comment, :html => { :class => "form-horizontal" }) do |f| %>
+ 	<%= render 'shared/error_messages', object: f.object %>
+  <div class="row-fluid">
+    <%= f.hidden_field :type_id, :value => type[:id] %> 
+    <div class="control-group">
+      <%= f.label :name, :class => "control-label" %>
+      <div class="controls"><%= f.text_field :name %></div>
+    </div>
+    <div class="control-group">
+      <%= f.label :date, "Date", :class => "control-label" %>
+      <div class="controls">
+        <% if comment.date.present? %>
+          <%= f.text_field :date, :class => "datepicker", :value => comment.date.strftime("%d %B %Y") %>
+        <% else %>
+          <%= f.text_field :date, placeholder: "YYYY-MM-DD", :class => "datepicker" %>
+        <% end %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :comment, "#{type[:type]}", :class => "control-label" %>
+      <div class="controls"><%= f.text_area :comment, placeholder: "Share your #{type[:type]}.", rows: "9" %></div>
+    </div>
+    <div class="row-fluid">
+      <div class="form-actions">
+        <%= f.submit "Save #{type[:type]}", class: "btn" %>
+      </div> 
+    </div>
+  </div>
+<% end %> 
+    

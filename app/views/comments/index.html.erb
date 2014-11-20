@@ -1,0 +1,13 @@
+<% provide(:page, "#{@type[:type]}") %>
+<% provide(:title, "#{@type[:type]}") %>
+<% provide(:new_link, "comments/new?type=#{@type[:type]}") %>
+<% if @comments.any? %>
+  <%= render 'table_comments', comments: @comments %>
+<% else %>
+	<% if @type == Comment::STATEMENT %>
+		<p>Makers' Moon lets you store artist statements to help keep you organized. An artist statement is your voice when you cannot discuss your work with clients in person. Help others appreciate your work. Use this statement to discuss the technique, inspiration and anything else you'd like clients to appreciate.</p>
+	<% elsif @type == Comment::BIO %>
+		<p>Makers' Moon lets you store artist bios to help keep you organized. Tell everyone where you've come from and what you are up to!</p>
+	<% end %>
+	<b>Click the <%= link_to "NEW", new_comment_path(:type => @type[:type]) %> button to get started!</b>
+<% end %>

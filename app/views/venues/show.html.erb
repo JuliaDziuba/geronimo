@@ -6,13 +6,13 @@
 <div class="row-fluid">
 	<div class="span7">
 		<div class="form-box">
-			<%= render 'form_venue', venue: @venue, venuecategories: @venuecategories %>
+			<%= render 'form_venue', venue: @venue %>
 		</div>
 		<br /><br />
 		<legend class="h2">Activities &nbsp; &nbsp; <%= link_to "New", "../works/activities/new?venue=#{@venue.munged_name}" %></legend>
 		<% if @activities.any? %>
 			<div class="form-box limit-size">
-				<%= render 'activities/table_activities', activities: @activities, venue_include: false %>
+				<%= render 'activities/table_activities', activities: @activities, category: @category %>
 			</div>
 		<% else %>
 			No activities recorded for this venue yet.

@@ -12,8 +12,8 @@ class SessionsController < ApplicationController
       sign_in user
       redirect_back_or user
     else
-      flash.now[:error] = 'Invalid email/password combination'
-      render 'new', :layout => 'landing'
+      flash[:error] = 'Invalid email/password combination. Email info@makersmoon.com for help if you need it!'
+      render :action =>'new', :layout => 'landing'
     end
   end
 

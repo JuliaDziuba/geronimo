@@ -6,7 +6,12 @@
 		<%= image_tag @user.image.url(:medium), alt: "Picture of #{@user.name}" %>
 	</div>
 	<div class="about-text">
-		<p><%= raw @user.about %></p>
+		<% if ! @bio.blank? %>
+			<p><i>Artist Bio</i><br /><%= raw @bio.comment %></p><br /><br />
+		<% end %>
+		<% if ! @statement.blank? %>
+			<p><i>Artist Statement</i><br /><%= raw @statement.comment %></p>
+		<% end %>
 	</div>
 </div>
 <% if !@user.domain.blank? %>

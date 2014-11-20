@@ -1,9 +1,9 @@
-<p>Activities is a general term for the places and people your art meets. By recording where your art is shown and who purchases your art you will develope a richer appreciation for the components of your business that are working. There are different types of activities:</p>
+<p>By recording where your art is shown and who purchases your art you will develop a richer appreciation for the components of your business that are working. There are different types of activities:</p>
 <ul>
-  <% Activitycategory::ACTIVITYCATEGORIES_ARRAY.each do |category| %>
+  <% Activity::CATEGORIES_ARRAY.each do |category| %>
     <li  class="spaced">
       <%= category[:name] %>: <span class="description"><%= category[:description] %></span>
     </li>
   <% end %>
 </ul>
-<p>Activities are built from existing works, venues, and clients. For instance if a new client has purchased a work you should first make sure the work and client have been input into the database. Then the new activity can be entered from the work or client page or by clicking on the <i>Activities</i> link in the left panel.</p> 
+<p>Activities are built from existing works, clients and or venues. Make sure to enter those things before the activity.</p> 

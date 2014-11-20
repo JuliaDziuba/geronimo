@@ -3,6 +3,10 @@ class NotesController < ApplicationController
 
   def index
     @notes = Note.all_for_users(current_user.id).order_date;
+    respond_to do |format|
+      format.html
+      format.csv { send_data Note.to_csv(@notes) }
+    end
   end
 
   def new

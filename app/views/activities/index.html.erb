@@ -1,9 +1,16 @@
-<% provide(:page, 'Activities') %>
-<% provide(:title, 'Activities') %>
-<% provide(:new_link, "activities/new") %>
+<% if @category.nil? %>
+	<% provide(:page, 'Activities') %>
+	<% provide(:title, 'Activities') %>
+	<% provide(:new_link, "activities/new") %>
+<% else %>
+	<% provide(:page, "#{@category[:name]} Activities") %>
+	<% provide(:crumbs, 'Activities,' + activities_path ) %>
+	<% provide(:title, "#{@category[:name]}s") %>
+	<% provide(:new_link, "activities/new?category=#{@category[:name]}") %>
+<% end %>	
 
 <% if @activities.any? %>
-	<%= render 'table_activities', activities: @activities, date_end_include: true, client_include: true %>
+	<%= render 'table_activities', activities: @activities, category: @category %>
 <% else %>
 	<%= render 'get_started_activities' %>
 	<b>Click the <%= link_to "NEW", new_activity_path %> button to get started!</b>

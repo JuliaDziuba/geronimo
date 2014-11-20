@@ -1,0 +1,27 @@
+<table id="ActivityWorks">
+  <thead>
+    <tr>
+      <th>Actions</th>
+      <th>Work</th> 
+      <th>Income</th>
+      <th>Retail</th>
+      <th>Quantity</th>
+      <th>Sold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% activityworks.each do |aw| %>
+      <tr>
+        <td>
+          <%= link_to icon(:edit), activitywork_path(aw), class: "icon-edit bottom" %> &nbsp;
+          <%= link_to icon(:trash), aw, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete?" }, title: 'Delete?' %>
+        </td>
+        <td><div class=largeoverflow><%= aw.work.title %></div></td>
+        <td><div class=largeoverflow><%= aw.income %></div></td>
+        <td><div class=largeoverflow><%= aw.retail %></div></td>
+        <td><div class=largeoverflow><%= aw.quantity %></div></td>
+        <td><div class=largeoverflow><%= aw.sold %></div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

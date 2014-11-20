@@ -1,5 +1,8 @@
 Makersmoon::Application.routes.draw do
 
+  resources :activityworks
+
+
   root to: 'static_pages#home'
   match '/tour', to: 'static_pages#tour'
   match '/features', to: 'static_pages#features'
@@ -31,16 +34,21 @@ Makersmoon::Application.routes.draw do
   end
   resources :sessions, only: [:new, :create, :destroy]
   resources :activities, path: "internal/works/activities/"
+  resources :activityworks do
+    member do
+      get :buildFromWorks
+    end
+  end
+  resources :comments, exclude: [:edit]
   resources :workcategories , exclude: [:show], path: "/internal/works/categories/"
   resources :works, exclude: [:edit], path: "/internal/works/" do
     collection do
       put :update_multiple
     end
   end
-  resources :venues, path: "/internal/venues/"
   resources :clients, path: "/internal/clients/"
+  resources :venues, path: "/internal/venues/"
   resources :imports, only: [:new, :create]
-  resources :documents
   resources :notes do
     collection do
       put :update_multiple
@@ -52,8 +60,6 @@ Makersmoon::Application.routes.draw do
       put :update_multiple
     end
   end
-
-  resources :questions, only: [:create]
 
 
   match '/makers/:user/:workcategory', to: 'users#work', as: 'workcategory_user'

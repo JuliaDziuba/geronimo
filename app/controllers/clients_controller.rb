@@ -34,26 +34,30 @@ class ClientsController < ApplicationController
 
   def update
   	@client = current_user.clients.find_by_munged_name(params[:id]) 
-    @client.assign_attributes(params[:client])
-    if @client.valid?
-      @client.save
-      flash[:success] = "The client has been updated!"
-      redirect_to client_path(@client)
+    if @client.default?
+      redirect_to clients_path, alert: "Sorry this client cannot be modified."
     else
-      @activities = @client.activities.all  
-      @notes = @client.notes.order_date.all
-      @actions = @client.actions.order_due.all
-      render 'show'
+      @client.assign_attributes(params[:client])
+      if @client.valid?
+        @client.save
+        flash[:success] = "The client has been updated!"
+        redirect_to client_path(@client)
+      else
+        @activities = @client.activities.all  
+        @notes = @client.notes.order_date.all
+        @actions = @client.actions.order_due.all
+        render 'show'
+      end
     end
   end
 
   def index
-  	@clients = current_user.clients.all_known.order_name.all(:include =>  [:activities => [:activitycategory, :user]])
+  	@clients = current_user.clients.order_name.all(:include =>  [:activities => [:activityworks, :user]])
     @clients.each do |client|
       count = 0
       client.activities.each do |activity|
-        if Activitycategory::FINAL_ACTIVITIES_IDS.include? activity.activitycategory_id.to_s()
-          count = count + 1
+        if [Activity::SALE, Activity::GIFT ].include? Activity::CATEGORY_ID_OBJECT_HASH[activity.category_id]
+          count = count + Activitywork.count_quantity(activity.activityworks.all)
         end
       end
       client.id = count
@@ -66,14 +70,18 @@ class ClientsController < ApplicationController
 
   def destroy
     @client = current_user.clients.find_by_munged_name(params[:id])
-    @activities = @client.activities.all
-    if @activities.any?
-      @activities.each do |activity|
-        activity.update_attributes(:client_id => nil)
+    if @client.default?
+      redirect_to clients_path, alert: "Sorry this client cannot be deleted."
+    else
+      @activities = @client.activities.all
+      if @activities.any?
+        @activities.each do |activity|
+          activity.update_attributes(:client_id => current_user.clients.find_by_name(Client::DEFAULT).id)
+        end
       end
+      @client.destroy
+      redirect_to clients_path
     end
-    @client.destroy
-    redirect_to clients_path
   end
 
   private

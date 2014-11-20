@@ -2,96 +2,101 @@
 #
 # Table name: activities
 #
-#  id                  :integer          not null, primary key
-#  user_id             :integer
-#  activitycategory_id :integer
-#  venue_id            :integer
-#  client_id           :integer
-#  work_id             :integer
-#  date_start          :date
-#  date_end            :date
-#  income              :decimal(, )
-#  retail              :decimal(, )
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  quantity            :integer          default(1)
+#  id                    :integer          not null, primary key
+#  user_id               :integer
+#  date_start            :date
+#  date_end              :date
+#  subject               :text
+#  maker                 :string(255)
+#  maker_medium          :string(255)
+#  maker_phone           :string(255)
+#  maker_email           :string(255)
+#  maker_site            :string(255)
+#  maker_address_street  :string(255)
+#  maker_address_city    :string(255)
+#  maker_address_state   :string(255)
+#  maker_address_zipcode :string(255)
+#  include_image         :boolean          default(FALSE)
+#  include_title         :boolean          default(FALSE)
+#  include_inventory_id  :boolean          default(FALSE)
+#  include_creation_date :boolean          default(FALSE)
+#  include_quantity      :boolean          default(FALSE)
+#  include_dimensions    :boolean          default(FALSE)
+#  include_materials     :boolean          default(FALSE)
+#  include_description   :boolean          default(FALSE)
+#  include_income        :boolean          default(FALSE)
+#  include_retail        :boolean          default(FALSE)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  client_id             :integer
+#  venue_id              :integer
+#  category_id           :integer
 #
 
 require 'spec_helper'
 
 describe Activity do
-  let(:vc)   { FactoryGirl.create(:venuecategory) }
-  let(:user) { FactoryGirl.create(:user) }
-  let(:w)    { FactoryGirl.create(:work, user: user) }
-  let(:v)    { FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id) }
-  let(:c)    { FactoryGirl.create(:client, user: user) }
-  let(:ac)   { FactoryGirl.create(:activitycategory, name: "Consignment", status: "Consigned", final: false) }
-  let(:ac_finalSale)   { FactoryGirl.create(:activitycategory, name: "Sale", status: "Sold", final: true) }
-  let(:ac_finalDonation)   { FactoryGirl.create(:activitycategory, name: "Donate", status: "Donated", final: true) }
-  before do
-    user.venues.create(name: "My Studio")
-    @activity = user.activities.create(activitycategory_id: ac.id, work_id: w.id, venue_id: v.id, date_start: '2013-01-01')
+  let(:u) { FactoryGirl.create(:user) }
+  let(:v) { FactoryGirl.create(:venue, user: u) }
+  let(:c) { FactoryGirl.create(:client, user: u) }
+
+  describe "when the activity consumer is a client" do 
+
+    before do
+      @activity_consumer_client = u.activities.create(category_id: 1, venue_id: v.id, client_id: c.id, date_start: '2013-01-01') 
+    end
+
+    subject { @activity_consumer_client }
+
+    it { should respond_to(:user) }
+    its(:user) { should == u }
+
+    it { should respond_to(:venue) }
+  #  its(:venue)(:name) { should == Venue::DEFAULT }
+
+    it { should respond_to(:client) }
+    its(:client) { should == c }
+
+    it { should respond_to(:user_id) }
+    it { should respond_to(:client_id) }
+    it { should respond_to(:venue_id) }
+    it { should respond_to(:category_id) }
+    it { should respond_to(:date_start) }
+    it { should respond_to(:date_end) }
+    it { should respond_to(:subject) }
+    it { should respond_to(:maker) }
+    it { should respond_to(:maker_medium) }
+    it { should respond_to(:maker_phone) }
+    it { should respond_to(:maker_email) }
+    it { should respond_to(:maker_site) }
+    it { should respond_to(:maker_address_street) }
+    it { should respond_to(:maker_address_city) }
+    it { should respond_to(:maker_address_state) }
+    it { should respond_to(:maker_address_zipcode) }
+    it { should respond_to(:include_image) }
+    it { should respond_to(:include_title) }
+    it { should respond_to(:include_inventory_id) }
+    it { should respond_to(:include_creation_date) }
+    it { should respond_to(:include_quantity) }
+    it { should respond_to(:include_dimensions) }
+    it { should respond_to(:include_income) }
+    it { should respond_to(:include_retail) }
+  	it { should respond_to(:created_at) }
+  	it { should respond_to(:updated_at) }
+
+    it { should be_valid }
   end
-  
-  subject { @activity }
- 
-  it { should respond_to(:activitycategory) }
-  its(:activitycategory) { should == ac }
+  describe "when the activity consumer is a venue" do
+    before do 
+      @activity_consumer_venue = u.activities.create(category_id: 2, venue_id: v.id, client_id: c.id, date_start: '2013-01-01')
+    end
 
-  it { should respond_to(:work) }
-  its(:work) { should == w }
+    subject { @activity_consumer_venue }
 
-  it { should respond_to(:venue) }
-  its(:venue) { should == Venue.first }
-
-  it { should respond_to(:client) }
-
-	it { should respond_to(:user) }
-  it { should respond_to(:activitycategory_id) }
-  it { should respond_to(:venue_id) }
-  it { should respond_to(:client_id) }
-  it { should respond_to(:work_id) }
-  it { should respond_to(:date_start) }
-  it { should respond_to(:date_end) }
-  it { should respond_to(:income) }
-  it { should respond_to(:retail) }
-	it { should respond_to(:created_at) }
-	it { should respond_to(:updated_at) }
-
-  it { should be_valid }
-
-  describe "when activitycategory_id is not present" do
-    before { subject.activitycategory_id = nil}
-    it { should_not be_valid }
-  end
-
-  describe "when workcategory_id is not present" do
-    before { subject.work_id = nil}
-    it { should_not be_valid }
-  end
-
-  describe "when the activity category is not final then date_end should be nil" do
-    its(:date_end) { should == nil }
-  end 
-
-  describe "when the activity category is final and a sale then date_end should not be set to date_start" do
-    before { subject.update_attributes(:activitycategory_id => ac_finalSale.id) }
-    its(:date_end) { should == nil }
-  end
-
-  describe "when the activity category is final and not a sale then date_end should be set to date_start" do
-    before { subject.update_attributes(:activitycategory_id => ac_finalDonation.id) }
-    its(:date_end) { should == @activity.date_start }
-  end
-
-  describe "when a venue is set" do
-    before { subject.update_attributes(:venue_id => v.id) }
+    it {should respond_to(:venue) }
     its(:venue) { should == v }
 
-  end
-
-  describe "when a client is set" do 
-    before { subject.update_attributes(:client_id => c.id) }
-    its(:client) { should == c }
+    it { should respond_to(:client) }
+  #  its(:client)(:name) { should == Client::DEFAULT }
   end
 end

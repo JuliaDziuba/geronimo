@@ -1,0 +1,33 @@
+<% if @sold_works_by_category_array.blank? %>
+<span class="h3"><%= "Sales in #{year} by #{outcome}" %></span>: NONE TO REPORT
+<% else %>
+<table>
+  <caption><span class="h3"><%= "Sales in #{year} by #{outcome}" %></span>: reported in number sold (total $ income earned)</caption>
+  <thead>
+    <tr>
+    	<th><%= outcome.capitalize %></th>
+      <th>Q1</th>
+      <th>Q2</th>
+      <th>Q3</th>
+      <th>Q4</th>
+      <th><%= year %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% sum_outcomes = [["Absolute retail value", "retail"], ["Absolute income", "income"]] %>
+    <% hoaa.each do | k, v | %>
+      <tr>
+        <td><%= k %></td>
+        <% v.each do | a | %>
+          <% count = 0 %>
+          <% a.each do | w | %>
+            <% count = count + w['sold'] %>
+          <% end %>
+          <td><%= "#{count} ($#{sprintf "%.2f", sumKeys(a, 'income')})" %></td>
+        <% end %>
+      </tr>
+	   <% end %>
+  </tbody>
+</table>
+<% end %>
+

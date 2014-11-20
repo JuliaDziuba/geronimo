@@ -1,0 +1,33 @@
+<h1>Listing activityworks</h1>
+
+<table>
+  <tr>
+    <th>Activity</th>
+    <th>Work</th>
+    <th>Income</th>
+    <th>Retail</th>
+    <th>Quanity</th>
+    <th>Sold</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @activityworks.each do |activitywork| %>
+  <tr>
+    <td><%= activitywork.activity_id %></td>
+    <td><%= activitywork.work_id %></td>
+    <td><%= activitywork.income %></td>
+    <td><%= activitywork.retail %></td>
+    <td><%= activitywork.quanity %></td>
+    <td><%= activitywork.sold %></td>
+    <td><%= link_to 'Show', activitywork %></td>
+    <td><%= link_to 'Edit', edit_activitywork_path(activitywork) %></td>
+    <td><%= link_to 'Destroy', activitywork, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Activitywork', new_activitywork_path %>

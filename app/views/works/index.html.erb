@@ -32,12 +32,12 @@
 <% elsif  @parentcategories.any? %>
 	<%= render 'get_started_works' %>
 	<b>Click the <%= link_to "NEW", new_work_path %> button to start adding works.</b><br /><br /><br />
-	<b><%= link_to "Create MORE categories of works first!", new_workcategory_path %></b>
+	<b><%= link_to "Want more categories?", new_workcategory_path %></b>
 	<h2>Existing work categories</h2>
 	<%= render 'workcategories/list_workcategories', parentcategories: @parentcategories %>
 <% else %>
 	<%= render 'get_started_works' %>
-	<b>Click the <%= link_to "NEW", new_work_path %> button to start adding works.</b><br /><br /><br />
+	<b>Click the <%= link_to "NEW", new_work_path %> button to start adding works.</b><br /><br /><br /><br />
+	<h2>Work categories <span class="h3"><%= link_to "NEW", new_workcategory_path %></span></h2>
 	<%= render 'workcategories/get_started_workcategories' %>
-	<b><%= link_to "Create a NEW category of works first!", new_workcategory_path %></b>
 <% end %>

@@ -25,7 +25,7 @@ class WorkcategoriesController < ApplicationController
     else
       @parentcategories = current_user.workcategories.parents_only.order_name.all
       flash[:error] = "There was a problem with the work category you tried to create. It was not created."
-      render 'index'
+      render 'new'
     end
   end
 

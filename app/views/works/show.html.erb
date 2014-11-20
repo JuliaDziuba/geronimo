@@ -7,9 +7,6 @@
 		<%= render 'form_work', work: @work, categories: @workcategories %>
 	</div>
 	<div class="span4 offset1">
-		<% status = status(@work) %>
-		<p>Work is <%= status %></p>
-		<br />
 		<%= render 'actions/actions_area', actions: @actions %>
 		<br /><br />
 		<%= render 'notes/notes_area', notes: @notes %>
@@ -19,16 +16,14 @@
 <div class="row-fluid">
 	<div class="span7">
 		<legend class="h2">Activities
-			<% if status == 'Available' or status.include? "Co" %>
-				&nbsp; &nbsp; <%= link_to "New", "activities/new?work=#{@work.inventory_id}" %>
-			<% end %>
+			<%= link_to "New", new_activity_path %>
 		</legend>
-		<% if @activities.any? %>
+		<% if @activityworks.any? %>
 			<div class="form-box limit-size">
-				<%= render 'activities/table_activities', activities: @activities, work_include: false  %>
+				<%= render 'table_activityworks_and_activity', activityworks: @activityworks %>
 			</div>
 		<% else %>
-			No activities recorded yet about this work.
+			No activities recorded yet for this work.
 		<% end %>
 	</div>
 </div>

@@ -31,7 +31,7 @@ class WorksController < ApplicationController
       @actions = @work.actions.order_due.all
       render 'show'
       if @work.share_public && @work.workcategory.nil?
-        flash[:info] = "We noticed you wish to make this work public but it is uncategorized! Your public site organizes works using your 'Work Categories' so works must be categorized before they appear publically. Please create a new work category that is appropriate for this work or select an existing one!"
+        flash[:info] = "We noticed you wish to make this work public but it is uncategorized! Your public site will show this work in a general 'Works' category!"
       end
     end
   end
@@ -58,11 +58,11 @@ class WorksController < ApplicationController
   def show
     @work = current_user.works.find_by_inventory_id(params[:id])
     @workcategories = current_user.workcategories_showing_families
-    @activities = @work.activities.all
+    @activityworks = @work.activityworks.all
     @notes = @work.notes.order_date.all
     @actions = @work.actions.order_due.all
-    if @work.share_public && @work.workcategory.nil?
-      flash[:info] = "We noticed you wish to make this work public but it is uncategorized! Your public site organizes works using your 'Work Categories' so works must be categorized before they appear publically. Please create a new work category that is appropriate for this work or select an existing one!"
+    if @work.share && @work.workcategory.nil?
+      flash[:info] = "We noticed you wish to make this work public but it is uncategorized! Your public site will show this work in a general 'Works' category!"
     end
   end
 
@@ -117,23 +117,23 @@ class WorksController < ApplicationController
       if !categoryfilter.nil? 
         categoryarray = categoryfilter.split('.')
         if categoryarray.last == "Uncategorized"
-          works = current_user.works.uncategorized.order_creation_date.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]])
+          works = current_user.works.uncategorized.order_creation_date.all(:include =>  [:activities => [:activityworks, :user, :venue, :client]])
         else
           works = current_user.works.where('works.workcategory_id = ?', current_user.workcategories.find_by_name(categoryarray.last)).order_creation_date.all(include: :activities)
         end
       elsif !statusfilter.nil?
         if statusfilter == "Available"
-          works = current_user.works.available.order_creation_date.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]])
+          works = current_user.works.available.order_creation_date.all(:include =>  [:activityworks => [:activity => [:user, :venue, :client]]])
         else 
           works = []
-          current_user.works.order_creation_date.all(:include =>  [:activities => [:activitycategory, :user, :venue, :client]]).each do |work|
+          current_user.works.order_creation_date.all(:include =>  [:activities => [:activityworks, :user, :venue, :client]]).each do |work|
             if work.current_activity == statusfilter
               works.push(work)
             end
           end
         end
       else
-        works = current_user.works.order_creation_date.all(:include =>  [:workcategory, :activities => [:activitycategory, :user, :venue, :client]])
+        works = current_user.works.order_creation_date.all(:include =>  [:workcategory])
       end
       works 
     end

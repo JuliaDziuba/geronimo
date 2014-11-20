@@ -5,10 +5,27 @@
 	<div class="span9">
 		Copies of your data can be exported and downloaded from Makers' Moon. This allows you to store local backups, view your data in local programs such as excel, or share this data with others. Click on the data you would like to download. 
 		<br /><br />
+		<legend>Activities</legend>
+	  	<%= link_to "Sales", activities_path(format: "csv", category: Activity::SALE[:name]) %> | 
+	  	<%= link_to "Shows", activities_path(format: "csv", category: Activity::SHOW[:name]) %> | 
+	  	<%= link_to "Consignments", activities_path(format: "csv", category: Activity::CONSIGNMENT[:name]) %> | 
+	  	<%= link_to "Gifts", activities_path(format: "csv", category: Activity::GIFT[:name]) %> | 
+	  	<%= link_to "Donations", activities_path(format: "csv", category: Activity::DONATION[:name]) %> | 
+	  	<%= link_to "Portfolios", activities_path(format: "csv", category: Activity::PORTFOLIO[:name]) %> | 
+	  	<%= link_to "Line Sheets", activities_path(format: "csv", category: Activity::LINE_SHEET[:name]) %>
+	  	<br /><br />
+		<legend>Artist</legend>
+		<%= link_to "Information", users_path(format: "csv") %> | 
+		<%= link_to "Bios", comments_path(format: "csv", type: Comment::BIO[:type]) %> | 
+		<%= link_to "Statements", comments_path(format: "csv", type: Comment::STATEMENT[:type]) %> | 
+		<%= link_to "Notes", notes_path(format: "csv") %> | 
+		<%= link_to "Actions", actions_path(format: "csv") %> 
+		<br /><br />
+		<legend>Data</legend>
 	  	<%= link_to "Work Categories", workcategories_path(format: "csv") %> | 
 	  	<%= link_to "Works", works_path(format: "csv") %> | 
 	  	<%= link_to "Venues", venues_path(format: "csv") %> |
-	  	<%= link_to "Clients", clients_path(format: "csv") %> |
-	  	<%= link_to "Activities", activities_path(format: "csv") %>
+	  	<%= link_to "Clients", clients_path(format: "csv") %>
+	  	
 	  </div>
 </div>

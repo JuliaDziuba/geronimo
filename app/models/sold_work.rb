@@ -8,8 +8,10 @@
 #  retail            :decimal(, )
 #  income            :decimal(, )
 #  workcategory_id   :integer
+#  work_id           :integer
 #  venue_id          :integer
 #  client_id         :integer
+#  sold              :integer
 #
 
 class SoldWork < ActiveRecord::Base
@@ -25,20 +27,27 @@ class SoldWork < ActiveRecord::Base
   column :retail, :decimal
   column :income, :decimal
   column :workcategory_id, :integer
+  column :work_id, :integer
   column :venue_id, :integer
   column :client_id, :integer
+  column :sold, :integer
 
-  attr_accessible :sale_date, :expense_hours, :expense_materials, :retail, :income, :workcategory_id, :venue_id, :client_id
+  attr_accessible :sale_date, :expense_hours, :expense_materials, :retail, :income, :workcategory_id, :work_id, :venue_id, :client_id, :sold
 
-  def createFromWorkAndSale(work, sale)
-    sale_date = sale.date_start 
-    venue_id = sale.venue_id
-    client_id = sale.client_id
-    expense_hours = work.expense_hours
-    expense_materials = work.expense_materials
-    retail = (sale.retail || work.retail)
-    income = (sale.income || work.income)
-    workcategory_id = work.workcategory_id
-    self
+  def self.buildFromSale(sale)
+    work = sale.work
+    activity = sale.activity
+    w = SoldWork.new
+    w.sale_date = activity.date_start
+    w.venue_id = activity.venue_id
+    w.client_id = activity.client_id
+    w.expense_hours = work.expense_hours
+    w.expense_materials = work.expense_materials
+    w.retail = (sale.retail || work.retail)
+    w.income = (sale.income || work.income)
+    w.workcategory_id = work.workcategory_id
+    w.work_id = work.id
+    w.sold = sale.sold
+    w
   end 
 end

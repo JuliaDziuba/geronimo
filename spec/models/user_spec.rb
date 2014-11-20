@@ -18,7 +18,6 @@
 #  domain                  :string(255)
 #  tag_line                :string(255)
 #  blog                    :string(255)
-#  about                   :string(2000)
 #  email                   :string(255)
 #  phone                   :string(255)
 #  address_street          :string(255)
@@ -42,13 +41,13 @@
 #  share_works_materials   :boolean          default(TRUE)
 #  share_works_dimensions  :boolean          default(TRUE)
 #  share_works_description :boolean          default(TRUE)
+#  bio_id                  :integer
+#  statement_id            :integer
 #
 
 require 'spec_helper'
 
 describe User do
-
-  let!(:vc) { FactoryGirl.create(:venuecategory) }
 
  before do
     @user = User.new(username: "ExampleUser", email: "user@example.com", about: "A little bit about this user is interesting. But only a little bit.",
@@ -94,12 +93,16 @@ describe User do
   it { should respond_to(:image_file_size) }
   it { should respond_to(:image_updated_at) }
   it { should respond_to(:authenticate) }
+  it { should respond_to(:tier) }
+  it { should respond_to(:share_works_status) }
+  it { should respond_to(:share_works_materials) }
+  it { should respond_to(:share_works_dimensions) }
+  it { should respond_to(:share_works_description) }
   it { should respond_to(:workcategories) }
   it { should respond_to(:works) }
   it { should respond_to(:venues) }
   it { should respond_to(:clients) }
   it { should respond_to(:activities) }
-  it { should respond_to(:questions) }
 
   it { should be_valid }
   it { should_not be_admin }
@@ -325,14 +328,18 @@ describe User do
     before { @user.save }
     
     let!(:b_venue) do
-      FactoryGirl.create(:venue, user: @user, venuecategory_id: vc.id, name: "B Store")
+      FactoryGirl.create(:venue, user: @user, name: "B Store")
     end
     let!(:a_venue) do
-      FactoryGirl.create(:venue, user: @user, venuecategory_id: vc.id, name: "A Store")
+      FactoryGirl.create(:venue, user: @user, name: "A Store")
+    end
+
+    let!(:default_venue) do 
+      @user.venues.find_by_name(Venue::DEFAULT)
     end
 
     it "should have the right venues in the right order" do
-      @user.venues.order_name.should == [a_venue, b_venue]
+      @user.venues.order_name.should == [a_venue, b_venue, default_venue]
     end
 
     it "should destroy associated venues" do
@@ -356,9 +363,12 @@ describe User do
     let!(:a_client) do 
       FactoryGirl.create(:client, user: @user, name: "Betty Deep Pockets")
     end
+    let!(:default_client) do
+      @user.clients.find_by_name(Client::DEFAULT)
+    end
 
     it "should have the right clients in the right order" do
-      @user.clients.order_name.should == [a_client, b_client]
+      @user.clients.order_name.should == [a_client, b_client, default_client]
     end
 
     it "destroying user should destroy associated clients" do
@@ -379,10 +389,10 @@ describe User do
       FactoryGirl.create(:work, user: @user, title: "A work", creation_date:"2012-01-01")
     end
     let!(:venue) do 
-      FactoryGirl.create(:venue, user: @user, venuecategory_id: vc.id, name: "Beauty Store")
+      FactoryGirl.create(:venue, user: @user, name: "Bead Store")
     end
     let!(:activity) do 
-      FactoryGirl.create(:activity, user: @user, work: work, venue: venue, date_start:"2012-02-02")
+      FactoryGirl.create(:activity, user: @user, category_id: 2, venue: venue, date_start:"2012-02-02")
     end
 
     it "destroying user should destroy associated activities" do

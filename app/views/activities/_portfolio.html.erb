@@ -1,0 +1,40 @@
+<div class="portfolio">
+  <% activityworks.each do |aw| %>
+    <% work = aw.work %>
+    <div class="page">
+      <div class="page-center">
+        <%= image_tag(work.image1.url(), :class => "portfolio-image") %><br />
+        <% if activity.include_title %>
+          <%= work.title %>
+           <% if activity.include_inventory_id %>
+            (<%= work.inventory_id %>)
+          <% end %>
+        <% else %>
+          <% if activity.include_inventory_id %>
+            <%= work.inventory_id %>
+          <% end %>
+        <% end %>
+        <% if activity.include_creation_date %>
+         , <%= work.creation_date %>
+        <% end %>
+        <br />
+        <% if activity.include_materials %>
+          <%= work.materials %>
+        <% end %>
+        <% if activity.include_quantity %>
+        <% if activity.include_materials && !work.materials.blank?%>,<% end %> <%= aw.quantity %> available
+        <% end %>
+        <br />
+        <% if activity.include_description %>
+          <%= work.description %>
+        <% end %>
+        <% if activity.include_income %>
+          $<%= aw.income %> wholesale
+        <% end %>
+        <% if activity.include_retail %>
+          <% if activity.include_income %>,<% end %>  $<%= aw.retail %> retail
+        <% end %>
+      </div>
+    </div>
+  <% end %>  
+</div>

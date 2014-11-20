@@ -1,3 +1,6 @@
+<% if @sold_works_by_category_array.blank? %>
+<span class="h3"><%= "Sales to date by #{outcome}" %></span>: NONE TO REPORT
+<% else %>
 <table>
 	<caption><span class="h3"><%= "Sales to date by #{outcome}" %></span>: sale from <%= period %> reported in dollars</caption>
   <thead>
@@ -21,4 +24,5 @@
 	   <% end %>
   </tbody>
 </table>
+<% end %>
 

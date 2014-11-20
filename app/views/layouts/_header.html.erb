@@ -17,14 +17,17 @@
               <% if @current_user.blog.present? %>
                 <li><%= link_to "Blog", @current_user.blog %></li>
               <% end %>  
-              <% if @current_user.share_works && @current_user.works.shared_with_public.any? %>
-                <% @current_user.workcategories.parents_of_shared_with_public.each do |parent| %>
-                  <% if @current_user.works.shared_with_public.in_category(parent).any? %>
+              <% if @current_user.share_works && @current_user.works.shared.any? %>
+                <% @current_user.workcategories.parents_of_shared.each do |parent| %>
+                  <% if @current_user.works.shared.in_category(parent).any? %>
                     <li><%= link_to parent.name, "/makers/#{@current_user.to_param}/#{parent.name}" %></li>
                   <% end %>
-                  <% @current_user.workcategories.children_of_parent(parent).shared_with_public.each do |child| %>
+                  <% @current_user.workcategories.children_of_parent(parent).shared.each do |child| %>
                     <li><%= link_to "#{parent.name} > #{child.name}", "/makers/#{@current_user.to_param}/#{child.name}" %></li>
                   <% end %>
+                <% end %>
+                <% if @current_user.works.shared.uncategorized.any? %>
+                  <%= link_to Workcategory::DEFAULT, "/makers/#{@current_user.to_param}/#{Workcategory::DEFAULT}" %>                
                 <% end %>
               <% end %>
               <% if @current_user.share_purchase %>
@@ -45,7 +48,6 @@
           <ul class="dropdown-menu">
             <li><%= link_to "Public Makers' Moon", users_path %></li>
             <li><%= link_to "My Account", account_user_path(current_user) %></li>
-            <li><%= link_to "My Profile", edit_user_path(current_user) %></li>
             <li><%= link_to "Import Data", new_import_path %></li>
             <li><%= link_to "Export Data", export_path %></li>
             <li><%= link_to "Help",  help_path %></li>

@@ -26,6 +26,9 @@ describe Workcategory do
   it { should respond_to(:user_id) }
   it { should respond_to(:name) }
   it { should respond_to(:artist_statement) }
+  it { should respond_to(:parent_id) }
+  it { should respond_to(:created_at) }
+  it { should respond_to(:updated_at) }
 
   it { should be_valid }
 

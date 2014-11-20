@@ -13,8 +13,7 @@
 #  income              :decimal(, )
 #  retail              :decimal(, )
 #  description         :string(255)
-#  share_makers        :boolean          default(FALSE)
-#  share_public        :boolean          default(FALSE)
+#  share               :boolean          default(FALSE)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  image1_file_name    :string(255)
@@ -51,8 +50,7 @@ describe Work do
   it { should respond_to(:income) }
   it { should respond_to(:retail) }
   it { should respond_to(:description) }
-  it { should respond_to(:share_makers) }
-  it { should respond_to(:share_public) }
+  it { should respond_to(:share) }
 	it { should respond_to(:created_at) }
 	it { should respond_to(:updated_at) }
   it { should respond_to(:image1_file_name) }

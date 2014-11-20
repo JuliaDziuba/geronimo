@@ -40,62 +40,78 @@ toggle_sidebar = () ->
 
 hide_activity_form = () ->
   console.log("Running hide form. " + window.location.pathname + window.location.search)
-  $('#venue').hide()
   $('#client').hide()
+  $('#venue').hide()
   $('#start_date').hide()
   $('#end_date').hide()
   $('#work').hide()
+  $('#activity_form_document').hide()
+  $('#activity_form_works').hide()
 
 format_activity_form = () ->
   console.log("Formatting form for new selection")
-  category = $('#activity_activitycategory_id :selected').text()
-  $('#venue').hide()
-  $('#client').hide()
-  $('#start_date').hide()
-  $('#end_date').hide()
-  $('#work').hide()
+  category = $('#activity_category_id :selected').text()
+  $('#activity_form_works_legend').text('Works in ' + category )
+  hide_activity_form()
   $('#start_date').removeClass('first-child')
   $('#client').removeClass('first-child')
-  $('#start_date').removeClass('first-child')
-  if category == "Commission" || category == "Consignment"
-    $('#start_date_label').show()
-    $('#date_label').hide()
+  $('#activity_form_works').show()
+  if category == "Show" || category == "Consignment"
+    $('#start_date_label').text("Start Date").show()
     $('#start_date').show()
-    $('#end_date_label').show()
-    $('#payment_date_label').hide()
+    $('#end_date_label').text("End Date").show()
     $('#end_date').show()
-    $('#work').show()
-    if category == "Commission"
-      $('#client').show()
-      $('#client').addClass('first-child')
-    else
-      $('#venue').show()
+    $('#venue').show()      
   else if category != "Please select"
-    $('#start_date_label').hide()
-    $('#date_label').show()
+    $('#start_date_label').text("Date").show()
     $('#start_date').show()
-    $('#work').show()
-    if category == "Sale"
-      $('#venue').show()
-      $('#client').show()
-      $('#end_date_label').hide()
-      $('#payment_date_label').show()
-      $('#end_date').show()
-    else if category == "Donate"
-      $('#venue').show()
-    else if category == "Gift"
-      $('#client').show()
+    if category == "Donation"
+      $('#venue').show() 
+    else if category == "Gift" || category == "Sale"
       $('#client').addClass('first-child')
-    else if category == "Recycle"  
-      $('#start_date').addClass('first-child')  
+      $('#client').show()
+      if category == "Sale"
+        $('#end_date_label').text("Paid Date").show()
+        $('#end_date').show()  
 
 toggle_print = () ->
   if $('#content').attr("class").toString().match("span10") != null
     toggle_sidebar()
   window.print() 
 
+add_activitywork = () ->
+  # Create new row
+  new_line = $('#activityworks tbody>tr:last').clone(true)
+  old_id = $('#activityworks tbody>tr:last>td:last>input').attr("id").toString().replace(/\D/g,'')
+  new_id = (parseInt(old_id) + 1).toString()
+  re = new RegExp(old_id,"g")
+  new_line.children('td').children('select').attr("id", 'new_' + new_id + '_work_id')
+  new_line.children('td').children('select').attr("name", 'new[' + new_id + '][work_id]')
+  new_line.children('td').each (index, td) =>
+    e_id= $(td).children('input').attr("id")
+    e_name = $(td).children('input').attr("name")
+    if typeof e_id != "undefined" && e_id != null
+      e_id = e_id.replace(re, new_id)
+      e_name = e_name.replace(re, new_id)
+      $(td).children('input').attr("id", e_id)
+      $(td).children('input').attr("name", e_name)
+      if e_name.indexOf("quantity") > -1
+        e_value = "1"
+      else 
+        e_value = "0.00"
+      $(td).children('input').attr("value", e_value)
+  # Alter last line of existing table to save data and remove add button
+  $('#activityworks tbody>tr:last>td:first>a').remove()
+  
+  # Insert new row as last in table
+  new_line.insertAfter('#activityworks tbody>tr:last')
+
 
   # IDs that lead to js
+$ ->
+  $('#activity_add_activitywork').click ->
+    add_activitywork()
+
 $ ->
   $('#toggleSidebar').click ->
     toggle_sidebar()
@@ -141,7 +157,7 @@ $ ->
     format_activity_form()
 
 $ ->    
-  $('#activity_activitycategory_id').change ->
+  $('#activity_category_id').change ->
     format_activity_form()  
 
 # Action related js

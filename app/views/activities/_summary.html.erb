@@ -1,0 +1,48 @@
+<table id="DocumentSummary" class="print-friendly">
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th>Count</th>
+      <% if activity.include_income %>
+        <th>Total Payable to Artist</th>
+      <% end %>
+      <% if activity.include_retail %>
+        <th>Total Retail Value</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= "Total #{category[:status]}" %></td>
+      <td><%= activityworks.inject(0) { | sum, aw | sum += aw.quantity } %></td>
+      <% if activity.include_income %>
+        <td><%= activityworks.inject(0) { | sum, aw | sum += aw.quantity * aw.income } %></td>
+      <% end %>
+      <% if activity.include_retail %>
+        <td><%= activityworks.inject(0) { | sum, aw | sum += aw.quantity * aw.retail} %></td>
+      <% end %>
+    </tr>
+    <% if category[:name] == Activity::SHOW[:name] || category[:name] == Activity::CONSIGNMENT[:name] %>
+      <tr>
+        <td>Total sold</td>
+        <% if activityworks.inject(0) { | sum, aw | sum += aw.sold } > 0 %>
+          <td><%= activityworks.inject(0) { | sum, aw | sum += aw.sold } %></td>
+          <% if activity.include_income %>
+            <td><%= activityworks.inject(0) { | sum, aw | sum += aw.sold * aw.income } %></td>
+          <% end %>
+          <% if activity.include_retail %>
+            <td><%= activityworks.inject(0) { | sum, aw | sum += aw.sold * aw.retail } %></td>
+          <% end %>
+        <% else %>
+          <td>&nbsp;</td>
+          <% if activity.include_income %>
+            <td>&nbsp;</td>
+          <% end %>
+          <% if activity.include_retail %>
+            <td>&nbsp;</td>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>  
+</table> 

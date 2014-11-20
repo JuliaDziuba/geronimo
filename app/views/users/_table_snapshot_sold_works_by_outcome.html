@@ -18,7 +18,11 @@
     		<td rowspan="4"><%= k %></td>
 	    	<td>Number of sales</td>
 	    	<% v.each do | a | %>
-	    		<td><%= a.count %></td>
+          <% count = 0 %>
+          <% a.each do | w | %>
+            <% count = count + w['quantity'] %>
+          <% end %>
+          <td><%= count %></td>
 	    	<% end %>
     	</tr>
 	    <% sum_outcomes.each do | o | %>

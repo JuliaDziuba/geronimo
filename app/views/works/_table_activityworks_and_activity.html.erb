@@ -1,0 +1,44 @@
+<table id="ActivityWorksAndActivities">
+  <thead>
+    <tr>
+      <th>Actions</th>
+      <th>Activity</th> 
+      <th>Client/Venue</th> 
+      <th>Start Date</th>
+        <th>
+         End Date <%= link_to icon(:'star-empty'), "#", class: "icon-star-empty lighter popover-input", rel: "popover", :"data-title" => "The meaning of end date...", :"data-content" => "varies for different activities. Sales: full payment date. Shows and Consignments: the end, when work is returned. The other activities are instant so end date does not apply.", :"data-placement" => "top" %>
+        </th>
+      <th>Income</th>
+      <th>Retail</th>
+      <th>Quantity</th>
+      <th>Sold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% activityworks.each do |aw| %>
+      <% c = Activity::CATEGORY_ID_OBJECT_HASH[aw.activity.category_id] %>
+      <tr>
+        <td>
+          <%= link_to icon(:edit), activitywork_path(aw), class: "icon-edit bottom" %> &nbsp;
+          <%= link_to icon(:trash), aw, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete?" }, title: 'Delete?' %>
+        </td>
+        <td><div class=largeoverflow><%= c[:name] %></div></td>
+        <td><div class=largeoverflow>
+          <% if c[:consumer] == 'client' %>
+            <%= aw.activity.client.name %>
+          <% elsif c[:consumer]  == 'venue' %>
+            <%= aw.activity.venue.name %>
+          <% else %>
+            none
+          <% end %>
+        </div></td>
+        <td><div class=largeoverflow><%= aw.date_start %></div></td>
+        <td><div class=largeoverflow><%= aw.date_end %></div></td>
+        <td><div class=largeoverflow><%= aw.income %></div></td>
+        <td><div class=largeoverflow><%= aw.retail %></div></td>
+        <td><div class=largeoverflow><%= aw.quantity %></div></td>
+        <td><div class=largeoverflow><%= aw.sold %></div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

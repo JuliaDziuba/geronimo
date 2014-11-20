@@ -1,3 +1,7 @@
+// Place all the styles related to the Activities controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
 $grayBlue: #C8C8D7;
 $brandColor: darken($grayBlue, 40%);
 
@@ -33,12 +37,12 @@ $brandColor: darken($grayBlue, 40%);
 		height: 7in;
 		page-break-after: always;
 	  page-break-inside: avoid;
+	}
 
-	  .portfolio-header {
+	.portfolio-header {
 	   	position: relative;
-	   	top:30%;
-
-	  }
+	   	padding-top:2in;
+	   	margin-left:-40px;
 	}
 
 	table.print-friendly tr td, table.print-friendly tr th {
@@ -49,7 +53,9 @@ $brandColor: darken($grayBlue, 40%);
   	background:white;
   }
 
-	#content-container, .content, .content-body, #document-content, .Portfolio {float:none;}
+	#content-container, .content, .content-body, #document-content, .portfolio {float:none;}
+
+	.portfolio {margin-left:-20px;}
 
 	#content-container {	
 		background:white;
@@ -59,13 +65,11 @@ $brandColor: darken($grayBlue, 40%);
 		padding-bottom:0px;
 		padding-left:0px;
 		padding-right:0px;
-		margin-left:-20px;
 
 	}
 
 	#document {
 		position: relative;
-		left: -9%;
 		border:0px;
 		margin:0px;
 		padding:0px;

@@ -8,15 +8,15 @@
         <% if @user.blog.present? %>
           <li><%= link_to "Blog", "#{@user.blog}" %></li>
         <% end %>  
-        <% if @user.share_works && @user.works.shared_with_public.any? %>
-          <% @user.workcategories.parents_of_shared_with_public.each do |parent| %>
-            <% children = @user.workcategories.children_of_parent(parent).shared_with_public %>
+        <% if @user.share_works && @user.works.shared.any? %>
+          <% @user.workcategories.parents_of_shared.each do |parent| %>
+            <% children = @user.workcategories.children_of_parent(parent).shared %>
             <% if children.count > 0 %>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <%= parent.name %> <b class="caret"></b>
                 <ul class="dropdown-menu">
-                  <% if @user.works.shared_with_public.in_category(parent).any? %>
+                  <% if @user.works.shared.in_category(parent).any? %>
                     <li><%= link_to parent.name, "/makers/#{@user.to_param}/#{parent.name}" %></li>
                   <% end %>
                   <% children.each do |child| %>
@@ -24,9 +24,12 @@
                   <% end %>
                 </ul>
               </li>
-            <% elsif @user.works.shared_with_public.in_category(parent).any? %>
+            <% elsif @user.works.shared.in_category(parent).any? %>
               <li><%= link_to parent.name, "/makers/#{@user.to_param}/#{parent.name}" %></li>                
             <% end %>
+          <% end %>
+          <% if @user.works.shared.uncategorized.any? %>
+            <li><%= link_to Workcategory::DEFAULT, "/makers/#{@user.to_param}/#{Workcategory::DEFAULT}" %></li>                
           <% end %>
         <% end %>
         <% if @user.share_purchase %>

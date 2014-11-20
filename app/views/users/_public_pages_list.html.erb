@@ -1,37 +1,41 @@
   <% if user.share_about %>
     <%= link_to "About", about_user_path(user) %>
-    <% if user.blog.present? || (user.share_works && user.works.shared_with_public.any?) || user.share_purchase  || user.share_contact %>
+    <% if user.blog.present? || (user.share_works && user.works.shared.any?) || user.share_purchase  || user.share_contact %>
       &nbsp;|&nbsp; 
     <% end %>
   <% end %>
   <% if user.blog.present? %>
     <%= link_to "Blog", user.blog %>
-    <% if (user.share_works && user.works.shared_with_public.any?) || user.share_purchase  || user.share_contact %>
+    <% if (user.share_works && user.works.shared.any?) || user.share_purchase  || user.share_contact %>
       &nbsp;|&nbsp;  
     <% end %>
   <% end %>  
-  <% if user.share_works && user.works.shared_with_public.any? %>
-    <% user.workcategories.parents_of_shared_with_public.each_with_index do |parent, i| %>
-      <% children = user.workcategories.children_of_parent(parent).shared_with_public %>
+  <% if user.share_works && user.works.shared.any? %>
+    <% user.workcategories.parents_of_shared.each_with_index do |parent, i| %>
+      <% children = user.workcategories.children_of_parent(parent).shared %>
       <% if children.count > 0 %>
         <span class="dropdown in-front">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
           <%= parent.name %> <b class="caret bottom lighter"></b></a>
           <ul class="dropdown-menu in-front">
-            <% if user.works.shared_with_public.in_category(parent).any? %>
+            <% if user.works.shared.in_category(parent).any? %>
               <li><%= link_to parent.name, "/makers/#{user.to_param}/#{parent.name}" %></li>
             <% end %>
-            <% user.workcategories.children_of_parent(parent).shared_with_public.each do |child| %>
+            <% user.workcategories.children_of_parent(parent).shared.each do |child| %>
               <li><%= link_to child.name, "/makers/#{user.to_param}/#{child.name}" %></li>
             <% end %>
           </ul>
-        <% elsif user.works.shared_with_public.in_category(parent).any? %>
+        <% elsif user.works.shared.in_category(parent).any? %>
           <%= link_to parent.name, "/makers/#{user.to_param}/#{parent.name}" %>               
         <% end %>
-        <% if i + 1 < user.workcategories.parents_of_shared_with_public.length %>
+        <% if i + 1 < user.workcategories.parents_of_shared.length %>
           &nbsp;|&nbsp;  
         <% end %>
       </span>
+    <% end %>
+    <% if @user.works.shared.uncategorized.any? %>
+      &nbsp;|&nbsp;
+      <%= link_to Workcategory::DEFAULT, "/makers/#{@user.to_param}/#{Workcategory::DEFAULT}" %>    
     <% end %>
     <% if user.share_purchase  || user.share_contact %>
       &nbsp;|&nbsp;  

@@ -16,7 +16,7 @@ describe "Workcategory pages" do
       before { visit workcategories_path }
 
       it { should have_selector('h1', text: "Categories") }
-      it { should have_selector('p', text: "You can organize your works and public site by creating") }
+      it { should have_selector('p', text: "Have a lot of works? Create work categories to help organize your works.") }
     end
 
     describe "when there are workcategories" do

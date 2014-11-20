@@ -1,0 +1,20 @@
+<div class="span6">
+          <div class="control-group">
+            <%= f.label :name, "Business name", :class => "control-label" %>
+           <div class="controls"><%= f.text_field :name, class: "popover-input", rel: "popover", :"data-title" => "Business name", :"data-content" => "While usernames and domains are often restricted you can call your business whatever you like. Makers sometimes simply use their names." %></div>
+          </div>
+          <div class="control-group">
+            <%= f.label :tag_line, "Tag line", :class => "control-label" %>
+            <div class="controls">
+                  <%= f.text_field :tag_line%>
+            </div>
+          </div>
+        </div>
+        <div class="span6">
+          <div class="control-group">
+            <%= f.label :blog, "Blog URL", :class => "control-label" %>
+            <div class="controls">
+                  <%= f.text_field :blog%>
+            </div>
+          </div>
+        </div>

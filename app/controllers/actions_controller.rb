@@ -3,6 +3,10 @@ class ActionsController < ApplicationController
 
   def index
     @actions = Action.all_for_users(current_user.id).order_due;
+    respond_to do |format|
+      format.html
+      format.csv { send_data Action.to_csv(@actions) }
+    end
   end
 
   def new

@@ -1,0 +1,41 @@
+<%= form_for(@activitywork) do |f| %>
+  <% if @activitywork.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@activitywork.errors.count, "error") %> prohibited this activitywork from being saved:</h2>
+
+      <ul>
+      <% @activitywork.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :activity_id %><br />
+    <%= f.number_field :activity_id %>
+  </div>
+  <div class="field">
+    <%= f.label :work_id %><br />
+    <%= f.number_field :work_id %>
+  </div>
+  <div class="field">
+    <%= f.label :income %><br />
+    <%= f.text_field :income %>
+  </div>
+  <div class="field">
+    <%= f.label :retail %><br />
+    <%= f.text_field :retail %>
+  </div>
+  <div class="field">
+    <%= f.label :quanity %><br />
+    <%= f.number_field :quanity %>
+  </div>
+  <div class="field">
+    <%= f.label :sold %><br />
+    <%= f.number_field :sold %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

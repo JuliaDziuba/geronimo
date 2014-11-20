@@ -5,7 +5,6 @@ class VenuesController < ApplicationController
   
   def  new
     @venue = Venue.new
-    @venuecategories = Venuecategory.all
   end
 
   def create
@@ -14,14 +13,12 @@ class VenuesController < ApplicationController
       flash[:success] = "Your new venue has been added!"
       redirect_to venues_path
     else
-      @venuecategories = Venuecategory.all
       render 'new'
     end
   end
 
   def show
     @venue = current_user.venues.find_by_munged_name(params[:id])
-    @venuecategories = Venuecategory.all
     @activities = @venue.activities.all 
     @notes = @venue.notes.order_date.all
     @actions = @venue.actions.order_due.all
@@ -30,7 +27,6 @@ class VenuesController < ApplicationController
 
   def edit
     @venue = current_user.venues.find_by_munged_name(params[:id])
-    @venuecategories = Venuecategory.all
     @activities = @venue.activities.all 
     @notes = @venue.notes.order_date.all
     @actions = @venue.actions.order_due.all
@@ -39,23 +35,25 @@ class VenuesController < ApplicationController
 
   def update
     @venue = current_user.venues.find_by_munged_name(params[:id]) 
-    @venue.assign_attributes(params[:venue])
-    if @venue.valid?
-      @venue.save
-      flash[:success] = "The venue has been updated!"
-      redirect_to venue_path(@venue)
+    if @venue.default?
+      redirect_to venues_path, alert: "Sorry this venue cannot be modified."
     else
-      @venuecategories = Venuecategory.all
-      @activities = @venue.activities.all 
-      @notes = @venue.notes.order_date.all
-      @actions = @venue.actions.order_due.all
-      render 'show'
+      @venue.assign_attributes(params[:venue])
+      if @venue.valid?
+        @venue.save
+        flash[:success] = "The venue has been updated!"
+        redirect_to venue_path(@venue)
+      else
+        @activities = @venue.activities.all 
+        @notes = @venue.notes.order_date.all
+        @actions = @venue.actions.order_due.all
+        render 'show'
+      end
     end
   end
 
   def index
-    @venuecategories = Venuecategory.all
-    @venues = current_user.venues.order_name.all(:joins => :venuecategory)
+    @venues = current_user.venues.order_name.all
     respond_to do |format|
       format.html
       format.csv { send_data Venue.to_csv(@venues) }
@@ -63,15 +61,14 @@ class VenuesController < ApplicationController
   end
 
   def destroy
-    @id = params[:id]
-    if @id == 1
-      flash[:error] = "You cannot delete this venue! This is the default venue. Feel free to change its name and venue category."
+    @venue = current_user.venues.find_by_munged_name(params[:id])
+    if @venue.default?
+      redirect_to venues_path, alert: "Sorry this venue cannot be deleted."
     else
-      @venue = current_user.venues.find_by_munged_name(params[:id])
       @activities = @venue.activities.all
       if @activities.any?
         @activities.each do |activity|
-          activity.update_attributes(:venue_id => current_user.venues.all.collect(&:id).min())
+          activity.update_attributes(:venue_id => current_user.venues.find_by_name(Venue::DEFAULT).id)
         end
       end
       @venue.destroy

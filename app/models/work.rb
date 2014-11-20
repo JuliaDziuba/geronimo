@@ -13,8 +13,7 @@
 #  income              :decimal(, )
 #  retail              :decimal(, )
 #  description         :string(255)
-#  share_makers        :boolean          default(FALSE)
-#  share_public        :boolean          default(FALSE)
+#  share               :boolean          default(FALSE)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  image1_file_name    :string(255)
@@ -28,12 +27,13 @@
 
 
 class Work < ActiveRecord::Base
-  attr_accessible :creation_date, :description, :dimensions, :expense_hours, :expense_materials, :image1, :retail, :income, :inventory_id, :materials, :quantity, :share_makers, :share_public, :title, :workcategory_id
-	has_attached_file :image1, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "MissingImage.jpg"
+  attr_accessible :creation_date, :description, :dimensions, :expense_hours, :expense_materials, :image1, :retail, :income, :inventory_id, :materials, :quantity, :share, :title, :workcategory_id
+	has_attached_file :image1, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "MissingImage_thumb.jpg"
 
 	belongs_to :user
   belongs_to :workcategory
-	has_many :activities
+  has_many :activities, through: :activityworks
+  has_many :activityworks
   has_many :notes, :as => :notable, dependent: :destroy 
   has_many :actions, :as => :actionable, dependent: :destroy 
 
@@ -48,20 +48,17 @@ class Work < ActiveRecord::Base
   validates :retail, :numericality => { :greater_than_or_equal_to => 0, :allow_nil => true }
   validates :income, :numericality => { :greater_than_or_equal_to => 0, :allow_nil => true }
   validates :quantity, :numericality => { :greater_than_or_equal_to => 0, :allow_nil => true }
-  validates_inclusion_of :share_makers, :in => [true, false]
-  validates_inclusion_of :share_public, :in => [true, false]
+#  validates_inclusion_of :share, :in => [true, false]
   validate  :inventory_id_format
 
   scope :order_creation_date, order: 'works.creation_date DESC'
   scope :order_title, order: 'works.title'
   scope :order_updated_at, order: 'works.updated_at DESC'
   scope :createdBeforeDate, lambda { |date| where('creation_date <= ?', date)}
-  scope :shared_with_public, lambda { where('works.share_public') }
-  scope :not_shared_with_public, lambda { where('NOT works.share_public') }
-  scope :shared_with_makers, lambda { where('works.share_makers') }
-  scope :not_shared_with_makers, lambda { where('NOT works.share_makers') }
+  scope :shared, lambda { where('works.share') }
+  scope :not_shared, lambda { where('NOT works.share') }
   scope :in_category, lambda { |category| where('works.workcategory_id = ?', category.id) }
-  scope :available, lambda { joins('left join activities on activities.work_id = works.id').where('activities.id IS NULL') }
+  scope :available, lambda { where('works.quantity > 0') }
   scope :uncategorized, lambda { where('works.workcategory_id IS NULL') }
 
   def to_param
@@ -69,7 +66,7 @@ class Work < ActiveRecord::Base
   end
 
   def availableAtDate(date)
-    as = self.activities.startingBeforeDate(date).first
+    as = self.activityworks.startingBeforeDate(date).first
     as.nil? || ( !as.activitycategory.final && !as.date_end.nil? && as.date_end < date )
 
   end
@@ -91,9 +88,9 @@ class Work < ActiveRecord::Base
 
   def self.to_csv(records)
     CSV.generate do |csv|
-      csv << ["inventory_id", "title", "creation_date", "category", "description", "materials", "dimensions", "expense_hours", "expense_materials", "retail", "income", "share_public", "image1_file_name"]
+      csv << ["inventory_id", "title", "creation_date", "category", "description", "materials", "dimensions", "quantity", "expense_hours", "expense_materials", "retail", "income", "share", "image1_file_name"]
       records.each do |r|
-        csv << [r.inventory_id, r.title, r.creation_date, if r.workcategory.nil? then "" else r.workcategory.name end, r.description, r.materials, r.dimensions, r.expense_hours, r.expense_materials, r.income, r.retail, r.share_public, r.image1_file_name]
+        csv << [r.inventory_id, r.title, r.creation_date, if r.workcategory.nil? then "" else r.workcategory.name end, r.description, r.materials, r.dimensions, r.quantity, r.expense_hours, r.expense_materials, r.income, r.retail, r.share, r.image1_file_name]
       end
     end
   end

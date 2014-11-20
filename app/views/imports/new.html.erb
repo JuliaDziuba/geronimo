@@ -15,8 +15,7 @@
 <div class="row-fluid">
 	<div class="span7">
 		Makers' Moon can import data in the following file types: Openoffice, Excel, Google spreadsheets, Excelx, Libreoffice, and CSV (comma delimited files). The files should have a header row. The order of the columns does not matter.<br /><br />
-		There are 5 types of data that can be import: work categories, works, venues, clients and activities. Each data type has an identifier column that must be unique (for each user). If a record already exists in the database then the record will be updated with the imported data. If no record exists then a new record will be created. The exception is activities. Only new activities should be imported.There is not currently a good way to distinquish existing from new activities and odd things may happen to the existing activities if you try to update them with this import functionality. <br /><br />
-		Click on the data type of interest for more specifics on the columns that can be imported.
+		There are 4 types of data that can be import: work categories, works, venues, and clients. Click on the data type of interest for specifics. If the record exists in the database already it will be updated otherwise it will be added to the database.<br /><br />
 		<ul>
 			<!--
 			<li><a id="import_users_display" class="display_toggle" href="#import_users">Users</a>
@@ -57,7 +56,6 @@
 			-->
 			<li><a id="import_workcategories_display" class="display_toggle" href="#import_workcategories">Work categories</a>
 				<div id="import_workcategories" class="not-displayed">
-					<p>The following fields can be input.</p>
 					<ul>
 						<li><strong>name</strong>: identifier column and must be unique, required, the name of the category</li>
 						<li><strong>artist_statement</strong>: an artist's statement on this category of works</li>
@@ -69,7 +67,6 @@
 
 			<li><a id="import_works_display" class="display_toggle" href="#import_works">Works</a>
 				<div id="import_works" class="not-displayed">
-					<p>The following fields can be input.</p>
 					<ul>
 						<li><strong>inventory_id</strong>: identifier column and must be unique, required, the id you use to track this work, can be letters, numbers, and underscores</li>
 						<li><strong>title</strong>: required</li>
@@ -78,11 +75,12 @@
 						<li><strong>description</strong></li>
 						<li><strong>materials</strong></li>
 						<li><strong>dimensions</strong></li>
+						<li><strong>quantity</strong></li>: the number currently available
 						<li><strong>expense_hours</strong>: the number of hours spent on the work</li>
 						<li><strong>expense_materials</strong>: the expense of the materials used in the work</li>
 						<li><strong>retail</strong>: the retail value of the work</li>
 						<li><strong>income</strong>: the income you recieved or expect from this work</li>
-						<li><strong>share_public</strong>: boolean (TRUE or FALSE), whether to share this work on your public site</li>
+						<li><strong>share</strong>: boolean (TRUE or FALSE), whether to share this work on your public site</li>
 					</ul>
 					<br /><br />
 				</div>
@@ -90,10 +88,25 @@
 
 			<li><a id="import_venues_display" class="display_toggle" href="#import_venues">Venues</a>
 				<div id="import_venues" class="not-displayed">
-					<p>The following fields can be input.</p>
 					<ul>
 						<li><strong>name</strong>: identifier column and must be unique, required, the name of the venue</li>
-						<li><strong>category</strong>: required, the category the venue belongs to, either: Galleries, Stores, Studios, Booths or Online</li>
+						<li><strong>phone</strong></li>
+						<li><strong>email</strong></li>
+						<li><strong>site</strong></li>
+						<li><strong>address_street</strong></li>
+						<li><strong>address_city</strong></li>
+						<li><strong>address_state</strong></li>
+						<li><strong>address_zipcode</strong></li>
+						<li><strong>share</strong>: boolean (TRUE or FALSE), whether to share this work on your public site</li>
+					</ul>
+					<br /><br />
+				</div>
+			</li>
+
+			<li><a id="import_clients_display" class="display_toggle" href="#import_clients">Clients</a>
+				<div id="import_clients" class="not-displayed">
+					<ul>
+						<li><strong>name</strong>: identifier column and must be unique, required, the name of the client</li>
 						<li><strong>phone</strong></li>
 						<li><strong>email</strong></li>
 						<li><strong>site</strong></li>
@@ -105,40 +118,70 @@
 					<br /><br />
 				</div>
 			</li>
-
-			<li><a id="import_clients_display" class="display_toggle" href="#import_clients">Clients</a>
-				<div id="import_clients" class="not-displayed">
-					<p>The following fields can be input.</p>
-					<ul>
-						<li><strong>name</strong>: identifier column and must be unique, required, the name of the client</li>
-						<li><strong>phone</strong></li>
-						<li><strong>email</strong></li>
-						<li><strong>address_street</strong></li>
-						<li><strong>address_city</strong></li>
-						<li><strong>address_state</strong></li>
-						<li><strong>address_zipcode</strong></li>
-					</ul>
-					<br /><br />
-				</div>
-			</li>
-
+<!--
 			<li><a id="import_activities_display" class="display_toggle" href="#import_activities">Activities</a>
 				<div id="import_activities" class="not-displayed">
-					<p>The following fields can be input.</p>
+					<p>Activities that involve multiple works will span multiple rows, one row per work. Activities with the same identifier columns will be grouped.</p>
 					<ul>
-						<li><strong>username</strong>: required</li>
-						<li><strong>category</strong>: required, the category the venue belongs to, either: Sale, Commission, Consignment, Donate, Gift, or Recycle</li>
-						<li><strong>work</strong>: required, the inventory ID of a work that exists in the database</li>
-						<li><strong>venue</strong>: required, the name of a venue that exists in the database</li>
-						<li><strong>client</strong>: the name of the client (this is only relevant for sales, commissions, and gift activities)</li>
-						<li><strong>date_start</strong>: required, the date of the activity</li>
-						<li><strong>date_end</strong>: the date of the activity stopped (this is only relevant for commissions and consignment activities)</li>
-						<li><strong>income</strong>: the received or expected income of the work</li>
-						<li><strong>retail</strong>: the retail value of the work</li>
+						<li><strong>Sales</strong>
+							<ul>
+								<li><strong>client</strong>: identifier column, required, the client purchasing the works (must already be in the database).</li>
+								<li><strong>date_start</strong>: identifier column,required, the date of the sale</li>
+								<li><strong>date_end</strong>: the date of payment</li>
+								<li><strong>work</strong>: the inventory id of the work (must already be in database)</li>
+								<li><strong>income</strong>: the amount payable to artist/wholesale</li>
+								<li><strong>retail</strong>: the retail value of the work</li>
+								<li><strong>sold</strong>: the quantity sold</li>
+							</ul>
+						</li>
+						<li><strong>Shows and Consignments</strong>
+							<ul>
+								<li><strong>venue</strong>: identifier column, required, the show venue (must already be in the database)</li>
+								<li><strong>date_start</strong>: identifier column, required, the start date of the show</li>
+								<li><strong>date_end</strong>: the end date of the show</li>
+								<li><strong>work</strong>: the inventory id of the work (must already be in database)</li>
+								<li><strong>income</strong>: the amount payable to artist/wholesale</li>
+								<li><strong>retail</strong>: the retail value of the work</li>
+								<li><strong>quantity</strong>: the quantity included in the show</li>
+								<li><strong>sold</strong>: the quantity sold</li>
+							</ul>
+						</li>
+						<li><strong>Gifts</strong>
+							<ul>
+								<li><strong>client</strong>: identifier column, required, the client purchasing the works.</li>
+								<li><strong>date_start</strong>: identifier column, required, the date the gift was given</li>
+								<li><strong>work</strong>: the inventory id of the work (must already be in database)</li>
+								<li><strong>income</strong>: the amount payable to artist/wholesale</li>
+								<li><strong>retail</strong>: the retail value of the work</li>
+								<li><strong>quantity</strong>: the quantity gifted</li>
+							</ul>
+						</li>
+						<li><strong>Donations</strong>
+							<ul>
+								<li><strong>venue</strong>: identifier column, required, the show venue (must already be in the database)</li>
+								<li><strong>date_start</strong>: identifier column, required, the date of the donation</li>
+								<li><strong>work</strong>: the inventory id of the work (must already be in database)</li>
+								<li><strong>income</strong>: the amount payable to artist/wholesale</li>
+								<li><strong>retail</strong>: the retail value of the work</li>
+								<li><strong>quantity</strong>: the quantity gifted</li>
+							</ul>
+						</li>
+						<li><strong>Portfolios and Line Sheets</strong>
+							<ul>
+								<li><strong>date_start</strong>: identifier column, required, the date of the portfolio or line sheet</li>
+								<li><strong>work</strong>: the inventory id of the work (must already be in database)</li>
+								<li><strong>income</strong>: the amount payable to artist/wholesale</li>
+								<li><strong>retail</strong>: the retail value of the work</li>
+								<li><strong>quantity</strong>: the quantity included in the show</li>
+								<li><strong>sold</strong>: the quantity sold</li>
+							</ul>
+						</li>
 					</ul>
 					<br /><br />
 				</div>
 			</li>
+
+		-->
 		</ul>
 	</div>
 	<div class="span4 offset1">	
@@ -149,7 +192,8 @@
 		  <div class="row-fluid">
 			<div class="control-group">
 		      <%= f.label :model, "Category", :class => "control-label" %>
-		      <div class="controls"><%= f.select :model, ['Work categories', 'Works', 'Venues', 'Clients', 'Activities'], :prompt => true %></div>
+		      <!-- Possible imports Import::SALE[:name], Import::SHOW[:name], Import::CONSIGNMENT[:name], Import::GIFT[:name], Import::DONATION[:name], Import::PORTFOLIO[:name], Import::LINE_SHEET[:name] -->
+		      <div class="controls"><%= f.select :model, ['Work categories', 'Works', 'Venues', 'Clients'], :prompt => true %></div>
 		    </div>
 			<div class="control-group">
 		      <%= f.label :file, :class => "control-label" %>

@@ -25,25 +25,43 @@ class UsersController < ApplicationController
     by_client = convertSalesHOAtoHOAAForYear(sortWorksByOutcome(sold_works, 'client'), @year)
     @sold_works_by_client_array = reduceToCurrentYear(by_client)
     @sold_works_by_client_to_date = reduceToToDate(by_client)
+    by_work = convertSalesHOAtoHOAAForYear(sortWorksByOutcome(sold_works, 'work'), @year)
+    @sold_works_by_work_array = reduceToCurrentYear(by_work)
+    @sold_works_by_work_to_date = reduceToToDate(by_work)
     @date_of_oldest_work = dateOfOldestWork(@user)
-    @activities_array  = getActivitiesInYear(@user, @year)
   end
 
   def insight
     @user = User.find_by_username(params[:id])
     @date_of_oldest_work = dateOfOldestWork(@user)
     @activities_array = getActivitiesSnapShot(@user)
+    @available_works_count = countAvailableWorks(@user.works.all)
+    @displayed_available_works_count = @activities_array.count(Activity::CONSIGNMENT[:status]) + @activities_array.count(Activity::SHOW[:status])
+    @total_works_count = @activities_array.count + @available_works_count
+    @total_placed_works_count = @activities_array.count(Activity::SALE[:status]) + @activities_array.count(Activity::GIFT[:status]) + @activities_array.count(Activity::DONATION[:status])
     sold_works = getSoldWorksAtTime(@user, Date.today)
     @sold_works_array = salesSnapShot(sold_works)
     @sold_works_by_category_array = convertSalesHOAToHOAAForSnapshot(sortWorksByOutcome(sold_works, 'category'))
     @sold_works_by_venue_array = convertSalesHOAToHOAAForSnapshot(sortWorksByOutcome(sold_works,'venue'))
     @sold_works_by_client_array = convertSalesHOAToHOAAForSnapshot(sortWorksByOutcome(sold_works,'client'))
+    @sold_works_by_work_array = convertSalesHOAToHOAAForSnapshot(sortWorksByOutcome(sold_works,'work'))
+  end
+
+  def countAvailableWorks(works)
+    count = 0
+    works.each do | work |
+      count = count + work.quantity
+    end
+    count
   end
 
   def about
     @user = User.find_by_username(params[:id])
     if @user.share_with_public
       if @user.share_about
+
+        @bio = Comment.find(@user.bio_id) if ! @user.bio_id.blank?
+        @statement = Comment.find(@user.statement_id) if ! @user.statement_id.blank?
         render :layout => 'site'
       else 
         redirect_to root_url, alert: "Sorry but #{@user.name} does not have an 'about' page powered by Makers' Moon."
@@ -83,8 +101,13 @@ class UsersController < ApplicationController
     @user = User.find_by_username(params[:user])
     if @user.share_with_public
       if @user.share_works
-        @workcategory = @user.workcategories.find_by_name(params[:workcategory])
-        @works = @user.works.shared_with_public.in_category(@workcategory)
+        if params[:workcategory] == Workcategory::DEFAULT
+          @workcategory = Workcategory.new(:name => Workcategory::DEFAULT)
+          @works = @user.works.shared.uncategorized.order_creation_date.all
+        else
+          @workcategory = @user.workcategories.find_by_name(params[:workcategory])
+          @works = @user.works.shared.in_category(@workcategory).order_creation_date
+        end
         @work =  @user.works.find_by_inventory_id(params[:work]) || @works.first
         render :layout => 'site'
       else
@@ -110,12 +133,16 @@ class UsersController < ApplicationController
 
   def index
     @users = User.shared_publicly.order_tier.order_share_works
-    @works = Work.shared_with_public.limit(100).order('works.updated_at DESC').all(:include =>  [:workcategory, :user])
+    @works = Work.shared.limit(100).order('works.updated_at DESC').all(:include =>  [:workcategory, :user])
     if !signed_in?
       render :layout => 'landing'
+    else
+      respond_to do |format|
+        format.html
+        format.csv { 
+          send_data User.to_csv(@current_user) }
+      end
     end
-
-
   end
 
   def new
@@ -128,7 +155,6 @@ class UsersController < ApplicationController
     if @user.save
       sign_in @user
       redirect_to @user
-      @user.venues.create!(name: "My Studio", venuecategory_id: Venuecategory.find_by_name("Studios").id)
       subscribeToMailChimp(@user)
     else
       render 'new', :layout => 'landing'
@@ -168,7 +194,14 @@ class UsersController < ApplicationController
     @user = User.find_by_username(params[:id])
     @workcategories = @user.workcategories
     @works = @user.works
-    @venues = @user.venues
+    @bios = @user.comments.bios.all
+    @statements = @user.comments.statements.all
+    @bios.each do | bio | 
+      bio.name = bio.name + " - " + bio.date.strftime('%m/%d/%Y')
+    end
+    @statements.each do | statement | 
+      statement.name = statement.name + " - " + statement.date.strftime('%m/%d/%Y')
+    end
   end
 
   private
@@ -224,36 +257,35 @@ class UsersController < ApplicationController
       a
     end
 
-    def getActivitiesInYear(user, year)
-    activities = []
-    works = user.works.all(:include => { :activities => :activitycategory }) 
-    activities.push getActivitiesForWorksAtTime(works, Date.parse("#{year}-#{GlobalConstants::Q1_START}"))
-    activities.push getActivitiesForWorksAtTime(works, Date.parse("#{year}-#{GlobalConstants::Q2_START}"))
-    activities.push getActivitiesForWorksAtTime(works, Date.parse("#{year}-#{GlobalConstants::Q3_START}"))
-    activities.push getActivitiesForWorksAtTime(works, Date.parse("#{year}-#{GlobalConstants::Q4_START}"))
-    activities.push getActivitiesForWorksAtTime(works, Date.parse("#{year}-#{GlobalConstants::Q4_END}"))
-    activities
-  end
-
   def getActivitiesSnapShot(user)
-    activities = []
-    works = user.works.all(:include => { :activities => :activitycategory }) 
-    activities.push getActivitiesForWorksAtTime(works, Date.today)
-    activities.push getActivitiesForWorksAtTime(works, 1.month.ago.to_date)
-    activities.push getActivitiesForWorksAtTime(works, 6.months.ago.to_date)
-    activities.push getActivitiesForWorksAtTime(works, 1.year.ago.to_date)
-    activities.push getActivitiesForWorksAtTime(works, 5.year.ago.to_date)
-    activities
+    works = user.works.all(:include => :activityworks ) 
+    getActivitiesForWorksAtTime(works, Date.today)
   end 
 
   def getActivitiesForWorksAtTime(works, date)
     activities = [] 
     works.each do | work |
       if work.creation_date <= date
-        if work.availableAtDate(date)
-          activities.push("Available")
-        else
-          activities.push(work.activities.startingBeforeDate(date).first.activitycategory.status)
+        work.activityworks.each do | aw |
+          if aw.activity.startingBeforeDate(date) then 
+            sold_count = aw.sold 
+            remaining_count = aw.quantity - sold_count
+            (1..sold_count).each do |i|
+              activities.push(Activity::SALE[:status])
+            end
+            if remaining_count > 0 then 
+              (1..remaining_count).each do |i|
+                category = Activity::CATEGORY_ID_OBJECT_HASH[aw.activity.category_id]
+                if category[:instant]
+                  activities.push(category[:status]) 
+                else
+                  if aw.activity.date_end.blank? || aw.activity.date_end > date then 
+                    activities.push(category[:status])
+                  end
+                end
+              end
+            end
+          end
         end
       end
     end
@@ -262,17 +294,9 @@ class UsersController < ApplicationController
 
   def getSoldWorksAtTime(user, time)
     sold_works = []
-    sale_activities = user.activities.startingBeforeDate(time).sales.all
+    sale_activities = user.activityworks.startingBeforeDate(time).sold_works.all
     sale_activities.each do | sale |
-      work = user.works.where('works.id = ?', sale.work_id).first
-      sold_work = SoldWork.new(:sale_date => sale.date_start,
-        :venue_id => sale.venue_id,
-        :client_id => sale.client_id,
-        :expense_hours => work.expense_hours,
-        :expense_materials => work.expense_materials,
-        :retail => sale.retail,
-        :income => sale.income,
-        :workcategory_id => work.workcategory_id)
+      sold_work = SoldWork.buildFromSale(sale)
       sold_works.push(sold_work)
     end
     sold_works
@@ -282,7 +306,14 @@ class UsersController < ApplicationController
     hoa = {}
     works.each do | w |
       if outcome == "category"
-        key = Workcategory.find(w.workcategory_id).name
+        id = w.workcategory_id
+        if id.nil?
+          key = "Uncategorized"
+        else
+          key = Workcategory.find(id).name
+        end
+      elsif outcome == "work"
+        key = Work.find(w.work_id).title
       elsif outcome == "venue"
         key = Venue.find(w.venue_id).name
       elsif outcome == "client"
@@ -300,9 +331,7 @@ class UsersController < ApplicationController
       end
     end
     hoa
-  end
-
-    
+  end    
 
     def salesSnapShot(works)
       dates = [1.month.ago.to_date, 6.months.ago.to_date, 1.year.ago.to_date, 5.year.ago.to_date]

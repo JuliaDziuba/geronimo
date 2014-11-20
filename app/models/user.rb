@@ -18,7 +18,6 @@
 #  domain                  :string(255)
 #  tag_line                :string(255)
 #  blog                    :string(255)
-#  about                   :string(2000)
 #  email                   :string(255)
 #  phone                   :string(255)
 #  address_street          :string(255)
@@ -42,11 +41,13 @@
 #  share_works_materials   :boolean          default(TRUE)
 #  share_works_dimensions  :boolean          default(TRUE)
 #  share_works_description :boolean          default(TRUE)
+#  bio_id                  :integer
+#  statement_id            :integer
 #
 
 
 class User < ActiveRecord::Base
-  attr_accessible :admin, :email, :password, :password_confirmation, :username, :about, :address_city, :address_state, :address_street, :address_zipcode, :blog, :domain, :email, :image, :name, :phone, :share_with_makers, :share_about, :share_contact, :share_purchase, :share_works, :share_works_price, :share_works_status, :share_works_materials, :share_works_dimensions, :share_works_description, :share_with_public, :social_etsy, :social_googleplus, :social_facebook, :social_linkedin, :social_pinterest, :social_twitter, :tag_line, :tier
+  attr_accessible :admin, :email, :password, :password_confirmation, :username, :bio_id, :statement_id, :address_city, :address_state, :address_street, :address_zipcode, :blog, :domain, :email, :image, :name, :phone, :share_with_makers, :share_about, :share_contact, :share_purchase, :share_works, :share_works_price, :share_works_status, :share_works_materials, :share_works_dimensions, :share_works_description, :share_with_public, :social_etsy, :social_googleplus, :social_facebook, :social_linkedin, :social_pinterest, :social_twitter, :tag_line, :tier
   has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "MakersMoonIconTransparent.gif"
 
   # There are three types of Users listed as constants below. Their arrays are [typeName, works limit, clients limit, venues limit].
@@ -62,17 +63,19 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :workcategories, dependent: :destroy
   has_many :works, dependent: :destroy
-  has_many :venues, dependent: :destroy
   has_many :clients, dependent: :destroy
+  has_many :venues, dependent: :destroy
   has_many :activities, dependent: :destroy
-  has_many :documents, dependent: :destroy
+  has_many :activityworks, through: :activities
+  has_many :comments, dependent: :destroy
   has_many :notes, :as => :notable, dependent: :destroy
   has_many :actions, :as => :actionable, dependent: :destroy
-  has_many :questions
 
   before_save { |user| user.email = email.downcase }
   before_save :set_tier
   before_save :create_remember_token
+
+  after_create :create_default_consumers
 
   validate  :full_urls
   validate  :username_format
@@ -80,7 +83,6 @@ class User < ActiveRecord::Base
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }, :confirmation => true, :if => :password_changed?
   validates :name, length: { maximum: 50 }
-  validates :about, length: { maximum: 2000 }
   
   scope :order_tier, order: 'users.tier DESC'
   scope :order_share_works, order: 'users.share_works DESC'
@@ -159,6 +161,11 @@ class User < ActiveRecord::Base
 
   private
 
+    def create_default_consumers
+      self.venues.create!(name: Venue::DEFAULT)
+      self.clients.create!(name: Client::DEFAULT)
+    end
+
     def set_tier
       self.tier = read_attribute(:tier) || User::APPRENTICE
     end
@@ -218,5 +225,12 @@ class User < ActiveRecord::Base
       end
       valid
     end
+
+    def self.to_csv(r)
+    CSV.generate do |csv|
+      csv << ["username", "name", "domain", "tag_line", "blog", "phone", "email", "address_street", "address_city", "address_state", "address_zipcode", "social_etsy", "social_googleplus", "social_facebook", "social_linkedin", "social_twitter", "social_pinterest", "image_file"]
+      csv << [r.username, r.name, r.domain, r.tag_line, r.blog, r.phone, r.email, r.address_street, r.address_city, r.address_state, r.address_zipcode, r.social_etsy, r.social_googleplus, r.social_facebook, r.social_linkedin, r.social_twitter, r.social_pinterest, r.image_file_name]
+    end
+  end
 
 end

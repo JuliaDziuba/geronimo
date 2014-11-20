@@ -1,5 +1,20 @@
 <% provide(:page, 'Account') %>
 <% provide(:title, "#{@tier} account") %>
+<h2>Change Password</h2>
+<div class="row-fluid">
+	<div class="span12">
+		<%= form_for(@user, :html => { :class => "form-inline"} ) do |f| %>
+		  <%= render 'shared/error_messages', object: f.object %>
+		    <div class="row-fluid">
+		    	<div class="span2"><%= f.password_field  :password, placeholder: "New password" %></div>
+		    	<div class="span2"><%= f.password_field  :password_confirmation, placeholder: "New password again" %></div>
+		    	<div class="span2"><%= f.submit "Update", class: "btn" %></div>
+		    </div>
+		<% end %>
+	</div>
+	<br /><br /><br /><br />
+</div>
+<div class="row-fluid">
 <h2>Upgrade account</h2>
 <div class="row-fluid">
 	<% if @tier == User::APPRENTICE %>
@@ -10,6 +25,7 @@
 		<p> No further upgrades are necessary! Enjoy being a Master on Makers' Moon!</p>
 	<% end %>
 </div>
+<br />
 <div class="row-fluid">
 	<div class="span7">
 		<h2>Pricing</h2>
@@ -61,6 +77,9 @@
 	</div>
 </div>
 <br /><br />
+
+</div>
+<br /><br /><br />
 <h2>Deactivate account</h2>
 <p>We are sorry to hear you no longer wish to use Makers' Moon. We would greatly appreciate your feedback on why this tool did not meet your needs and what we can improve. Please send an email to info@makersmoon.com. If you wish to deactivate your account let us know in that email. We will help you stop your subscription and make sure you have all the data you need from Makers' Moon. </p>
 

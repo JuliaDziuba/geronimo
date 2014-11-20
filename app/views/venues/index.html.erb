@@ -1,10 +1,11 @@
 <% provide(:page, 'Venues') %>
 <% provide(:title, 'Venues') %>
 <% provide(:new_link, "venues/new") %>
-<% if @venues.count <= 1 %>
-	<%= render 'get_started_venues', venuecategories: @venuecategories %>
+
+<% if @venues.count == 1 %>
+	<%= render 'get_started_venues' %>
 	<b>Click the <%= link_to "NEW", new_venue_path %> button to get started!</b>
-	<br /><br />
+	<br /><br /><br />
 <% end %>
 
 <%= render 'table_venues', venues: @venues %>

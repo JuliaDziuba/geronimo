@@ -1,5 +1,7 @@
 module ActivitiesHelper
 
+
+
 	def client_name(activity)
     client = activity.client
     if client.nil? 

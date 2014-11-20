@@ -15,5 +15,11 @@ module ApplicationHelper
       "#{maker} | #{page} | #{company}"
     end
   end
+
+  class String
+    def is_number?
+      true if self.to_f() rescue false
+    end
+  end
   
 end

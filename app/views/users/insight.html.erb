@@ -2,67 +2,89 @@
 <% provide(:title, 'Insights') %>
 <div class="row-fluid">
 	<div class="span8">
-		<legend class="h2">Current Snapshots</legend>
-		The statistics and insights below are calculated each time you visit this report and will thus change day to day. For instance the "past month" is the past thirty days and findings will change as the dates associated with works move in and out of this window of time.
-		<h2><a id="WorksStatus_Content_display" class="display_toggle" href="#WorksStatus_Content">Works status</a></h2>
-  	<div id="WorksStatus_Content" class="row-fluid">
+		<legend class="h2">Current Snapshots</legend>	
+		The statistics below are calculated each time you visit this report and are thus relative to today's date. For instance the "past month" is the past thirty days.
+		<br /><br />
+		Insights
+			
+			<ul>
+				<li><%="Placed works: Of the #{ @total_works_count } works managed in Makers' Moon #{@total_placed_works_count}, or #{ number_to_percentage(100.0 * @total_placed_works_count/@total_works_count, precision: 1) }, have been sold, donated, or gifted." %></li>
+				<li><%="Available works: Of the #{@available_works_count + @displayed_available_works_count} available works #{@displayed_available_works_count}, or #{number_to_percentage(100.0 * @displayed_available_works_count/(@available_works_count + @displayed_available_works_count), precision: 1)}, are currently being shown or consigned" %></li>
+				<% average_keys = averageKeys(@sold_works_array[2],'retail') %>
+				<% if ! average_keys.nil? && average_keys.to_f() > 0 %>
+					<li><%="Earnings: In the past year you received, on average, #{number_to_percentage(100 * averageKeys(@sold_works_array[2],'income').to_f()/average_keys.to_f(), precision: 0)} of the retail value of your work." %></li>
+				<% end %>
+				 <% count = bestOfSales(@sold_works_by_work_array, 'count') %>
+				 <% income = bestOfSales(@sold_works_by_work_array, 'income') %>
+				 <% if count.include? ',' then count = "are " + count else count = "is " + count end %>
+				 <% if income.include? ',' then income = "are " + income else income = "is " + income end %>
 
+				<li><%="Best selling: Of all your works the best sellling #{count}. The most profitable #{income}."%></li>
+				<% count_v = bestOfSales(@sold_works_by_venue_array, 'count') %>
+				 <% income_v = bestOfSales(@sold_works_by_venue_array, 'income') %>
+				 <% count_c = bestOfSales(@sold_works_by_client_array, 'count') %>
+				 <% income_c = bestOfSales(@sold_works_by_client_array, 'income') %>
+				<li><%="Biggest fans: Of the venues selling your works, the most are sold out of #{bestOfSales(@sold_works_by_venue_array, 'count')} and #{bestOfSales(@sold_works_by_venue_array, 'income')} has brought you the most income. Of the clients that bought your work #{bestOfSales(@sold_works_by_client_array, 'count')} has the largest collection and #{bestOfSales(@sold_works_by_client_array, 'income')} has the most worth." %></li>
+			</ul>
+		<h2>Works status</h2>
+  	<div class="row-fluid">
   		<table id="StatusOfWorks">
-				<caption><span class="h3">Status of works</span>: The status of works today and at past time points, reported in count (%)</caption>
+  			<p> There are currently <%= @total_works_count %> works managed within Makers' Moon.</p>
+				<caption><span class="h3">Status of works</span>: The status of works today, reported in count and percentage.</caption>
+				<% activity_types = [Activity::CONSIGNMENT[:status], Activity::SHOW[:status], Activity::SALE[:status], Activity::GIFT[:status], Activity::DONATION[:status]] %>
 			  <thead>
 			    <tr>
-			    	<th>Status</th>
-			    	<th>Today</th>
-			      <th>1 month ago</th>
-			      <th>6 months ago</th>
-			      <th>1 year ago</th>
-			      <th>5 years ago</th>
+			    	<th></th>
+			    	<th>Available</th>
+			    	<% activity_types.each do | t | %>
+			    		<th><%= t %></th>
+			      <% end %>
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <% activity_types = ['Available', Activitycategory::CONSIGNMENT[:status], Activitycategory::COMMISSION[:status], Activitycategory::SALE[:status], Activitycategory::GIFT[:status], Activitycategory::DONATE[:status], Activitycategory::RECYCLE[:status]] %>
-			    <tr>
-			    	<td>Total works</td>
-			    	<% @activities_array.each do | a | %>
-		    			<% countA = a.count %>
-							<td><%= countA %></td>
+			  	<tr>
+			  		<td>Count</td>
+			  		<td><%= @available_works_count %></td>
+			  		<% activity_types.each do | t | %>
+			    		<td><%= @activities_array.count(t) %></td>
 						<% end %>
 					</tr>
-			    <% activity_types.each do | t | %>
-			    	<tr>
-			    		<td><%= t %></td>
-			    		<% @activities_array.each do | a | %>
-			    			<% countA = a.count
-			    				 countT = a.count(t) %>
-								<td><%= "#{countT} (#{number_to_percentage(100.0 * countT/countA, precision: 1)})" %></td>
-							<% end %>
-						</tr>
-			    <% end %>
+					<tr>
+						<td>Percentage</td>
+						<td><%= number_to_percentage(100 * @available_works_count.to_f()/@total_works_count.to_f(), precision: 1)%></td>
+						<% activity_types.each do | t | %>
+			    		<td><%= number_to_percentage(100 * @activities_array.count(t).to_f()/@total_works_count.to_f(), precision: 1) %></td>
+						<% end %>
+					</tr>
 			  </tbody>
 			</table>
 			<br />
-			Insights
-			<% 
-				consigned = []
-				unavailable_array = []
-
-				unavailable_now = @activities_array[0].count(Activitycategory::SALE[:status]) + @activities_array[0].count(Activitycategory::GIFT[:status]) + @activities_array[0].count(Activitycategory::DONATE[:status]) + @activities_array[0].count(Activitycategory::RECYCLE[:status])
-
-				@activities_array.each do | a | 
-					c = a.count(Activitycategory::CONSIGNMENT[:status]).to_f
-					consigned.push "#{(c*100/(a.count('Available') + c)).round(1)}%" 
-
-					unavailable_array.push  unavailable_now - (a.count(Activitycategory::SALE[:status]) + a.count(Activitycategory::GIFT[:status]) + a.count(Activitycategory::DONATE[:status]) + a.count(Activitycategory::RECYCLE[:status]))
-				end
-			%>
-			<ul>
-				<li><%="New works: #{@activities_array[0].count - @activities_array[1].count} were created in the last month, #{@activities_array[0].count - @activities_array[2].count} in the last six months, #{@activities_array[0].count - @activities_array[3].count} in the last year, and #{@activities_array[0].count - @activities_array[4].count} in the last five years." %></li>
-				<li><%="Placed works: #{unavailable_array[1]} found a home or were recycled in the last month, #{unavailable_array[2]} in the last six months, #{unavailable_array[3]} in the last year, and #{unavailable_array[4]} in the last five years." %></li>
-				<li><%="Consigned works: #{consigned[0]} of works available for sale are currently consigned. This percentage was #{consigned[1]} a month ago, #{consigned[2]} 6 months ago, #{consigned[3]} 1 year ago, and #{consigned[4]} 5 years ago." %></li> 
-			</ul>
 		</div><!-- /StatusOfWorks_Content -->
-		<h2><a id="SoldWorks_Content_display" class="display_toggle" href="#SoldWorks_Content">Sold works</a></h2>
-  	<div id="SoldWorks_Content" class="row-fluid">
+	</div>
+	<div class="span3 offset1">
+		<legend class="h2">Cyclical Reports</legend>
+		Reports of natural calendar cycles. Note these are updated as past records are updated.
+		<br /><br />
+		<% current_year = Date.today.year %>
+		<% (0..(current_year - @date_of_oldest_work.year)).each do |i| %>
+			<% year = current_year - i 
+				 report_name = year
+				 if year == current_year
+				 	report_name = "#{year} To Date"
+				 elsif year == @date_of_oldest_work.year
+				 	report_name = "#{year} Partial Report"
+				 else
+				 	report_name = "#{year} Annual Report"
+				 end
+			%>
+			<%= link_to report_name, annual_user_path(current_user, :year => year) %><br />
+		<% end %>
+	</div>
+</div>
+<div class="row-fluid">
+	<div class="span12">
+		<h2>Sold works</h2>
+  	<div class="row-fluid">
   		Makers' Moon calculates profit and an estimated wage. These calculated outcomes are composed of multiple data points and will be inaccurate if data is missing. Profit is based on the income and material costs of each sold work. The estimated wage is based on the profit and the number of hours spent on each work. 
   		<br /><br />
   		<table id="AnnualAbsoluteSoldWorkTotals">
@@ -81,7 +103,11 @@
 			    <tr>
 			    	<td>Number of sales</td>
 			    	<% @sold_works_array.each do | a | %>
-			    		<td><%= a.count %></td>
+			    		<% count = 0 %>
+			    		<% a.each do | w | %>
+			    			<% count = count + w['sold'] %>
+			    		<% end %>
+			    		<td><%= count %></td>
 			    	<% end %>
 			    </tr>
 			    <% sum_outcomes = [["Retail value", "retail"], ["Income", "income"], ["Material costs", "expense_materials"], ["Profit", "profit"], ["Hours (hrs)", "expense_hours"]] %>
@@ -120,38 +146,14 @@
 			    <% end %>
 			  </tbody>
 			</table>
-			<br />
-			<%= render "table_snapshot_sold_works_by_outcome", outcome: "category", hoaa: @sold_works_by_category_array %>
-			<br />
-			<%= render "table_snapshot_sold_works_by_outcome", outcome: "venue", hoaa: @sold_works_by_venue_array %>
-			<br />
-			<%= render "table_snapshot_sold_works_by_outcome", outcome: "client", hoaa: @sold_works_by_client_array %>
-			<br />
-			Insights
-			<ul>
-				<% if averageKeys(@sold_works_array[2],'retail').to_f() > 0 %>
-					<li>In the past year you received, on average, <%= number_to_percentage(100 * averageKeys(@sold_works_array[2],'income').to_f()/averageKeys(@sold_works_array[2],'retail').to_f(), precision: 0) %> of the retail value of your work.</li>
-				<% end %>
-			</ul>
+			<br /><br />
+			<%= render "table_snapshot_sold_works_by_outcome_slim", outcome: "category", hoaa: @sold_works_by_category_array %>
+			<br /><br />
+			<%= render "table_snapshot_sold_works_by_outcome_slim", outcome: "venue", hoaa: @sold_works_by_venue_array %>
+			<br /><br />
+			<%= render "table_snapshot_sold_works_by_outcome_slim", outcome: "client", hoaa: @sold_works_by_client_array %>
+			<br /><br />
+			<%= render "table_snapshot_sold_works_by_outcome_slim", outcome: "work", hoaa: @sold_works_by_work_array %>
 		</div><!-- /SoldWorks_Content -->
-	</div>
-	<div class="span3 offset1">
-		<legend class="h2">Cyclical Reports</legend>
-		Reports of natural calendar cycles. Note these are updated as past records are updated.
-		<br /><br />
-		<% current_year = Date.today.year %>
-		<% (0..(current_year - @date_of_oldest_work.year)).each do |i| %>
-			<% year = current_year - i 
-				 report_name = year
-				 if year == current_year
-				 	report_name = "#{year} To Date"
-				 elsif year == @date_of_oldest_work.year
-				 	report_name = "#{year} Partial Report"
-				 else
-				 	report_name = "#{year} Annual Report"
-				 end
-			%>
-			<%= link_to report_name, annual_user_path(current_user, :year => year) %><br />
-		<% end %>
 	</div>
 </div>

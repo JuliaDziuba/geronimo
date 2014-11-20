@@ -14,18 +14,20 @@
 #  user_id         :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  site            :string(255)
+#  share           :boolean          default(FALSE)
 #
 
 require 'spec_helper'
 
 describe Client do
-  let(:user) { FactoryGirl.create(:user) }
-  before { @client = user.clients.build(name: "Susie Deep Pockets") }
+  let(:u) { FactoryGirl.create(:user) }
+  before { @client = u.clients.build(name: "Susie Sue") }
   
   subject { @client }
 
   it { should respond_to(:user) }
-  its(:user) { should == user }
+  its(:user) { should == u }
 
   it { should respond_to(:user) }
   it { should respond_to(:address_city) }
@@ -36,6 +38,7 @@ describe Client do
   it { should respond_to(:name) }
   it { should respond_to(:munged_name) }
   it { should respond_to(:phone) }
+  it { should respond_to(:share) }
 	it { should respond_to(:created_at) }
 	it { should respond_to(:updated_at) }
 
@@ -44,7 +47,7 @@ describe Client do
   describe "accessible attributes" do
     it "should not allow access to user" do
       expect do
-        Client.new(user: user.id)
+        Client.new(user: u.id)
       end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
     end    
   end

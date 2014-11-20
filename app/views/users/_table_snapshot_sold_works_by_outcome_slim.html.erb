@@ -1,0 +1,29 @@
+<table id=<%="sold_works_by_#{outcome}"%>>
+  <caption><span class="h3"><%= "Sales by #{outcome}" %></span>: reported in number sold (total $ income earned)</caption>
+  <thead>
+    <tr>
+    	<th><%= outcome.capitalize %></th>
+      <th>Past month</th>
+      <th>Past 6 months</th>
+      <th>Past year</th>
+      <th>Past 5 years</th>
+      <th>To date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% sum_outcomes = [["Absolute retail value", "retail"], ["Absolute income", "income"]] %>
+    <% hoaa.each do | k, v | %>
+    	<tr>
+    		<td><%= k %></td>
+	    	<% v.each do | a | %>
+          <% count = 0 %>
+          <% a.each do | w | %>
+            <% count = count + w['sold'] %>
+          <% end %>
+          <td><%= "#{count} ($#{sprintf "%.2f", sumKeys(a, 'income')})" %></td>
+	    	<% end %>
+    	</tr>
+	  <% end %>
+  </tbody>
+</table>
+

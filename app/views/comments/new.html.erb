@@ -1,0 +1,8 @@
+<% provide(:page, "New #{@type[:type]}") %>
+<% provide(:title, "New #{@type[:type]}") %>
+
+<div class="row-fluid">
+	<div class="span9 form-box">
+		<%= render 'form_comment', comment: @comment, type: @type %>	
+	</div>
+</div>

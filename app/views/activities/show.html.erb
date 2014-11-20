@@ -1,6 +1,52 @@
-<% provide(:page, "#{@activity.activitycategory.name} Activity") %>
-<% provide(:crumbs, 'Activities,' + activities_path + '|' + @activity.work.title + ',' + work_path(@activity.work)) %>
-<% provide(:title, @activity.activitycategory.name) %>
-<% provide(:delete_record, @activity) %>
-<%= render 'form_activity', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>
+<% if @category[:consumer] == "client"
+		name = @activity.client.name
+	 elsif  @category[:consumer] == "venue"
+		name = @activity.venue.name
+	else 
+		name = ""
+	end
+%>
+<% provide(:page, "#{name} #{@category[:name]}") %>
+<% provide(:crumbs, 'Activities,' + activities_path + '|' + @category[:name] + 's,' + activities_path(:category => @category[:name])) %>
+<% provide(:title, "#{name} #{@category[:name]}") %>
+<!-- document buttons -->
+<div id="document-buttons" class="row-fluid">
+	<%= link_to "Edit", edit_activity_path(@activity), :class => "btn" %>
+	<%= link_to "Print", "#", :class => "btn document_print" %>
+</div>
+<div id="document">
+	<!-- heading -->
+	<div class="row-fluid">
+		<% if @category == Activity::PORTFOLIO %>
+			<div class="page page-center portfolio-header">
+		<% else %>		
+			<div class="span4">
+		<% end %>		
+			<%= render 'header_maker_contact', :maker => @maker, :activity => @activity %>
+		</div>
+		<% if @category[:consumer] != "none" %>
+			<div class="f-right">
+				<%= render 'header_sheet_title_consumer_contact', :category => @category %>
+			</div>
+		<% end %>
+	</div>
+	<% if @category[:name] == Activity::PORTFOLIO[:name] %>
+		<!-- image view --><br /><br /><br /><br />
+		<%= render 'portfolio', :activity => @activity, :activityworks => @activityworks %>
+	<% else %>
+		<!-- table view --><br /><br /><br /><br />
+		<h3><%= "#{@category[:status]} Works" %></h3>
+		<%= render 'table_activityworks', :activity => @activity, :category => @category, :activityworks => @activityworks %>
+	<% end %>
+	<% if @category[:consumer] != "none" %>
+		<!-- summary --><br /><br />
+		<div class="row-fluid">
+			<div class="f-right">
+				<h3>Summary</h3>
+				<%= render 'summary', :activity => @activity, :category => @category, :activityworks => @activityworks %>
+			</div>
+		</div>
+	<% end %>
+</div>
+
 

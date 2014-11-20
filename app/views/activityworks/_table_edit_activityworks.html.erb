@@ -1,0 +1,47 @@
+<div>
+  <table class="editable" id="activityworks" >
+    <thead>
+      <tr>
+        <th class="td_small">Image</th>
+        <th class="td_large">Work</th> 
+        <th class="td_small">Income</th>
+        <th class="td_small">Retail</th>
+        <th class="td_small">Quantity</th>
+        <% if category == Activity::SHOW || category == Activity::CONSIGNMENT %>
+          <th class="td_small">Sold</th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% activityworks.each do |aw| %>
+        <%= fields_for "activityworks[]", aw do |sf| %>
+          <tr>
+            <td class="td_small" align="center"><%= image_tag aw.work.image1.url(:thumb), :style => "height:50px "%></td>
+            <td class="td_large"><%= aw.work.title %></td>
+            <td class="td_small"><%= sf.text_field :income %></td>
+            <td class="td_small"><%= sf.text_field :retail %></td>
+            <td class="td_small"><%= sf.text_field :quantity %></td>
+            <% if category == Activity::SHOW || category == Activity::CONSIGNMENT %>
+              <td class="td_small"><%= sf.text_field :sold %></td>   
+            <% end %>  
+          </div>
+        <% end %>
+      <% end %><!-- activityworks loop -->
+      <tr>
+        <td align="center"><a href="javascript:void(0);" id="activity_add_activitywork" class="btn">Add</a></td>
+        <td>
+          <select id="new_1_work_id" name="new[1][work_id]">
+            <option>Select a work</option>
+            <%= options_from_collection_for_select(works, :id, :title) %>
+          </select>
+        </td>
+        <td><input id="new_1_income" name="new[1][income]" size="30" type="text" value="0.00"></td>
+        <td><input id="new_1_retail" name="new[1][retail]" size="30" type="text" value="0.00"></td>
+        <td><input id="new_1_quantity" name="new[1][quantity]" size="30" type="text" value="1"></td>
+        <% if category == Activity::SHOW || category == Activity::CONSIGNMENT %>
+          <td><input id="new_1_sold" name="new[1][sold]" size="30" type="text" value="0"></td>
+        <% end %>
+       </tr>
+      </tbody>
+  </table>
+</div>

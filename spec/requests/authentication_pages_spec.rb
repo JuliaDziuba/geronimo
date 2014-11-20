@@ -44,10 +44,6 @@ describe "Authentication" do
     describe "for non-signed-in users" do
       let(:new_user) { FactoryGirl.create(:user) }
       let!(:existing_user) { FactoryGirl.create(:user, share_with_public: true, share_about: true, share_contact: true, share_purchase: true) }
-      let(:new_activitycategory) { FactoryGirl.create(:activitycategory, name: "Sale") }
-      let!(:existing_activitycategory) { FactoryGirl.create(:activitycategory, name: "Consignment") }
-      let(:new_venuecategory) { FactoryGirl.create(:venuecategory, name: "Galleries") }
-      let!(:existing_venuecategory) { FactoryGirl.create(:venuecategory, name: "Studios") }
       
       let(:new_client) { FactoryGirl.create(:client, user: existing_user, name: "New Name") }
       let!(:existing_client) { FactoryGirl.create(:client, user: existing_user) }
@@ -56,10 +52,10 @@ describe "Authentication" do
       let(:new_work) { FactoryGirl.create(:work, user: existing_user) }
       let!(:existing_work) { FactoryGirl.create(:work, user: existing_user) }
       
-      let(:new_venue) { FactoryGirl.create(:venue, name: "new_venue", user: existing_user, venuecategory: existing_venuecategory) }
-      let!(:existing_venue) { FactoryGirl.create(:venue, user: existing_user, venuecategory: existing_venuecategory) }
-      let(:new_activity) { FactoryGirl.create(:activity, user: existing_user, activitycategory: existing_activitycategory, work: existing_work, venue: existing_venue) }
-      let!(:existing_activity) { FactoryGirl.create(:activity, user: existing_user, activitycategory: existing_activitycategory, work: existing_work, venue: existing_venue) }
+      let(:new_venue) { FactoryGirl.create(:venue, name: "new_venue", user: existing_user) }
+      let!(:existing_venue) { FactoryGirl.create(:venue, user: existing_user) }
+      let(:new_activity) { FactoryGirl.create(:activity, user: existing_user, category_id: 1, venue: existing_venue, client: existing_client) }
+      let!(:existing_activity) { FactoryGirl.create(:activity, user: existing_user, category_id: 1, venue: existing_venue, client: existing_client) }
           
 
       describe "when attempting to visit a protected page" do

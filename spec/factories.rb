@@ -23,12 +23,8 @@ FactoryGirl.define do
     creation_date "2013-01-01"
     sequence(:inventory_id) { |n| "Inventory_#{n}" }   
     description "This is a piece for a children's book about fruit that come alive. This piece is the day the fruit come alive."
+    share true
     user
-  end
-
-  factory :venuecategory do
-    name "Galleries"
-    description "Galleries in the United States."
   end
 
   factory :venue do
@@ -41,41 +37,22 @@ FactoryGirl.define do
     user
   end
 
-  factory :activitycategory do
-    name "Sale"
-    description "Sales made to clients."
-    status "Sold"
-    final true
-  end
-
   factory :activity do
-    date_start "2013-04-01"
-    date_end "2013-05-01"
-    activitycategory
-    work 
+    date_start Date.today
+    date_end Date.today
     venue
+    client
     user
   end
 
-  factory :document do
-    sequence(:name)  { |n| "Document #{n}" }
-    maker "Artist Name"
-    date Date::today
-    category Document::INVOICE
-    subject "1"
-    date_start "2011-01-01"
-    date_end "2012-01-01"
-    include_image true
-    include_title true
-    include_inventory_id true
-    include_creation_date true
-    include_quantity true
-    include_dimensions true 
-    include_materials true
-    include_description true
-    include_income true
-    include_retail true  
-    user
+  factory :activitywork do
+    activity
+    work
+    income 5
+    retail 10
+    quantity 2
+    sold 0
+
   end
 
   factory :action do
@@ -94,4 +71,10 @@ FactoryGirl.define do
     notable_type "User"
   end
 
+  factory :comment do 
+    type_id 1
+    name "Test comment"
+    date "2014-09-29"
+    comment "This is the comment."
+  end
 end

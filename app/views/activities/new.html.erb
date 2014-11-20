@@ -1,5 +1,17 @@
 <% provide(:page, 'New Activity') %>
 <% provide(:crumbs, "Activities," + activities_path) %>
 <% provide(:title, 'New') %>
+<%= form_for(@activity, :html => { :class => "form-horizontal" }) do |f| %>
+ 	<%= render 'shared/error_messages', object: f.object %>
 
-<%= render 'form_activity', activity: @activity, activitycategories: @activitycategories, works: @works, venues: @venues, clients: @clients %>
+	<div class="row-fluid">
+		<%= render 'form_activity', f: f, activity: @activity, categories: @categories, works: @works, clients: @clients, venues: @venues %>
+	</div>
+	<br /><br />		
+	<div class="row-fluid">
+		<%= render 'form_works', works: @works, f: f %>
+	</div>
+  <div class="form-actions">
+    <%= f.submit class: "btn" %>
+  </div>
+<% end %> 

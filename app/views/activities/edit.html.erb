@@ -1,0 +1,77 @@
+<% if @category[:consumer] == "client"
+		name = @activity.client.name
+	 elsif  @category[:consumer] == "venue"
+		name = @activity.venue.name
+	end
+%>
+<% provide(:page, "#{name} #{@category[:name]}") %>
+<% provide(:crumbs, 'Activities,' + activities_path + '|' + @category[:name] + 's,' + activities_path(:category => @category[:name])) %>
+<% provide(:title, "Advanced configuration") %>
+
+<%= form_for(@activity, :html => { :class => "form-horizontal" }) do |f| %>
+
+<div class="row-fluid">
+	<div id="activity_show_date">
+		<h3><%= "#{@category[:name]}: #{name}" %>, 
+			<% if @category[:instant] || @category[:name] == Activity::SALE[:name] %>
+				<%= @activity.date_start %>
+			<% else %>
+				<%= @activity.date_start %> - 
+				<% if @activity.date_end.nil? %> 
+					"unknown" 
+				<% else %>
+					<%= @activity.date_end %>
+				<% end %>
+			<% end %>
+			<%= f.submit "Save", class: "btn f-right" %>
+		</h3>
+	</div>
+</div>
+
+	<!-- Error messages -->
+	<%= render 'shared/error_messages', object: f.object %>
+	<% @activityworks.each do | aw| %>
+    <% if !aw.errors.empty? %>
+    <div class="alert alert-error">
+      <%= "Updates to #{aw.work.title} (#{aw.work.inventory_id}) had the following errors:" %><br />
+      <ul>
+        <% aw.errors.full_messages.each do |e| %>
+          <li><%= e %></li><br />
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+  <% end %>
+
+		<!-- Nav tabs -->
+	<ul class="nav nav-tabs">
+	  <li><a href="#activity" data-toggle="tab"><%= "General Details" %></a></li>
+	  <li id="editable_table_link" class="active popover-input", rel="popover", data-title="An editable table", data-content="The contents of each cell are editable except the image and title of the work. Note this table is for your internal records and thus displays book keeping fields.", data-placement="top"><a href="#works" data-toggle="tab">Included Works</a></li>
+	  <li><a href="#document_config" data-toggle="tab"><%= "#{@category[:document]} Configuration" %></a></li>
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+	  <div class="tab-pane" id="activity">
+	  	<h3><%= "#{@category[:name]} Details" %></h3>
+	  	<%= render 'form_activity', f: f, activity: @activity, categories: @categories, works: @works, clients: @clients, venues: @venues %>
+	  </div>
+	  <div class="tab-pane active" id="works">
+			<h3>Included Works</h3>
+			<%= render 'activityworks/table_edit_activityworks', :activityworks => @activityworks, :category => @category, :works => @works, :new => @new %>
+	  </div>
+	  <div class="tab-pane" id="document_config">
+			<h3><%= "#{@category[:document]} Configuration" %></h3>
+			<div id="activity_document" class="row-fluid">
+				<div class="span5">
+					<%= render 'form_work_details', f: f %>
+				</div>
+				<div class="span7">
+	  			<%= render 'form_maker', f: f %>
+				</div>
+			</div>
+	  </div>
+	</div>
+<% end %> 
+
+

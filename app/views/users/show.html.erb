@@ -8,67 +8,103 @@
 		<% end %>
 	</div>
 </div>
+<legend class="h2">Quick Actions</legend>
+<div class="row-fluid">
+		<div class="span2">
+			<%= link_to "New work", new_work_path, class: "btn" %><br /><br />
+			<%= link_to "New client", new_client_path, class: "btn"  %><br /><br /> 
+			<%= link_to "New venue", new_venue_path, class: "btn"  %>
+		</div>
+		<div class="span4">
+			Record a...<br /><br />
+			<%= link_to "Sale", new_activity_path(:category => Activity::SALE[:name]), class: "btn"  %> &nbsp; 
+			<%= link_to "Gift", new_activity_path(:category => Activity::GIFT[:name]), class: "btn"  %> &nbsp; 
+			<%= link_to "Donation", new_activity_path(:category => Activity::DONATION[:name]), class: "btn"  %>
+		</div>
+		<div class="span3">
+			Prepare for...<br /><br />
+			<%= link_to "Show", new_activity_path(:category => Activity::SHOW[:name]), class: "btn"  %> &nbsp; 
+			<%= link_to "Consignment", new_activity_path(:category => Activity::CONSIGNMENT[:name]), class: "btn"  %> &nbsp; 
+		</div>
+		<div class="span3">
+			Create a...<br /><br />
+			<%= link_to "Porfolio", new_activity_path(:category => Activity::PORTFOLIO[:name]), class: "btn"  %> &nbsp; 
+			<%= link_to "Line Sheet", new_activity_path(:category => Activity::LINE_SHEET[:name]), class: "btn"  %> &nbsp; 
+		</div>
+	</div>
+</div><br /><br />
 <div class="row-fluid">
 	<div class="span4">
-		<legend class="h2">Business Data <span class="p f-right"> <%= link_to "Import", new_import_path %> | <%= link_to "Export", export_path %> | <%= link_to "Insights", insight_user_path(current_user) %></span></legend>
+		<legend class="h2">Business Summary <span class="p f-right"> <%= link_to "Import", new_import_path %> | <%= link_to "Export", export_path %> | <%= link_to "Insights", insight_user_path(current_user) %></span></legend>
 		<table class="padded-table">
-			<tr class="table-header-shading"><th class="left">Work Categories</th><th>Count</th><th>Actions</th></tr>
+			<tr class="table-header-shading"><th class="left">Categories</th><th>Count</th><th>Actions</th></tr>
 			<tr>
 				<% count = @user.workcategories.all.count %>
-				<td class="left">All work categories</td>
+				<td class="left">Work categories</td>
 				<td><%= count %></td>
 				<td><%= link_to "New", new_workcategory_path %> | <% if count > 0 %><%= link_to "View",workcategories_path %><% else %><span class="lighter">View</span><% end %></td>
 			</tr>	
-			<tr class="table-header-shading"><th class="left">Works</th><th>Count</th><th>Actions</th></tr>
-			<% activitityCounts = @current_user.work_current_activities.inject(Hash.new(0)) { |total, e| total[e] += 1; total } %>
 			<tr>
 				<% count = @user.works.all.count %>
-				<td class="left">All works</td>
+				<td class="left">Works</td>
 				<td><%= count %></td>
 				<td><%= link_to "New", new_work_path %> | <% if count > 0 %><%= link_to "View",works_path %><% else %><span class="lighter">View</span><% end %></td>
 			</tr>
-      <tr>
-      	<td class="left">Available works</td>
-      	<td><%= activitityCounts["Available"] %></td>
-      	<td><% if activitityCounts["Available"] > 0  %><%= link_to "View", works_path(:statusfilter => "Available") %><% else %><span class="lighter">View</span><% end %></td>
-      </tr>
-			<% Activitycategory.all.each do |activitycategory| %>
-        <% status = activitycategory.status %>
-        <tr>
-        	<td class="left"><%= status %> works</td>
-        	<td><%= activitityCounts[status] %></td>
-        	<td><%= link_to "New", new_activity_path(:category => status) %> | <% if activitityCounts[status] > 0 %><%= link_to "View", works_path(:statusfilter => status) %><% else %><span class="lighter"> View </span><% end %></td>
-        </tr>        
-      <% end %>
-			<tr class="table-header-shading"><th class="left">Venues</th><th>Count</th><th>Actions</th></tr>
-			<tr>
-				<% count = @user.venues.all.count %>
-				<td class="left">All venues</td>
-				<td><%= count %></td>
-				<td><%= link_to "New", new_venue_path %> | <% if count > 0 %><%= link_to "View",venues_path %><% else %><span class="lighter">View</span><% end %></td>
-			</tr>
-			<tr class="table-header-shading"><th class="left">Clients</th><th>Count</th><th>Actions</th></tr>
 			<tr>
 				<% count = @user.clients.all.count %>
-				<td class="left">All clients</td>
+				<td class="left">Clients</td>
 				<td><%= count %></td>
 				<td><%= link_to "New", new_client_path %> | <% if count > 0 %><%= link_to "View",clients_path %><% else %><span class="lighter">View</span><% end %></td>
 			</tr>
-			<tr class="table-header-shading"><th class="left">Documents</th><th>Count</th><th>Actions</th></tr>
 			<tr>
-				<% count = @user.documents.all.count %>
-				<td class="left">All documents</td>
+				<% count = @user.venues.all.count %>
+				<td class="left">Venues</td>
 				<td><%= count %></td>
-				<td><%= link_to "New", new_document_path %> | <% if count > 0 %><%= link_to "View",documents_path %><% else %><span class="lighter">View</span><% end %></td>
+				<td><%= link_to "New", new_venue_path %> | <% if count > 0 %><%= link_to "View",venues_path %><% else %><span class="lighter">View</span><% end %></td>
 			</tr>
-			<% Document::DOCUMENTS_ARRAY.each do |doc| %>
-				<tr>
-					<% count = @user.documents.where("category = ?", doc).count %>
-        	<td class="left"><%= doc %></td>
-        	<td><%= count %></td>
-        	<td><%= link_to "New", "../documents/new?category=#{doc}" %> | <% if count > 0 %><%= link_to "View", documents_path(:category => doc) %><% else %><span class="lighter"> View </span><% end %></td>
-        </tr>
-      <% end %>
+			<tr>
+				<% count = @user.activities.sales.count %>
+				<td class="left">Sales</td>
+				<td><%= count %></td>
+				<td><%= link_to "New", new_activity_path(:category => Activity::SALE[:name]) %> | <% if count > 0 %><%= link_to "View",activities_path(:category => Activity::SALE[:name]) %><% else %><span class="lighter">View</span><% end %></td>
+			</tr>
+			<tr>
+				<% count = @user.activities.shows.count %>
+				<td class="left">Shows</td>
+				<td><%= count %></td>
+				<td><%= link_to "New", new_activity_path(:category => Activity::SHOW[:name]) %> | <% if count > 0 %><%= link_to "View",activities_path(:category => Activity::SHOW[:name]) %><% else %><span class="lighter">View</span><% end %></td>
+			</tr>
+			<tr>
+				<% count = @user.activities.consignments.count %>
+				<td class="left">Consignments</td>
+				<td><%= count %></td>
+				<td><%= link_to "New", new_activity_path(:category => Activity::CONSIGNMENT[:name]) %> | <% if count > 0 %><%= link_to "View",activities_path(:category => Activity::CONSIGNMENT[:name]) %><% else %><span class="lighter">View</span><% end %></td>
+			</tr>
+			<tr>
+				<% count = @user.activities.gifts.count %>
+				<td class="left">Gifts</td>
+				<td><%= count %></td>
+				<td><%= link_to "New", new_activity_path(:category => Activity::GIFT[:name]) %> | <% if count > 0 %><%= link_to "View",activities_path(:category => Activity::GIFT[:name]) %><% else %><span class="lighter">View</span><% end %></td>
+			</tr>
+			<tr>
+				<% count = @user.activities.donations.count %>
+				<td class="left">Donations</td>
+				<td><%= count %></td>
+				<td><%= link_to "New", new_activity_path(:category => Activity::DONATION[:name]) %> | <% if count > 0 %><%= link_to "View",activities_path(:category => Activity::DONATION[:name]) %><% else %><span class="lighter">View</span><% end %></td>
+			</tr>
+			<tr>
+				<% count = @user.activities.portfolios.count %>
+				<td class="left">Portfolios</td>
+				<td><%= count %></td>
+				<td><%= link_to "New", new_activity_path(:category => Activity::PORTFOLIO[:name]) %> | <% if count > 0 %><%= link_to "View",activities_path(:category => Activity::PORTFOLIO[:name]) %><% else %><span class="lighter">View</span><% end %></td>
+			</tr>
+			<tr>
+				<% count = @user.activities.line_sheets.count %>
+				<td class="left">Line Sheets</td>
+				<td><%= count %></td>
+				<td><%= link_to "New", new_activity_path(:category => Activity::LINE_SHEET[:name]) %> | <% if count > 0 %><%= link_to "View",activities_path(:category => Activity::LINE_SHEET[:name]) %><% else %><span class="lighter">View</span><% end %></td>
+			</tr>
+
 		</table>
 	</div>
 	<div class="span6 offset2">

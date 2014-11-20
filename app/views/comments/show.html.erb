@@ -1,0 +1,9 @@
+<% provide(:page, "#{@comment.name} #{@type[:type]}") %>
+<% provide(:crumbs, "Artist," + user_path(current_user)) %>
+<% provide(:title, @comment.name) %>
+<% provide(:delete_record, @comment) %>
+<div class="row-fluid">
+	<div class="span7 form-box">
+		<%= render 'form_comment', comment: @comment, type: @type %>
+	</div>
+</div>

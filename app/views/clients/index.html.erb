@@ -1,9 +1,10 @@
 <% provide(:page, 'Clients') %>
 <% provide(:title, 'Clients') %>
 <% provide(:new_link, "clients/new") %>
-<% if @clients.any? %>
-  <%= render 'table_clients', clients: @clients %>
-<% else %>
+
+<% if @clients.count == 1 %>
 	<%= render 'get_started_clients'%>
 	<b>Click the <%= link_to "NEW", new_client_path %> button to get started!</b>
-<% end %>
+	<br /><br /><br />
+<% end %>	
+  <%= render 'table_clients', clients: @clients %>

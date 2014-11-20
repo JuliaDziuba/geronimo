@@ -1,0 +1,23 @@
+<table id="Clients">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% comments.each do |comment| %>
+      <tr>
+        <td>
+          <%= link_to icon(:edit), comment_path(comment), class: "icon-edit bottom" %> &nbsp;
+          <%= link_to icon(:trash), comment, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete #{comment.name}?" }, title: 'Delete?' %>
+        </td>
+        <td><div class=largeoverflow><%= comment.name %></div></td>
+        <td><div class=overflow><%= comment.date %></div></td>
+        <td><div class=overflow><%= comment.comment %></div></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

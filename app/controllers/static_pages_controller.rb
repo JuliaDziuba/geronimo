@@ -12,7 +12,6 @@ class StaticPagesController < ApplicationController
   end
 
   def tour
-    @venuecategories = Venuecategory.all
   end
 
   def features
@@ -25,7 +24,6 @@ class StaticPagesController < ApplicationController
   end
 
   def help
-    @question = current_user.questions.build()
   end
 
   def sitemap

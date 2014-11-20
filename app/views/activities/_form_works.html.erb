@@ -1,0 +1,22 @@
+<div id="activity_form_works">
+<div class="span12">
+  <legend id="activity_form_works_legend">Works to include</legend>
+  <div class="subjects row-fluid">
+    <div class="row-fluid">
+      <% works.each.with_index do |work, i| %>
+        <%= fields_for "works[]", work do |sf| %>
+        <% if i % 4 == 0 and i != 0 %>
+            </div><div class="row-fluid">
+          <% end %>
+          <div class="span3">
+            <%= image_tag work.image1.url(:thumb) %>
+            <p class="small-font"><%= sf.text_field :quantity, :class=>"work_quantity_text_field" %><%= work.title %></p>
+            <%= sf.hidden_field :image, :value => work.image1 %>
+            <%= sf.hidden_field :title, :value => work.title %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+</div>

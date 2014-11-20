@@ -1,0 +1,32 @@
+<!-- Set consumer -->
+<% if @category[:consumer] == "client"
+		consumer = @activity.client
+	 elsif  @category[:consumer] == "venue"
+	 	consumer = @activity.venue
+	end
+%>
+<!-- Title -->
+<h3><%= category[:document] %></h3>
+<!-- Date -->
+<% if @category[:instant] || @category[:name] == Activity::SALE[:name] %>
+	<%= "#{@activity.date_start.strftime('%m/%d/%Y')}" %>
+<% else %>
+	<%= @activity.date_start %>
+	<% if !@activity.date_end.blank? %> 
+		<%= "- #{@activity.date_end.strftime('%m/%d/%Y')}" %>
+	<% end %>
+<% end %><br /><br />
+<!-- Consumer Contact information -->
+<%= consumer.name %><br />
+<% if !consumer.phone.blank? %>
+	<%= consumer.phone %><br />
+<% end %>
+<% if !consumer.email.blank? %>
+	<%= consumer.email %><br />
+<% end %>
+<% if !consumer.address_street.nil? %>
+	<%= consumer.address_street %><br />
+<% end %>
+<% if !consumer.address_city.nil? || !consumer.address_state.nil? || !consumer.address_zipcode.nil? %>
+	<%= consumer.address_city %> <%= consumer.address_state %>, <%= consumer.address_zipcode %>
+<% end %>

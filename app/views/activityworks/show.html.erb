@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Activity:</b>
+  <%= @activitywork.activity_id %>
+</p>
+
+<p>
+  <b>Work:</b>
+  <%= @activitywork.work_id %>
+</p>
+
+<p>
+  <b>Income:</b>
+  <%= @activitywork.income %>
+</p>
+
+<p>
+  <b>Retail:</b>
+  <%= @activitywork.retail %>
+</p>
+
+<p>
+  <b>Quanity:</b>
+  <%= @activitywork.quanity %>
+</p>
+
+<p>
+  <b>Sold:</b>
+  <%= @activitywork.sold %>
+</p>
+
+
+<%= link_to 'Edit', edit_activitywork_path(@activitywork) %> |
+<%= link_to 'Back', activityworks_path %>

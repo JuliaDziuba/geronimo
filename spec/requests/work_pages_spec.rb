@@ -14,7 +14,7 @@ describe "Work pages" do
 			before { visit works_path }
 
 			it { should have_selector('h1', text: "Works") }
-      it { should have_selector('p', text: "You can organize your works and public site by creating categories of work") }
+      it { should have_selector('p', text: "Have a lot of works? Create work categories to help organize yo") }
       
     end
 
@@ -49,33 +49,21 @@ describe "Work pages" do
 	    
 	    it { should have_selector('a', text:  "Works") }
 	    it { should have_selector('h1', text: work.title) }
-      it { should have_content("No activities recorded yet about this work.") }
+      it { should have_content("No activities recorded yet for this work.") }
     end
 
     describe "when there are activities" do
-      let!(:vc)   { FactoryGirl.create(:venuecategory) }
       let!(:c)    { FactoryGirl.create(:client, user: user) }
-    	let!(:v)    { FactoryGirl.create(:venue, user: user , venuecategory_id: vc.id) }
+    	let!(:v)    { FactoryGirl.create(:venue, user: user) }
+      let!(:a)   { FactoryGirl.create(:activity, user: user, category_id: 2, venue: v, client: c, date_start: '2012-01-01', date_end: '2013-01-01') }
+      let!(:wa)  { FactoryGirl.create(:activitywork, user: user, activity: a, work: work, client: c, venue: v) }
+      before { visit work_path(work) }
 
-      describe "and piece is not available" do
-        let!(:ac_sold)   { FactoryGirl.create(:activitycategory, name:'Sale', status:'Sold') }
-        let!(:a)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_sold, work: work, venue: v, client: c, date_start: '2013-01-01', date_end: '2013-01-01') }
-        before { visit work_path(work) }
-      
-        it { should have_selector('a', text:  "Works") }
-        it { should have_selector('h1', text: work.title) }
-        it { should have_selector('legend', content: "Activities") }
-        it { should have_selector('table tbody tr', :count => 1) } 
-      end
-
-      describe "and piece is available" do
-        let!(:ac_consignedPreviously)   { FactoryGirl.create(:activitycategory, name:'Consignment', status:'Consigned', final: false) }
-        let!(:a)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consignedPreviously, work: work, venue: v, client: c, date_start: '2012-01-01', date_end: '2013-01-01') }
-        before { visit work_path(work) }
-      
-        it { should have_selector('a', text: "New") }
-        it { should have_selector('legend', content: "Activities") }
-      end
+      it { should have_selector('a', text:  "Works") }
+      it { should have_selector('h1', text: work.title) }
+      it { should have_selector('legend', content: "Activities") }
+      it { should have_selector('a', text: "New") }
+      it { should have_selector('table tbody tr', :count => 1) }
     end #/when there are activities
 	end
 

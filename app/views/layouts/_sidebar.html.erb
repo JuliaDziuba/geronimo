@@ -2,11 +2,55 @@
   <%= link_to "DASHBOARD", user_path(current_user) %><br /><br />
   <div class="accordion" id="accordianParent">
     <div class="accordion-group">
-      <%= render 'layouts/sidebar_works' %>
+      <div class="accordion-heading">
+        <div class="accordion-toggle-small">
+          <a href="<%= user_path(current_user) %>">Artist</a>
+          <a data-toggle="collapse" data-parent="#accordianParent" href="#makerSection">&nbsp;<b class="caret lighter bottom"></b>&nbsp;</a>
+        </div>
+      </div>
+      <div id="makerSection" class="accordion-body collapse">
+        <div class="accordion-inner-small">
+          <ul class="accordion-list">
+            <li><%= link_to "Information", edit_user_path(current_user) %></li>
+            <li><%= link_to "Bios", comments_path(:type => Comment::BIO[:type]) %></li>
+            <li><%= link_to "Statements", comments_path(:type => Comment::STATEMENT[:type]) %></li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="accordion-group">
       <div class="accordion-heading">
-        <%= link_to "Venues", venues_path, class: "accordion-toggle-small" %>
+        <div class="accordion-toggle-small">
+          <a href="<%= works_path %>">Works</a>
+          <a data-toggle="collapse" data-parent="#accordianParent" href="#worksSection">&nbsp;<b class="caret lighter bottom"></b>&nbsp;</a>
+        </div>
+      </div>
+      <div id="worksSection" class="accordion-body collapse">
+        <div class="accordion-inner-small">
+          <ul class="accordion-list">
+            <li><%= link_to "New", new_work_path %></li>
+            <li><%= link_to "Available", works_path(:statusfilter => 'Available') %></li>
+            <li><%= link_to "All", works_path %></li>
+            <li><%= link_to "Categorize", workcategories_path %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <div class="accordion-toggle-small">
+          <a href="<%= activities_path %>">Activities</a>
+          <a data-toggle="collapse" data-parent="#accordianParent" href="#activitiesSection">&nbsp;<b class="caret lighter bottom"></b>&nbsp;</a>
+        </div>
+      </div>
+      <div id="activitiesSection" class="accordion-body collapse">
+        <div class="accordion-inner-small">
+          <ul class="accordion-list">
+            <% Activity::CATEGORIES_ARRAY.each do |act| %>
+              <li><%= link_to act[:name] + "s", activities_path(:category => act[:name]) %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="accordion-group">
@@ -16,29 +60,12 @@
     </div>
     <div class="accordion-group">
       <div class="accordion-heading">
-        <%= link_to "Activities", activities_path, class: "accordion-toggle-small" %>
+        <%= link_to "Venues", venues_path, class: "accordion-toggle-small" %>
       </div>
     </div>
     <div class="accordion-group">
       <div class="accordion-heading">
         <%= link_to "Insights", insight_user_path(current_user), class: "accordion-toggle-small" %>
-      </div>
-    </div>
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <div class="accordion-toggle-small">
-          <a href="<%= documents_path %>">Documents</a>
-          <a data-toggle="collapse" data-parent="#accordianParent" href="#documentsSection">&nbsp;<b class="caret lighter bottom"></b>&nbsp;</a>
-        </div>
-      </div>
-      <div id="documentsSection" class="accordion-body collapse">
-        <div class="accordion-inner-small">
-          <ul class="accordion-list">
-            <% Document::DOCUMENTS_ARRAY.each do |doc| %>
-              <li><%= link_to doc, documents_path(:category => doc) %></li>
-            <% end %>
-          </ul>
-        </div>
       </div>
     </div>
   </div>

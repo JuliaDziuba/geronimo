@@ -8,19 +8,47 @@ module UsersHelper
 		end
 	end
 
+  def status_full(work)
+  	if work.quantity > 0 
+  		status = "Available"
+  	else
+  		as = work.activityworks.where("activity_id in (?)", work.user.activities.current(Date.today).all.map(&:id))
+  		if as.count > 0
+  			status = "Available at"
+  			as.each_with_index do | a, i |
+  				name = a.activity.venue.name
+  				if i == 0
+  					status = status + " " + name
+  				elsif i == as.length - 1
+  					status = status + ", and " + name
+  				else 
+  					status = status + ", " + name
+  				end
+  			end
+  		else
+  			status = ""
+  		end
+  	end
+  	status
+  end
+
   def soldSince(works, date)
-    works.select{ |w| w["sale_date"] > date}
+    works.select{ |w| w["sale_date"] > date }
+  end
+
+  def countQuantity(works)
+  	works.map{ | w | w['sold'] || 0 }.sum || 0
   end
 
 	def mapToCompactArray(works,key)
-	  works.map{ |w| w[key] || 0 }.compact || []
+	  works.map{ |w| (w[key] || 0) * (w['sold'] || 0) }.compact || []
 	end
 
 	def mapToCompactProfitArray(works)
 	  array = works.map do |w| 
 	  	w['income'] = 0 if w['income'].nil?
 	  	w['expense_materials'] = 0 if w['expense_materials'].nil?
-	  	w['income'] - w['expense_materials']
+	  	(w['income'] - w['expense_materials'])*(w['sold'] || 0)
 	  end
 	  	array.compact || []
 	end
@@ -78,7 +106,7 @@ module UsersHelper
 			else
 				compactArray = mapToCompactArray(works,key)
 			end
-			count = compactArray.count
+			count = countQuantity(works)
 			result = "#{(compactArray.sum/count).round(2)}" if count > 0
 		end
 		result
@@ -125,4 +153,44 @@ module UsersHelper
 		description
 	end
 
+	def bestOfSales(hoaa, outcome)
+    highest_array = []
+    highest_string = ""
+    highest_value = 0
+    hoaa.each do | key, value |
+      v = 0
+      if outcome == 'count'
+        value.last.each do | w |
+          v = v + (w['sold'] || 0)
+        end 
+      elsif outcome == "income"
+        value.last.each do | w |
+          v = v + w['income'] * (w['sold'] || 0)
+        end
+      end
+      if v == highest_value && key != Client::DEFAULT then 
+        highest_array << key
+      elsif v > highest_value && key != Client::DEFAULT then 
+        highest_array = []
+        highest_array << key
+        highest_value = v
+      end
+    end
+    if highest_array.count == 1
+    	highest_string = highest_array[0]
+    else 
+    	highest_array.each_with_index do | h, i |
+    		if i == highest_array.count - 1
+    			highest_string = highest_string + ", and " + h
+    		elsif i == 0
+    			highest_string = h 
+    		else
+    			highest_string = highest_string + ", " + h
+    		end
+    	end
+    end
+    highest_string = highest_string.sub("My", "your")
+    highest_string = "<<CANNOT BE CALCULATED>>" if highest_string.nil?
+    highest_string
+  end
 end

@@ -1,0 +1,84 @@
+<!-- requires activity and category and activityworks variables -->
+
+<table class="print-friendly">
+  <thead>
+    <tr>
+      <% if activity.include_image %>
+        <th>Image</th>
+      <% end %>
+      <% if activity.include_inventory_id %>
+        <th>Item ID</th>
+      <% end %>
+      <% if activity.include_title %>
+        <th>Title</th>
+      <% end %>
+      <% if activity.include_creation_date %>
+        <th>Creation Date</th>
+      <% end %>
+      <% if activity.include_quantity %>
+        <th>Quantity</th>
+      <% end %>
+      <% if activity.include_materials %>
+        <th>Materials</th>
+      <% end %>
+      <% if activity.include_description %>
+        <th>Description</th>
+      <% end %>
+      <% if activity.include_dimensions %>
+        <th>Dimensions</th>
+      <% end %>
+      <% if activity.include_income %>
+        <th>Artist's payment</th>
+      <% end %>
+      <% if activity.include_retail %>
+        <th>Retail value</th>
+      <% end %>
+      <% if category[:name] == Activity::SHOW[:name] || category[:name] == Activity::CONSIGNMENT[:name] %>
+        <th>Sold</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% activityworks.each do |aw| %>
+      <tr>
+        <% if activity.include_image %>
+          <td><%= image_tag(aw.work.image1.url(:thumb)) %></td>
+        <% end %>
+        <% if activity.include_inventory_id %>
+          <td><%= aw.work.inventory_id %></td>
+        <% end %>
+        <% if activity.include_title %>
+          <td><%= aw.work.title %></td>
+        <% end %>
+        <% if activity.include_creation_date %>
+          <td><%= aw.work.creation_date %></td>
+        <% end %>
+        <% if activity.include_quantity %>
+          <td><%= aw.quantity %></td>
+        <% end %>
+        <% if activity.include_materials %>
+          <td><%= aw.work.materials %></td>
+        <% end %>
+        <% if activity.include_description %>
+          <td><%= aw.work.description %></td>
+        <% end %>
+        <% if activity.include_dimensions %>
+          <td><%= aw.work.dimensions %></td>
+        <% end %>
+        <% if activity.include_income %>
+          <td><%= aw.income %></td>
+        <% end %>
+        <% if activity.include_retail %>
+          <td><%= aw.retail %></td>
+        <% end %>
+        <% if category[:name] == Activity::SHOW[:name] || category[:name] == Activity::CONSIGNMENT[:name] %>
+          <% if aw.sold > 0 %>
+            <td><%= aw.sold %></td>
+          <% else %>
+            <td>&nbsp;</td>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>  
+  </tbody>
+</table>

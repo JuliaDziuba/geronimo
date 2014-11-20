@@ -12,7 +12,7 @@
 		<legend class="h2">Activities &nbsp; &nbsp; <%= link_to "New", "../works/activities/new?client=#{@client.munged_name}" %></legend>
 		<% if @activities.any? %>
 			<div class="form-box limit-size">
-				<%= render 'activities/table_activities', activities: @activities, date_end_include: false, client_include: false %>
+				<%= render 'activities/table_activities', activities: @activities, category: @category %>
 			</div>
 		<% else %>
 			No activities recorded for this client yet.

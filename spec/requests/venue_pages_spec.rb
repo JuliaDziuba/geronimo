@@ -5,12 +5,7 @@ describe "Venue pages" do
 	subject { page }
 
 	let(:user) { FactoryGirl.create(:user) }
-	let!(:vc)   { FactoryGirl.create(:venuecategory) }
 	let(:w)    { FactoryGirl.create(:work, user: user) }
-	let!(:ac_consign) { FactoryGirl.create(:activitycategory, name: 'Consignment', status: 'Consigned', final: false) } 
-	let!(:ac_commission) { FactoryGirl.create(:activitycategory, name: 'Commission', status: 'Being created', final: false) } 
-	let!(:ac_sale) { FactoryGirl.create(:activitycategory, name: 'Sale', status: 'Sold') }
-	let!(:v_default) { FactoryGirl.create(:venue, name: 'My Studio', venuecategory_id: vc.id) }
      
 	before { sign_in user }
 
@@ -24,18 +19,18 @@ describe "Venue pages" do
     end
 
     describe "when there are venues" do
-      let!(:v) { FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id) }
-      let!(:v_2) { FactoryGirl.create(:venue, user: user, venuecategory_id: vc.id, name:"Second Venue") }
+      let!(:v) { FactoryGirl.create(:venue, user: user) }
+      let!(:v_2) { FactoryGirl.create(:venue, user: user, name:"Second Venue") }
 			before { visit venues_path }
       
       it { should have_selector('h1', text: "Venues") }
-      it { should have_selector('table tbody tr', :count => 2) }
+      it { should have_selector('table tbody tr', :count => 3) }
   	end
   end
 
   describe  "show page" do
-  	let!(:v) { FactoryGirl.create(:venue, user: user , venuecategory_id: vc.id) }
-		before { visit venue_path(v) }
+  	let!(:v) { FactoryGirl.create(:venue, user: user) }
+  	before { visit venue_path(v) }
     
 
     it { should have_selector('a', text:  "Venues") }
@@ -71,10 +66,13 @@ describe "Venue pages" do
 		end
     
 	  describe "when there are activities to show" do
-	  	let!(:a_consign_past)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, venue: v, date_start: '2013-01-01', date_end: '2013-02-01') }
-	  	let!(:a_consign_future)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_consign, work: w, venue: v, date_start: '2023-01-01', date_end: '2023-02-01') }
-	  	let!(:a_commission_current)   { FactoryGirl.create(:activity, user: user, activitycategory: ac_commission, work: w, venue: v, date_start: '2013-01-01', date_end: '2023-01-01') }
-	  	before { visit venue_path(v) }
+	  	let!(:w) { FactoryGirl.create(:work, user: user) }
+	  	let!(:c) { FactoryGirl.create(:client, user: user) }
+			let!(:a) { FactoryGirl.create(:activity, user: user, category_id: 2, venue: v, client: c, date_start: '2012-01-01', date_end: '2013-01-01') }
+      let!(:wa)  { FactoryGirl.create(:activitywork, user: user, activity: a, work: w, client: c, venue: v) }
+      let!(:wa2) { FactoryGirl.create(:activitywork, user: user, activity: a, work: w, client: c, venue: v, quantity: 10) }
+      
+      before { visit venue_path(v) }
 
 	  	it { should have_selector("legend", text: "Activities") }
 	  	it { should have_selector("table", id: "Activities") }
@@ -107,8 +105,7 @@ describe "Venue pages" do
 
 		describe "when a venue is created" do
 			before do 
-				select_option("venue_venuecategory_id",2)
-	      fill_in "Name",  with: "Awesome Venue"
+				fill_in "Name",  with: "Awesome Venue"
       end
         
       it "should create a new venue" do
@@ -121,9 +118,8 @@ describe "Venue pages" do
         end
 
         it { should have_selector('h1', text: "Venues") }
-        it { should_not have_selector('label', text: "Category *") }
         it { should have_content('Your new venue has been added!') }
-				it { should have_selector('table tbody tr', :count => 1) }
+				it { should have_selector('table tbody tr', :count => 2) }
       end
 		end
 	end

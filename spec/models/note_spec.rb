@@ -14,8 +14,8 @@
 require 'spec_helper'
 
 describe Note do
-  let(:user) { FactoryGirl.create(:user) }
-  before { @note = user.notes.build(notable: user, note: "Test user association with note.", date: "2014-01-01") }
+  let(:u) { FactoryGirl.create(:user) }
+  before { @note = u.notes.build(notable: u, note: "Test user association with note.", date: "2014-01-01") }
   
   subject { @note }
 

@@ -21,7 +21,7 @@ describe "Client pages" do
 			before { visit clients_path }
       
       it { should have_selector('h1', text: "Clients") }
-      it { should have_selector('table tbody tr', :count => 1) }
+      it { should have_selector('table tbody tr', :count => 2) }
     end
   end
 
@@ -36,10 +36,9 @@ describe "Client pages" do
     describe "when there are activities" do
     	let(:wc)   { FactoryGirl.create(:workcategory, user: user) }
 		  let(:w)    { FactoryGirl.create(:work, workcategory: wc) }
-		  let(:vc)   { FactoryGirl.create(:venuecategory) }
-		  let(:v)    { FactoryGirl.create(:venue, user: user, venuecategory: vc) }
-		  let(:ac)   { FactoryGirl.create(:activitycategory) }
-			let!(:a)   { FactoryGirl.create(:activity, user: user, activitycategory: ac, work: w, venue: v, client: client) }
+		  let(:v)    { FactoryGirl.create(:venue, user: user) }
+		  let!(:a)   { FactoryGirl.create(:activity, category_id: 1, user: user, venue: v, client: client) }
+      let!(:aw)  { FactoryGirl.create(:activitywork, user: user, activity: a, venue: v, client: client, work: w, quantity: 3)}
 			before { visit client_path(client) }
 	    
 	   	it { should have_selector('table', :id => "Activities") }
@@ -85,7 +84,7 @@ describe "Client pages" do
         it { should have_selector('h1', text: "Clients") }
         it { should_not have_selector('label', text: "Name *") }
         it { should have_content('Your new client has been created!') }
-				it { should have_selector('table tbody tr', :count => 1) }
+				it { should have_selector('table tbody tr', :count => 2) }
       end
 		end
 	end

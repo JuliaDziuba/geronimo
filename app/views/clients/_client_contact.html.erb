@@ -1,6 +1,9 @@
-<% if !client.phone.to_s.nil? %>        
-  <%= client.phone.to_s + " | " %>
+<% if !client.phone.to_s.blank? %>        
+  <%= client.phone.to_s %><br />
 <% end %>
-<% if !client.email.nil? %>       
-  <%= client.email + " | " %>
+<% if !client.email.blank? %>       
+  <%= client.email %><br />
+<% end %>
+<% if !client.site.blank? %>        
+  <%= client.site %><br />
 <% end %>
