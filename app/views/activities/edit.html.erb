@@ -58,7 +58,7 @@
 	  </div>
 	  <div class="tab-pane active" id="works">
 			<h3>Included Works</h3>
-			<%= render 'activityworks/table_edit_activityworks', :activityworks => @activityworks, :category => @category, :works => @works, :new => @new %>
+			<%= render 'activityworks/table_edit_activityworks', :activityworks => @activityworks, :category => @category, :works => @works, :works_hash => @works_hash, :new => @new %>
 	  </div>
 	  <div class="tab-pane" id="document_config">
 			<h3><%= "#{@category[:document]} Configuration" %></h3>

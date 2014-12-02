@@ -68,7 +68,10 @@ class ActivitiesController < ApplicationController
     @categories = Activity::CATEGORY_ID_NAME_HASH
     @clients = current_user.clients.order_name.all
     @venues = current_user.venues.order_name.all
-    @works = getWorksForForm(@activity)
+    @works = current_user.works.order_title
+  #  @works_hash = @works.each.inject({}) {|hash, var| hash[var.id.to_s()] = ['%.2f' % var.income, '%.2f' % var.retail, var.quantity]; hash }
+    @works_hash = @works.each.inject("") {|string, var| string = string + var.id.to_s() + '-' + var.income.to_s() + '-' + var.retail.to_s() + '-' + var.quantity.to_s() + ','; string}
+
     @new = []
   end
 
@@ -76,13 +79,17 @@ class ActivitiesController < ApplicationController
     @activity = current_user.activities.find_by_id(params[:id])
     @activity.attributes = params[:activity]
     activityworks_params = cleanNumbers(params[:activityworks])
+    works_params = params[:work]
     @activityworks = Activitywork.update( activityworks_params.keys, activityworks_params.values).reject { |w| w.errors.empty? }
-    if @activityworks.empty? && @activity.save
+    @works = Work.update( works_params.keys, works_params.values).reject { |w| w.errors.empty? }
+    if @works.empty? && @activityworks.empty? && @activity.save
       removeZeroQuantities(params[:activityworks].keys)
       redirect_to activities_path
       cleanNumbers(params[:new]).each do | key, value |
         if value["work_id"].to_i > 0 
-          aw = @activity.activityworks.build(value)
+          w = current_user.works.find(value["work_id"])
+          w.update_attributes(:quantity => value["work_quantity"])
+          aw = @activity.activityworks.build(:work_id => value["work_id"], :income => value["income"], :retail => value["retail"], :quantity => value["quantity"])
           aw.save
         end
       end

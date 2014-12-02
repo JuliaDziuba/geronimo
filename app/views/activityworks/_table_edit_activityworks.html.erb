@@ -1,46 +1,53 @@
 <div>
-  <table class="editable" id="activityworks" >
+  <table class="editable_no_scroll" id="activityworks" >
     <thead>
       <tr>
-        <th class="td_small">Image</th>
-        <th class="td_large">Work</th> 
-        <th class="td_small">Income</th>
-        <th class="td_small">Retail</th>
-        <th class="td_small">Quantity</th>
+        <th class="td_large">Image</th>
+        <th class="td_x_large">Work</th> 
+        <th>Income</th>
+        <th>Retail</th>
+        <th>Quantity</th>
         <% if category == Activity::SHOW || category == Activity::CONSIGNMENT %>
-          <th class="td_small">Sold</th>
+          <th>Sold</th>
         <% end %>
+        <th class="td_bold popover-input" , rel= "popover", data-title = "Keep track of the inventory in your studio", data-content = "At the time of an activity use this column to update how many works remain in your studio. At the close of a show or consignment update the sold column and this one to reflect how many pieces were sold and returned.", data-placement = "top">Update studio quantity</th>
       </tr>
     </thead>
     <tbody>
       <% activityworks.each do |aw| %>
         <%= fields_for "activityworks[]", aw do |sf| %>
           <tr>
-            <td class="td_small" align="center"><%= image_tag aw.work.image1.url(:thumb), :style => "height:50px "%></td>
-            <td class="td_large"><%= aw.work.title %></td>
-            <td class="td_small"><%= sf.text_field :income %></td>
-            <td class="td_small"><%= sf.text_field :retail %></td>
-            <td class="td_small"><%= sf.text_field :quantity %></td>
+            <td align="center"><%= image_tag aw.work.image1.url(:thumb), :style => "height:50px "%></td>
+            <td><%= aw.work.title %></td>
+            <td><%= sf.text_field :income %></td>
+            <td><%= sf.text_field :retail %></td>
+            <td><%= sf.text_field :quantity %></td>
             <% if category == Activity::SHOW || category == Activity::CONSIGNMENT %>
-              <td class="td_small"><%= sf.text_field :sold %></td>   
+              <td><%= sf.text_field :sold %></td>   
             <% end %>  
+            <td class="td_bold"><input id="work_<%=aw.work.id%>_quantity" name="work[<%=aw.work.id%>][quantity]" type="text" value=<%=aw.work.quantity%>></td>
           </div>
         <% end %>
       <% end %><!-- activityworks loop -->
       <tr>
-        <td align="center"><a href="javascript:void(0);" id="activity_add_activitywork" class="btn">Add</a></td>
+        <td align="center">
+          <%= content_tag "a", id: "activity_add_activitywork", data: {url: works_hash }, class: 'btn' do %>
+            Add
+          <% end %>
+        </td>
         <td>
           <select id="new_1_work_id" name="new[1][work_id]">
             <option>Select a work</option>
             <%= options_from_collection_for_select(works, :id, :title) %>
           </select>
         </td>
-        <td><input id="new_1_income" name="new[1][income]" size="30" type="text" value="0.00"></td>
-        <td><input id="new_1_retail" name="new[1][retail]" size="30" type="text" value="0.00"></td>
-        <td><input id="new_1_quantity" name="new[1][quantity]" size="30" type="text" value="1"></td>
+        <td class="td_income"><input id="new_1_income" name="new[1][income]" size="20" type="text" value=""></td>
+        <td class="td_retail"><input id="new_1_retail" name="new[1][retail]" size="20" type="text" value=""></td>
+        <td class="td_quantity"><input id="new_1_quantity" name="new[1][quantity]" size="20" type="text" value=""></td>
         <% if category == Activity::SHOW || category == Activity::CONSIGNMENT %>
-          <td><input id="new_1_sold" name="new[1][sold]" size="30" type="text" value="0"></td>
+          <td class="td_sold"><input id="new_1_sold" name="new[1][sold]" size="20" type="text" value=""></td>
         <% end %>
+        <td class="td_work_quantity td_bold"><input id="new_1_work_quantity" name="new[1][work_quantity]" size="20" type="text" value=""></td>
        </tr>
       </tbody>
   </table>

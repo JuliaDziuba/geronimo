@@ -79,38 +79,59 @@ toggle_print = () ->
     toggle_sidebar()
   window.print() 
 
-add_activitywork = () ->
-  # Create new row
+add_activitywork = (works_hash) ->
+  #Grab basic information on rows
   new_line = $('#activityworks tbody>tr:last').clone(true)
   old_id = $('#activityworks tbody>tr:last>td:last>input').attr("id").toString().replace(/\D/g,'')
   new_id = (parseInt(old_id) + 1).toString()
-  re = new RegExp(old_id,"g")
-  new_line.children('td').children('select').attr("id", 'new_' + new_id + '_work_id')
-  new_line.children('td').children('select').attr("name", 'new[' + new_id + '][work_id]')
-  new_line.children('td').each (index, td) =>
-    e_id= $(td).children('input').attr("id")
-    e_name = $(td).children('input').attr("name")
-    if typeof e_id != "undefined" && e_id != null
-      e_id = e_id.replace(re, new_id)
-      e_name = e_name.replace(re, new_id)
-      $(td).children('input').attr("id", e_id)
-      $(td).children('input').attr("name", e_name)
-      if e_name.indexOf("quantity") > -1
-        e_value = "1"
-      else 
-        e_value = "0.00"
-      $(td).children('input').attr("value", e_value)
-  # Alter last line of existing table to save data and remove add button
-  $('#activityworks tbody>tr:last>td:first>a').remove()
+    
+  # Grab the index of the work so we can look it up in the hash and grab income, retail, and quantity
+  work_id = $('#new_' + old_id + '_work_id option').filter(':selected').attr('value')
+  console.log('a work was selected:' + work_id != 'Select a work')
+  console.log('the work was:-' + work_id + '-')
+  if work_id != 'Select a work'
+    # Create new row
+    re = new RegExp(old_id,"g")
+    new_line.children('td').children('select').attr("id", 'new_' + new_id + '_work_id')
+    new_line.children('td').children('select').attr("name", 'new[' + new_id + '][work_id]')
+    new_line.children('td').each (index, td) =>
+      e_id= $(td).children('input').attr("id")
+      e_name = $(td).children('input').attr("name")
+      if typeof e_id != "undefined" && e_id != null
+        e_id = e_id.replace(re, new_id)
+        e_name = e_name.replace(re, new_id)
+        $(td).children('input').attr("id", e_id)
+        $(td).children('input').attr("name", e_name)
+        $(td).children('input').attr("value", "")
   
-  # Insert new row as last in table
-  new_line.insertAfter('#activityworks tbody>tr:last')
+    # look up the new work added in the hash and grab income, retail, and quantity
+    work_array = works_hash[work_id]
+
+    # Alter last line of existing table to save data and remove add button
+    $($('#activityworks tbody>tr:last').children('td')[0]).children('a').remove()
+    $($('#activityworks tbody>tr:last').children('td')[2]).children('input').attr("value", work_array[0])
+    $($('#activityworks tbody>tr:last').children('td')[3]).children('input').attr("value", work_array[1])
+    $($('#activityworks tbody>tr:last').children('td')[4]).children('input').attr("value", "1")
+    if $('#activityworks tbody>tr:last').children('td').length == 6
+      $($('#activityworks tbody>tr:last').children('td')[5]).children('input').attr("value", work_array[2])
+    else
+      $($('#activityworks tbody>tr:last').children('td')[5]).children('input').attr("value", "0")
+      $($('#activityworks tbody>tr:last').children('td')[6]).children('input').attr("value", work_array[2])
+
+    # Insert new row as last in table
+    new_line.insertAfter('#activityworks tbody>tr:last')
 
 
   # IDs that lead to js
 $ ->
   $('#activity_add_activitywork').click ->
-    add_activitywork()
+    works_string = $('#activity_add_activitywork').attr('data-url').toString()
+    works_array = works_string.split ','
+    works_hash = {}
+    for s in works_array
+      a = s.split('-')
+      works_hash[a[0]] = [a[1],a[2],a[3]]
+    add_activitywork(works_hash)
 
 $ ->
   $('#toggleSidebar').click ->

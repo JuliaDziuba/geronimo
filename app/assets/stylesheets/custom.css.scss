@@ -98,6 +98,12 @@ $navbarBorder:                    darken($navbarBackground, 12%) !default;
 .td_medium { width: 7%; } /* 2 */
 .td_large { width: 10%} /* 4 */
 .td_x_large { width: 19%} /* 1 */
+.td_bold {
+   background-color: darken($contentBackgroundColor,5%);
+}
+.centered {
+	align: center;
+}
 
 table {
 	caption {
@@ -106,6 +112,15 @@ table {
 }
 table.small-box{
 	tbody{ height:150px; }
+}
+
+table.editable_no_scroll{
+	thead { margin:0px; left:0px; font-size:16px;}
+	th { height:50px; div { overflow: hidden; } }
+	td { height:30px; margin:0px; padding:3px;}
+	input[type="text"] { border:0px; margin:0px; padding:0px; background-color: transparent; box-shadow:none; font-size:12px; text-align:center;}
+	.checkbox { vertical-align: middle; }
+	select { border:0px; margin:0px; padding:0px; background-color: transparent; font-size:12px; }
 }
 table.editable{
 	width: 100%;
