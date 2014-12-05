@@ -1,7 +1,13 @@
 <table id="Activities">
   <thead>
     <tr>
-      <th>Actions</th> 
+      <th>Actions <%= link_to icon(:'star-empty'), "#", class: "icon-star-empty lighter popover-input", rel: "popover", :"data-title" => "Click icons for the following activities:", :"data-content" => "
+        printer = view and print invoices, consignment sheets, etc. <br />
+        paper & pencil = edit an activity.<br />
+        plus sign = copy an activity to use it as a base for another.<br />
+        trash can = delete an activity.", :"data-placement" => "top" %>
+
+      </th> 
       <% if category.nil? %> 
         <th>Activity</th>
         <th>Client/Venue</th>
@@ -33,6 +39,7 @@
         <td>
           <%= link_to icon(:print), activity_path(activity), class: "icon-print bottom" %> &nbsp; 
           <%= link_to icon(:edit), edit_activity_path(activity), class: "icon-edit bottom" %> &nbsp;
+          <%= link_to icon(:plus), copy_activity_path(activity), class: "icon-plus bottom" %> &nbsp;
           <%= link_to icon(:trash), activity, class: "icon-trash bottom", method: :delete, data: { confirm: "Delete?" }, title: 'Delete?' %>
         </td>
         <% if category.nil? %> 

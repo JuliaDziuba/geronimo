@@ -12,22 +12,19 @@
 
 <div class="row-fluid">
 	<div id="activity_show_date">
-		<h3><%= "#{@category[:name]}: #{name}" %>, 
+		<h3><%= "#{@category[:name]}: #{name}" %> 
 			<% if @category[:instant] || @category[:name] == Activity::SALE[:name] %>
 				<%= @activity.date_start %>
 			<% else %>
-				<%= @activity.date_start %> - 
-				<% if @activity.date_end.nil? %> 
-					"unknown" 
-				<% else %>
-					<%= @activity.date_end %>
+				<%= @activity.date_start %> 
+				<% if ! @activity.date_end.nil? %> 
+					<%= " - #{@activity.date_end}" %>
 				<% end %>
 			<% end %>
 			<%= f.submit "Save", class: "btn f-right" %>
 		</h3>
 	</div>
 </div>
-
 	<!-- Error messages -->
 	<%= render 'shared/error_messages', object: f.object %>
 	<% @activityworks.each do | aw| %>

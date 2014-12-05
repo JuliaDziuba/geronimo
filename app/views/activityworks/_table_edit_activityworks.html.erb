@@ -16,6 +16,7 @@
     <tbody>
       <% activityworks.each do |aw| %>
         <%= fields_for "activityworks[]", aw do |sf| %>
+        <%= sf.hidden_field :work_id, :value => aw.work.id %>
           <tr>
             <td align="center"><%= image_tag aw.work.image1.url(:thumb), :style => "height:50px "%></td>
             <td><%= aw.work.title %></td>

@@ -49,7 +49,7 @@ hide_activity_form = () ->
   $('#activity_form_works').hide()
 
 format_activity_form = () ->
-  console.log("Formatting form for new selection")
+  console.log("Formatting form for new category: " + category)
   category = $('#activity_category_id :selected').text()
   $('#activity_form_works_legend').text('Works in ' + category )
   hide_activity_form()
@@ -57,13 +57,14 @@ format_activity_form = () ->
   $('#client').removeClass('first-child')
   $('#activity_form_works').show()
   if category == "Show" || category == "Consignment"
-    $('#start_date_label').text("Start Date").show()
+    $('#start_date_label').text("Start Date *").show()
+    console.log('category is show or consignment.')
     $('#start_date').show()
     $('#end_date_label').text("End Date").show()
     $('#end_date').show()
     $('#venue').show()      
   else if category != "Please select"
-    $('#start_date_label').text("Date").show()
+    $('#start_date_label').text("Date *").show()
     $('#start_date').show()
     if category == "Donation"
       $('#venue').show() 

@@ -33,7 +33,11 @@ Makersmoon::Application.routes.draw do
     end
   end
   resources :sessions, only: [:new, :create, :destroy]
-  resources :activities, path: "internal/works/activities/"
+  resources :activities, path: "internal/works/activities/" do
+    member do
+      get :copy
+    end
+  end
   resources :activityworks do
     member do
       get :buildFromWorks

@@ -69,23 +69,67 @@ class ActivitiesController < ApplicationController
     @clients = current_user.clients.order_name.all
     @venues = current_user.venues.order_name.all
     @works = current_user.works.order_title
-  #  @works_hash = @works.each.inject({}) {|hash, var| hash[var.id.to_s()] = ['%.2f' % var.income, '%.2f' % var.retail, var.quantity]; hash }
     @works_hash = @works.each.inject("") {|string, var| string = string + var.id.to_s() + '-' + var.income.to_s() + '-' + var.retail.to_s() + '-' + var.quantity.to_s() + ','; string}
 
     @new = []
   end
 
+  def copy
+    @base_activity = current_user.activities.find_by_id(params[:id])
+    @base_activityworks = @base_activity.activityworks.all
+
+    @activity = @base_activity
+    @activity.id = 0
+    @activity.date_start = @base_activity.date_end
+    @activity.date_end = ''
+    @activityworks = []
+    @base_activityworks.each do | baw |
+      aw = baw
+      aw.activity_id = 0
+      @activityworks.push aw
+    end
+
+    @category = Activity::CATEGORY_ID_OBJECT_HASH[@activity.category_id] 
+    @categories = Activity::CATEGORY_ID_NAME_HASH
+    @clients = current_user.clients.order_name.all
+    @venues = current_user.venues.order_name.all
+    @works = current_user.works.order_title
+    @works_hash = @works.each.inject("") {|string, var| string = string + var.id.to_s() + '-' + var.income.to_s() + '-' + var.retail.to_s() + '-' + var.quantity.to_s() + ','; string}
+
+    render 'edit'
+  end
+
   def update
-    @activity = current_user.activities.find_by_id(params[:id])
-    @activity.attributes = params[:activity]
+    id_params = params[:id]
+    activity_params = params[:activity]
     activityworks_params = cleanNumbers(params[:activityworks])
     works_params = params[:work]
-    @activityworks = Activitywork.update( activityworks_params.keys, activityworks_params.values).reject { |w| w.errors.empty? }
+    new_params = cleanNumbers(params[:new])
     @works = Work.update( works_params.keys, works_params.values).reject { |w| w.errors.empty? }
-    if @works.empty? && @activityworks.empty? && @activity.save
-      removeZeroQuantities(params[:activityworks].keys)
+    if id_params == "0"
+      @activity = current_user.activities.build(activity_params)
+      @activity = @activity.set_activity_defaults
+      successful = @works.empty? && @activity.save
+    else
+      @activity = current_user.activities.find_by_id(id_params)
+      @activity.attributes = activity_params
+      @activityworks = Activitywork.update( activityworks_params.keys, activityworks_params.values).reject { |w| w.errors.empty? }
+      successful = @works.empty? && @activityworks.empty? && @activity.save
+    end
+    if successful
+      if id_params == "0"
+        new_activityworks_ids = []
+        activityworks_params.each do | key, value |
+          aw = @activity.activityworks.build(value)
+          aw.save
+          new_activityworks_ids.push aw.id
+        end
+        removeZeroQuantities(new_activityworks_ids)
+      else
+        removeZeroQuantities(activityworks_params.keys)
+      end
       redirect_to activities_path
-      cleanNumbers(params[:new]).each do | key, value |
+      new_params.each do | key, value |
         if value["work_id"].to_i > 0 
           w = current_user.works.find(value["work_id"])
           w.update_attributes(:quantity => value["work_quantity"])
@@ -142,8 +186,8 @@ class ActivitiesController < ApplicationController
   private
 
     def correct_user
-      @activity = current_user.activities.find_by_id(params[:id])
-      if @activity.nil?
+      id = params[:id]
+      if ( ! id == 0) && current_user.activities.find_by_id(id).nil? 
         flash[:error] = "Sorry that work activity does not belong to you!"
         redirect_to activities_path
       end
