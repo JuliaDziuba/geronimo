@@ -2,10 +2,14 @@
 <% provide(:page, 'About') %>
 <% provide(:title, 'About') %>
 <div class="row-fluid">
-	<div class="about-image">
+	<div class="span4">
 		<%= image_tag @user.image.url(:medium), alt: "Picture of #{@user.name}" %>
+		<% if !@user.domain.blank? %>
+			<br /><br/>
+			For more on <%= @user.name %> please visit <%= link_to @user.domain, "#{@user.domain}" %>.
+		<% end %>
 	</div>
-	<div class="about-text">
+	<div class="span8">
 		<% if ! @bio.blank? %>
 			<p><i>Artist Bio</i><br /><%= raw @bio.comment %></p><br /><br />
 		<% end %>
@@ -14,8 +18,3 @@
 		<% end %>
 	</div>
 </div>
-<% if !@user.domain.blank? %>
-	<div class="row-fluid">
-		For more on <%= @user.name %> please visit <%= link_to @user.domain, "#{@user.domain}" %>.
-	</div>
-<% end %>
