@@ -9,7 +9,8 @@ class UsersController < ApplicationController
     User.all(:include => [:works, :clients, :venues, :activities]).each do | u |
       @userH["#{u.id} #{u.username} #{u.email}"] = [ u.works.count, u.clients.count, u.venues.count, u.activities.count]
     end
-  end   
+    @user = User.new
+  end 
 
   def annual
     @year = params[:year].to_i || Date.today.year
@@ -151,13 +152,27 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
-    if @user.save
-      sign_in @user
-      redirect_to @user
-      subscribeToMailChimp(@user)
+    @user = User.find_by_username(params[:user][:username])
+    if @user.nil?
+      @user = User.new(params[:user]) 
+    end 
+    adminUpdate = current_user.admin && current_user.username != @user.username && @user.id
+    if adminUpdate
+      #Admin is just updating password
+      if @user.update_attributes(params[:user])
+        flash[:success] = "The password for " + @user.username + " has been updated!"
+      else
+        flash[:info] = "The password was not updated for " + @user.username + ". Try again!"
+      end
+      redirect_to admin_user_path(@current_user)
     else
-      render 'new', :layout => 'landing'
+      if @user.save
+        sign_in @user
+        redirect_to @user
+        subscribeToMailChimp(@user)
+      else
+        render 'new', :layout => 'landing'
+      end
     end
   end
 
