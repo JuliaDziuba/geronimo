@@ -102,10 +102,10 @@ class ActivitiesController < ApplicationController
   def update
     id_params = params[:id]
     activity_params = params[:activity]
-    activityworks_params = cleanNumbers(params[:activityworks])
+    activityworks_params = params.has_key?(:activityworks) ? cleanNumbers(params[:activityworks]) : nil
     works_params = params[:work]
     new_params = cleanNumbers(params[:new])
-    @works = Work.update( works_params.keys, works_params.values).reject { |w| w.errors.empty? }
+    @works = works_params.nil? ? [] : Work.update( works_params.keys, works_params.values).reject { |w| w.errors.empty? }
     if id_params == "0"
       @activity = current_user.activities.build(activity_params)
       @activity = @activity.set_activity_defaults
@@ -113,7 +113,7 @@ class ActivitiesController < ApplicationController
     else
       @activity = current_user.activities.find_by_id(id_params)
       @activity.attributes = activity_params
-      @activityworks = Activitywork.update( activityworks_params.keys, activityworks_params.values).reject { |w| w.errors.empty? }
+      @activityworks = activityworks_params.nil? ? [] : Activitywork.update( activityworks_params.keys, activityworks_params.values).reject { |w| w.errors.empty? }
       successful = @works.empty? && @activityworks.empty? && @activity.save
     end
     if successful
@@ -126,7 +126,7 @@ class ActivitiesController < ApplicationController
         end
         removeZeroQuantities(new_activityworks_ids)
       else
-        removeZeroQuantities(activityworks_params.keys)
+        activityworks_params.nil? ? 0 : removeZeroQuantities(activityworks_params.keys)
       end
       redirect_to activities_path
       new_params.each do | key, value |
