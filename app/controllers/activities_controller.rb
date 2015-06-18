@@ -64,7 +64,7 @@ class ActivitiesController < ApplicationController
   def edit
     @activity = current_user.activities.find_by_id(params[:id])
     @category = Activity::CATEGORY_ID_OBJECT_HASH[@activity.category_id]
-    @activityworks = @activity.activityworks.all
+    @activityworks = @activity.activityworks.all || []
     @categories = Activity::CATEGORY_ID_NAME_HASH
     @clients = current_user.clients.order_name.all
     @venues = current_user.venues.order_name.all
@@ -76,11 +76,10 @@ class ActivitiesController < ApplicationController
 
   def copy
     @base_activity = current_user.activities.find_by_id(params[:id])
-    @base_activityworks = @base_activity.activityworks.all
-
+    @base_activityworks = @base_activity.activityworks.all || []
     @activity = @base_activity
     @activity.id = 0
-    @activity.date_start = @base_activity.date_end
+    @activity.date_start = @base_activity.date_end || @base_activity.date_start
     @activity.date_end = ''
     @activityworks = []
     @base_activityworks.each do | baw |

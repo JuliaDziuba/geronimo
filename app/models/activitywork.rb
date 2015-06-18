@@ -35,7 +35,7 @@ class Activitywork < ActiveRecord::Base
   scope :sold_works, lambda { where('sold > 0') }
 
   def set_sales
-    if self.activity.category_id == Activity::SALE[:id]
+    if !self.activity.nil? && self.activity.category_id == Activity::SALE[:id]
       self.sold = self.quantity
     end
   end
@@ -48,7 +48,7 @@ class Activitywork < ActiveRecord::Base
       if self.retail.nil?
         self.retail  = self.work.retail ||= 0.00
       end
-      c = Activity::CATEGORY_ID_OBJECT_HASH[self.activity.category_id]
+      c = self.activity.nil? ? Activity::CONSIGNMENT : Activity::CATEGORY_ID_OBJECT_HASH[self.activity.category_id]
       if c == Activity::SALE
         self.sold = self.quantity
       else
