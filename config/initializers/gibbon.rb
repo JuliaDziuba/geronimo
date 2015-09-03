@@ -1,3 +1,3 @@
 # config/initializers/gibbon.rb
-Gibbon::API.timeout = 15
-Gibbon::API.throws_exceptions = false
+#Gibbon::API.timeout = 15
+#Gibbon::API.throws_exceptions = false
