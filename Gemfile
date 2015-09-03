@@ -11,12 +11,12 @@ gem 'bootstrap-will_paginate', '0.0.6'
 gem 'jquery-rails', '2.0.2'
 gem 'roo'
 gem 'paperclip', '3.4.2' 
-gem 'aws-sdk'
+gem 'aws-sdk', '< 2.0'
 gem 'cocaine', '~> 0.5.0'
 gem 'pg', '0.12.2'
 
 # MAILCHIMP API WRAPPER
-gem 'gibbon'
+# gem 'gibbon'
 
 group :development, :test do
   gem 'rspec-rails', '2.11.0'
